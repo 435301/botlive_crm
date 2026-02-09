@@ -10,7 +10,7 @@ const ChangePassword = () => {
     confirmPassword: "",
   });
 
-  const [showPassword, setShowPassword] = useState({
+  const [showPassword] = useState({
     current: false,
     new: false,
     confirm: false,
@@ -33,7 +33,6 @@ const ChangePassword = () => {
     console.log("Change Password Data:", formData);
     // Call API here
     navigate("/dashboard"); // Redirect after success
-    showPassword((""));
   };
 
   return (
@@ -61,7 +60,9 @@ const ChangePassword = () => {
             <div className="row g-3">
               {/* Current Password */}
               <div className="col-md-4">
-                <label className="form-label">Current Password<span className="text-danger">*</span></label>
+                <label className="form-label">
+                  Current Password<span className="text-danger">*</span>
+                </label>
                 <div className="input-group">
                   <input
                     type={showPassword.current ? "text" : "password"}
@@ -84,7 +85,9 @@ const ChangePassword = () => {
 
               {/* New Password */}
               <div className="col-md-4">
-                <label className="form-label">New Password<span className="text-danger">*</span></label>
+                <label className="form-label">
+                  New Password<span className="text-danger">*</span>
+                </label>
                 <div className="input-group">
                   <input
                     type={showPassword.new ? "text" : "password"}
@@ -107,7 +110,9 @@ const ChangePassword = () => {
 
               {/* Confirm Password */}
               <div className="col-md-4">
-                <label className="form-label">Confirm Password<span className="text-danger">*</span></label>
+                <label className="form-label">
+                  Confirm Password<span className="text-danger">*</span>
+                </label>
                 <div className="input-group">
                   <input
                     type={showPassword.confirm ? "text" : "password"}

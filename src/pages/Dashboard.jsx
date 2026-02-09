@@ -1,14 +1,7 @@
 import React from "react";
 import StudentTable from "../components/StudentTable";
 
-import {
-  PieChart,
-  Pie,
-  Cell,
-
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
 /* ===== TOP STATS ===== */
 const stats = [
@@ -136,20 +129,8 @@ const locationPieData = [
 /* ===== QUICK INFO ===== */
 
 /* ===== PIE DATA ===== */
-const pieData = [
-  { name: "Boys", value: 720, color: "#2563eb" },
-  { name: "Girls", value: 560, color: "#ec4899" },
-];
 
 /* ===== BAR DATA ===== */
-const barData = [
-  { name: "Jan", value: 85 },
-  { name: "Feb", value: 88 },
-  { name: "Mar", value: 90 },
-  { name: "Apr", value: 87 },
-  { name: "May", value: 92 },
-  { name: "Jun", value: 89 },
-];
 
 const Dashboard = () => {
   return (
