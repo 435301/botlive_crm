@@ -5,13 +5,9 @@ import {
   PieChart,
   Pie,
   Cell,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
+
   Tooltip,
   ResponsiveContainer,
-  CartesianGrid,
 } from "recharts";
 
 /* ===== TOP STATS ===== */

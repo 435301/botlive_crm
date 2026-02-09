@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Moon, Sun, Menu, User, LogOut, ChevronDown } from "lucide-react";
+import {Menu, User, LogOut, ChevronDown } from "lucide-react";
 
 const Header = ({ toggleSidebar, toggleCollapse, collapsed }) => {
   const [openProfile, setOpenProfile] = useState(false);

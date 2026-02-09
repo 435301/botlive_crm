@@ -13,7 +13,7 @@ const Login = () => {
       <div className="login-box ">
         {/* LOGO */}
         <div className="login-logo text-center ">
-          <img src={logo} className="login-logo-img" />
+          <img src={logo} className="login-logo-img" alt="login" />
         </div>
 
         {!showForgot ? (

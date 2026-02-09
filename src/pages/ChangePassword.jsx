@@ -20,9 +20,9 @@ const ChangePassword = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleToggle = (field) => {
-    setShowPassword({ ...showPassword, [field]: !showPassword[field] });
-  };
+  // const handleToggle = (field) => {
+  //   setShowPassword({ ...showPassword, [field]: !showPassword[field] });
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
