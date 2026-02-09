@@ -45,9 +45,9 @@ const StudentTable = () => {
       {/* HEADER */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h4 className=" mb-0 fw-semibold">Recent Students</h4>
-        <a href="" className="  text-primary  text-decoration-none">
+        {/* <p className="  text-primary  text-decoration-none">
           View Details
-        </a>
+        </p> */}
       </div>
 
       <div className="table-responsive">

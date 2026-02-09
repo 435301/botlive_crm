@@ -33,6 +33,7 @@ const ChangePassword = () => {
     console.log("Change Password Data:", formData);
     // Call API here
     navigate("/dashboard"); // Redirect after success
+    showPassword((""));
   };
 
   return (
