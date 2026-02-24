@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Pagination from "../components/Pagination";
 import { Link } from "react-router-dom";
 import SearchInput from "../components/SearchInput";
+import SelectFilter from "../components/SelectFilter";
 
 const skillCenters = [
   {
@@ -206,21 +207,18 @@ const ManageSkillCenters = () => {
           </div>
 
           <div className="col-lg-3 col-md-6">
-            <div className="filter-item">
-              <i className="bi bi-funnel"></i>
-              <select
-                className="form-select"
-                value={status}
-                onChange={(e) => {
-                  setStatus(e.target.value);
-                  setPage(1);
-                }}
-              >
-                <option value="">All Status</option>
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-              </select>
-            </div>
+           <SelectFilter
+              value={status}
+              placeholder="All Status"
+              options={[
+                { label: "Active", value: "Active" },
+                { label: "Inactive", value: "Inactive" },
+              ]}
+              onChange={(value) => {
+                setStatus(value);
+                setPage(1);
+              }}
+            />
           </div>
 
           <div className="col-lg-5 col-md-12">

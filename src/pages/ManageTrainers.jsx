@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Pagination from "../components/Pagination";
 import { Link } from "react-router-dom";
 import SearchInput from "../components/SearchInput";
+import SelectFilter from "../components/SelectFilter";
 
 const trainers = [
   {
@@ -181,18 +182,18 @@ const ManageTrainers = () => {
           </div>
 
           <div className="col-lg-3 col-md-6">
-            <select
-              className="form-select"
+            <SelectFilter
               value={status}
-              onChange={(e) => {
-                setStatus(e.target.value);
+              placeholder="All Status"
+              options={[
+                { label: "Working", value: "Working" },
+                { label: "Resigned", value: "Resigned" },
+              ]}
+              onChange={(value) => {
+                setStatus(value);
                 setPage(1);
               }}
-            >
-              <option value="">All Status</option>
-              <option value="Working">Working</option>
-              <option value="Resigned">Resigned</option>
-            </select>
+            />
           </div>
 
           <div className="col-lg-5 col-md-12">
@@ -250,8 +251,8 @@ const ManageTrainers = () => {
                       <td>
                         <span
                           className={`badge ${t.status === "Working"
-                              ? "bg-success"
-                              : "bg-secondary"
+                            ? "bg-success"
+                            : "bg-secondary"
                             }`}
                         >
                           {t.status}

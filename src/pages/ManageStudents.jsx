@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Pagination from "../components/Pagination";
 import { Link } from "react-router-dom";
 import SearchInput from "../components/SearchInput";
+import SelectFilter from "../components/SelectFilter";
 
 /* ===== SAMPLE STUDENT DATA ===== */
 const studentsData = [
@@ -220,33 +221,33 @@ const ManageStudents = () => {
           </div>
 
           <div className="col-lg-3 col-md-6">
-            <select
-              className="form-select"
+            <SelectFilter
               value={courseType}
-              onChange={(e) => {
-                setCourseType(e.target.value);
+              placeholder="All Course Types"
+              options={[
+                { label: "Full-time", value: "Full-time" },
+                { label: "Part-time", value: "Part-time" },
+              ]}
+              onChange={(value) => {
+                setCourseType(value);
                 setPage(1);
               }}
-            >
-              <option value="">All Course Types</option>
-              <option value="Full-time">Full-time</option>
-              <option value="Part-time">Part-time</option>
-            </select>
+            />
           </div>
 
           <div className="col-lg-3 col-md-6">
-            <select
-              className="form-select"
+            <SelectFilter
               value={status}
-              onChange={(e) => {
-                setStatus(e.target.value);
+              placeholder="All Status"
+              options={[
+                { label: "Active", value: "Active" },
+                { label: "Inactive", value: "Inactive" },
+              ]}
+              onChange={(value) => {
+                setStatus(value);
                 setPage(1);
               }}
-            >
-              <option value="">All Status</option>
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
-            </select>
+            />
           </div>
 
           <div className="col-lg-3 col-md-12">
@@ -318,8 +319,8 @@ const ManageStudents = () => {
                       <td>
                         <span
                           className={`badge ${s.status === "Active"
-                              ? "bg-success"
-                              : "bg-secondary"
+                            ? "bg-success"
+                            : "bg-secondary"
                             }`}
                         >
                           {s.status}

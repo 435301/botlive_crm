@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Pagination from "../components/Pagination";
 import { Link } from "react-router-dom";
 import SearchInput from "../components/SearchInput";
+import SelectFilter from "../components/SelectFilter";
 
 /* ===== SAMPLE MODULE DATA ===== */
 const modulesData = [
@@ -11,7 +12,7 @@ const modulesData = [
         centerName: "Hyderabad Skill Center",
         course: "Frontend Development",
         moduleName: "React Basics",
-        chapterName: "Introduction to React",
+        chapterName: "React Basics",
         videos: ["intro.mp4", "components.mp4"],
         pdfs: ["react-basics.pdf"],
         status: "Active",
@@ -143,61 +144,61 @@ const ManageChaptersModule = () => {
             <div className="filter-wrapper mb-3">
                 <div className="row g-2">
                     <div className="col-md-3">
-                      <SearchInput
-                        value={search}
-                        placeholder="Search by chapter name"
-                        onChange={(value) => {
-                            setSearch(value);
-                            setPage(1);
-                        }}
-                    />
+                        <SearchInput
+                            value={search}
+                            placeholder="Search by chapter name"
+                            onChange={(value) => {
+                                setSearch(value);
+                                setPage(1);
+                            }}
+                        />
                     </div>
 
                     <div className="col-md-2">
-                        <select
-                            className="form-select"
+                        <SelectFilter
                             value={course}
-                            onChange={(e) => {
-                                setCourse(e.target.value);
+                            placeholder="All Courses"
+                            options={[
+                                { label: "Web Development", value: "web-dev" },
+                                { label: "Frontend Development", value: "frontend" },
+                                { label: "Data Science", value: "data-science" },
+                            ]}
+                            onChange={(value) => {
+                                setCourse(value);
                                 setPage(1);
                             }}
-                        >
-                            <option value="">All Courses</option>
-                            <option value="School">Web Development</option>
-                            <option value="Skill Center">Frontend Development</option>
-                            <option value="Skill Center">Data Science</option>
-                        </select>
+                        />
                     </div>
 
                     <div className="col-md-2">
-                        <select
-                            className="form-select"
+                         <SelectFilter
                             value={module}
-                            onChange={(e) => {
-                                setModule(e.target.value);
+                            placeholder="All Modules"
+                            options={[
+                                { label: "React Basics", value: "React Basics" },
+                                { label: "Python Fundamentals", value: "Python Fundamentals" },
+                                { label: "JS DOM Manipulation", value: "JS DOM Manipulation" },
+                            ]}
+                            onChange={(value) => {
+                                setModule(value);
                                 setPage(1);
                             }}
-                        >
-                            <option value="">All Modules</option>
-                            <option value="Module 1">React Basics</option>
-                            <option value="Module 2">Python Fundamentals</option>
-                            <option value="Module 3">JS DOM Manipulation</option>
-                        </select>
+                        />
                     </div>
 
                     <div className="col-md-2">
-                        <select
-                            className="form-select"
+                        <SelectFilter
                             value={status}
-                            onChange={(e) => {
-                                setStatus(e.target.value);
+                            placeholder="All Status"
+                            options={[
+                                { label: "Active", value: "Active" },
+                                { label: "Inactive", value: "Inactive" },
+                            ]}
+                            onChange={(value) => {
+                                setStatus(value);
                                 setPage(1);
                             }}
-                        >
-                            <option value="">All Status</option>
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
+                        />
                     </div>
 
                     <div className="col-lg-3 col-md-12">

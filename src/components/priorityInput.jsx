@@ -12,7 +12,7 @@ const PriorityInput = ({ value, onChange }) => {
 
     return (
         <div>
-            <label>Priority</label>
+            <label>Priority<span className="text-danger"> *</span></label>
             <div
                 className={styles.priorityMainDiv}>
                 {options.map((option) => (

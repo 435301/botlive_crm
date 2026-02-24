@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Pagination from "../components/Pagination";
 import { Link } from "react-router-dom";
 import SearchInput from "../components/SearchInput";
+import SelectFilter from "../components/SelectFilter";
 
 const skillCenters = [
   {
@@ -222,64 +223,63 @@ const ManageSkillCenters = () => {
           </div>
 
           <div className="col-lg-2 col-md-6">
-            <select
-              className="form-select"
+            <SelectFilter
               value={state}
-              onChange={(e) => {
-                setState(e.target.value);
+              placeholder="All States"
+              options={[
+                { label: "Telangana", value: "Telangana" },
+                { label: "Karnataka", value: "Karnataka" },
+              ]}
+              onChange={(value) => {
+                setState(value);
                 setPage(1);
               }}
-            >
-              <option value="">All States</option>
-              <option value="Telangana">Telangana</option>
-              <option value="Karnataka">Karnataka</option>
-            </select>
+            />
           </div>
 
           <div className="col-lg-2 col-md-6">
-            <select
-              className="form-select"
+            <SelectFilter
               value={district}
-              onChange={(e) => {
-                setDistrict(e.target.value);
+              placeholder="All Districts"
+              options={[
+                { label: "Hyderabad", value: "Hyderabad" },
+                { label: "Bangalore", value: "Bangalore" },
+              ]}
+              onChange={(value) => {
+                setDistrict(value);
                 setPage(1);
               }}
-            >
-              <option value="">All Districts</option>
-              <option value="Hyderabad">Hyderabad</option>
-              <option value="Bangalore">Bangalore</option>
-            </select>
+            />
           </div>
 
           <div className="col-lg-2 col-md-6">
-            <select
-              className="form-select"
+             <SelectFilter
               value={type}
-              onChange={(e) => {
-                setType(e.target.value);
+              placeholder="All Types"
+              options={[
+                { label: "School", value: "School" },
+                { label: "Skill Center", value: "Skill Center" },
+              ]}
+              onChange={(value) => {
+                setType(value);
                 setPage(1);
               }}
-            >
-              <option value="">All Types</option>
-              <option value="School">School</option>
-              <option value="Skill Center">Skill Center</option>
-            </select>
+            />
           </div>
 
           <div className="col-lg-2 col-md-6">
-            {/* <i className="bi bi-funnel"></i> */}
-            <select
-              className="form-select"
+             <SelectFilter
               value={status}
-              onChange={(e) => {
-                setStatus(e.target.value);
+              placeholder="All Status"
+              options={[
+                { label: "Active", value: "Active" },
+                { label: "Inactive", value: "Inactive" },
+              ]}
+              onChange={(value) => {
+                setStatus(value);
                 setPage(1);
               }}
-            >
-              <option value="">All Status</option>
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
-            </select>
+            />
           </div>
 
           <div className="col-lg-2 col-md-12">

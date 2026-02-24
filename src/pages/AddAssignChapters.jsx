@@ -71,8 +71,8 @@ const AddAssignedChapter = () => {
                                     options={[
                                         { label: "Web Development", value: "Web Development" },
                                         { label: "Data Science", value: "Data Science" },
-                                        { label: "UI/UX", value: "Frontend Development" },
-                                        { label: "Python", value: "Backend Development" },
+                                        { label: "Frontend Development", value: "Frontend Development" },
+                                        { label: "Backend Development", value: "Backend Development" },
                                     ]}
                                 />
                             </div>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Pagination from "../components/Pagination";
 import { Link } from "react-router-dom";
 import SearchInput from "../components/SearchInput";
+import SelectFilter from "../components/SelectFilter";
 
 /* ===== DUMMY DATA ===== */
 const centers = [
@@ -136,18 +137,18 @@ const ManageGrades = () => {
                 <div className="row g-2 align-items-center">
 
                     <div className="col-lg-3 col-md-6">
-                        <select
-                            className="form-select"
-                            value={status}
-                            onChange={(e) => {
-                                setStatus(e.target.value);
+                        <SelectFilter
+                            value={centerType}
+                            placeholder="All Center Types"
+                            options={[
+                                { label: "School", value: "school" },
+                                { label: "Skill Centre", value: "skill" },
+                            ]}
+                            onChange={(value) => {
+                                setCenterType(value);
                                 setPage(1);
                             }}
-                        >
-                            <option value="">All</option>
-                            <option value="school">School</option>
-                            <option value="skill">Skill Centre</option>
-                        </select>
+                        />
                     </div>
                     <div className="col-lg-3 col-md-6">
                         <SearchInput
@@ -161,18 +162,18 @@ const ManageGrades = () => {
                     </div>
 
                     <div className="col-lg-3 col-md-6">
-                        <select
-                            className="form-select"
+                        <SelectFilter
                             value={status}
-                            onChange={(e) => {
-                                setStatus(e.target.value);
+                            placeholder="All Status"
+                            options={[
+                                { label: "Active", value: "Active" },
+                                { label: "Inactive", value: "Inactive" },
+                            ]}
+                            onChange={(value) => {
+                                setStatus(value);
                                 setPage(1);
                             }}
-                        >
-                            <option value="">All Status</option>
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
+                        />
                     </div>
 
                     <div className="col-lg-3 col-md-12">

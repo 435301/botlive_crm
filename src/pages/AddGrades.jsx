@@ -26,7 +26,7 @@ const AddGrades = () => {
     navigate("/manage-course");
   };
 
-  const isSchool = formData.centerType === "1";
+  const isSchool = formData.centerType === "School";
 
   return (
     <div className="container-fluid">
@@ -73,8 +73,8 @@ const AddGrades = () => {
                   onChange={handleChange}
                   required
                   options={[
-                    { label: "1", value: "School" },
-                    { label: "2", value: "Skill Center" },
+                    { label: "School", value: "School" },
+                    { label: "Skill Center", value: "Skill Center" },
                   ]}
                 />
               </div>

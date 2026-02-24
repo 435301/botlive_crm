@@ -159,7 +159,7 @@ const AddChapters = () => {
                 <div className="row g-3">
                   <div className="col-md-4">
                     <label className="form-label">
-                      Chapter Name
+                      Chapter Name <span className="text-danger">*</span>
                     </label>
                     <input
                       type="text"
@@ -174,7 +174,7 @@ const AddChapters = () => {
                   </div>
 
                   <div className="col-md-4">
-                    <label className="form-label">Videos</label>
+                    <label className="form-label">Videos <span className="text-danger">*</span></label>
                     <input
                       type="file"
                       className="form-control"
@@ -188,7 +188,7 @@ const AddChapters = () => {
                   </div>
 
                   <div className="col-md-4">
-                    <label className="form-label">PDF Files</label>
+                    <label className="form-label">PDF Files <span className="text-danger">*</span></label>
                     <input
                       type="file"
                       className="form-control"

@@ -75,115 +75,90 @@ const AddSkillCenter = () => {
             <div className="row g-3">
               {/* Center Code */}
               <div className="col-md-4">
-                <label className="form-label">
-                  Center Code <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
+                 <FormInput
+                  label="Center Code"
                   name="centerCode"
-                  placeholder="Enter center code (e.g. CEN-005)"
                   value={formData.centerCode}
                   onChange={handleChange}
+                  placeholder="Enter center code (e.g. CEN-005)"
                   required
                 />
               </div>
 
               {/* Center Name */}
               <div className="col-md-4">
-                <label className="form-label">
-                  School/Skill Center Name <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
+                 <FormInput
+                  label=" School/Skill Center Name"
                   name="name"
-                  placeholder="Enter school/skill center name"
                   value={formData.name}
                   onChange={handleChange}
+                  placeholder="Enter school/skill center name"
                   required
                 />
               </div>
 
               {/* Center Type */}
               <div className="col-md-4">
-                <label className="form-label">
-                  School/Skill Center Type{" "}
-                  <span className="text-danger">*</span>
-                </label>
-                <select
-                  className="form-select"
-                  name="centerType"
+                <FormSelect
+                  label=" School/Skill Center Type"
+                  name="course"
                   value={formData.centerType}
                   onChange={handleChange}
                   required
-                >
-                  <option value="" disabled>
-                    Select center type
-                  </option>
-                  <option value="Skill Center">Skill Center </option>
-                  <option value="School">School</option>
-                </select>
+                  options={[
+                    { label: "Skill Center", value: "Skill Center" },
+                    { label: "School", value: "School" },
+                  ]}
+                />
               </div>
 
               {/* Contact Person */}
-              <div className="col-md-4">
-                <label className="form-label">
-                  School/Skill Center     Contact Person Name <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
+              <div className="col-md-4"> 
+                <FormInput
+                  label="School/Skill Center Contact Person Name"
                   name="contactPerson"
-                  placeholder="Enter contact person name"
                   value={formData.contactPerson}
                   onChange={handleChange}
+                  placeholder="Enter contact person name"
                   required
                 />
               </div>
 
               {/* Mobile */}
               <div className="col-md-4">
-                <label className="form-label">
-                  School/Skill Center Mobile <span className="text-danger">*</span>
-                </label>
-                <input
+                  <FormInput
                   type="tel"
-                  className="form-control"
+                  label="School/Skill Center Contact Person Mobile"
                   name="mobile"
-                  placeholder="Enter mobile number"
                   value={formData.mobile}
                   onChange={handleChange}
+                  placeholder="Enter mobile number"
                   required
                 />
               </div>
 
               {/* Email */}
               <div className="col-md-4">
-                <label className="form-label">
-                  School/Skill Center Email <span className="text-danger">*</span>
-                </label>
-                <input
+                  <FormInput
                   type="email"
-                  className="form-control"
+                  label=" School/Skill Center Email"
                   name="email"
-                  placeholder="Enter email address"
                   value={formData.email}
                   onChange={handleChange}
+                  placeholder="Enter email address"
                   required
                 />
               </div>
 
               {/* Password */}
               <div className="col-md-4">
-                <label className="form-label">Password</label>
-                <input
+                <FormInput
                   type="password"
-                  className="form-control"
+                  label="Password"
                   name="password"
-                  placeholder="Create a password"
                   value={formData.password}
                   onChange={handleChange}
+                  placeholder="Create a password"
                   required
                 />
               </div>
