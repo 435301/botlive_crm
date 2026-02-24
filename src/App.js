@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,29 +10,31 @@ import "@tabler/icons-webfont/dist/tabler-icons.min.css";
 
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
+import ErrorBoundary from "./components/ErrorBoundary";
+import PageLoader from "./components/PageLoader";
+import ProtectedRoute from "./components/ProtectedRoute";
 
-import Dashboard from "./pages/Dashboard";
-import Login from "./pages/Login";
-import Manage from "./pages/Manage";
-import AddSkills from "./pages/AddSkills";
-import AddTrainers from "./pages/AddTrainers";
-import ManageTrainers from "./pages/ManageTrainers";
-import AddCourse from "./pages/AddCourse";
-import ManageCourse from "./pages/ManageCourse";
-import AddModule from "./pages/AddModule";
-import ManageModule from "./pages/ManageModule";
-import AddStudent from "./pages/AddStudent";
-import ManageStudents from "./pages/ManageStudents.jsx";
-import ChangePassword from "./pages/ChangePassword.jsx";
-import ManageScholls from "./pages/ManageScholls.jsx";
-import AddSchoolsSkills from "./pages/AddSchoolsSkills.jsx";
-import AddChapters from "./pages/AddChapters.jsx";
-import ManageChaptersModule from "./pages/ManageChapters.jsx";
-import AddGrades from "./pages/AddGrades.jsx";
-import ManageGrades from "./pages/ManageGrades.jsx";
-import AddAssignChapters from "./pages/AddAssignChapters.jsx";
-import AddAssignedChapters from "./pages/AddAssignChapters.jsx";
-import ManageAssignedChapters from "./pages/ManageAssignChapters.jsx";
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Login = lazy(() => import("./pages/Login"));
+const Manage = lazy(() => import("./pages/Manage"));
+const AddSkills = lazy(() => import("./pages/AddSkills"));
+const AddCourse = lazy(() => import("./pages/AddCourse"));
+const ManageCourse = lazy(() => import("./pages/ManageCourse"));
+const AddTrainers = lazy(() => import("./pages/AddTrainers"));
+const ManageTrainers = lazy(() => import("./pages/ManageTrainers"));
+const AddModule = lazy(() => import("./pages/AddModule"));
+const ManageModule = lazy(() => import("./pages/ManageModule"));
+const AddChapters = lazy(() => import("./pages/AddChapters"));
+const ManageChaptersModule = lazy(() => import("./pages/ManageChapters"));
+const AddGrades = lazy(() => import("./pages/AddGrades"));
+const ManageGrades = lazy(() => import("./pages/ManageGrades"));
+const AddAssignedChapters = lazy(() => import("./pages/AddAssignChapters"));
+const ManageAssignedChapters = lazy(() => import("./pages/ManageAssignChapters"));
+const AddStudent = lazy(() => import("./pages/AddStudent"));
+const ManageStudents = lazy(() => import("./pages/ManageStudents"));
+const ManageScholls = lazy(() => import("./pages/ManageScholls"));
+const AddSchoolsSkills = lazy(() => import("./pages/AddSchoolsSkills"));
+const ChangePassword = lazy(() => import("./pages/ChangePassword"));
 /* =========================
    Layout Wrapper
 ========================= */
@@ -48,12 +50,12 @@ function LayoutWrapper({
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
 
-  // 👉 LOGIN PAGE (no header, no sidebar, no content)
+  //  LOGIN PAGE (no header, no sidebar, no content)
   if (isLoginPage) {
     return <>{children}</>;
   }
 
-  // 👉 ALL OTHER PAGES
+  //  ALL OTHER PAGES
   return (
     <>
       <Header
@@ -97,6 +99,15 @@ function App() {
     document.body.className = dark ? "dark" : "";
   }, [dark]);
 
+  const lazyLoad = (Component) => (
+    <ErrorBoundary>
+      <Suspense fallback={<PageLoader />}>
+        <Component />
+      </Suspense>
+    </ErrorBoundary>
+  );
+
+
   return (
     <Router>
       <LayoutWrapper
@@ -108,28 +119,27 @@ function App() {
         setDark={setDark}
       >
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/manage-skills" element={<Manage />} />
-          <Route path="/add-skills" element={<AddSkills />} />
-          <Route path="/add-course" element={<AddCourse />} />
-          <Route path="/manage-course" element={<ManageCourse />} />
-          <Route path="/add-trainers" element={<AddTrainers />} />
-          <Route path="/manage-trainers" element={<ManageTrainers />} />
-          <Route path="/add-module" element={<AddModule />} />
-          <Route path="/manage-module" element={<ManageModule />} />
-          <Route path="/add-chapters" element={<AddChapters />} />
-          <Route path="/manage-chapters" element={<ManageChaptersModule />} />
-          <Route path="/add-grade" element={<AddGrades />} />
-          <Route path="/manage-grades" element={<ManageGrades />} />
-           <Route path="/add-assigned-chapter" element={<AddAssignedChapters />} />
-          <Route path="/manage-assigned-chapters" element={<ManageAssignedChapters />} />
-          <Route path="/add-student" element={<AddStudent />} />
-          <Route path="/manage-students" element={<ManageStudents />} />
-          <Route path="/manage-schools" element={<ManageScholls />} />
-          <Route path="/manage-schools" element={<ManageScholls />} />
-          <Route path="/add-schools-skills" element={<AddSchoolsSkills />} />
-          <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/login" element={lazyLoad(Login)} />
+          <Route path="/" element={lazyLoad(Dashboard)} />
+          <Route path="/manage-skills" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(Manage)}</ProtectedRoute>} />
+          <Route path="/add-skills" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(AddSkills)}</ProtectedRoute>} />
+          <Route path="/add-course" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(AddCourse)}</ProtectedRoute>} />
+          <Route path="/manage-course" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(ManageCourse)}</ProtectedRoute>} />
+          <Route path="/add-trainers" element={lazyLoad(AddTrainers)} />
+          <Route path="/manage-trainers" element={lazyLoad(ManageTrainers)} />
+          <Route path="/add-module" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(AddModule)}</ProtectedRoute>} />
+          <Route path="/manage-module" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(ManageModule)}</ProtectedRoute>} />
+          <Route path="/add-chapters" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(AddChapters)}</ProtectedRoute>} />
+          <Route path="/manage-chapters" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(ManageChaptersModule)}</ProtectedRoute>} />
+          <Route path="/add-grade" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(AddGrades)}</ProtectedRoute>} />
+          <Route path="/manage-grades" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(ManageGrades)}</ProtectedRoute>} />
+          <Route path="/add-assigned-chapter" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(AddAssignedChapters)}</ProtectedRoute>} />
+          <Route path="/manage-assigned-chapters" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(ManageAssignedChapters)}</ProtectedRoute>} />
+          <Route path="/add-student" element={lazyLoad(AddStudent)} />
+          <Route path="/manage-students" element={lazyLoad(ManageStudents)} />
+          <Route path="/manage-schools" element={lazyLoad(ManageScholls)} />
+          <Route path="/add-schools-skills" element={lazyLoad(AddSchoolsSkills)} />
+          <Route path="/change-password" element={lazyLoad(ChangePassword)} />
         </Routes>
       </LayoutWrapper>
     </Router>
