@@ -26,6 +26,13 @@ import ManageStudents from "./pages/ManageStudents.jsx";
 import ChangePassword from "./pages/ChangePassword.jsx";
 import ManageScholls from "./pages/ManageScholls.jsx";
 import AddSchoolsSkills from "./pages/AddSchoolsSkills.jsx";
+import AddChapters from "./pages/AddChapters.jsx";
+import ManageChaptersModule from "./pages/ManageChapters.jsx";
+import AddGrades from "./pages/AddGrades.jsx";
+import ManageGrades from "./pages/ManageGrades.jsx";
+import AddAssignChapters from "./pages/AddAssignChapters.jsx";
+import AddAssignedChapters from "./pages/AddAssignChapters.jsx";
+import ManageAssignedChapters from "./pages/ManageAssignChapters.jsx";
 /* =========================
    Layout Wrapper
 ========================= */
@@ -111,6 +118,12 @@ function App() {
           <Route path="/manage-trainers" element={<ManageTrainers />} />
           <Route path="/add-module" element={<AddModule />} />
           <Route path="/manage-module" element={<ManageModule />} />
+          <Route path="/add-chapters" element={<AddChapters />} />
+          <Route path="/manage-chapters" element={<ManageChaptersModule />} />
+          <Route path="/add-grade" element={<AddGrades />} />
+          <Route path="/manage-grades" element={<ManageGrades />} />
+           <Route path="/add-assigned-chapter" element={<AddAssignedChapters />} />
+          <Route path="/manage-assigned-chapters" element={<ManageAssignedChapters />} />
           <Route path="/add-student" element={<AddStudent />} />
           <Route path="/manage-students" element={<ManageStudents />} />
           <Route path="/manage-schools" element={<ManageScholls />} />

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Pagination from "../components/Pagination";
 import { Link } from "react-router-dom";
+import SearchInput from "../components/SearchInput";
 
 /* ===== DUMMY DATA ===== */
 const centers = [
@@ -8,7 +9,7 @@ const centers = [
     id: 1,
     centerType: "School",
     centerName: "Green Valley School",
-    courseOrGrade: "Grade 10",
+    courseTitle: "Frontend Development",
     duration: "1 Year",
     status: "Active",
   },
@@ -16,7 +17,7 @@ const centers = [
     id: 2,
     centerType: "Skill Center",
     centerName: "Hyderabad Skill Center",
-    courseOrGrade: "Web Development",
+    courseTitle: "Web Development",
     duration: "6 Months",
     status: "Active",
   },
@@ -24,7 +25,7 @@ const centers = [
     id: 3,
     centerType: "Skill Center",
     centerName: "Tech Skill Hub",
-    courseOrGrade: "Data Science",
+    courseTitle: "Data Science",
     duration: "8 Months",
     status: "Inactive",
   },
@@ -32,7 +33,7 @@ const centers = [
     id: 4,
     centerType: "School",
     centerName: "Bright Future School",
-    courseOrGrade: "Grade 12",
+    courseTitle: "Backend Development",
     duration: "1 Year",
     status: "Active",
   },
@@ -94,7 +95,7 @@ const ManageCourse = () => {
           <div>
             <h5 className="fw-bold mb-0">Course Management</h5>
             <p className="sub-text mb-0">
-              View, edit and manage all skill centers
+              View, edit and manage all courses
             </p>
           </div>
           {/* Right: Action Buttons */}
@@ -135,13 +136,11 @@ const ManageCourse = () => {
       <div className="filter-wrapper mb-3">
         <div className="row g-2 align-items-center">
           <div className="col-lg-4 col-md-6">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search by center or course/grade"
+            <SearchInput
               value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
+              placeholder="Search by course title"
+              onChange={(value) => {
+                setSearch(value);
                 setPage(1);
               }}
             />
@@ -188,10 +187,10 @@ const ManageCourse = () => {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Center Type</th>
-                  <th>School / Skill Center</th>
-                  <th>Course / Grade</th>
-                  <th>Duration</th>
+                  {/* <th>Center Type</th>
+                  <th>School / Skill Center</th> */}
+                  <th>Course Title</th>
+                  {/* <th>Duration</th> */}
                   <th>Status</th>
                   <th className="text-center">Actions</th>
                 </tr>
@@ -202,17 +201,16 @@ const ManageCourse = () => {
                   paginatedData.map((item, index) => (
                     <tr key={item.id}>
                       <td>{startIndex + index + 1}</td>
-                      <td>{item.centerType}</td>
-                      <td>{item.centerName}</td>
-                      <td>{item.courseOrGrade}</td>
-                      <td>{item.duration}</td>
+                      {/* <td>{item.centerType}</td> */}
+                      {/* <td>{item.centerName}</td> */}
+                      <td>{item.courseTitle}</td>
+                      {/* <td>{item.duration}</td> */}
                       <td>
                         <span
-                          className={`badge ${
-                            item.status === "Active"
+                          className={`badge ${item.status === "Active"
                               ? "bg-success"
                               : "bg-secondary"
-                          }`}
+                            }`}
                         >
                           {item.status}
                         </span>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Pagination from "../components/Pagination";
 import { Link } from "react-router-dom";
+import SearchInput from "../components/SearchInput";
 
 const trainers = [
   {
@@ -169,13 +170,11 @@ const ManageTrainers = () => {
       <div className="filter-wrapper mb-3">
         <div className="row g-2 align-items-center">
           <div className="col-lg-4 col-md-6">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search by trainer name or code"
+            <SearchInput
               value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
+              placeholder="Search by trainer name or code"
+              onChange={(value) => {
+                setSearch(value);
                 setPage(1);
               }}
             />
@@ -250,11 +249,10 @@ const ManageTrainers = () => {
                       <td>{t.joiningDate}</td>
                       <td>
                         <span
-                          className={`badge ${
-                            t.status === "Working"
+                          className={`badge ${t.status === "Working"
                               ? "bg-success"
                               : "bg-secondary"
-                          }`}
+                            }`}
                         >
                           {t.status}
                         </span>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import FormActions from "../components/FormActions";
 
 const AddStudent = () => {
   const navigate = useNavigate();
@@ -284,16 +285,11 @@ const AddStudent = () => {
 
             {/* ===== ACTION BUTTONS ===== */}
             <div className="mt-4 text-center">
-              <button
-                type="button"
-                className="btn btn-outline-secondary me-2"
-                onClick={() => navigate("/manage-students")}
-              >
-                Cancel
-              </button>
-              <button type="submit" className="btn btn-primary">
-                <i className="bi bi-check-circle me-1"></i>Save
-              </button>
+                <FormActions
+                onCancel={() => navigate("/manage-students")}
+                saveText="Save"
+                cancelText="Cancel"
+              />
             </div>
           </form>
         </div>

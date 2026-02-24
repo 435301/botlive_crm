@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Pagination from "../components/Pagination";
 import { Link } from "react-router-dom";
+import SearchInput from "../components/SearchInput";
 
 /* ===== SAMPLE STUDENT DATA ===== */
 const studentsData = [
@@ -169,52 +170,50 @@ const ManageStudents = () => {
             <p className="sub-text mb-0">View, edit and manage all students</p>
           </div>
         </div>
- {/* Right: Action Buttons */}
-  <div className="d-flex gap-2">
-    {/* Import Excel */}
-    <label className="btn btn-outline-success d-flex align-items-center mb-0">
-      <i className="ti ti-upload me-2"></i>
-      Import Excel
-      <input
-        type="file"
-        accept=".xlsx,.xls"
-        hidden
-        onChange={handleImportExcel}
-      />
-    </label>
+        {/* Right: Action Buttons */}
+        <div className="d-flex gap-2">
+          {/* Import Excel */}
+          <label className="btn btn-outline-success d-flex align-items-center mb-0">
+            <i className="ti ti-upload me-2"></i>
+            Import Excel
+            <input
+              type="file"
+              accept=".xlsx,.xls"
+              hidden
+              onChange={handleImportExcel}
+            />
+          </label>
 
-    {/* Export Excel */}
-    <button
-      className="btn btn-outline-primary d-flex align-items-center"
-      onClick={handleExportExcel}
-    >
-      <i className="ti ti-download me-2"></i>
-      Export Excel
-    </button>
+          {/* Export Excel */}
+          <button
+            className="btn btn-outline-primary d-flex align-items-center"
+            onClick={handleExportExcel}
+          >
+            <i className="ti ti-download me-2"></i>
+            Export Excel
+          </button>
 
-    {/* Add Skill Center button */}
-        <Link
-          to="/add-student"
-          className="btn add-skill-btn d-flex align-items-center"
-        >
-          <i className="ti ti-graduation-cap me-2"></i>
-          Add Student
-        </Link>
-  </div>
-       
+          {/* Add Skill Center button */}
+          <Link
+            to="/add-student"
+            className="btn add-skill-btn d-flex align-items-center"
+          >
+            <i className="ti ti-graduation-cap me-2"></i>
+            Add Student
+          </Link>
+        </div>
+
       </div>
 
       {/* ===== FILTERS ===== */}
       <div className="filter-wrapper mb-3">
         <div className="row g-2 align-items-center">
           <div className="col-lg-3 col-md-6">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search by Location"
+            <SearchInput
               value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
+              placeholder="Search by location"
+              onChange={(value) => {
+                setSearch(value);
                 setPage(1);
               }}
             />
@@ -318,11 +317,10 @@ const ManageStudents = () => {
                       <td>{s.email}</td>
                       <td>
                         <span
-                          className={`badge ${
-                            s.status === "Active"
+                          className={`badge ${s.status === "Active"
                               ? "bg-success"
                               : "bg-secondary"
-                          }`}
+                            }`}
                         >
                           {s.status}
                         </span>

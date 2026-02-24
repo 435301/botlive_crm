@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import FormActions from "../components/FormActions";
+import StatusSelect from "../components/StatusSelect";
+import FormInput from "../components/FormInput";
 
 const AddSkillCenter = () => {
   const navigate = useNavigate();
@@ -88,7 +91,7 @@ const AddSkillCenter = () => {
 
           <form onSubmit={handleSubmit}>
             <div className="row g-3">
-              <div className="col-md-4">
+              {/* <div className="col-md-4">
                 <label className="form-label">Center Type *</label>
                 <select
                   className="form-select"
@@ -101,9 +104,9 @@ const AddSkillCenter = () => {
                   <option value="School">School</option>
                   <option value="Skill Center">Skill Center</option>
                 </select>
-              </div>
+              </div> */}
 
-              <div className="col-md-4">
+              {/* <div className="col-md-4">
                 <label className="form-label">School / Skill Center *</label>
                 <select
                   className="form-select"
@@ -117,10 +120,10 @@ const AddSkillCenter = () => {
                   <option value="Center B">Center B</option>
                   <option value="Center C">Center C</option>
                 </select>
-              </div>
+              </div> */}
 
               <div className="col-md-4">
-                <label className="form-label">Course *</label>
+                <label className="form-label">Course <span className="text-danger"> *</span></label>
                 <select
                   className="form-select"
                   name="course"
@@ -131,40 +134,30 @@ const AddSkillCenter = () => {
                   <option value="">Select</option>
                   <option value="Web Development">Web Development</option>
                   <option value="Data Science">Data Science</option>
-                  <option value="UI/UX">UI / UX</option>
-                  <option value="Python">Python</option>
+                  <option value="UI/UX">Frontend Development</option>
+                  <option value="Python">Backend Development</option>
                 </select>
               </div>
 
               <div className="col-md-4">
-                <label className="form-label">Module Name *</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Module Name"
+                 <FormInput
+                  label="Module Name"
                   name="moduleName"
                   value={formData.moduleName}
                   onChange={handleChange}
+                  placeholder="Enter Module Name"
                   required
                 />
+
               </div>
 
               <div className="col-md-4">
-                <label className="form-label">Status *</label>
-                <select
-                  className="form-select"
-                  name="status"
-                  value={formData.status}
-                  onChange={handleChange}
-                >
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
+               <StatusSelect formData={formData} handleChange={handleChange} />
               </div>
             </div>
 
             {/* FILE ADD ROW */}
-            <div className="row g-3 mt-2 align-items-end">
+            {/* <div className="row g-3 mt-2 align-items-end">
               <div className="col-md-4">
                 <label className="form-label">Videos</label>
                 <input
@@ -198,10 +191,10 @@ const AddSkillCenter = () => {
                   Add
                 </button>
               </div>
-            </div>
+            </div> */}
 
             {/* DISPLAY ADDED ITEMS */}
-            {items.length > 0 && (
+            {/* {items.length > 0 && (
               <div className="mt-4">
                 <h6 className="fw-bold">Added Files</h6>
 
@@ -229,20 +222,15 @@ const AddSkillCenter = () => {
                   </div>
                 ))}
               </div>
-            )}
+            )} */}
 
             {/* ACTION BUTTONS */}
             <div className="mt-4 text-center">
-              <button
-                type="button"
-                className="btn btn-outline-secondary me-2"
-                onClick={() => navigate("/manage-module")}
-              >
-                Cancel
-              </button>
-              <button type="submit" className="btn btn-success">
-                Save
-              </button>
+                <FormActions
+                onCancel={() => navigate("/manage-module")}
+                saveText="Save"
+                cancelText="Cancel"
+              />
             </div>
           </form>
         </div>

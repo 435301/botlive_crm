@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import FormSelect from "../components/FormSelect";
+import FormInput from "../components/FormInput";
+import StatusSelect from "../components/StatusSelect";
 
 const AddSkillCenter = () => {
   const navigate = useNavigate();
@@ -14,6 +17,9 @@ const AddSkillCenter = () => {
     mobile: "",
     email: "",
     password: "",
+    district: "",
+    state: "",
+    area: "",
     status: "Active",
   });
 
@@ -38,9 +44,9 @@ const AddSkillCenter = () => {
             <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
           </div>
           <div>
-            <h5 className="fw-bold mb-0">Skill Center Management</h5>
+            <h5 className="fw-bold mb-0">School/Skill Center Management</h5>
             <p className="sub-text mb-0">
-              View, edit and manage all skill centers
+              View, edit and manage all school/skill centers
             </p>
           </div>
         </div>
@@ -51,7 +57,7 @@ const AddSkillCenter = () => {
           className="btn manage-skills-btn d-flex align-items-center"
         >
           <i className="ti ti-certificate me-2"></i>
-          Manage Skill Center
+          Manage School/Skill Center
         </Link>
       </div>
 
@@ -63,7 +69,7 @@ const AddSkillCenter = () => {
       {/* ===== FORM CARD ===== */}
       <div className="card shadow-sm p-2">
         <div className="card-body">
-          <h5 className="fw-bold mb-4">Create Skill Center </h5>
+          <h5 className="fw-bold mb-4">Create School/Skill Center </h5>
 
           <form onSubmit={handleSubmit}>
             <div className="row g-3">
@@ -86,13 +92,13 @@ const AddSkillCenter = () => {
               {/* Center Name */}
               <div className="col-md-4">
                 <label className="form-label">
-                  Skill Center Name <span className="text-danger">*</span>
+                  School/Skill Center Name <span className="text-danger">*</span>
                 </label>
                 <input
                   type="text"
                   className="form-control"
                   name="name"
-                  placeholder="Enter skill center name"
+                  placeholder="Enter school/skill center name"
                   value={formData.name}
                   onChange={handleChange}
                   required
@@ -102,7 +108,7 @@ const AddSkillCenter = () => {
               {/* Center Type */}
               <div className="col-md-4">
                 <label className="form-label">
-                  Skill  Center Type{" "}
+                  School/Skill Center Type{" "}
                   <span className="text-danger">*</span>
                 </label>
                 <select
@@ -123,7 +129,7 @@ const AddSkillCenter = () => {
               {/* Contact Person */}
               <div className="col-md-4">
                 <label className="form-label">
-              Skill Center     Contact Person Name <span className="text-danger">*</span>
+                  School/Skill Center     Contact Person Name <span className="text-danger">*</span>
                 </label>
                 <input
                   type="text"
@@ -139,7 +145,7 @@ const AddSkillCenter = () => {
               {/* Mobile */}
               <div className="col-md-4">
                 <label className="form-label">
-               Skill Center    Mobile <span className="text-danger">*</span>
+                  School/Skill Center Mobile <span className="text-danger">*</span>
                 </label>
                 <input
                   type="tel"
@@ -155,7 +161,7 @@ const AddSkillCenter = () => {
               {/* Email */}
               <div className="col-md-4">
                 <label className="form-label">
-                Skill Center   Email <span className="text-danger">*</span>
+                  School/Skill Center Email <span className="text-danger">*</span>
                 </label>
                 <input
                   type="email"
@@ -182,25 +188,52 @@ const AddSkillCenter = () => {
                 />
               </div>
 
+              <div className="col-md-4">
+                <FormSelect
+                  label="State"
+                  name="state"
+                  value={formData.state}
+                  onChange={handleChange}
+                  required
+                  options={[
+                    { label: "State 1", value: "State 1" },
+                    { label: "State 2", value: "State 2" },
+                  ]}
+                />
+              </div>
+
+              <div className="col-md-4">
+                <FormSelect
+                  label="District"
+                  name="district"
+                  value={formData.district}
+                  onChange={handleChange}
+                  required
+                  options={[
+                    { label: "District 1", value: "District 1" },
+                    { label: "District 2", value: "District 2" },
+                  ]}
+                />
+              </div>
+              <div className="col-md-4">
+                <FormInput
+                  label="Area "
+                  name="area"
+                  value={formData.area}
+                  onChange={handleChange}
+                  placeholder="Enter Area"
+                  required
+                />
+              </div>
+              
               {/* Status */}
               <div className="col-md-4">
-                <label className="form-label">
-                  Status <span className="text-danger">*</span>
-                </label>
-                <select
-                  className="form-select"
-                  name="status"
-                  value={formData.status}
-                  onChange={handleChange}
-                >
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
+                <StatusSelect formData={formData} handleChange={handleChange} />
               </div>
             </div>
             {/* Address */}
             <div className="col-md-12 mt-3">
-              <label className="form-label"> Skill Center Address</label>
+              <label className="form-label"> School/Skill Center Address</label>
               <textarea
                 className="form-control"
                 rows="2"
@@ -219,7 +252,7 @@ const AddSkillCenter = () => {
               </button>
               <button type="submit" className="btn btn-primary">
                 <i className="bi bi-check-circle me-1"></i>
-                Save Skill Center
+                Save School/Skill Center
               </button>
             </div>
           </form>

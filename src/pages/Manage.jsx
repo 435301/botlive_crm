@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Pagination from "../components/Pagination";
 import { Link } from "react-router-dom";
+import SearchInput from "../components/SearchInput";
 
 const skillCenters = [
   {
@@ -12,6 +13,9 @@ const skillCenters = [
     mobile: "9876543210",
     email: "hyd@center.com",
     password: "********",
+    state: "Telangana",
+    district: "Hyderabad",
+    area: "Madhapur",
     status: "Active",
   },
   {
@@ -23,6 +27,9 @@ const skillCenters = [
     mobile: "9123456789",
     email: "gvs@school.com",
     password: "********",
+    state: "Karnataka",
+    district: "Bangalore",
+    area: "Whitefield",
     status: "Inactive",
   },
   {
@@ -34,6 +41,9 @@ const skillCenters = [
     mobile: "9988776655",
     email: "tech@hub.com",
     password: "********",
+    state: "Telangana",
+    district: "Hyderabad",
+    area: "Gachibowli",
     status: "Active",
   },
   {
@@ -45,6 +55,9 @@ const skillCenters = [
     mobile: "9090909090",
     email: "bright@school.com",
     password: "********",
+    state: "Karnataka",
+    district: "Bangalore",
+    area: "HSR Layout",
     status: "Inactive",
   },
   {
@@ -56,6 +69,9 @@ const skillCenters = [
     mobile: "9876543210",
     email: "hyd@center.com",
     password: "********",
+    state: "Telangana",
+    district: "Hyderabad",
+    area: "Madhapur",
     status: "Active",
   },
   {
@@ -96,6 +112,9 @@ const skillCenters = [
 const ManageSkillCenters = () => {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
+  const [state, setState] = useState("");
+  const [district, setDistrict] = useState("");
+  const [type, setType] = useState("");
   const [page, setPage] = useState(1);
   const handleImportExcel = (e) => {
     const file = e.target.files[0];
@@ -147,9 +166,9 @@ const ManageSkillCenters = () => {
             <i className="ti ti-certificate fs-16"></i>
           </div>
           <div>
-            <h5 className="fw-bold mb-0">Manage Skill Centers</h5>
+            <h5 className="fw-bold mb-0">Manage School/Skill Centers</h5>
             <p className="sub-text mb-0">
-              View, edit and manage all skill centers
+              View, edit and manage all school/skill centers
             </p>
           </div>
         </div>
@@ -183,7 +202,7 @@ const ManageSkillCenters = () => {
             className="btn add-skill-btn d-flex align-items-center"
           >
             <i className="ti ti-graduation-cap me-2"></i>
-            Add Skill Center
+            Add School/Skill Center
           </Link>
         </div>
       </div>
@@ -191,41 +210,79 @@ const ManageSkillCenters = () => {
       {/* ===== FILTERS ===== */}
       <div className="filter-wrapper mb-3">
         <div className="row g-2 align-items-center">
-          <div className="col-lg-4 col-md-6">
-            <div className="filter-item">
-              <i className="bi bi-search"></i>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Search by name "
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  setPage(1);
-                }}
-              />
-            </div>
+          <div className="col-lg-2 col-md-4">
+            <SearchInput
+              value={search}
+              placeholder="Search by name"
+              onChange={(value) => {
+                setSearch(value);
+                setPage(1);
+              }}
+            />
           </div>
 
-          <div className="col-lg-3 col-md-6">
-            <div className="filter-item">
-              <i className="bi bi-funnel"></i>
-              <select
-                className="form-select"
-                value={status}
-                onChange={(e) => {
-                  setStatus(e.target.value);
-                  setPage(1);
-                }}
-              >
-                <option value="">All Status</option>
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-              </select>
-            </div>
+          <div className="col-lg-2 col-md-6">
+            <select
+              className="form-select"
+              value={state}
+              onChange={(e) => {
+                setState(e.target.value);
+                setPage(1);
+              }}
+            >
+              <option value="">All States</option>
+              <option value="Telangana">Telangana</option>
+              <option value="Karnataka">Karnataka</option>
+            </select>
           </div>
 
-          <div className="col-lg-5 col-md-12">
+          <div className="col-lg-2 col-md-6">
+            <select
+              className="form-select"
+              value={district}
+              onChange={(e) => {
+                setDistrict(e.target.value);
+                setPage(1);
+              }}
+            >
+              <option value="">All Districts</option>
+              <option value="Hyderabad">Hyderabad</option>
+              <option value="Bangalore">Bangalore</option>
+            </select>
+          </div>
+
+          <div className="col-lg-2 col-md-6">
+            <select
+              className="form-select"
+              value={type}
+              onChange={(e) => {
+                setType(e.target.value);
+                setPage(1);
+              }}
+            >
+              <option value="">All Types</option>
+              <option value="School">School</option>
+              <option value="Skill Center">Skill Center</option>
+            </select>
+          </div>
+
+          <div className="col-lg-2 col-md-6">
+            {/* <i className="bi bi-funnel"></i> */}
+            <select
+              className="form-select"
+              value={status}
+              onChange={(e) => {
+                setStatus(e.target.value);
+                setPage(1);
+              }}
+            >
+              <option value="">All Status</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+
+          <div className="col-lg-2 col-md-12">
             <div className="d-flex gap-2">
               <button className="btn filter-btn">
                 <i className="bi bi-search me-1"></i>
@@ -259,6 +316,9 @@ const ManageSkillCenters = () => {
                   <th>Mobile</th>
                   <th>Email</th>
                   <th>Password</th>
+                  <th>State</th>
+                  <th>District</th>
+                  <th>Area</th>
                   <th>Status</th>
                   <th className="text-center">Actions</th>
                 </tr>
@@ -277,13 +337,15 @@ const ManageSkillCenters = () => {
                       <td>{center.mobile}</td>
                       <td>{center.email}</td>
                       <td>{center.password}</td>
+                      <td>{center.state}</td>
+                      <td>{center.district}</td>
+                      <td>{center.area}</td>
                       <td>
                         <span
-                          className={`badge ${
-                            center.status === "Active"
-                              ? "bg-success"
-                              : "bg-secondary"
-                          }`}
+                          className={`badge ${center.status === "Active"
+                            ? "bg-success"
+                            : "bg-secondary"
+                            }`}
                         >
                           {center.status}
                         </span>

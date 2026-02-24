@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Pagination from "../components/Pagination";
 import { Link } from "react-router-dom";
+import SearchInput from "../components/SearchInput";
 
 /* ===== SAMPLE MODULE DATA ===== */
 const modulesData = [
@@ -8,7 +9,7 @@ const modulesData = [
     id: 1,
     centerType: "Skill Center",
     centerName: "Hyderabad Skill Center",
-    course: "React JS",
+    course: "Frontend Development",
     moduleName: "React Basics",
     videos: ["intro.mp4", "components.mp4"],
     pdfs: ["react-basics.pdf"],
@@ -18,7 +19,7 @@ const modulesData = [
     id: 2,
     centerType: "School",
     centerName: "Green Valley School",
-    course: "Python",
+    course: "Web Development",
     moduleName: "Python Fundamentals",
     videos: ["syntax.mp4"],
     pdfs: ["python-notes.pdf", "examples.pdf"],
@@ -28,7 +29,7 @@ const modulesData = [
     id: 3,
     centerType: "Skill Center",
     centerName: "Tech Skill Hub",
-    course: "JavaScript",
+    course: "Data Science",
     moduleName: "JS DOM Manipulation",
     videos: ["dom.mp4"],
     pdfs: ["js-dom.pdf"],
@@ -134,13 +135,11 @@ const ManageModule = () => {
       <div className="filter-wrapper mb-3">
         <div className="row g-2">
           <div className="col-md-3">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search by module name"
+            <SearchInput
               value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
+              placeholder="Search by module name"
+              onChange={(value) => {
+                setSearch(value);
                 setPage(1);
               }}
             />
@@ -155,9 +154,10 @@ const ManageModule = () => {
                 setPage(1);
               }}
             >
-              <option value="">All Center Types</option>
-              <option value="School">School</option>
-              <option value="Skill Center">Skill Center</option>
+              <option value="">All Courses</option>
+              <option value="School">Web Development</option>
+              <option value="Skill Center">Frontend Development</option>
+              <option value="Skill Center">Data Science</option>
             </select>
           </div>
 
@@ -201,12 +201,12 @@ const ManageModule = () => {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Center Type</th>
-                <th>Center Name</th>
+                {/* <th>Center Type</th> */}
+                {/* <th>Center Name</th> */}
                 <th>Course</th>
                 <th>Module Name</th>
-                <th>Videos</th>
-                <th>PDFs</th>
+                {/* <th>Videos</th> */}
+                {/* <th>PDFs</th> */}
                 <th>Status</th>
                 <th className="text-center">Actions</th>
               </tr>
@@ -217,17 +217,16 @@ const ManageModule = () => {
                 paginatedData.map((t, i) => (
                   <tr key={t.id}>
                     <td>{startIndex + i + 1}</td>
-                    <td>{t.centerType}</td>
-                    <td>{t.centerName}</td>
+                    {/* <td>{t.centerType}</td> */}
+                    {/* <td>{t.centerName}</td> */}
                     <td>{t.course}</td>
                     <td>{t.moduleName}</td>
-                    <td>{t.videos.length}</td>
-                    <td>{t.pdfs.length}</td>
+                    {/* <td>{t.videos.length}</td> */}
+                    {/* <td>{t.pdfs.length}</td> */}
                     <td>
                       <span
-                        className={`badge ${
-                          t.status === "Active" ? "bg-success" : "bg-secondary"
-                        }`}
+                        className={`badge ${t.status === "Active" ? "bg-success" : "bg-secondary"
+                          }`}
                       >
                         {t.status}
                       </span>

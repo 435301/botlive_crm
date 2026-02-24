@@ -62,9 +62,8 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Skill Center Management */}
           <div
-            className={`nav-group ${
-              isParentActive(["/add-skills", "/manage-skills"]) ? "active" : ""
-            }`}
+            className={`nav-group ${isParentActive(["/add-skills", "/manage-skills"]) ? "active" : ""
+              }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("skillCenter")}>
               <Building2 size={18} />
@@ -90,10 +89,9 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
             </div>
           </div>
           {/* School Center Management */}
-          <div
-            className={`nav-group ${
-              isParentActive(["/add-school", "/manage-school"]) ? "active" : ""
-            }`}
+          {/* <div
+            className={`nav-group ${isParentActive(["/add-school", "/manage-school"]) ? "active" : ""
+              }`}
           >
             <div
               className="nav-link"
@@ -105,9 +103,8 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
                   <span>School Center Management</span>
                   <ChevronDown
                     size={16}
-                    className={`arrow ${
-                      openMenu === "schoolCenter" ? "rotate" : ""
-                    }`}
+                    className={`arrow ${openMenu === "schoolCenter" ? "rotate" : ""
+                      }`}
                   />
                 </>
               )}
@@ -123,15 +120,14 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
                 Manage School Centers
               </NavLink>
             </div>
-          </div>
+          </div> */}
 
           {/* Trainer Management */}
           <div
-            className={`nav-group ${
-              isParentActive(["/add-trainers", "/manage-trainers"])
-                ? "active"
-                : ""
-            }`}
+            className={`nav-group ${isParentActive(["/add-trainers", "/manage-trainers"])
+              ? "active"
+              : ""
+              }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("trainer")}>
               <UserCog size={18} />
@@ -157,9 +153,8 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Course Management */}
           <div
-            className={`nav-group ${
-              isParentActive(["/add-course", "/manage-course"]) ? "active" : ""
-            }`}
+            className={`nav-group ${isParentActive(["/add-course", "/manage-course"]) ? "active" : ""
+              }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("course")}>
               <BookOpen size={18} />
@@ -185,9 +180,8 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Modules Management */}
           <div
-            className={`nav-group ${
-              isParentActive(["/add-module", "/manage-module"]) ? "active" : ""
-            }`}
+            className={`nav-group ${isParentActive(["/add-module", "/manage-module"]) ? "active" : ""
+              }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("modules")}>
               <Layers size={18} />
@@ -211,13 +205,93 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
             </div>
           </div>
 
+          {/* Chapters Management */}
+          <div
+            className={`nav-group ${isParentActive(["/add-chapters", "/manage-chapters"]) ? "active" : ""
+              }`}
+          >
+            <div className="nav-link" onClick={() => toggleMenu("chapters")}>
+              <Layers size={18} />
+              {!collapsed && (
+                <>
+                  <span>Chapters Management</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "chapters" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
+            </div>
+            <div className={`submenu ${openMenu === "chapters" ? "open" : ""}`}>
+              <NavLink to="/add-chapters" className={getNavLinkClass}>
+                Add Chapter
+              </NavLink>
+              <NavLink to="/manage-chapters" className={getNavLinkClass}>
+                Manage Chapters
+              </NavLink>
+            </div>
+          </div>
+
+          {/* Grades/Batches Management */}
+          <div
+            className={`nav-group ${isParentActive(["/add-grade", "/manage-grades"]) ? "active" : ""
+              }`}
+          >
+            <div className="nav-link" onClick={() => toggleMenu("grades")}>
+              <Layers size={18} />
+              {!collapsed && (
+                <>
+                  <span>Grades/Batches Management</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "grades" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
+            </div>
+            <div className={`submenu ${openMenu === "grades" ? "open" : ""}`}>
+              <NavLink to="/add-grade" className={getNavLinkClass}>
+                Add Grade
+              </NavLink>
+              <NavLink to="/manage-grades" className={getNavLinkClass}>
+                Manage Grades
+              </NavLink>
+            </div>
+          </div>
+
+          {/* Assign chapter management */}
+          <div
+            className={`nav-group ${isParentActive(["/add-assigned-chapter", "/manage-assigned-chapters"]) ? "active" : ""
+              }`}
+          >
+            <div className="nav-link" onClick={() => toggleMenu("add-assigned-chapter")}>
+              <Layers size={18} />
+              {!collapsed && (
+                <>
+                  <span>Assign Chapter Management</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "add-assigned-chapter" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
+            </div>
+            <div className={`submenu ${openMenu === "add-assigned-chapter" ? "open" : ""}`}>
+              <NavLink to="/add-assigned-chapter" className={getNavLinkClass}>
+                Assign Chapter
+              </NavLink>
+              <NavLink to="/manage-assigned-chapters" className={getNavLinkClass}>
+                Manage Assigned Chapters
+              </NavLink>
+            </div>
+          </div>
+
           {/* Student Management */}
           <div
-            className={`nav-group ${
-              isParentActive(["/add-student", "/manage-students"])
-                ? "active"
-                : ""
-            }`}
+            className={`nav-group ${isParentActive(["/add-student", "/manage-students"])
+              ? "active"
+              : ""
+              }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("students")}>
               <GraduationCap size={18} />

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Pagination from "../components/Pagination";
 import { Link } from "react-router-dom";
+import SearchInput from "../components/SearchInput";
 
 const skillCenters = [
   {
@@ -193,13 +194,11 @@ const ManageSkillCenters = () => {
           <div className="col-lg-4 col-md-6">
             <div className="filter-item">
               <i className="bi bi-search"></i>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Search by name "
+              <SearchInput
                 value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
+                placeholder="Search by name"
+                onChange={(value) => {
+                  setSearch(value);
                   setPage(1);
                 }}
               />
@@ -278,11 +277,10 @@ const ManageSkillCenters = () => {
                       <td>{center.password}</td>
                       <td>
                         <span
-                          className={`badge ${
-                            center.status === "Active"
+                          className={`badge ${center.status === "Active"
                               ? "bg-success"
                               : "bg-secondary"
-                          }`}
+                            }`}
                         >
                           {center.status}
                         </span>

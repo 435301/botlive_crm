@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import FormInput from "../components/FormInput";
+import FormActions from "../components/FormActions";
+import StatusSelect from "../components/StatusSelect";
 
 const AddSkillCenter = () => {
   const navigate = useNavigate();
@@ -60,7 +63,7 @@ const AddSkillCenter = () => {
           <form onSubmit={handleSubmit}>
             <div className="row g-3">
               {/* Center Code */}
-              <div className="col-md-4">
+              {/* <div className="col-md-4">
                 <label className="form-label">
                   Center Code<span className="text-danger">*</span>
                 </label>
@@ -73,10 +76,10 @@ const AddSkillCenter = () => {
                   onChange={handleChange}
                   required
                 />
-              </div>
+              </div> */}
 
               {/* Center Type */}
-              <div className="col-md-4">
+              {/* <div className="col-md-4">
                 <label className="form-label">
                   Center Type<span className="text-danger">*</span>
                 </label>
@@ -91,48 +94,22 @@ const AddSkillCenter = () => {
                   <option value="School">School</option>
                   <option value="Skill Center">Skill Center</option>
                 </select>
-              </div>
+              </div> */}
 
               {/* Course / Grade */}
               <div className="col-md-4">
-                <label className="form-label">
-                  {isSchool ? "Grade" : "Course"}{" "}
-                  <span className="text-danger">*</span>
-                </label>
-                <select
-                  className="form-select"
-                  name="courseOrGrade"
-                  value={formData.courseOrGrade}
+                <FormInput
+                  label="Course Title"
+                  name="courseTitle"
+                  value={formData.courseTitle}
                   onChange={handleChange}
+                  placeholder="Enter Course Title"
                   required
-                  disabled={!formData.centerType}
-                >
-                  <option value="">
-                    Select <span className="text-danger">*</span>{" "}
-                    {isSchool ? "Grade" : "Course"}
-                  </option>
-
-                  {isSchool ? (
-                    <>
-                      <option value="Grade 6">Grade 6</option>
-                      <option value="Grade 7">Grade 7</option>
-                      <option value="Grade 8">Grade 8</option>
-                      <option value="Grade 9">Grade 9</option>
-                      <option value="Grade 10">Grade 10</option>
-                    </>
-                  ) : (
-                    <>
-                      <option value="Web Development">Web Development</option>
-                      <option value="Data Science">Data Science</option>
-                      <option value="UI/UX">UI / UX</option>
-                      <option value="Python">Python</option>
-                    </>
-                  )}
-                </select>
+                />
               </div>
 
               {/* Course Duration */}
-              <div className="col-md-4">
+              {/* <div className="col-md-4">
                 <label className="form-label">
                   Course Duration <span className="text-danger">*</span>
                 </label>
@@ -145,39 +122,21 @@ const AddSkillCenter = () => {
                   onChange={handleChange}
                   required
                 />
-              </div>
+              </div> */}
 
               {/* Status */}
               <div className="col-md-4">
-                <label className="form-label">
-                  Status <span className="text-danger">*</span>
-                </label>
-                <select
-                  className="form-select"
-                  name="status"
-                  value={formData.status}
-                  onChange={handleChange}
-                >
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
+                <StatusSelect formData={formData} handleChange={handleChange}  />
               </div>
             </div>
 
             {/* ===== ACTION BUTTONS ===== */}
             <div className="mt-4 text-center">
-              <button
-                type="button"
-                className="btn btn-outline-secondary me-2"
-                onClick={() => navigate("/manage-course")}
-              >
-                Cancel
-              </button>
-
-              <button type="submit" className="btn btn-primary">
-                <i className="bi bi-check-circle me-1"></i>
-                Save
-              </button>
+                 <FormActions
+                onCancel={() => navigate("/manage-course")}
+                saveText="Save"
+                cancelText="Cancel"
+              />
             </div>
           </form>
         </div>
