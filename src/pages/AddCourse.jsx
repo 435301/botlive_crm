@@ -26,7 +26,7 @@ const AddSkillCenter = () => {
     navigate("/manage-course");
   };
 
-  const isSchool = formData.centerType === "School";
+  // const isSchool = formData.centerType === "School";
 
   return (
     <div className="container-fluid">

@@ -17,8 +17,6 @@ const AddSkillCenter = () => {
     status: "Active",
   });
 
-  const [items, setItems] = useState([]);
-
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
@@ -27,29 +25,6 @@ const AddSkillCenter = () => {
     } else {
       setFormData({ ...formData, [name]: value });
     }
-  };
-
-  // ADD BUTTON FUNCTION
-  const handleAdd = () => {
-    if (!formData.videos.length && !formData.pdfs.length) {
-      alert("Please upload videos or PDFs");
-      return;
-    }
-
-    setItems([
-      ...items,
-      {
-        videos: Array.from(formData.videos),
-        pdfs: Array.from(formData.pdfs),
-      },
-    ]);
-
-    // Reset only file fields
-    setFormData({
-      ...formData,
-      videos: [],
-      pdfs: [],
-    });
   };
 
   // FINAL SAVE
@@ -62,7 +37,7 @@ const AddSkillCenter = () => {
       course: formData.course,
       moduleName: formData.moduleName,
       status: formData.status,
-      materials: items,
+      // materials: items,
     };
 
     console.log("FINAL SUBMIT DATA:", payload);
