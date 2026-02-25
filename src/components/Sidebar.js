@@ -19,7 +19,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
   const [openMenu, setOpenMenu] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   // Close all submenus when route changes
   useEffect(() => {
@@ -36,7 +36,7 @@ const dispatch = useDispatch();
   const isParentActive = (paths) =>
     paths.some((path) => location.pathname.startsWith(path));
 
-  const handleLogout = ()=>{
+  const handleLogout = () => {
     dispatch(logoutAdmin());
     navigate('/login');
   };
@@ -68,6 +68,41 @@ const dispatch = useDispatch();
             <LayoutDashboard size={18} />
             {!collapsed && <span>Dashboard</span>}
           </NavLink>
+          {/* master data  */}
+          <div
+            className={`nav-group ${isParentActive(["/add-state", "/manage-states",  "/add-city",  "/manage-cities",]) ? "active" : ""
+              }`}
+          >
+            <div className="nav-link" onClick={() => toggleMenu("masterData")}>
+              <Building2 size={18} />
+              {!collapsed && (
+                <>
+                  <span>Master Data</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "masterData" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
+            </div>
+            <div
+              className={`submenu ${openMenu === "masterData" ? "open" : ""}`}
+            >
+              <NavLink to="/add-state" className={getNavLinkClass}>
+                Add State
+              </NavLink>
+              <NavLink to="/manage-states" className={getNavLinkClass}>
+                Manage States
+              </NavLink>
+
+               <NavLink to="/add-city" className={getNavLinkClass}>
+                Add City
+              </NavLink>
+              <NavLink to="/manage-cities" className={getNavLinkClass}>
+                Manage Cities
+              </NavLink>
+            </div>
+          </div>
 
           {/* Skill Center Management */}
           <div
@@ -97,6 +132,7 @@ const dispatch = useDispatch();
               </NavLink>
             </div>
           </div>
+
           {/* School Center Management */}
           {/* <div
             className={`nav-group ${isParentActive(["/add-school", "/manage-school"]) ? "active" : ""

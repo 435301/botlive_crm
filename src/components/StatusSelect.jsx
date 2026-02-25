@@ -1,18 +1,23 @@
 
 
-const StatusSelect = ({ formData, handleChange , className}) => {
+const StatusSelect = ({ handleChange, className, value, name, error }) => {
     return (
         <div className={className}>
             <label className="form-label">Status <span className="text-danger"> *</span></label>
             <select
                 className="form-select"
-                name="status"
-                value={formData.status}
+                name={name}
+                value={value}
                 onChange={handleChange}
             >
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
             </select>
+            {error && (
+                <div className="d-flex invalid-feedback">
+                    {error}
+                </div>
+            )}
 
 
         </div>

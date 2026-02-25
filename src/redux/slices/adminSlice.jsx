@@ -15,13 +15,13 @@ export const adminLogin = createAsyncThunk(
                 return rejectWithValue(data.message);
             }
 
-            Cookies.set("adminToken", data.data.token, {
+            Cookies.set("super-admin-token", data.data.token, {
                 expires: 7, // 7 days
                 secure: false, // if it is https set to true
                 sameSite: "Strict",
             });
 
-            Cookies.set("admin", JSON.stringify(data.data), {
+            Cookies.set("super-admin", JSON.stringify(data.data), {
                 expires: 7,
                 secure: false,
                 sameSite: "Strict",
@@ -120,28 +120,21 @@ export const resetPassword = createAsyncThunk(
 );
 
 const adminSlice = createSlice({
-    name: "admin",
+    name: "super-admin",
     initialState: {
         loading: false,
-        admin: Cookies.get("admin")
-            ? JSON.parse(Cookies.get("admin"))
+        admin: Cookies.get("super-admin")
+            ? JSON.parse(Cookies.get("super-admin"))
             : null,
-        token: Cookies.get("adminToken") || null,
+        token: Cookies.get("super-admin-token") || null,
         error: null,
     },
     reducers: {
         logoutAdmin: (state) => {
             state.admin = null;
             state.token = null;
-            Cookies.remove("admin", {
-                secure: false,  //change it to true later when https is enabled
-                sameSite: "Strict",
-            });
-
-            Cookies.remove("adminToken", {
-                secure: false,
-                sameSite: "Strict",
-            });
+            Cookies.remove("super-admin");
+            Cookies.remove("super-admin-token");
             toast.info("Logged out successfully");
         },
     },

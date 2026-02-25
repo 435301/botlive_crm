@@ -7,15 +7,15 @@ const FormInput = ({
   onChange,
   placeholder = "",
   type = "text",
-  required = false,
-  className ,
+  className,
+  error,
 }) => {
   return (
     <div className={className}>
       {label && (
         <label className="form-label">
           {label}
-          {required && <span className="text-danger"> *</span>}
+          <span className="text-danger"> *</span>
         </label>
       )}
 
@@ -26,8 +26,13 @@ const FormInput = ({
         value={value}
         placeholder={placeholder}
         onChange={onChange}
-        required={required}
+      // required={required}
       />
+      {error && (
+        <div className=" d-flex invalid-feedback">
+          {error}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,13 +1,19 @@
-export const getUser = () => {
-  return JSON.parse(localStorage.getItem("user"));
+import Cookies from "js-cookie";
+import {jwtDecode} from "jwt-decode";
+
+export const getAdminToken = () => {
+  return Cookies.get("super-admin-token");
 };
 
 export const isAuthenticated = () => {
-  const user = getUser();
-  return user && user.token;
+ return !!getAdminToken();
 };
 
-export const getUserRole = () => {
-  const user = getUser();
-  return user?.role;
+
+export const getAdminRole = () => {
+  const token = getAdminToken();
+  if (!token) return null;
+
+  const decoded = jwtDecode(token);
+  return decoded.role;
 };

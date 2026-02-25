@@ -10,12 +10,13 @@ import "@tabler/icons-webfont/dist/tabler-icons.min.css";
 
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import ErrorBoundary from "./components/ErrorBoundary";
+// import ErrorBoundary from "./components/ErrorBoundary";
 import PageLoader from "./components/PageLoader";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PublicRoute from "./components/PublicRoute";
+import AddState from "./pages/AddState";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Login = lazy(() => import("./pages/Login"));
@@ -38,6 +39,9 @@ const ManageStudents = lazy(() => import("./pages/ManageStudents"));
 const ManageScholls = lazy(() => import("./pages/ManageScholls"));
 const AddSchoolsSkills = lazy(() => import("./pages/AddSchoolsSkills"));
 const ChangePassword = lazy(() => import("./pages/ChangePassword"));
+const ManageStates = lazy(() => import("./pages/ManageState"));
+const AddCity = lazy(() => import("./pages/AddCity"));
+const ManageCities = lazy(() => import("./pages/ManageCity"));
 /* =========================
    Layout Wrapper
 ========================= */
@@ -103,11 +107,11 @@ function App() {
   }, [dark]);
 
   const lazyLoad = (Component) => (
-    <ErrorBoundary>
+    // <ErrorBoundary>
       <Suspense fallback={<PageLoader />}>
         <Component />
       </Suspense>
-    </ErrorBoundary>
+    // </ErrorBoundary>
   );
 
 
@@ -124,31 +128,36 @@ function App() {
         <Routes>
           <Route path="/login" element={<PublicRoute>{lazyLoad(Login)}</PublicRoute>} />
           <Route path="/" element={lazyLoad(Dashboard)} />
-          <Route path="/manage-skills" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(Manage)}</ProtectedRoute>} />
-          <Route path="/add-skills" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(AddSkills)}</ProtectedRoute>} />
-          <Route path="/add-course" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(AddCourse)}</ProtectedRoute>} />
-          <Route path="/manage-course" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(ManageCourse)}</ProtectedRoute>} />
+          <Route path="/manage-skills" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(Manage)}</ProtectedRoute>} />
+          <Route path="/add-skills" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddSkills)}</ProtectedRoute>} />
+          <Route path="/add-course" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddCourse)}</ProtectedRoute>} />
+          <Route path="/manage-course" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageCourse)}</ProtectedRoute>} />
           <Route path="/add-trainers" element={lazyLoad(AddTrainers)} />
           <Route path="/manage-trainers" element={lazyLoad(ManageTrainers)} />
-          <Route path="/add-module" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(AddModule)}</ProtectedRoute>} />
-          <Route path="/manage-module" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(ManageModule)}</ProtectedRoute>} />
-          <Route path="/add-chapters" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(AddChapters)}</ProtectedRoute>} />
-          <Route path="/manage-chapters" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(ManageChaptersModule)}</ProtectedRoute>} />
-          <Route path="/add-grade" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(AddGrades)}</ProtectedRoute>} />
-          <Route path="/manage-grades" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(ManageGrades)}</ProtectedRoute>} />
-          <Route path="/add-assigned-chapter" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(AddAssignedChapters)}</ProtectedRoute>} />
-          <Route path="/manage-assigned-chapters" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(ManageAssignedChapters)}</ProtectedRoute>} />
+          <Route path="/add-module" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddModule)}</ProtectedRoute>} />
+          <Route path="/manage-module" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageModule)}</ProtectedRoute>} />
+          <Route path="/add-chapters" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddChapters)}</ProtectedRoute>} />
+          <Route path="/manage-chapters" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageChaptersModule)}</ProtectedRoute>} />
+          <Route path="/add-grade" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddGrades)}</ProtectedRoute>} />
+          <Route path="/manage-grades" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageGrades)}</ProtectedRoute>} />
+          <Route path="/add-assigned-chapter" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddAssignedChapters)}</ProtectedRoute>} />
+          <Route path="/manage-assigned-chapters" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageAssignedChapters)}</ProtectedRoute>} />
           <Route path="/add-student" element={lazyLoad(AddStudent)} />
           <Route path="/manage-students" element={lazyLoad(ManageStudents)} />
           <Route path="/manage-schools" element={lazyLoad(ManageScholls)} />
           <Route path="/add-schools-skills" element={lazyLoad(AddSchoolsSkills)} />
           <Route path="/change-password" element={lazyLoad(ChangePassword)} />
+          <Route path="/add-state" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddState)}</ProtectedRoute>} />
+          <Route path="/edit-state/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddState)}</ProtectedRoute>} />
+          <Route path="/manage-states" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageStates)}</ProtectedRoute>} />
+          <Route path="/add-city" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddCity)}</ProtectedRoute>} />
+          <Route path="/manage-cities" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageCities)}</ProtectedRoute>} />
         </Routes>
       </LayoutWrapper>
     </Router>
   );
 }
 
-  <ToastContainer position="top-right" autoClose={3000} />
+<ToastContainer position="top-right" autoClose={3000} />
 
 export default App;
