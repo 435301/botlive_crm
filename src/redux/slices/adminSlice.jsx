@@ -42,7 +42,7 @@ export const sendOtp = createAsyncThunk(
     "admin/sendOtp",
     async (email, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`${BASE_URL}/admin/forgotPassword`, {
+            const response = await axios.put(`${BASE_URL}/admin/forgotPassword`, {
                 email,
             });
 
@@ -95,7 +95,7 @@ export const resetPassword = createAsyncThunk(
     "admin/resetPassword",
     async ({ email, newPassword, confirmPassword }, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`${BASE_URL}/admin/resetPassword`, {
+            const response = await axios.put(`${BASE_URL}/admin/resetPassword`, {
                 email,
                 newPassword,
                 confirmPassword,

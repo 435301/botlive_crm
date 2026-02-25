@@ -5,7 +5,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import logo from "../assets/images/logo.png";
 import { adminLogin, resetPassword, sendOtp, verifyOtp } from "../redux/slices/adminSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -108,6 +108,9 @@ const Login = () => {
                 {loading ? "Logging in..." : "Login"}
               </Button>
             </Form>
+            <Link className="forgot-link" onClick={() => setShowForgot(true)}>
+              Forgot Password?
+            </Link>
           </>
         ) : (
           <>
@@ -134,10 +137,10 @@ const Login = () => {
                 <Form.Group className="mb-3">
                   <Form.Label>Enter OTP</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="number"
                     placeholder="Enter OTP"
                     value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
+                    onChange={(e) => setOtp(Number((e.target.value)))}
                   />
                 </Form.Group>
 
@@ -151,22 +154,39 @@ const Login = () => {
               <Form onSubmit={handleResetPassword}>
                 <Form.Group className="mb-3">
                   <Form.Label>New Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                  />
+                  <InputGroup>
+                    <Form.Control
+                      type="password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                    />
+                    <Button
+                      className="eye-btn"
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </Button>
+                  </InputGroup>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
                   <Form.Label>Confirm Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                  />
+                  <InputGroup>
+                    <Form.Control
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                    <Button
+                      className="eye-btn"
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </Button>
+                  </InputGroup>
                 </Form.Group>
-
                 <Button className="login-btn" type="submit" disabled={loading}>
                   Reset Password
                 </Button>
