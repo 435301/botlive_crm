@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
   LayoutDashboard,
   ChevronDown,
@@ -12,10 +13,13 @@ import {
   LogOut,
 } from "lucide-react";
 import logo from "../assets/images/logo.png";
+import { logoutAdmin } from "../redux/slices/adminSlice";
 
 const Sidebar = ({ collapsed, show, closeSidebar }) => {
   const [openMenu, setOpenMenu] = useState(null);
   const location = useLocation();
+  const navigate = useNavigate();
+const dispatch = useDispatch();
 
   // Close all submenus when route changes
   useEffect(() => {
@@ -31,6 +35,11 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
   const isParentActive = (paths) =>
     paths.some((path) => location.pathname.startsWith(path));
+
+  const handleLogout = ()=>{
+    dispatch(logoutAdmin());
+    navigate('/login');
+  };
 
   return (
     <>
@@ -322,7 +331,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
           </NavLink>
 
           {/* Logout */}
-          <NavLink to="/logout" className="nav-link">
+          <NavLink onClick={handleLogout} className="nav-link">
             <LogOut size={18} />
             {!collapsed && <span>Logout</span>}
           </NavLink>

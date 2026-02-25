@@ -13,6 +13,9 @@ import Sidebar from "./components/Sidebar";
 import ErrorBoundary from "./components/ErrorBoundary";
 import PageLoader from "./components/PageLoader";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import PublicRoute from "./components/PublicRoute";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Login = lazy(() => import("./pages/Login"));
@@ -119,7 +122,7 @@ function App() {
         setDark={setDark}
       >
         <Routes>
-          <Route path="/login" element={lazyLoad(Login)} />
+          <Route path="/login" element={<PublicRoute>{lazyLoad(Login)}</PublicRoute>} />
           <Route path="/" element={lazyLoad(Dashboard)} />
           <Route path="/manage-skills" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(Manage)}</ProtectedRoute>} />
           <Route path="/add-skills" element={<ProtectedRoute allowedRoles={["Admin"]}>{lazyLoad(AddSkills)}</ProtectedRoute>} />
@@ -145,5 +148,7 @@ function App() {
     </Router>
   );
 }
+
+  <ToastContainer position="top-right" autoClose={3000} />
 
 export default App;
