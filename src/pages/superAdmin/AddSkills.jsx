@@ -8,12 +8,13 @@ import { useCrud } from "../../hooks/useCrud";
 import { validateSkills } from "../../utils/validation";
 import useStates from "../../hooks/useStates";
 import useDistricts from "../../hooks/useDistricts";
+import { useQuery } from "@tanstack/react-query";
+import axiosInstance from "../../utils/axiosInstance";
 
 const AddSkillCenter = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const isEditMode = Boolean(id);
-
   const { useGetById, createMutation, updateMutation } = useCrud({
     entity: "skillCenter",
     listUrl: "/skillCenter/list",
@@ -23,13 +24,21 @@ const AddSkillCenter = () => {
     deleteUrl: (id) => `/skillCenter/delete/${id}`,
   });
 
+  const { data: nextCodeData } = useQuery({
+    queryKey: ["nextCode", 1],
+    queryFn: async () => {
+      const res = await axiosInstance.get("/setting/getNextCode/1");
+      return res.data.data;
+    },
+  });
+
   const { data, isLoading } = useGetById(id);
   const { states } = useStates();
   const { districts } = useDistricts();
 
   const [formData, setFormData] = useState({
     centerCode: "",
-    name: "",
+    centerName: "",
     centerType: "",
     address: "",
     contactPerson: "",
@@ -40,17 +49,38 @@ const AddSkillCenter = () => {
     stateId: "",
     area: "",
     status: 1,
+    founderId: 1,
   });
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (data) {
       setFormData({
-        stateName: data.stateName,
+        centerCode: data.centerCode,
+        centerName: data.centerName,
+        centerType: data.centerType,
+        address: data.address,
+        contactPerson: data.contactPerson,
+        mobile: data.mobile,
+        email: data.email,
+        password: data.password,
+        districtId: data.district?.id ? String(data.district.id) : "",
+        stateId: data.state?.id ? String(data.state.id) : "",
+        area: data.area,
         status: data.status,
+        founderId: 1,
       });
     }
   }, [data]);
+
+  useEffect(() => {
+    if (nextCodeData?.code) {
+      setFormData(prev => ({
+        ...prev,
+        centerCode: nextCodeData.code
+      }));
+    }
+  }, [nextCodeData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,6 +90,7 @@ const AddSkillCenter = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log('dsfvgbdc')
     const validationErrors = validateSkills(formData);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -68,11 +99,11 @@ const AddSkillCenter = () => {
     if (isEditMode) {
       updateMutation.mutate(
         { id, data: formData },
-        { onSuccess: () => navigate("/manage-skills") }
+        { onSuccess: () => navigate("/superAdmin/manage-skills") }
       );
     } else {
       createMutation.mutate(formData, {
-        onSuccess: () => navigate("/manage-skills"),
+        onSuccess: () => navigate("/superAdmin/manage-skills"),
       });
     }
   };
@@ -97,7 +128,7 @@ const AddSkillCenter = () => {
 
         {/* Right: Manage Skills Button */}
         <Link
-          to="/manage-skills"
+          to="/superAdmin/manage-skills"
           className="btn manage-skills-btn d-flex align-items-center"
         >
           <i className="ti ti-certificate me-2"></i>
@@ -118,7 +149,7 @@ const AddSkillCenter = () => {
                 <FormInput
                   label="Center Code"
                   name="centerCode"
-                  value={formData.centerCode}
+                  value={isEditMode ? formData.centerCode : nextCodeData?.code || ""}
                   onChange={handleChange}
                   placeholder="Enter center code (e.g. CEN-005)"
                   error={errors.centerCode}
@@ -129,11 +160,11 @@ const AddSkillCenter = () => {
               <div className="col-md-4">
                 <FormInput
                   label=" School/Skill Center Name"
-                  name="name"
-                  value={formData.name}
+                  name="centerName"
+                  value={formData.centerName}
                   onChange={handleChange}
                   placeholder="Enter school/skill center name"
-                  error={errors.name}
+                  error={errors.centerName}
                 />
               </div>
 
@@ -141,13 +172,13 @@ const AddSkillCenter = () => {
               <div className="col-md-4">
                 <FormSelect
                   label=" School/Skill Center Type"
-                  name="course"
+                  name="centerType"
                   value={formData.centerType}
                   onChange={handleChange}
-                   error={errors.centerType}
+                  error={errors.centerType}
                   options={[
-                    { label: "Skill Center", value: "Skill Center" },
-                    { label: "School", value: "School" },
+                    { label: "Skill Center", value: 1 },
+                    { label: "School", value: 2 },
                   ]}
                 />
               </div>
@@ -160,7 +191,7 @@ const AddSkillCenter = () => {
                   value={formData.contactPerson}
                   onChange={handleChange}
                   placeholder="Enter contact person name"
-                   error={errors.contactPerson}
+                  error={errors.contactPerson}
                 />
               </div>
 
@@ -173,7 +204,7 @@ const AddSkillCenter = () => {
                   value={formData.mobile}
                   onChange={handleChange}
                   placeholder="Enter mobile number"
-                   error={errors.mobile}
+                  error={errors.mobile}
                 />
               </div>
 
@@ -186,7 +217,7 @@ const AddSkillCenter = () => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Enter email address"
-                   error={errors.email}
+                  error={errors.email}
                 />
               </div>
 
@@ -199,7 +230,7 @@ const AddSkillCenter = () => {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Create a password"
-                   error={errors.password}
+                  error={errors.password}
                 />
               </div>
 
@@ -215,9 +246,9 @@ const AddSkillCenter = () => {
                       value: String(state.id),
                     }))
                   }
-                   error={errors.stateId}
+                  error={errors.stateId}
                 />
-                
+
               </div>
 
               <div className="col-md-4">
@@ -230,7 +261,7 @@ const AddSkillCenter = () => {
                     label: district.districtName,
                     value: String(district.id)
                   }))}
-                   error={errors.districtId}
+                  error={errors.districtId}
                 />
               </div>
               <div className="col-md-4">
@@ -240,13 +271,13 @@ const AddSkillCenter = () => {
                   value={formData.area}
                   onChange={handleChange}
                   placeholder="Enter Area"
-                   error={errors.area}
+                  error={errors.area}
                 />
               </div>
 
               {/* Status */}
               <div className="col-md-4">
-                <StatusSelect value={formData.status} name="status" handleChange={handleChange}   error={errors.status}/>
+                <StatusSelect value={formData.status} name="status" handleChange={handleChange} error={errors.status} />
               </div>
             </div>
             {/* Address */}
@@ -259,7 +290,7 @@ const AddSkillCenter = () => {
                 placeholder="Enter complete address"
                 value={formData.address}
                 onChange={handleChange}
-                 error={errors.address}
+                error={errors.address}
               ></textarea>
             </div>
 

@@ -156,6 +156,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+            <Route path="/superAdmin/edit-skills/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddSkills)}</ProtectedRoute> } />
           <Route
             path="/superAdmin/add-course"
             element={
