@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
-import { validateSettingsCode } from "../../utils/validation";
-import { useNavigate } from "react-router-dom";
 import FormInput from "../../components/FormInput";
 
 const userTypeMap = {
@@ -12,10 +10,7 @@ const userTypeMap = {
 };
 
 const Settings = () => {
-  const navigate = useNavigate();
   const [settings, setSettings] = useState({});
-  const [errors, setErrors] = useState(null);
-
   const { createMutation } = useCrud({
     entity: "setting",
     createUrl: "/setting/addCodeSetting",
@@ -27,11 +22,6 @@ const Settings = () => {
   });
 
   const { data: settingsCode = [] } = useGetAll();
-
-  const [formData, setFormData] = useState({
-    prefix: "",
-    code: "",
-  });
 
   useEffect(() => {
     if (settingsCode.length > 0) {

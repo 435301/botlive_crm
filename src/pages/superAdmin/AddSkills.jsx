@@ -121,7 +121,7 @@ const AddSkillCenter = () => {
                   value={formData.centerCode}
                   onChange={handleChange}
                   placeholder="Enter center code (e.g. CEN-005)"
-                  required
+                  error={errors.centerCode}
                 />
               </div>
 
@@ -133,7 +133,7 @@ const AddSkillCenter = () => {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Enter school/skill center name"
-                  required
+                  error={errors.name}
                 />
               </div>
 
@@ -144,7 +144,7 @@ const AddSkillCenter = () => {
                   name="course"
                   value={formData.centerType}
                   onChange={handleChange}
-                  required
+                   error={errors.centerType}
                   options={[
                     { label: "Skill Center", value: "Skill Center" },
                     { label: "School", value: "School" },
@@ -160,7 +160,7 @@ const AddSkillCenter = () => {
                   value={formData.contactPerson}
                   onChange={handleChange}
                   placeholder="Enter contact person name"
-                  required
+                   error={errors.contactPerson}
                 />
               </div>
 
@@ -173,7 +173,7 @@ const AddSkillCenter = () => {
                   value={formData.mobile}
                   onChange={handleChange}
                   placeholder="Enter mobile number"
-                  required
+                   error={errors.mobile}
                 />
               </div>
 
@@ -186,7 +186,7 @@ const AddSkillCenter = () => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Enter email address"
-                  required
+                   error={errors.email}
                 />
               </div>
 
@@ -199,7 +199,7 @@ const AddSkillCenter = () => {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Create a password"
-                  required
+                   error={errors.password}
                 />
               </div>
 
@@ -215,7 +215,9 @@ const AddSkillCenter = () => {
                       value: String(state.id),
                     }))
                   }
+                   error={errors.stateId}
                 />
+                
               </div>
 
               <div className="col-md-4">
@@ -224,10 +226,11 @@ const AddSkillCenter = () => {
                   name="districtId"
                   value={formData.districtId}
                   onChange={handleChange}
-                  options={districts.map((district)=>({
+                  options={districts.map((district) => ({
                     label: district.districtName,
                     value: String(district.id)
                   }))}
+                   error={errors.districtId}
                 />
               </div>
               <div className="col-md-4">
@@ -237,13 +240,13 @@ const AddSkillCenter = () => {
                   value={formData.area}
                   onChange={handleChange}
                   placeholder="Enter Area"
-                  required
+                   error={errors.area}
                 />
               </div>
 
               {/* Status */}
               <div className="col-md-4">
-                <StatusSelect formData={formData} handleChange={handleChange} />
+                <StatusSelect value={formData.status} name="status" handleChange={handleChange}   error={errors.status}/>
               </div>
             </div>
             {/* Address */}
@@ -256,7 +259,7 @@ const AddSkillCenter = () => {
                 placeholder="Enter complete address"
                 value={formData.address}
                 onChange={handleChange}
-                required
+                 error={errors.address}
               ></textarea>
             </div>
 
@@ -265,7 +268,7 @@ const AddSkillCenter = () => {
               <button type="reset" className="btn btn-outline-secondary me-2">
                 Reset
               </button>
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-primary" disabled={isLoading}>
                 <i className="bi bi-check-circle me-1"></i>
                 Save School/Skill Center
               </button>
