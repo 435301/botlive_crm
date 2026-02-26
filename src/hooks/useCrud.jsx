@@ -9,6 +9,8 @@ export const useCrud = ({
     createUrl,
     updateUrl,
     deleteUrl,
+    getAllUrl,
+    
 }) => {
     const queryClient = useQueryClient();
 
@@ -33,6 +35,19 @@ export const useCrud = ({
             },
             enabled: !!id,
         });
+
+ // ================= GET ALL (GET) =================
+  const useGetAll = () =>
+    useQuery({
+      queryKey: [entity, "all"],
+      queryFn: async () => {
+        if (!getAllUrl) return null;
+        const res = await axiosInstance.get(getAllUrl);
+        return res.data.data;
+      },
+      enabled: !!getAllUrl,
+    });
+
 
     // ================= CREATE =================
     const createMutation = useMutation({
@@ -85,5 +100,6 @@ export const useCrud = ({
         createMutation,
         updateMutation,
         deleteMutation,
+        useGetAll,
     };
 };

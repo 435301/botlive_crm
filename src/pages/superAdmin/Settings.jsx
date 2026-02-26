@@ -1,210 +1,121 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useCrud } from "../../hooks/useCrud";
+import { validateSettingsCode } from "../../utils/validation";
+import { useNavigate } from "react-router-dom";
+import FormInput from "../../components/FormInput";
+
+const userTypeMap = {
+  1: "Skill Center / School",
+  2: "Founder",
+  3: "Trainer",
+  4: "Student",
+};
 
 const Settings = () => {
+  const navigate = useNavigate();
+  const [settings, setSettings] = useState({});
+  const [errors, setErrors] = useState(null);
+
+  const { createMutation } = useCrud({
+    entity: "setting",
+    createUrl: "/setting/addCodeSetting",
+  });
+
+  const { useGetAll } = useCrud({
+    entity: "setting",
+    getAllUrl: "/setting/getSettings",
+  });
+
+  const { data: settingsCode = [] } = useGetAll();
+
   const [formData, setFormData] = useState({
     prefix: "",
     code: "",
   });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  useEffect(() => {
+    if (settingsCode.length > 0) {
+      const formatted = {};
+      settingsCode.forEach((item) => {
+        formatted[item.userType] = {
+          prefix: item.prefix,
+          startNumber: item.startNumber,
+        };
+      });
+      setSettings(formatted);
+    }
+  }, [settingsCode]);
+
+  const handleChange = (userType, field, value) => {
+    setSettings((prev) => ({
+      ...prev,
+      [userType]: {
+        ...prev[userType],
+        [field]: value,
+      },
+    }));
   };
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = (e, userType) => {
     e.preventDefault();
-    console.log("Settings Data:", formData);
-    // Call API here
+    const values = settings[userType];
+    createMutation.mutate({
+      prefix: values.prefix,
+      startNumber: values.startNumber,
+      userType: Number(userType),
+    });
   };
 
   return (
     <div className="container-fluid">
-      {/* ===== HEADER ===== */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <div className="d-flex align-items-center heading-with-icon">
-          <div className="icon-badge">
-            <i className="ti ti-settings fs-16"></i>
-          </div>
-          <div>
-            <h5 className="fw-bold mb-0">Settings</h5>
-            <p className="sub-text mb-0">Skill Center / School Configuration</p>
-          </div>
-        </div>
-      </div>
-
-      {/* ===== FORM CARD ===== */}
       <div className="card shadow-sm p-3">
         <div className="card-body">
-          <h4 className="mb-4"> Skill Center / School Configuration</h4>
-          <form onSubmit={handleSubmit}>
-            <div className="row g-3">
-              {/* Prefix */}
+          <h4 className="mb-4">Code Settings</h4>
+
+          {Object.keys(userTypeMap).map((type) => (
+            <form
+              key={type}
+              onSubmit={(e) => handleSubmit(e, type)}
+              className="row g-3 mt-4"
+            >
+              <h5 className="mb-3">{userTypeMap[type]}</h5>
+
               <div className="col-md-5">
-                <label className="form-label">
-                  Prefix <span className="text-danger">*</span>
-                </label>
-                <input
+                <FormInput
                   type="text"
-                  className="form-control"
-                  name="prefix"
-                  placeholder="Enter Prefix (Eg: SC, SCH)"
-                  value={formData.prefix}
-                  onChange={handleChange}
-                  required
+                  label="Prefix"
+                  value={settings[type]?.prefix || ""}
+                  onChange={(e) =>
+                    handleChange(type, "prefix", e.target.value)
+                  }
+                  placeholder="Enter prefix"
                 />
               </div>
 
-              {/* Code */}
               <div className="col-md-5">
-                <label className="form-label">
-                  Code <span className="text-danger">*</span>
-                </label>
-                <input
+                <FormInput
                   type="text"
-                  className="form-control"
-                  name="code"
-                  placeholder="Enter Code"
-                  value={formData.code}
-                  onChange={handleChange}
-                  required
+                  label="Start Number"
+                  value={settings[type]?.startNumber || ""}
+                  onChange={(e) =>
+                    handleChange(type, "startNumber", e.target.value)
+                  }
+                  placeholder="Enter start number"
                 />
               </div>
 
-              {/* Buttons */}
-              <div className="col-lg-2 mt-5">
-                <button type="submit" className="btn btn-primary">
-                  Update
+              <div className="col-md-2 d-flex align-items-end">
+                <button
+                  type="submit"
+                  className="btn btn-primary w-100"
+                  disabled={createMutation.isPending}
+                >
+                  {createMutation.isPending ? "Updating..." : "Update"}
                 </button>
               </div>
-            </div>
-            <div className="row g-3 mt-4">
-              <h4 className="mb-4"> Founder</h4>
-
-              {/* Prefix */}
-              <div className="col-md-5">
-                <label className="form-label">
-                  Prefix <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="prefix"
-                  placeholder="Enter Prefix (Eg: SC, SCH)"
-                  value={formData.prefix}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              {/* Code */}
-              <div className="col-md-5">
-                <label className="form-label">
-                  Code <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="code"
-                  placeholder="Enter Code"
-                  value={formData.code}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              {/* Buttons */}
-              <div className="col-lg-2 mt-5">
-                <button type="submit" className="btn btn-primary">
-                  Update
-                </button>
-              </div>
-            </div>
-
-            <div className="row g-3 mt-4">
-              <h4 className="mb-4"> Trainer</h4>
-
-              {/* Prefix */}
-              <div className="col-md-5">
-                <label className="form-label">
-                  Prefix <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="prefix"
-                  placeholder="Enter Prefix (Eg: SC, SCH)"
-                  value={formData.prefix}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              {/* Code */}
-              <div className="col-md-5">
-                <label className="form-label">
-                  Code <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="code"
-                  placeholder="Enter Code"
-                  value={formData.code}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              {/* Buttons */}
-              <div className="col-lg-2 mt-5">
-                <button type="submit" className="btn btn-primary">
-                  Update
-                </button>
-              </div>
-            </div>
-
-            <div className="row g-3 mt-4">
-              <h4 className="mb-4"> Student</h4>
-
-              {/* Prefix */}
-              <div className="col-md-5">
-                <label className="form-label">
-                  Prefix <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="prefix"
-                  placeholder="Enter Prefix (Eg: SC, SCH)"
-                  value={formData.prefix}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              {/* Code */}
-              <div className="col-md-5">
-                <label className="form-label">
-                  Code <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="code"
-                  placeholder="Enter Code"
-                  value={formData.code}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              {/* Buttons */}
-              <div className="col-lg-2 mt-5">
-                <button type="submit" className="btn btn-primary">
-                  Update
-                </button>
-              </div>
-            </div>
-          </form>
+            </form>
+          ))}
         </div>
       </div>
     </div>

@@ -82,3 +82,16 @@ export const validateSkills = (formData) => {
   return errors;
 };
 
+export const validateSettingsCode = (formData) => {
+  const errors = {};
+
+  if (!formData.prefix) {
+    errors.prefix = "Prefix is required";
+  }
+
+  if (formData.startNumber) {
+    errors.startNumber = "Start Number is required";
+  }
+
+  return errors;
+};
