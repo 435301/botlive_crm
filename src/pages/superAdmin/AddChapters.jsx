@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import PriorityInput from "../components/priorityInput";
-import FormActions from "../components/FormActions";
-import FormSelect from "../components/FormSelect";
-import StatusSelect from "../components/StatusSelect";
+import PriorityInput from "../../components/priorityInput";
+import FormActions from "../../components/FormActions";
+import FormSelect from "../../components/FormSelect";
+import StatusSelect from "../../components/StatusSelect";
 
 
 const AddChapters = () => {

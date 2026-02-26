@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import FormActions from "../components/FormActions";
+import FormActions from "../../components/FormActions";
 
 const AddStudent = () => {
   const navigate = useNavigate();

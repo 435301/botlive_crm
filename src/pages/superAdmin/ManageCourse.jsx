@@ -1,33 +1,82 @@
 import React, { useState } from "react";
-import Pagination from "../components/Pagination";
+import Pagination from "../../components/Pagination";
 import { Link } from "react-router-dom";
-import SearchInput from "../components/SearchInput";
-import SelectFilter from "../components/SelectFilter";
+import SearchInput from "../../components/SearchInput";
+import SelectFilter from "../../components/SelectFilter";
 
 /* ===== DUMMY DATA ===== */
-const cities = [
+const centers = [
   {
     id: 1,
-    cityName: "Los Angeles",
+    centerType: "School",
+    centerName: "Green Valley School",
+    courseTitle: "Frontend Development",
+    duration: "1 Year",
     status: "Active",
   },
   {
     id: 2,
-    cityName: "Houston",
+    centerType: "Skill Center",
+    centerName: "Hyderabad Skill Center",
+    courseTitle: "Web Development",
+    duration: "6 Months",
     status: "Active",
   },
   {
     id: 3,
-    cityName: "Miami",
+    centerType: "Skill Center",
+    centerName: "Tech Skill Hub",
+    courseTitle: "Data Science",
+    duration: "8 Months",
     status: "Inactive",
   },
+  {
+    id: 4,
+    centerType: "School",
+    centerName: "Bright Future School",
+    courseTitle: "Backend Development",
+    duration: "1 Year",
+    status: "Active",
+  },
 ];
-   
 
-const ManageCity = () => {
+const ManageCourse = () => {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [page, setPage] = useState(1);
+
+  const ITEMS_PER_PAGE = 5;
+  const handleImportExcel = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      console.log("Imported file:", file);
+      // later you can parse using XLSX library
+    }
+  };
+
+  const handleExportExcel = () => {
+    console.log("Export Excel clicked");
+    // later you can generate excel using XLSX
+  };
+
+  /* ===== FILTER LOGIC ===== */
+  const filteredData = centers.filter((c) => {
+    const matchSearch =
+      c.centerName.toLowerCase().includes(search.toLowerCase()) ||
+      c.courseOrGrade.toLowerCase().includes(search.toLowerCase());
+
+    const matchStatus = status ? c.status === status : true;
+
+    return matchSearch && matchStatus;
+  });
+
+  /* ===== PAGINATION ===== */
+  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+  const startIndex = (page - 1) * ITEMS_PER_PAGE;
+  const paginatedData = filteredData.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE,
+  );
 
   const resetFilters = () => {
     setSearch("");
@@ -45,9 +94,9 @@ const ManageCity = () => {
             <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
           </div>
           <div>
-            <h5 className="fw-bold mb-0">City Management</h5>
+            <h5 className="fw-bold mb-0">Course Management</h5>
             <p className="sub-text mb-0">
-              View, edit and manage all cities
+              View, edit and manage all courses
             </p>
           </div>
           {/* Right: Action Buttons */}
@@ -55,12 +104,32 @@ const ManageCity = () => {
 
         {/* Add Skill Center button */}
         <div className="d-flex gap-2">
+          {/* Import Excel */}
+          <label className="btn btn-outline-success d-flex align-items-center mb-0">
+            <i className="ti ti-upload me-2"></i>
+            Import Excel
+            <input
+              type="file"
+              accept=".xlsx,.xls"
+              hidden
+              onChange={handleImportExcel}
+            />
+          </label>
+
+          {/* Export Excel */}
+          <button
+            className="btn btn-outline-primary d-flex align-items-center"
+            onClick={handleExportExcel}
+          >
+            <i className="ti ti-download me-2"></i>
+            Export Excel
+          </button>
           <Link
-            to="/add-city"
+            to="/add-course"
             className="btn add-skill-btn d-flex align-items-center"
           >
             <i className="ti ti-graduation-cap me-2"></i>
-            Add City
+            Add Course
           </Link>
         </div>
       </div>
@@ -70,7 +139,7 @@ const ManageCity = () => {
           <div className="col-lg-4 col-md-6">
             <SearchInput
               value={search}
-              placeholder="Search by city name"
+              placeholder="Search by course title"
               onChange={(value) => {
                 setSearch(value);
                 setPage(1);
@@ -119,18 +188,24 @@ const ManageCity = () => {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>City Name</th>
+                  {/* <th>Center Type</th>
+                  <th>School / Skill Center</th> */}
+                  <th>Course Title</th>
+                  {/* <th>Duration</th> */}
                   <th>Status</th>
                   <th className="text-center">Actions</th>
                 </tr>
               </thead>
 
               <tbody>
-                {cities.length > 0 ? (
-                  cities.map((item, index) => (
+                {paginatedData.length > 0 ? (
+                  paginatedData.map((item, index) => (
                     <tr key={item.id}>
-                      <td>{ index + 1}</td>
-                      <td>{item.cityName}</td>
+                      <td>{startIndex + index + 1}</td>
+                      {/* <td>{item.centerType}</td> */}
+                      {/* <td>{item.centerName}</td> */}
+                      <td>{item.courseTitle}</td>
+                      {/* <td>{item.duration}</td> */}
                       <td>
                         <span
                           className={`badge ${item.status === "Active"
@@ -163,17 +238,17 @@ const ManageCity = () => {
           </div>
 
           {/* ===== PAGINATION ===== */}
-          {/* {totalPages > 1 && ( */}
+          {totalPages > 1 && (
             <Pagination
               currentPage={page}
-            //   totalPages={totalPages}
+              totalPages={totalPages}
               onPageChange={setPage}
             />
-          {/* )} */}
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default ManageCity;
+export default ManageCourse;

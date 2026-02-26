@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import FormActions from "../components/FormActions";
-import StatusSelect from "../components/StatusSelect";
-import FormSelect from "../components/FormSelect";
-import FormInput from "../components/FormInput";
+import FormActions from "../../components/FormActions";
+import StatusSelect from "../../components/StatusSelect";
+import FormSelect from "../../components/FormSelect";
+import FormInput from "../../components/FormInput";
 
 const AddGrades = () => {
   const navigate = useNavigate();

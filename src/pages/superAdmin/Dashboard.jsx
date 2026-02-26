@@ -1,5 +1,5 @@
 import React from "react";
-import StudentTable from "../components/StudentTable";
+import StudentTable from "../../components/StudentTable";
 
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 

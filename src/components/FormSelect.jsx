@@ -6,14 +6,15 @@ const FormSelect = ({
   value,
   onChange,
   options = [],
-  required = false,
+  className = "",
+  error,
 }) => {
   return (
-    <div >
+    <div className={className}>
       {label && (
         <label className="form-label">
           {label}
-          {required && <span className="text-danger"> *</span>}
+          <span className="text-danger"> *</span>
         </label>
       )}
 
@@ -22,7 +23,7 @@ const FormSelect = ({
         name={name}
         value={value}
         onChange={onChange}
-        required={required}
+      // required={required}
       >
         <option value="">Select</option>
         {options.map((option, index) => (
@@ -31,6 +32,11 @@ const FormSelect = ({
           </option>
         ))}
       </select>
+      {error && (
+        <div className=" d-flex invalid-feedback">
+          {error}
+        </div>
+      )}
     </div>
   );
 };

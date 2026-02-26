@@ -1,146 +1,106 @@
 import React, { useState } from "react";
-import Pagination from "../components/Pagination";
+import Pagination from "../../components/Pagination";
 import { Link } from "react-router-dom";
-import SearchInput from "../components/SearchInput";
-import SelectFilter from "../components/SelectFilter";
+import SearchInput from "../../components/SearchInput";
+import SelectFilter from "../../components/SelectFilter";
 
-/* ===== SAMPLE STUDENT DATA ===== */
-const studentsData = [
+const trainers = [
   {
-    id: 1,
-    courseType: "Full-time",
+    trainerCode: "TRN-001",
+    fullName: "Ramesh Kumar",
+    centerType: "Skill Center",
     centerName: "Hyderabad Skill Center",
-    trainer: "Ramesh Kumar",
-    course: "Web Development",
-    enrollmentNumber: "ENR-001",
-    studentName: "Amit Kumar",
-    gender: "Male",
-    dob: "2002-03-15",
-    adharNumber: "123456789012",
-    studentPhoto: "https://via.placeholder.com/50",
     mobile: "9876543210",
-    email: "amit@gmail.com",
-    password: "********",
-    status: "Active",
+    email: "ramesh@gmail.com",
+    qualification: "B.Tech",
+    joiningDate: "2023-01-10",
+    status: "Working",
   },
   {
-    id: 2,
-    courseType: "Part-time",
+    trainerCode: "TRN-002",
+    fullName: "Anita Sharma",
+    centerType: "School",
     centerName: "Green Valley School",
-    trainer: "Anita Sharma",
-    course: "Python",
-    enrollmentNumber: "ENR-002",
-    studentName: "Neha Sharma",
-    gender: "Female",
-    dob: "2003-06-20",
-    adharNumber: "987654321012",
-    studentPhoto: "https://via.placeholder.com/50",
     mobile: "9123456789",
-    email: "neha@gmail.com",
-    password: "********",
-    status: "Inactive",
+    email: "anita@gmail.com",
+    qualification: "M.Sc",
+    joiningDate: "2022-06-15",
+    status: "Resigned",
   },
   {
-    id: 3,
-    courseType: "Full-time",
+    trainerCode: "TRN-003",
+    fullName: "Suresh Rao",
+    centerType: "Skill Center",
     centerName: "Tech Skill Hub",
-    trainer: "Suresh Rao",
-    course: "Data Science",
-    enrollmentNumber: "ENR-003",
-    studentName: "Rahul Singh",
-    gender: "Male",
-    dob: "2001-11-05",
-    adharNumber: "112233445566",
-    studentPhoto: "https://via.placeholder.com/50",
     mobile: "9988776655",
-    email: "rahul@gmail.com",
-    password: "********",
-    status: "Active",
+    email: "suresh@gmail.com",
+    qualification: "BCA",
+    joiningDate: "2024-02-01",
+    status: "Working",
   },
   {
-    id: 1,
-    courseType: "Full-time",
+    trainerCode: "TRN-001",
+    fullName: "Ramesh Kumar",
+    centerType: "Skill Center",
     centerName: "Hyderabad Skill Center",
-    trainer: "Ramesh Kumar",
-    course: "Web Development",
-    enrollmentNumber: "ENR-001",
-    studentName: "Amit Kumar",
-    gender: "Male",
-    dob: "2002-03-15",
-    adharNumber: "123456789012",
-    studentPhoto: "https://via.placeholder.com/50",
     mobile: "9876543210",
-    email: "amit@gmail.com",
-    password: "********",
-    status: "Active",
+    email: "ramesh@gmail.com",
+    qualification: "B.Tech",
+    joiningDate: "2023-01-10",
+    status: "Working",
   },
   {
-    id: 2,
-    courseType: "Part-time",
+    trainerCode: "TRN-002",
+    fullName: "Anita Sharma",
+    centerType: "School",
     centerName: "Green Valley School",
-    trainer: "Anita Sharma",
-    course: "Python",
-    enrollmentNumber: "ENR-002",
-    studentName: "Neha Sharma",
-    gender: "Female",
-    dob: "2003-06-20",
-    adharNumber: "987654321012",
-    studentPhoto: "https://via.placeholder.com/50",
     mobile: "9123456789",
-    email: "neha@gmail.com",
-    password: "********",
-    status: "Inactive",
+    email: "anita@gmail.com",
+    qualification: "M.Sc",
+    joiningDate: "2022-06-15",
+    status: "Resigned",
   },
   {
-    id: 3,
-    courseType: "Full-time",
+    trainerCode: "TRN-003",
+    fullName: "Suresh Rao",
+    centerType: "Skill Center",
     centerName: "Tech Skill Hub",
-    trainer: "Suresh Rao",
-    course: "Data Science",
-    enrollmentNumber: "ENR-003",
-    studentName: "Rahul Singh",
-    gender: "Male",
-    dob: "2001-11-05",
-    adharNumber: "112233445566",
-    studentPhoto: "https://via.placeholder.com/50",
     mobile: "9988776655",
-    email: "rahul@gmail.com",
-    password: "********",
-    status: "Active",
+    email: "suresh@gmail.com",
+    qualification: "BCA",
+    joiningDate: "2024-02-01",
+    status: "Working",
   },
 ];
 
-const ManageStudents = () => {
+const ManageTrainers = () => {
   const [search, setSearch] = useState("");
-  const [courseType, setCourseType] = useState("");
   const [status, setStatus] = useState("");
   const [page, setPage] = useState(1);
 
   const ITEMS_PER_PAGE = 5;
 
   /* ===== FILTER ===== */
-  const filteredStudents = studentsData.filter((s) => {
+  const filteredTrainers = trainers.filter((t) => {
     const matchSearch =
-      s.studentName.toLowerCase().includes(search.toLowerCase()) ||
-      s.enrollmentNumber.toLowerCase().includes(search.toLowerCase());
+      t.fullName.toLowerCase().includes(search.toLowerCase()) ||
+      t.trainerCode.toLowerCase().includes(search.toLowerCase());
 
-    const matchCourseType = courseType ? s.courseType === courseType : true;
-    const matchStatus = status ? s.status === status : true;
+    const matchStatus = status ? t.status === status : true;
 
-    return matchSearch && matchCourseType && matchStatus;
+    return matchSearch && matchStatus;
   });
 
   /* ===== PAGINATION ===== */
-  const totalPages = Math.ceil(filteredStudents.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(filteredTrainers.length / ITEMS_PER_PAGE);
   const startIndex = (page - 1) * ITEMS_PER_PAGE;
-  const paginatedData = filteredStudents.slice(
+  const paginatedData = filteredTrainers.slice(
     startIndex,
     startIndex + ITEMS_PER_PAGE,
   );
 
   const resetFilters = () => {
     setSearch("");
-    setCourseType("");
     setStatus("");
     setPage(1);
   };
@@ -167,10 +127,13 @@ const ManageStudents = () => {
             <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
           </div>
           <div>
-            <h5 className="fw-bold mb-0">Manage Students</h5>
-            <p className="sub-text mb-0">View, edit and manage all students</p>
+            <h5 className="fw-bold mb-0">Manage Trainers</h5>
+            <p className="sub-text mb-0">
+              View, edit and manage all skill centers
+            </p>
           </div>
         </div>
+
         {/* Right: Action Buttons */}
         <div className="d-flex gap-2">
           {/* Import Excel */}
@@ -193,43 +156,26 @@ const ManageStudents = () => {
             <i className="ti ti-download me-2"></i>
             Export Excel
           </button>
-
           {/* Add Skill Center button */}
           <Link
-            to="/add-student"
+            to="/add-trainers"
             className="btn add-skill-btn d-flex align-items-center"
           >
             <i className="ti ti-graduation-cap me-2"></i>
-            Add Student
+            Add Trainer
           </Link>
         </div>
-
       </div>
 
       {/* ===== FILTERS ===== */}
       <div className="filter-wrapper mb-3">
         <div className="row g-2 align-items-center">
-          <div className="col-lg-3 col-md-6">
+          <div className="col-lg-4 col-md-6">
             <SearchInput
               value={search}
-              placeholder="Search by location"
+              placeholder="Search by trainer name or code"
               onChange={(value) => {
                 setSearch(value);
-                setPage(1);
-              }}
-            />
-          </div>
-
-          <div className="col-lg-3 col-md-6">
-            <SelectFilter
-              value={courseType}
-              placeholder="All Course Types"
-              options={[
-                { label: "Full-time", value: "Full-time" },
-                { label: "Part-time", value: "Part-time" },
-              ]}
-              onChange={(value) => {
-                setCourseType(value);
                 setPage(1);
               }}
             />
@@ -240,8 +186,8 @@ const ManageStudents = () => {
               value={status}
               placeholder="All Status"
               options={[
-                { label: "Active", value: "Active" },
-                { label: "Inactive", value: "Inactive" },
+                { label: "Working", value: "Working" },
+                { label: "Resigned", value: "Resigned" },
               ]}
               onChange={(value) => {
                 setStatus(value);
@@ -250,7 +196,7 @@ const ManageStudents = () => {
             />
           </div>
 
-          <div className="col-lg-3 col-md-12">
+          <div className="col-lg-5 col-md-12">
             <div className="d-flex gap-2">
               <button className="btn filter-btn">
                 <i className="bi bi-search me-1"></i>
@@ -276,18 +222,14 @@ const ManageStudents = () => {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Course Type</th>
+                  <th>Trainer Code</th>
+                  <th>Trainer Name</th>
+                  <th>Center Type</th>
                   <th>Center Name</th>
-                  <th>Trainer</th>
-                  <th>Course</th>
-                  <th>Enrollment Number</th>
-                  <th>Student Name</th>
-                  <th>Gender</th>
-                  <th>DOB</th>
-                  <th>Aadhar Number</th>
-                  <th>Photo</th>
                   <th>Mobile</th>
                   <th>Email</th>
+                  <th>Qualification</th>
+                  <th>Joining Date</th>
                   <th>Status</th>
                   <th className="text-center">Actions</th>
                 </tr>
@@ -295,35 +237,25 @@ const ManageStudents = () => {
 
               <tbody>
                 {paginatedData.length > 0 ? (
-                  paginatedData.map((s, index) => (
-                    <tr key={s.id}>
+                  paginatedData.map((t, index) => (
+                    <tr key={t.trainerCode}>
                       <td>{startIndex + index + 1}</td>
-                      <td>{s.courseType}</td>
-                      <td>{s.centerName}</td>
-                      <td>{s.trainer}</td>
-                      <td>{s.course}</td>
-                      <td>{s.enrollmentNumber}</td>
-                      <td>{s.studentName}</td>
-                      <td>{s.gender}</td>
-                      <td>{s.dob}</td>
-                      <td>{s.adharNumber}</td>
-                      <td>
-                        <img
-                          src={s.studentPhoto}
-                          alt={s.studentName}
-                          style={{ width: "50px", borderRadius: "50%" }}
-                        />
-                      </td>
-                      <td>{s.mobile}</td>
-                      <td>{s.email}</td>
+                      <td>{t.trainerCode}</td>
+                      <td>{t.fullName}</td>
+                      <td>{t.centerType}</td>
+                      <td>{t.centerName}</td>
+                      <td>{t.mobile}</td>
+                      <td>{t.email}</td>
+                      <td>{t.qualification}</td>
+                      <td>{t.joiningDate}</td>
                       <td>
                         <span
-                          className={`badge ${s.status === "Active"
+                          className={`badge ${t.status === "Working"
                             ? "bg-success"
                             : "bg-secondary"
                             }`}
                         >
-                          {s.status}
+                          {t.status}
                         </span>
                       </td>
                       <td className="text-center">
@@ -338,7 +270,7 @@ const ManageStudents = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="15" className="text-center text-muted py-4">
+                    <td colSpan="11" className="text-center text-muted py-4">
                       No records found
                     </td>
                   </tr>
@@ -360,4 +292,4 @@ const ManageStudents = () => {
   );
 };
 
-export default ManageStudents;
+export default ManageTrainers;

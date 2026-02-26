@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 // import "./Login.css";
-import logo from "../assets/images/logo.png";
-import { adminLogin, resetPassword, sendOtp, verifyOtp } from "../redux/slices/adminSlice";
+import logo from "../../assets/images/logo.png";
+import { adminLogin, resetPassword, sendOtp, verifyOtp } from "../../redux/slices/adminSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 

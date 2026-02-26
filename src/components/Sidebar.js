@@ -70,7 +70,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
           </NavLink>
           {/* master data  */}
           <div
-            className={`nav-group ${isParentActive(["/add-state", "/manage-states",  "/add-city",  "/manage-cities",]) ? "active" : ""
+            className={`nav-group ${isParentActive(["/superAdmin/add-state", "/superAdmin/manage-states",  "/superAdmin/add-district",  "/superAdmin/manage-districts",]) ? "active" : ""
               }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("masterData")}>
@@ -88,25 +88,25 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
             <div
               className={`submenu ${openMenu === "masterData" ? "open" : ""}`}
             >
-              <NavLink to="/add-state" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/add-state" className={getNavLinkClass}>
                 Add State
               </NavLink>
-              <NavLink to="/manage-states" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/manage-states" className={getNavLinkClass}>
                 Manage States
               </NavLink>
 
-               <NavLink to="/add-city" className={getNavLinkClass}>
-                Add City
+               <NavLink to="/superAdmin/add-district" className={getNavLinkClass}>
+                Add District
               </NavLink>
-              <NavLink to="/manage-cities" className={getNavLinkClass}>
-                Manage Cities
+              <NavLink to="/superAdmin/manage-districts" className={getNavLinkClass}>
+                Manage District
               </NavLink>
             </div>
           </div>
 
           {/* Skill Center Management */}
           <div
-            className={`nav-group ${isParentActive(["/add-skills", "/manage-skills"]) ? "active" : ""
+            className={`nav-group ${isParentActive(["/superAdmin/add-skills", "/superAdmin/manage-skills"]) ? "active" : ""
               }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("skillCenter")}>
@@ -124,10 +124,10 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
             <div
               className={`submenu ${openMenu === "skillCenter" ? "open" : ""}`}
             >
-              <NavLink to="/add-skills" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/add-skills" className={getNavLinkClass}>
                 Add Skill Center
               </NavLink>
-              <NavLink to="/manage-skills" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/manage-skills" className={getNavLinkClass}>
                 Manage Skill Centers
               </NavLink>
             </div>
@@ -169,7 +169,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Trainer Management */}
           <div
-            className={`nav-group ${isParentActive(["/add-trainers", "/manage-trainers"])
+            className={`nav-group ${isParentActive(["/superAdmin/add-trainers", "/superAdmin/manage-trainers"])
               ? "active"
               : ""
               }`}
@@ -187,10 +187,10 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               )}
             </div>
             <div className={`submenu ${openMenu === "trainer" ? "open" : ""}`}>
-              <NavLink to="/add-trainers" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/add-trainers" className={getNavLinkClass}>
                 Add Trainer
               </NavLink>
-              <NavLink to="/manage-trainers" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/manage-trainers" className={getNavLinkClass}>
                 Manage Trainers
               </NavLink>
             </div>
@@ -198,7 +198,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Course Management */}
           <div
-            className={`nav-group ${isParentActive(["/add-course", "/manage-course"]) ? "active" : ""
+            className={`nav-group ${isParentActive(["/superAdmin/add-course", "/superAdmin/manage-course"]) ? "active" : ""
               }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("course")}>
@@ -214,10 +214,10 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               )}
             </div>
             <div className={`submenu ${openMenu === "course" ? "open" : ""}`}>
-              <NavLink to="/add-course" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/add-course" className={getNavLinkClass}>
                 Add Course
               </NavLink>
-              <NavLink to="/manage-course" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/manage-course" className={getNavLinkClass}>
                 Manage Courses
               </NavLink>
             </div>
@@ -225,7 +225,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Modules Management */}
           <div
-            className={`nav-group ${isParentActive(["/add-module", "/manage-module"]) ? "active" : ""
+            className={`nav-group ${isParentActive(["/superAdmin/add-module", "/superAdmin/manage-module"]) ? "active" : ""
               }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("modules")}>
@@ -241,10 +241,10 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               )}
             </div>
             <div className={`submenu ${openMenu === "modules" ? "open" : ""}`}>
-              <NavLink to="/add-module" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/add-module" className={getNavLinkClass}>
                 Add Module
               </NavLink>
-              <NavLink to="/manage-module" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/manage-module" className={getNavLinkClass}>
                 Manage Modules
               </NavLink>
             </div>
@@ -252,7 +252,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Chapters Management */}
           <div
-            className={`nav-group ${isParentActive(["/add-chapters", "/manage-chapters"]) ? "active" : ""
+            className={`nav-group ${isParentActive(["/superAdmin/add-chapters", "/superAdmin/manage-chapters"]) ? "active" : ""
               }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("chapters")}>
@@ -268,10 +268,10 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               )}
             </div>
             <div className={`submenu ${openMenu === "chapters" ? "open" : ""}`}>
-              <NavLink to="/add-chapters" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/add-chapters" className={getNavLinkClass}>
                 Add Chapter
               </NavLink>
-              <NavLink to="/manage-chapters" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/manage-chapters" className={getNavLinkClass}>
                 Manage Chapters
               </NavLink>
             </div>
@@ -279,7 +279,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Grades/Batches Management */}
           <div
-            className={`nav-group ${isParentActive(["/add-grade", "/manage-grades"]) ? "active" : ""
+            className={`nav-group ${isParentActive(["/superAdmin/add-grade", "/superAdmin/manage-grades"]) ? "active" : ""
               }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("grades")}>
@@ -295,10 +295,10 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               )}
             </div>
             <div className={`submenu ${openMenu === "grades" ? "open" : ""}`}>
-              <NavLink to="/add-grade" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/add-grade" className={getNavLinkClass}>
                 Add Grade
               </NavLink>
-              <NavLink to="/manage-grades" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/manage-grades" className={getNavLinkClass}>
                 Manage Grades
               </NavLink>
             </div>
@@ -306,7 +306,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Assign chapter management */}
           <div
-            className={`nav-group ${isParentActive(["/add-assigned-chapter", "/manage-assigned-chapters"]) ? "active" : ""
+            className={`nav-group ${isParentActive(["/superAdmin/add-assigned-chapter", "/superAdmin/manage-assigned-chapters"]) ? "active" : ""
               }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("add-assigned-chapter")}>
@@ -322,10 +322,10 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               )}
             </div>
             <div className={`submenu ${openMenu === "add-assigned-chapter" ? "open" : ""}`}>
-              <NavLink to="/add-assigned-chapter" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/add-assigned-chapter" className={getNavLinkClass}>
                 Assign Chapter
               </NavLink>
-              <NavLink to="/manage-assigned-chapters" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/manage-assigned-chapters" className={getNavLinkClass}>
                 Manage Assigned Chapters
               </NavLink>
             </div>
@@ -333,7 +333,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Student Management */}
           <div
-            className={`nav-group ${isParentActive(["/add-student", "/manage-students"])
+            className={`nav-group ${isParentActive(["/superAdmin/add-student", "/superAdmin/manage-students"])
               ? "active"
               : ""
               }`}
@@ -351,17 +351,17 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               )}
             </div>
             <div className={`submenu ${openMenu === "students" ? "open" : ""}`}>
-              <NavLink to="/add-student" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/add-student" className={getNavLinkClass}>
                 Add Student
               </NavLink>
-              <NavLink to="/manage-students" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/manage-students" className={getNavLinkClass}>
                 Manage Students
               </NavLink>
             </div>
           </div>
 
           {/* Change Password */}
-          <NavLink to="/change-password" className={getNavLinkClass}>
+          <NavLink to="/superAdmin/change-password" className={getNavLinkClass}>
             <KeyRound size={18} />
             {!collapsed && <span>Change Password</span>}
           </NavLink>

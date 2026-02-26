@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import FormInput from "../components/FormInput";
-import FormActions from "../components/FormActions";
-import StatusSelect from "../components/StatusSelect";
+import FormInput from "../../components/FormInput";
+import FormActions from "../../components/FormActions";
+import StatusSelect from "../../components/StatusSelect";
 
 const AddSkillCenter = () => {
   const navigate = useNavigate();

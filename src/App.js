@@ -16,32 +16,32 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PublicRoute from "./components/PublicRoute";
-import AddState from "./pages/AddState";
+import AddState from "./pages/superAdmin/AddState";
+import AddDistrict from "./pages/superAdmin/AddDistrict";
+import ManageDistrict from "./pages/superAdmin/ManageDistrict";
 
-const Dashboard = lazy(() => import("./pages/Dashboard"));
-const Login = lazy(() => import("./pages/Login"));
-const Manage = lazy(() => import("./pages/Manage"));
-const AddSkills = lazy(() => import("./pages/AddSkills"));
-const AddCourse = lazy(() => import("./pages/AddCourse"));
-const ManageCourse = lazy(() => import("./pages/ManageCourse"));
-const AddTrainers = lazy(() => import("./pages/AddTrainers"));
-const ManageTrainers = lazy(() => import("./pages/ManageTrainers"));
-const AddModule = lazy(() => import("./pages/AddModule"));
-const ManageModule = lazy(() => import("./pages/ManageModule"));
-const AddChapters = lazy(() => import("./pages/AddChapters"));
-const ManageChaptersModule = lazy(() => import("./pages/ManageChapters"));
-const AddGrades = lazy(() => import("./pages/AddGrades"));
-const ManageGrades = lazy(() => import("./pages/ManageGrades"));
-const AddAssignedChapters = lazy(() => import("./pages/AddAssignChapters"));
-const ManageAssignedChapters = lazy(() => import("./pages/ManageAssignChapters"));
-const AddStudent = lazy(() => import("./pages/AddStudent"));
-const ManageStudents = lazy(() => import("./pages/ManageStudents"));
-const ManageScholls = lazy(() => import("./pages/ManageScholls"));
-const AddSchoolsSkills = lazy(() => import("./pages/AddSchoolsSkills"));
-const ChangePassword = lazy(() => import("./pages/ChangePassword"));
-const ManageStates = lazy(() => import("./pages/ManageState"));
-const AddCity = lazy(() => import("./pages/AddCity"));
-const ManageCities = lazy(() => import("./pages/ManageCity"));
+const Dashboard = lazy(() => import("./pages/superAdmin/Dashboard"));
+const Login = lazy(() => import("./pages/superAdmin/Login"));
+const Manage = lazy(() => import("./pages/superAdmin/Manage"));
+const AddSkills = lazy(() => import("./pages/superAdmin/AddSkills"));
+const AddCourse = lazy(() => import("./pages/superAdmin/AddCourse"));
+const ManageCourse = lazy(() => import("./pages/superAdmin/ManageCourse"));
+const AddTrainers = lazy(() => import("./pages/superAdmin/AddTrainers"));
+const ManageTrainers = lazy(() => import("./pages/superAdmin/ManageTrainers"));
+const AddModule = lazy(() => import("./pages/superAdmin/AddModule"));
+const ManageModule = lazy(() => import("./pages/superAdmin/ManageModule"));
+const AddChapters = lazy(() => import("./pages/superAdmin/AddChapters"));
+const ManageChaptersModule = lazy(() => import("./pages/superAdmin/ManageChapters"));
+const AddGrades = lazy(() => import("./pages/superAdmin/AddGrades"));
+const ManageGrades = lazy(() => import("./pages/superAdmin/ManageGrades"));
+const AddAssignedChapters = lazy(() => import("./pages/superAdmin/AddAssignChapters"));
+const ManageAssignedChapters = lazy(() => import("./pages/superAdmin/ManageAssignChapters"));
+const AddStudent = lazy(() => import("./pages/superAdmin/AddStudent"));
+const ManageStudents = lazy(() => import("./pages/superAdmin/ManageStudents"));
+const ManageScholls = lazy(() => import("./pages/superAdmin/ManageScholls"));
+const AddSchoolsSkills = lazy(() => import("./pages/superAdmin/AddSchoolsSkills"));
+const ChangePassword = lazy(() => import("./pages/superAdmin/ChangePassword"));
+const ManageStates = lazy(() => import("./pages/superAdmin/ManageState"));
 /* =========================
    Layout Wrapper
 ========================= */
@@ -108,9 +108,9 @@ function App() {
 
   const lazyLoad = (Component) => (
     // <ErrorBoundary>
-      <Suspense fallback={<PageLoader />}>
-        <Component />
-      </Suspense>
+    <Suspense fallback={<PageLoader />}>
+      <Component />
+    </Suspense>
     // </ErrorBoundary>
   );
 
@@ -128,36 +128,42 @@ function App() {
         <Routes>
           <Route path="/login" element={<PublicRoute>{lazyLoad(Login)}</PublicRoute>} />
           <Route path="/" element={lazyLoad(Dashboard)} />
-          <Route path="/manage-skills" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(Manage)}</ProtectedRoute>} />
-          <Route path="/add-skills" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddSkills)}</ProtectedRoute>} />
-          <Route path="/add-course" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddCourse)}</ProtectedRoute>} />
-          <Route path="/manage-course" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageCourse)}</ProtectedRoute>} />
-          <Route path="/add-trainers" element={lazyLoad(AddTrainers)} />
-          <Route path="/manage-trainers" element={lazyLoad(ManageTrainers)} />
-          <Route path="/add-module" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddModule)}</ProtectedRoute>} />
-          <Route path="/manage-module" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageModule)}</ProtectedRoute>} />
-          <Route path="/add-chapters" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddChapters)}</ProtectedRoute>} />
-          <Route path="/manage-chapters" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageChaptersModule)}</ProtectedRoute>} />
-          <Route path="/add-grade" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddGrades)}</ProtectedRoute>} />
+          <Route path="/superAdmin/manage-skills" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(Manage)}</ProtectedRoute>} />
+          <Route path="/superAdmin/add-skills" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddSkills)}</ProtectedRoute>} />
+          <Route path="/superAdmin/add-course" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddCourse)}</ProtectedRoute>} />
+          <Route path="/superAdmin/manage-course" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageCourse)}</ProtectedRoute>} />
+          <Route path="/superAdmin/add-trainers" element={lazyLoad(AddTrainers)} />
+          <Route path="/superAdmin/manage-trainers" element={lazyLoad(ManageTrainers)} />
+          <Route path="/superAdmin/add-module" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddModule)}</ProtectedRoute>} />
+          <Route path="/superAdmin/manage-module" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageModule)}</ProtectedRoute>} />
+          <Route path="/superAdmin/add-chapters" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddChapters)}</ProtectedRoute>} />
+          <Route path="/superAdmin/manage-chapters" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageChaptersModule)}</ProtectedRoute>} />
+          <Route path="/superAdmin/add-grade" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddGrades)}</ProtectedRoute>} />
           <Route path="/manage-grades" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageGrades)}</ProtectedRoute>} />
-          <Route path="/add-assigned-chapter" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddAssignedChapters)}</ProtectedRoute>} />
-          <Route path="/manage-assigned-chapters" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageAssignedChapters)}</ProtectedRoute>} />
-          <Route path="/add-student" element={lazyLoad(AddStudent)} />
-          <Route path="/manage-students" element={lazyLoad(ManageStudents)} />
-          <Route path="/manage-schools" element={lazyLoad(ManageScholls)} />
-          <Route path="/add-schools-skills" element={lazyLoad(AddSchoolsSkills)} />
-          <Route path="/change-password" element={lazyLoad(ChangePassword)} />
-          <Route path="/add-state" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddState)}</ProtectedRoute>} />
-          <Route path="/edit-state/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddState)}</ProtectedRoute>} />
-          <Route path="/manage-states" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageStates)}</ProtectedRoute>} />
-          <Route path="/add-city" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddCity)}</ProtectedRoute>} />
-          <Route path="/manage-cities" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageCities)}</ProtectedRoute>} />
+          <Route path="/superAdmin/add-assigned-chapter" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddAssignedChapters)}</ProtectedRoute>} />
+          <Route path="/superAdmin/manage-assigned-chapters" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageAssignedChapters)}</ProtectedRoute>} />
+          <Route path="/superAdmin/add-student" element={lazyLoad(AddStudent)} />
+          <Route path="/superAdmin/manage-students" element={lazyLoad(ManageStudents)} />
+          <Route path="/superAdmin/manage-schools" element={lazyLoad(ManageScholls)} />
+          <Route path="/superAdmin/add-schools-skills" element={lazyLoad(AddSchoolsSkills)} />
+          <Route path="/superAdmin/change-password" element={lazyLoad(ChangePassword)} />
+          <Route path="/superAdmin/add-state" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddState)}</ProtectedRoute>} />
+          <Route path="/superAdmin/edit-state/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddState)}</ProtectedRoute>} />
+          <Route path="/superAdmin/manage-states" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageStates)}</ProtectedRoute>} />
+          <Route path="/superAdmin/add-district" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddDistrict)}</ProtectedRoute>} />
+          <Route path="/superAdmin/edit-district/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddDistrict)}</ProtectedRoute>} />
+          <Route path="/superAdmin/manage-districts" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageDistrict)}</ProtectedRoute>} />
         </Routes>
       </LayoutWrapper>
     </Router>
   );
 }
+<ToastContainer
+  position="top-right"
+  autoClose={3000}
+  theme="colored"
+/>
 
-<ToastContainer position="top-right" autoClose={3000} />
+
 
 export default App;

@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import {Menu, User, LogOut, ChevronDown } from "lucide-react";
+import { Menu, User, LogOut, ChevronDown } from "lucide-react";
 import { logoutAdmin } from "../redux/slices/adminSlice";
 import { useNavigate } from "react-router-dom";
-import {useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const Header = ({ toggleSidebar, toggleCollapse, collapsed }) => {
   const [openProfile, setOpenProfile] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleLogout = ()=>{
+  const handleLogout = () => {
     dispatch(logoutAdmin());
-      navigate("/login");
+    navigate("/login");
   }
 
   return (
@@ -26,7 +26,6 @@ const Header = ({ toggleSidebar, toggleCollapse, collapsed }) => {
         >
           <Menu size={24} />
         </button>
-
         <button
           className="btn-collapse d-none d-lg-flex"
           onClick={toggleCollapse}

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Pagination from "../components/Pagination";
+import Pagination from "../../components/Pagination";
 import { Link } from "react-router-dom";
-import SearchInput from "../components/SearchInput";
-import SelectFilter from "../components/SelectFilter";
+import SearchInput from "../../components/SearchInput";
+import SelectFilter from "../../components/SelectFilter";
 
 /* ===== SAMPLE MODULE DATA ===== */
 const modulesData = [

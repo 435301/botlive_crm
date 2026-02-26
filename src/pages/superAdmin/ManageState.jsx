@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Pagination from "../components/Pagination";
+import Pagination from "../../components/Pagination";
 import { Link, useNavigate } from "react-router-dom";
-import SearchInput from "../components/SearchInput";
-import SelectFilter from "../components/SelectFilter";
-import { useCrud } from "../hooks/useCrud";
-import DeleteConfirmationModal from "../Modals/deleteModal";
+import SearchInput from "../../components/SearchInput";
+import SelectFilter from "../../components/SelectFilter";
+import { useCrud } from "../../hooks/useCrud";
+import DeleteConfirmationModal from "../../Modals/deleteModal";
 
 const ManageState = () => {
   const navigate = useNavigate();

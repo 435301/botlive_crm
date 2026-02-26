@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import FormSelect from "../components/FormSelect";
-import FormActions from "../components/FormActions";
-import StatusSelect from "../components/StatusSelect";
+import FormSelect from "../../components/FormSelect";
+import FormActions from "../../components/FormActions";
+import StatusSelect from "../../components/StatusSelect";
 
 const AddAssignedChapter = () => {
     const navigate = useNavigate();

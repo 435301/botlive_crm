@@ -1,19 +1,22 @@
 import React, { useState } from "react";
-import Pagination from "../components/Pagination";
+import Pagination from "../../components/Pagination";
 import { Link } from "react-router-dom";
-import SearchInput from "../components/SearchInput";
-import SelectFilter from "../components/SelectFilter";
+import SearchInput from "../../components/SearchInput";
+import SelectFilter from "../../components/SelectFilter";
 
 const skillCenters = [
   {
     centerCode: "CEN-001",
-    name: "Hyderabad School Center",
-    centerType: "School Center",
+    name: "Hyderabad Skill Center",
+    centerType: "Skill Center",
     address: "Madhapur, Hyderabad",
     contactPerson: "Ramesh Kumar",
     mobile: "9876543210",
     email: "hyd@center.com",
     password: "********",
+    state: "Telangana",
+    district: "Hyderabad",
+    area: "Madhapur",
     status: "Active",
   },
   {
@@ -25,17 +28,23 @@ const skillCenters = [
     mobile: "9123456789",
     email: "gvs@school.com",
     password: "********",
+    state: "Karnataka",
+    district: "Bangalore",
+    area: "Whitefield",
     status: "Inactive",
   },
   {
     centerCode: "CEN-003",
     name: "Tech Skill Hub",
-    centerType: "School Center",
+    centerType: "Skill Center",
     address: "Gachibowli, Hyderabad",
     contactPerson: "Suresh Rao",
     mobile: "9988776655",
     email: "tech@hub.com",
     password: "********",
+    state: "Telangana",
+    district: "Hyderabad",
+    area: "Gachibowli",
     status: "Active",
   },
   {
@@ -47,17 +56,23 @@ const skillCenters = [
     mobile: "9090909090",
     email: "bright@school.com",
     password: "********",
+    state: "Karnataka",
+    district: "Bangalore",
+    area: "HSR Layout",
     status: "Inactive",
   },
   {
     centerCode: "CEN-001",
-    name: "Hyderabad School Center",
-    centerType: "School Center",
+    name: "Hyderabad Skill Center",
+    centerType: "Skill Center",
     address: "Madhapur, Hyderabad",
     contactPerson: "Ramesh Kumar",
     mobile: "9876543210",
     email: "hyd@center.com",
     password: "********",
+    state: "Telangana",
+    district: "Hyderabad",
+    area: "Madhapur",
     status: "Active",
   },
   {
@@ -74,7 +89,7 @@ const skillCenters = [
   {
     centerCode: "CEN-003",
     name: "Tech Skill Hub",
-    centerType: "School Center",
+    centerType: "Skill Center",
     address: "Gachibowli, Hyderabad",
     contactPerson: "Suresh Rao",
     mobile: "9988776655",
@@ -98,7 +113,22 @@ const skillCenters = [
 const ManageSkillCenters = () => {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
+  const [state, setState] = useState("");
+  const [district, setDistrict] = useState("");
+  const [type, setType] = useState("");
   const [page, setPage] = useState(1);
+  const handleImportExcel = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      console.log("Imported file:", file);
+      // later you can parse using XLSX library
+    }
+  };
+
+  const handleExportExcel = () => {
+    console.log("Export Excel clicked");
+    // later you can generate excel using XLSX
+  };
 
   const ITEMS_PER_PAGE = 5;
 
@@ -120,18 +150,6 @@ const ManageSkillCenters = () => {
     startIndex,
     startIndex + ITEMS_PER_PAGE,
   );
-  const handleImportExcel = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      console.log("Imported file:", file);
-      // later you can parse using XLSX library
-    }
-  };
-
-  const handleExportExcel = () => {
-    console.log("Export Excel clicked");
-    // later you can generate excel using XLSX
-  };
 
   const resetFilters = () => {
     setSearch("");
@@ -143,18 +161,19 @@ const ManageSkillCenters = () => {
     <div className="container-fluid">
       {/* ===== HEADER ===== */}
       <div className="d-flex justify-content-between align-items-center mb-4">
-        {/* Modern heading with skill icon */}
+        {/* Left: Heading */}
         <div className="d-flex align-items-center heading-with-icon">
           <div className="icon-badge">
-            <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
+            <i className="ti ti-certificate fs-16"></i>
           </div>
           <div>
-            <h5 className="fw-bold mb-0">Manage School Centers</h5>
+            <h5 className="fw-bold mb-0">Manage School/Skill Centers</h5>
             <p className="sub-text mb-0">
-              View, edit and manage all School Centers
+              View, edit and manage all school/skill centers
             </p>
           </div>
         </div>
+
         {/* Right: Action Buttons */}
         <div className="d-flex gap-2">
           {/* Import Excel */}
@@ -178,13 +197,13 @@ const ManageSkillCenters = () => {
             Export Excel
           </button>
 
-          {/* Add School Center button */}
+          {/* Add Skill Center */}
           <Link
-            to="/add-schools-skills"
+            to="/add-skills"
             className="btn add-skill-btn d-flex align-items-center"
           >
             <i className="ti ti-graduation-cap me-2"></i>
-            Add School Center
+            Add School/Skill Center
           </Link>
         </div>
       </div>
@@ -192,22 +211,64 @@ const ManageSkillCenters = () => {
       {/* ===== FILTERS ===== */}
       <div className="filter-wrapper mb-3">
         <div className="row g-2 align-items-center">
-          <div className="col-lg-4 col-md-6">
-            <div className="filter-item">
-              <i className="bi bi-search"></i>
-              <SearchInput
-                value={search}
-                placeholder="Search by name"
-                onChange={(value) => {
-                  setSearch(value);
-                  setPage(1);
-                }}
-              />
-            </div>
+          <div className="col-lg-2 col-md-4">
+            <SearchInput
+              value={search}
+              placeholder="Search by name"
+              onChange={(value) => {
+                setSearch(value);
+                setPage(1);
+              }}
+            />
           </div>
 
-          <div className="col-lg-3 col-md-6">
-           <SelectFilter
+          <div className="col-lg-2 col-md-6">
+            <SelectFilter
+              value={state}
+              placeholder="All States"
+              options={[
+                { label: "Telangana", value: "Telangana" },
+                { label: "Karnataka", value: "Karnataka" },
+              ]}
+              onChange={(value) => {
+                setState(value);
+                setPage(1);
+              }}
+            />
+          </div>
+
+          <div className="col-lg-2 col-md-6">
+            <SelectFilter
+              value={district}
+              placeholder="All Districts"
+              options={[
+                { label: "Hyderabad", value: "Hyderabad" },
+                { label: "Bangalore", value: "Bangalore" },
+              ]}
+              onChange={(value) => {
+                setDistrict(value);
+                setPage(1);
+              }}
+            />
+          </div>
+
+          <div className="col-lg-2 col-md-6">
+             <SelectFilter
+              value={type}
+              placeholder="All Types"
+              options={[
+                { label: "School", value: "School" },
+                { label: "Skill Center", value: "Skill Center" },
+              ]}
+              onChange={(value) => {
+                setType(value);
+                setPage(1);
+              }}
+            />
+          </div>
+
+          <div className="col-lg-2 col-md-6">
+             <SelectFilter
               value={status}
               placeholder="All Status"
               options={[
@@ -221,7 +282,7 @@ const ManageSkillCenters = () => {
             />
           </div>
 
-          <div className="col-lg-5 col-md-12">
+          <div className="col-lg-2 col-md-12">
             <div className="d-flex gap-2">
               <button className="btn filter-btn">
                 <i className="bi bi-search me-1"></i>
@@ -255,6 +316,9 @@ const ManageSkillCenters = () => {
                   <th>Mobile</th>
                   <th>Email</th>
                   <th>Password</th>
+                  <th>State</th>
+                  <th>District</th>
+                  <th>Area</th>
                   <th>Status</th>
                   <th className="text-center">Actions</th>
                 </tr>
@@ -273,11 +337,14 @@ const ManageSkillCenters = () => {
                       <td>{center.mobile}</td>
                       <td>{center.email}</td>
                       <td>{center.password}</td>
+                      <td>{center.state}</td>
+                      <td>{center.district}</td>
+                      <td>{center.area}</td>
                       <td>
                         <span
                           className={`badge ${center.status === "Active"
-                              ? "bg-success"
-                              : "bg-secondary"
+                            ? "bg-success"
+                            : "bg-secondary"
                             }`}
                         >
                           {center.status}
