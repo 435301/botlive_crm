@@ -1,12 +1,31 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import FormSelect from "../../components/FormSelect";
 import FormInput from "../../components/FormInput";
 import StatusSelect from "../../components/StatusSelect";
+import { useCrud } from "../../hooks/useCrud";
+import { validateSkills } from "../../utils/validation";
+import useStates from "../../hooks/useStates";
+import useDistricts from "../../hooks/useDistricts";
 
 const AddSkillCenter = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const isEditMode = Boolean(id);
+
+  const { useGetById, createMutation, updateMutation } = useCrud({
+    entity: "skillCenter",
+    listUrl: "/skillCenter/list",
+    getUrl: (id) => `/skillCenter/${id}`,
+    createUrl: "/skillCenter/add",
+    updateUrl: (id) => `/skillCenter/update/${id}`,
+    deleteUrl: (id) => `/skillCenter/delete/${id}`,
+  });
+
+  const { data, isLoading } = useGetById(id);
+  const { states } = useStates();
+  const { districts } = useDistricts();
 
   const [formData, setFormData] = useState({
     centerCode: "",
@@ -17,20 +36,45 @@ const AddSkillCenter = () => {
     mobile: "",
     email: "",
     password: "",
-    district: "",
-    state: "",
+    districtId: "",
+    stateId: "",
     area: "",
-    status: "Active",
+    status: 1,
   });
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (data) {
+      setFormData({
+        stateName: data.stateName,
+        status: data.status,
+      });
+    }
+  }, [data]);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: "", }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Skill Center Data:", formData);
-    navigate("/manage-skill-centers");
+    const validationErrors = validateSkills(formData);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    if (isEditMode) {
+      updateMutation.mutate(
+        { id, data: formData },
+        { onSuccess: () => navigate("/manage-skills") }
+      );
+    } else {
+      createMutation.mutate(formData, {
+        onSuccess: () => navigate("/manage-skills"),
+      });
+    }
   };
 
   return (
@@ -61,10 +105,6 @@ const AddSkillCenter = () => {
         </Link>
       </div>
 
-      {/* <div className="d-flex justify-content-between align-items-center mb-3">
-        <h5 className="fw-bold mb-0">Skill Center Management</h5>
-       
-      </div> */}
 
       {/* ===== FORM CARD ===== */}
       <div className="card shadow-sm p-2">
@@ -75,7 +115,7 @@ const AddSkillCenter = () => {
             <div className="row g-3">
               {/* Center Code */}
               <div className="col-md-4">
-                 <FormInput
+                <FormInput
                   label="Center Code"
                   name="centerCode"
                   value={formData.centerCode}
@@ -87,7 +127,7 @@ const AddSkillCenter = () => {
 
               {/* Center Name */}
               <div className="col-md-4">
-                 <FormInput
+                <FormInput
                   label=" School/Skill Center Name"
                   name="name"
                   value={formData.name}
@@ -113,7 +153,7 @@ const AddSkillCenter = () => {
               </div>
 
               {/* Contact Person */}
-              <div className="col-md-4"> 
+              <div className="col-md-4">
                 <FormInput
                   label="School/Skill Center Contact Person Name"
                   name="contactPerson"
@@ -126,7 +166,7 @@ const AddSkillCenter = () => {
 
               {/* Mobile */}
               <div className="col-md-4">
-                  <FormInput
+                <FormInput
                   type="tel"
                   label="School/Skill Center Contact Person Mobile"
                   name="mobile"
@@ -139,7 +179,7 @@ const AddSkillCenter = () => {
 
               {/* Email */}
               <div className="col-md-4">
-                  <FormInput
+                <FormInput
                   type="email"
                   label=" School/Skill Center Email"
                   name="email"
@@ -166,28 +206,28 @@ const AddSkillCenter = () => {
               <div className="col-md-4">
                 <FormSelect
                   label="State"
-                  name="state"
-                  value={formData.state}
+                  name="stateId"
+                  value={formData.stateId}
                   onChange={handleChange}
-                  required
-                  options={[
-                    { label: "State 1", value: "State 1" },
-                    { label: "State 2", value: "State 2" },
-                  ]}
+                  options={
+                    states.map((state) => ({
+                      label: state.stateName,
+                      value: String(state.id),
+                    }))
+                  }
                 />
               </div>
 
               <div className="col-md-4">
                 <FormSelect
                   label="District"
-                  name="district"
-                  value={formData.district}
+                  name="districtId"
+                  value={formData.districtId}
                   onChange={handleChange}
-                  required
-                  options={[
-                    { label: "District 1", value: "District 1" },
-                    { label: "District 2", value: "District 2" },
-                  ]}
+                  options={districts.map((district)=>({
+                    label: district.districtName,
+                    value: String(district.id)
+                  }))}
                 />
               </div>
               <div className="col-md-4">
@@ -200,7 +240,7 @@ const AddSkillCenter = () => {
                   required
                 />
               </div>
-              
+
               {/* Status */}
               <div className="col-md-4">
                 <StatusSelect formData={formData} handleChange={handleChange} />
@@ -208,7 +248,7 @@ const AddSkillCenter = () => {
             </div>
             {/* Address */}
             <div className="col-md-12 mt-3">
-              <label className="form-label"> School/Skill Center Address</label>
+              <label className="form-label"> School/Skill Center Address<span className="text-danger"> *</span></label>
               <textarea
                 className="form-control"
                 rows="2"
