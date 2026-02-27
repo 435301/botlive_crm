@@ -83,7 +83,7 @@ const AddState = () => {
 
         <Link
           to="/superAdmin/manage-states"
-          className="btn manage-states-btn d-flex align-items-center"
+          className="btn manage-skills-btn d-flex align-items-center"
         >
           <i className="ti ti-certificate me-2"></i>
           Manage States

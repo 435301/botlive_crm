@@ -91,7 +91,7 @@ const AddDistrict = () => {
 
         <Link
           to="/superAdmin/manage-districts"
-          className="btn manage-cities-btn d-flex align-items-center"
+          className="btn manage-skills-btn d-flex align-items-center"
         >
           <i className="ti ti-certificate me-2"></i>
           Manage Districts

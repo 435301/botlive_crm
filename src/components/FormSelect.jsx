@@ -60,44 +60,20 @@ const FormSelect = ({
   const selectedOption =
     options.find((option) => option.value === value) || null;
 
-  const customStyles = {
-    control: (provided, state) => ({
+ const customStyles = {
+    control: (provided) => ({
       ...provided,
-      display: "flex",
-      width: "100%",
-      padding: "10px",
-      fontSize: "13px",
-      borderRadius: "1px",
-      border: "1px solid #019aa8",
       minHeight: "44px",
       height: "44px",
-      boxShadow: "none",
-       alignItems: "center",
-      "&:hover": {
-        border: "1px solid #019aa8",
-      },
+      borderColor: "#019aa8",
+      fontSize: "13px",
     }),
     valueContainer: (provided) => ({
       ...provided,
-      padding: "0px",
-    }),
-    indicatorsContainer: (provided) => ({
-      ...provided,
       height: "44px",
+      padding: "0 10px",
     }),
-    dropdownIndicator: (provided) => ({
-      ...provided,
-      padding: "0px 8px",
-    }),
-    clearIndicator: (provided) => ({
-      ...provided,
-      padding: "0px 8px",
-    }),
-    menu: (provided) => ({
-      ...provided,
-      fontSize: "13px",
-    }),
-  };
+  }
 
   return (
     <div className={className}>
