@@ -151,7 +151,7 @@ function App() {
             path="/login"
             element={<PublicRoute>{lazyLoad(Login)}</PublicRoute>}
           />
-          <Route path="/" element={lazyLoad(Dashboard)} />
+          <Route path="/superAdmin" element={lazyLoad(Dashboard)} />
           <Route
             path="/superAdmin/manage-skill-centres"
             element={

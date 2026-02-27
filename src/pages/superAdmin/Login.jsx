@@ -27,7 +27,7 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     dispatch(adminLogin({ username: email, password }));
-    navigate("/");
+    navigate("/superAdmin");
   };
 
   const handleSendOtp = (e) => {

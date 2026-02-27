@@ -5,11 +5,11 @@ import {
   LayoutDashboard,
   ChevronDown,
   Building2,
-  UserCog,
+  // UserCog,
   BookOpen,
   Layers,
   Settings,
-  GraduationCap,
+  // GraduationCap,
   KeyRound,
   LogOut,
 } from "lucide-react";
@@ -36,6 +36,8 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
   const isParentActive = (paths) =>
     paths.some((path) => location.pathname.startsWith(path));
+
+  // const superAdminToken = Cookies
 
   const handleLogout = () => {
     dispatch(logoutAdmin());
@@ -65,7 +67,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
         <nav className="sidebar-nav">
           {/* Dashboard */}
-          <NavLink to="/" className={getNavLinkClass}>
+          <NavLink to="/superAdmin" className={getNavLinkClass}>
             <LayoutDashboard size={18} />
             {!collapsed && <span>Dashboard</span>}
           </NavLink>
@@ -193,7 +195,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
           </div> */}
 
           {/* Trainer Management */}
-          <div
+          {/* <div
             className={`nav-group ${isParentActive([
               "/superAdmin/add-trainers",
               "/superAdmin/manage-trainers",
@@ -228,7 +230,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
                 Manage Trainers
               </NavLink>
             </div>
-          </div>
+          </div> */}
 
           {/* Course Management */}
           <div
@@ -452,7 +454,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
           </div>
 
           {/* Student Management */}
-          <div
+          {/* <div
             className={`nav-group ${isParentActive([
               "/superAdmin/add-student",
               "/superAdmin/manage-students",
@@ -484,7 +486,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
                 Manage Students
               </NavLink>
             </div>
-          </div>
+          </div> */}
           {/* Settings */}
           <NavLink to="/superAdmin/settings" className={getNavLinkClass}>
             <Settings size={18} />
@@ -497,10 +499,10 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
           </NavLink>
 
           {/* Logout */}
-          <NavLink onClick={handleLogout} className="nav-link">
+          <div className="nav-link" onClick={handleLogout} style={{ cursor: "pointer" }}>
             <LogOut size={18} />
             {!collapsed && <span>Logout</span>}
-          </NavLink>
+          </div>
         </nav>
       </aside>
     </>
