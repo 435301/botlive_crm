@@ -146,11 +146,11 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
             <div
               className={`submenu ${openMenu === "skillCenter" ? "open" : ""}`}
             >
-              <NavLink to="/superAdmin/add-skills" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/add-skill-centre" className={getNavLinkClass}>
                 Add Skill Center
               </NavLink>
               <NavLink
-                to="/superAdmin/manage-skills"
+                to="/superAdmin/manage-skill-centres"
                 className={getNavLinkClass}
               >
                 Manage Skill Centers

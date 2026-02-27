@@ -143,7 +143,7 @@ function App() {
           />
           <Route path="/" element={lazyLoad(Dashboard)} />
           <Route
-            path="/superAdmin/manage-skills"
+            path="/superAdmin/manage-skill-centres"
             element={
               <ProtectedRoute allowedRoles={["super-admin"]}>
                 {lazyLoad(Manage)}
@@ -151,14 +151,14 @@ function App() {
             }
           />
           <Route
-            path="/superAdmin/add-skills"
+            path="/superAdmin/add-skill-centre"
             element={
               <ProtectedRoute allowedRoles={["super-admin"]}>
                 {lazyLoad(AddSkills)}
               </ProtectedRoute>
             }
           />
-          <Route path="/superAdmin/edit-skills/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddSkills)}</ProtectedRoute>} />
+          <Route path="/superAdmin/edit-skill-centre/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddSkills)}</ProtectedRoute>} />
           <Route
             path="/superAdmin/add-course"
             element={

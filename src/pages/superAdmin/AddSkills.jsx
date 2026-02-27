@@ -101,11 +101,11 @@ const AddSkillCenter = () => {
     if (isEditMode) {
       updateMutation.mutate(
         { id, data: formData },
-        { onSuccess: () => navigate("/superAdmin/manage-skills") }
+        { onSuccess: () => navigate("/superAdmin/manage-skill-centres") }
       );
     } else {
       createMutation.mutate(formData, {
-        onSuccess: () => navigate("/superAdmin/manage-skills"),
+        onSuccess: () => navigate("/superAdmin/manage-skill-centres"),
       });
     }
   };
@@ -130,7 +130,7 @@ const AddSkillCenter = () => {
 
         {/* Right: Manage Skills Button */}
         <Link
-          to="/superAdmin/manage-skills"
+          to="/superAdmin/manage-skill-centres"
           className="btn manage-skills-btn d-flex align-items-center"
         >
           <i className="ti ti-certificate me-2"></i>
@@ -142,7 +142,7 @@ const AddSkillCenter = () => {
       {/* ===== FORM CARD ===== */}
       <div className="card shadow-sm p-2">
         <div className="card-body">
-          <h5 className="fw-bold mb-4">Create School/Skill Center </h5>
+          <h5 className="fw-bold mb-4">{isEditMode ? "Edit School/Skill Center" :"Create School/Skill Center"} </h5>
 
           <form onSubmit={handleSubmit}>
             <div className="row g-3">
@@ -317,8 +317,9 @@ const AddSkillCenter = () => {
                 placeholder="Enter complete address"
                 value={formData.address}
                 onChange={handleChange}
-                error={errors.address}
+                // error={errors.address}
               ></textarea>
+              {errors && <div className="text-danger small">{errors.address}</div>}
             </div>
 
             {/* ===== ACTION BUTTONS ===== */}
@@ -328,7 +329,7 @@ const AddSkillCenter = () => {
               </button>
               <button type="submit" className="btn btn-primary" disabled={isLoading}>
                 <i className="bi bi-check-circle me-1"></i>
-                Save School/Skill Center
+                {createMutation.isPending ? "Saving..." :"Save School/Skill Center"}
               </button>
             </div>
           </form>

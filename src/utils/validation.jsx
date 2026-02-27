@@ -54,7 +54,7 @@ export const validateSkills = (formData, isEditMode) => {
   if (!formData.districtId) {
     errors.districtId = "District is required";
   }
-  if (!formData.area?.trim()) {
+  if (!formData.area) {
     errors.area = " Area is required";
   }
 
@@ -96,7 +96,7 @@ export const validateSettingsCode = (formData) => {
   return errors;
 };
 
-export const validateFounder = (formData) => {
+export const validateFounder = (formData, isEditMode) => {
   const errors = {};
 
   if (!formData.name?.trim()) {
@@ -108,7 +108,7 @@ export const validateFounder = (formData) => {
   if (!formData.mobile) {
     errors.mobile = "Mobile is required";
   }
-  if (!formData.password) {
+  if (!isEditMode && !formData.password) {
     errors.password = "Password is required";
   }
 

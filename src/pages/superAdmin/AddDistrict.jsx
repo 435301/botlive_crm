@@ -63,11 +63,11 @@ const AddDistrict = () => {
     if (isEditMode) {
       updateMutation.mutate(
         { id, data: formData },
-        { onSuccess: () => navigate("/manage-districts") }
+        { onSuccess: () => navigate("/superAdmin/manage-districts") }
       );
     } else {
       createMutation.mutate(formData, {
-        onSuccess: () => navigate("/manage-districts"),
+        onSuccess: () => navigate("/superAdmin/manage-districts"),
       });
     }
   };
@@ -90,7 +90,7 @@ const AddDistrict = () => {
         </div>
 
         <Link
-          to="/manage-districts"
+          to="/superAdmin/manage-districts"
           className="btn manage-cities-btn d-flex align-items-center"
         >
           <i className="ti ti-certificate me-2"></i>
@@ -101,7 +101,7 @@ const AddDistrict = () => {
       {/* ===== FORM ===== */}
       <div className="card shadow-sm p-1">
         <div className="card-body">
-          <h5 className="fw-bold mb-4">Create District </h5>
+          <h5 className="fw-bold mb-4">{isEditMode ? "Edit District" : "Create District"} </h5>
 
           <form onSubmit={handleSubmit}>
             <div className="row g-3">
@@ -129,6 +129,7 @@ const AddDistrict = () => {
                   onChange={handleChange}
                   placeholder="Enter District Name"
                   error={errors.districtName}
+                  mandatory
                 />
               </div>
 
@@ -140,8 +141,8 @@ const AddDistrict = () => {
             {/* ===== ACTION BUTTONS ===== */}
             <div className="mt-4 text-center">
               <FormActions
-                onCancel={() => navigate("/manage-districts")}
-                saveText="Save"
+                onCancel={() => navigate("/superAdmin/manage-districts")}
+                saveText={createMutation.isPending ? "Saving..." : "Save"}
                 cancelText="Cancel"
                 disable={isLoading}
               />

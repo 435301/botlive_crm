@@ -37,7 +37,7 @@ const AddFounder = () => {
                 name: data.name,
                 email: data.email,
                 mobile: data.mobile,
-                password: data.password,
+                password: "",
                 status: data.status,
             });
         }
@@ -45,7 +45,7 @@ const AddFounder = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const validationErrors = validateFounder(formData);
+        const validationErrors = validateFounder(formData, isEditMode);
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;
@@ -98,7 +98,7 @@ const AddFounder = () => {
             {/* ===== FORM ===== */}
             <div className="card shadow-sm p-1">
                 <div className="card-body">
-                    <h5 className="fw-bold mb-4">Create Founder </h5>
+                    <h5 className="fw-bold mb-4">{isEditMode ? "Edit Founder" : "Create Founder"} </h5>
 
                     <form onSubmit={handleSubmit}>
                         <div className="row g-3">
@@ -148,9 +148,13 @@ const AddFounder = () => {
                                     name="password"
                                     value={formData.password}
                                     onChange={handleChange}
-                                    placeholder="Enter the password"
+                                    placeholder={
+                                        isEditMode
+                                            ? "Leave blank to keep existing password"
+                                            : "Create a password"
+                                    }
                                     error={errors.password}
-                               
+
                                 />
                             </div>
 
@@ -165,7 +169,7 @@ const AddFounder = () => {
                         <div className="mt-4 text-center">
                             <FormActions
                                 onCancel={() => navigate("/superAdmin/manage-founders")}
-                                saveText="Save"
+                                 saveText= {createMutation.isPending ? "Saving...": "Save"}
                                 cancelText="Cancel"
                                 disableSave={isLoading}
                             />

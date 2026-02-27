@@ -48,11 +48,11 @@ const AddState = () => {
     if (isEditMode) {
       updateMutation.mutate(
         { id, data: formData },
-        { onSuccess: () => navigate("/manage-states") }
+        { onSuccess: () => navigate("/superAdmin/manage-states") }
       );
     } else {
       createMutation.mutate(formData, {
-        onSuccess: () => navigate("/manage-states"),
+        onSuccess: () => navigate("/superAdmin/manage-states"),
       });
     }
   };
@@ -82,7 +82,7 @@ const AddState = () => {
         </div>
 
         <Link
-          to="/manage-states"
+          to="/superAdmin/manage-states"
           className="btn manage-states-btn d-flex align-items-center"
         >
           <i className="ti ti-certificate me-2"></i>
@@ -93,7 +93,7 @@ const AddState = () => {
       {/* ===== FORM ===== */}
       <div className="card shadow-sm p-1">
         <div className="card-body">
-          <h5 className="fw-bold mb-4">Create State </h5>
+          <h5 className="fw-bold mb-4"> {isEditMode ? "Edit State" : "Create State"} </h5>
 
           <form onSubmit={handleSubmit}>
             <div className="row g-3">
@@ -106,6 +106,7 @@ const AddState = () => {
                   onChange={handleChange}
                   placeholder="Enter State Name"
                   error={errors.stateName}
+                  mandatory
                 />
               </div>
 
@@ -117,8 +118,8 @@ const AddState = () => {
             {/* ===== ACTION BUTTONS ===== */}
             <div className="mt-4 text-center">
               <FormActions
-                onCancel={() => navigate("/manage-states")}
-                saveText="Save"
+                onCancel={() => navigate("/superAdmin/manage-states")}
+                saveText= {createMutation.isPending ? "Saving...": "Save"}
                 cancelText="Cancel"
                 disableSave={isLoading}
               />

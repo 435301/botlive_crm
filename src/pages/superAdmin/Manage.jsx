@@ -115,7 +115,7 @@ const ManageSkillCenters = () => {
 
           {/* Add Skill Center */}
           <Link
-            to="/superAdmin/add-skills"
+            to="/superAdmin/add-skill-centre"
             className="btn add-skill-btn d-flex align-items-center"
           >
             <i className="ti ti-graduation-cap me-2"></i>
@@ -276,7 +276,7 @@ const ManageSkillCenters = () => {
                         </span>
                       </td>
                       <td className="text-center">
-                        <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-skills/${center.id}`)}>
+                        <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-skill-centre/${center.id}`)}>
                           <i className="bi bi-pencil"></i>
                         </button>
                         <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(center.id)}>
