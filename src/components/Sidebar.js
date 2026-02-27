@@ -71,16 +71,15 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
           </NavLink>
           {/* master data  */}
           <div
-            className={`nav-group ${
-              isParentActive([
-                "/superAdmin/add-state",
-                "/superAdmin/manage-states",
-                "/superAdmin/add-district",
-                "/superAdmin/manage-districts",
-              ])
-                ? "active"
-                : ""
-            }`}
+            className={`nav-group ${isParentActive([
+              "/superAdmin/add-state",
+              "/superAdmin/manage-states",
+              "/superAdmin/add-district",
+              "/superAdmin/manage-districts",
+            ])
+              ? "active"
+              : ""
+              }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("masterData")}>
               <Building2 size={18} />
@@ -124,14 +123,13 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Skill Center Management */}
           <div
-            className={`nav-group ${
-              isParentActive([
-                "/superAdmin/add-skills",
-                "/superAdmin/manage-skills",
-              ])
-                ? "active"
-                : ""
-            }`}
+            className={`nav-group ${isParentActive([
+              "/superAdmin/add-skills",
+              "/superAdmin/manage-skills",
+            ])
+              ? "active"
+              : ""
+              }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("skillCenter")}>
               <Building2 size={18} />
@@ -196,14 +194,13 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Trainer Management */}
           <div
-            className={`nav-group ${
-              isParentActive([
-                "/superAdmin/add-trainers",
-                "/superAdmin/manage-trainers",
-              ])
-                ? "active"
-                : ""
-            }`}
+            className={`nav-group ${isParentActive([
+              "/superAdmin/add-trainers",
+              "/superAdmin/manage-trainers",
+            ])
+              ? "active"
+              : ""
+              }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("trainer")}>
               <UserCog size={18} />
@@ -235,14 +232,13 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Course Management */}
           <div
-            className={`nav-group ${
-              isParentActive([
-                "/superAdmin/add-course",
-                "/superAdmin/manage-course",
-              ])
-                ? "active"
-                : ""
-            }`}
+            className={`nav-group ${isParentActive([
+              "/superAdmin/add-course",
+              "/superAdmin/manage-course",
+            ])
+              ? "active"
+              : ""
+              }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("course")}>
               <BookOpen size={18} />
@@ -271,14 +267,13 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Modules Management */}
           <div
-            className={`nav-group ${
-              isParentActive([
-                "/superAdmin/add-module",
-                "/superAdmin/manage-module",
-              ])
-                ? "active"
-                : ""
-            }`}
+            className={`nav-group ${isParentActive([
+              "/superAdmin/add-module",
+              "/superAdmin/manage-module",
+            ])
+              ? "active"
+              : ""
+              }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("modules")}>
               <Layers size={18} />
@@ -307,14 +302,13 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Chapters Management */}
           <div
-            className={`nav-group ${
-              isParentActive([
-                "/superAdmin/add-chapters",
-                "/superAdmin/manage-chapters",
-              ])
-                ? "active"
-                : ""
-            }`}
+            className={`nav-group ${isParentActive([
+              "/superAdmin/add-chapters",
+              "/superAdmin/manage-chapters",
+            ])
+              ? "active"
+              : ""
+              }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("chapters")}>
               <Layers size={18} />
@@ -346,14 +340,13 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Grades/Batches Management */}
           <div
-            className={`nav-group ${
-              isParentActive([
-                "/superAdmin/add-grade",
-                "/superAdmin/manage-grades",
-              ])
-                ? "active"
-                : ""
-            }`}
+            className={`nav-group ${isParentActive([
+              "/superAdmin/add-grade",
+              "/superAdmin/manage-grades",
+            ])
+              ? "active"
+              : ""
+              }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("grades")}>
               <Layers size={18} />
@@ -382,14 +375,13 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Assign chapter management */}
           <div
-            className={`nav-group ${
-              isParentActive([
-                "/superAdmin/add-assigned-chapter",
-                "/superAdmin/manage-assigned-chapters",
-              ])
-                ? "active"
-                : ""
-            }`}
+            className={`nav-group ${isParentActive([
+              "/superAdmin/add-assigned-chapter",
+              "/superAdmin/manage-assigned-chapters",
+            ])
+              ? "active"
+              : ""
+              }`}
           >
             <div
               className="nav-link"
@@ -424,16 +416,50 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
             </div>
           </div>
 
+          {/* Founder management */}
+          <div
+            className={`nav-group ${isParentActive([
+              "/superAdmin/add-founder",
+              "/superAdmin/manage-founders",
+            ])
+              ? "active"
+              : ""
+              }`}
+          >
+            <div className="nav-link" onClick={() => toggleMenu("founder")}>
+              <BookOpen size={18} />
+              {!collapsed && (
+                <>
+                  <span>Founder Management</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "founder" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
+            </div>
+            <div className={`submenu ${openMenu === "founder" ? "open" : ""}`}>
+              <NavLink to="/superAdmin/add-founder" className={getNavLinkClass}>
+                Add Founder
+              </NavLink>
+              <NavLink
+                to="/superAdmin/manage-founders"
+                className={getNavLinkClass}
+              >
+                Manage Founders
+              </NavLink>
+            </div>
+          </div>
+
           {/* Student Management */}
           <div
-            className={`nav-group ${
-              isParentActive([
-                "/superAdmin/add-student",
-                "/superAdmin/manage-students",
-              ])
-                ? "active"
-                : ""
-            }`}
+            className={`nav-group ${isParentActive([
+              "/superAdmin/add-student",
+              "/superAdmin/manage-students",
+            ])
+              ? "active"
+              : ""
+              }`}
           >
             <div className="nav-link" onClick={() => toggleMenu("students")}>
               <GraduationCap size={18} />

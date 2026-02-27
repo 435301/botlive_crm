@@ -95,3 +95,26 @@ export const validateSettingsCode = (formData) => {
 
   return errors;
 };
+
+export const validateFounder = (formData) => {
+  const errors = {};
+
+  if (!formData.name?.trim()) {
+    errors.name = "Name is required";
+  }
+  if (!formData.email) {
+    errors.email = "Email is required";
+  }
+  if (!formData.mobile) {
+    errors.mobile = "Mobile is required";
+  }
+  if (!formData.password) {
+    errors.password = "Password is required";
+  }
+
+  if (formData.status === undefined || formData.status === "") {
+    errors.status = "Status is required";
+  }
+
+  return errors;
+};

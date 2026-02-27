@@ -19,6 +19,8 @@ import PublicRoute from "./components/PublicRoute";
 import AddState from "./pages/superAdmin/AddState";
 import AddDistrict from "./pages/superAdmin/AddDistrict";
 import ManageDistrict from "./pages/superAdmin/ManageDistrict";
+import ManageFounders from "./pages/superAdmin/ManageFounders";
+import AddFounder from "./pages/superAdmin/AddFounder";
 
 const Dashboard = lazy(() => import("./pages/superAdmin/Dashboard"));
 const Login = lazy(() => import("./pages/superAdmin/Login"));
@@ -156,7 +158,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-            <Route path="/superAdmin/edit-skills/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddSkills)}</ProtectedRoute> } />
+          <Route path="/superAdmin/edit-skills/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddSkills)}</ProtectedRoute>} />
           <Route
             path="/superAdmin/add-course"
             element={
@@ -321,6 +323,10 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/superAdmin/manage-founders" element={<ProtectedRoute allowedRoles={["super-admin"]}>  {lazyLoad(ManageFounders)}</ProtectedRoute>} />
+          <Route path="/superAdmin/add-founder" element={<ProtectedRoute allowedRoles={["super-admin"]}> {lazyLoad(AddFounder)}</ProtectedRoute>} />
+          <Route path="/superAdmin/edit-founder/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddFounder)}</ProtectedRoute>} />
         </Routes>
       </LayoutWrapper>
     </Router>
