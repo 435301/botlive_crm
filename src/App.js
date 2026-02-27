@@ -13,14 +13,13 @@ import Sidebar from "./components/Sidebar";
 // import ErrorBoundary from "./components/ErrorBoundary";
 import PageLoader from "./components/PageLoader";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import PublicRoute from "./components/PublicRoute";
 import AddState from "./pages/superAdmin/AddState";
 import AddDistrict from "./pages/superAdmin/AddDistrict";
 import ManageDistrict from "./pages/superAdmin/ManageDistrict";
 import ManageFounders from "./pages/superAdmin/ManageFounders";
 import AddFounder from "./pages/superAdmin/AddFounder";
+import { Toaster } from "react-hot-toast";
 
 const Dashboard = lazy(() => import("./pages/superAdmin/Dashboard"));
 const Login = lazy(() => import("./pages/superAdmin/Login"));
@@ -73,7 +72,6 @@ function LayoutWrapper({
   if (isLoginPage) {
     return <>{children}</>;
   }
-
   //  ALL OTHER PAGES
   return (
     <>
@@ -128,6 +126,18 @@ function App() {
 
   return (
     <Router>
+        <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "#0f172a",
+            color: "#fff",
+            borderRadius: "8px",
+          },
+        }}
+      />
       <LayoutWrapper
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
@@ -332,6 +342,6 @@ function App() {
     </Router>
   );
 }
-<ToastContainer position="top-right" autoClose={3000} theme="colored" />;
+
 
 export default App;
