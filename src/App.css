@@ -1360,6 +1360,20 @@ button .filter-btn :hover {
   border-radius: 0px;
   color: #555;
 }
+.password-toggle-btn {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6c757d;
+}
+
+.password-toggle-btn:hover {
+  color: #000;
+}
 .forgot-link {
   color: #019aa8;
   cursor: pointer;

@@ -6,6 +6,7 @@ import FormActions from "../../components/FormActions";
 import StatusSelect from "../../components/StatusSelect";
 import { useCrud } from "../../hooks/useCrud";
 import { validateFounder } from "../../utils/validation";
+import PasswordInput from "../../components/PasswordInput";
 
 const AddFounder = () => {
     const navigate = useNavigate();
@@ -142,8 +143,7 @@ const AddFounder = () => {
                             </div>
 
                             <div className="col-md-4">
-                                <FormInput
-                                    type="password"
+                                <PasswordInput
                                     label="Password"
                                     name="password"
                                     value={formData.password}

@@ -11,6 +11,7 @@ import useDistricts from "../../hooks/useDistricts";
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "../../utils/axiosInstance";
 import useFounder from "../../hooks/useFounder";
+import PasswordInput from "../../components/PasswordInput";
 
 const AddSkillCenter = () => {
   const navigate = useNavigate();
@@ -142,7 +143,7 @@ const AddSkillCenter = () => {
       {/* ===== FORM CARD ===== */}
       <div className="card shadow-sm p-2">
         <div className="card-body">
-          <h5 className="fw-bold mb-4">{isEditMode ? "Edit School/Skill Center" :"Create School/Skill Center"} </h5>
+          <h5 className="fw-bold mb-4">{isEditMode ? "Edit School/Skill Center" : "Create School/Skill Center"} </h5>
 
           <form onSubmit={handleSubmit}>
             <div className="row g-3">
@@ -231,8 +232,7 @@ const AddSkillCenter = () => {
 
               {/* Password */}
               <div className="col-md-4">
-                <FormInput
-                  type="password"
+                <PasswordInput
                   label="Password"
                   name="password"
                   value={formData.password}
@@ -243,7 +243,7 @@ const AddSkillCenter = () => {
                       : "Create a password"
                   }
                   error={errors.password}
-                  mandatory = {!isEditMode}
+                  mandatory={!isEditMode}
                 />
               </div>
 
@@ -318,7 +318,7 @@ const AddSkillCenter = () => {
                 placeholder="Enter complete address"
                 value={formData.address}
                 onChange={handleChange}
-                // error={errors.address}
+              // error={errors.address}
               ></textarea>
               {errors && <div className="text-danger small">{errors.address}</div>}
             </div>
@@ -330,7 +330,7 @@ const AddSkillCenter = () => {
               </button>
               <button type="submit" className="btn btn-primary" disabled={isLoading}>
                 <i className="bi bi-check-circle me-1"></i>
-                {createMutation.isPending ? "Saving..." :"Save School/Skill Center"}
+                {createMutation.isPending ? "Saving..." : "Save School/Skill Center"}
               </button>
             </div>
           </form>
