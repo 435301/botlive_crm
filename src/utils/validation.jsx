@@ -31,7 +31,7 @@ export const validateDistrict = (formData) => {
   return errors;
 };
 
-export const validateSkills = (formData) => {
+export const validateSkills = (formData, isEditMode) => {
   const errors = {};
 
   if (!formData.centerCode) {
@@ -42,7 +42,7 @@ export const validateSkills = (formData) => {
     errors.centerName = "Centre name is required";
   }
 
-  if (!formData.founderId) {
+  if (!formData.founderId || formData.founderId === "") {
     errors.founderId = "Founder is required";
   }
   if (!formData.centerType) {
@@ -58,7 +58,7 @@ export const validateSkills = (formData) => {
     errors.area = " Area is required";
   }
 
-  if (!formData.address?.trim()) {
+  if (!formData.address) {
     errors.address = " Address is required";
   }
   if (!formData.contactPerson) {
@@ -71,8 +71,8 @@ export const validateSkills = (formData) => {
     errors.email = " Email is required";
   }
 
-  if (!formData.password) {
-    errors.password = " Passwrod is required";
+  if (!isEditMode && !formData.password) {
+    errors.password = "Password is required";
   }
 
   if (formData.status === undefined || formData.status === "") {

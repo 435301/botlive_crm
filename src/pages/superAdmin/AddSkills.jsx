@@ -10,6 +10,7 @@ import useStates from "../../hooks/useStates";
 import useDistricts from "../../hooks/useDistricts";
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "../../utils/axiosInstance";
+import useFounder from "../../hooks/useFounder";
 
 const AddSkillCenter = () => {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ const AddSkillCenter = () => {
   const { data, isLoading } = useGetById(id);
   const { states } = useStates();
   const { districts } = useDistricts();
+  const { founders } = useFounder();
 
   const [formData, setFormData] = useState({
     centerCode: "",
@@ -49,7 +51,7 @@ const AddSkillCenter = () => {
     stateId: "",
     area: "",
     status: 1,
-    founderId: 1,
+    founderId: "",
   });
   const [errors, setErrors] = useState({});
 
@@ -63,12 +65,12 @@ const AddSkillCenter = () => {
         contactPerson: data.contactPerson,
         mobile: data.mobile,
         email: data.email,
-        password: data.password,
+        password: "",
         districtId: data.district?.id ? String(data.district.id) : "",
         stateId: data.state?.id ? String(data.state.id) : "",
         area: data.area,
         status: data.status,
-        founderId: 1,
+        founderId: data.founderId,
       });
     }
   }, [data]);
@@ -91,7 +93,7 @@ const AddSkillCenter = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('dsfvgbdc')
-    const validationErrors = validateSkills(formData);
+    const validationErrors = validateSkills(formData, isEditMode);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -153,6 +155,7 @@ const AddSkillCenter = () => {
                   onChange={handleChange}
                   placeholder="Enter center code (e.g. CEN-005)"
                   error={errors.centerCode}
+                  mandatory
                 />
               </div>
 
@@ -165,6 +168,7 @@ const AddSkillCenter = () => {
                   onChange={handleChange}
                   placeholder="Enter school/skill center name"
                   error={errors.centerName}
+                  mandatory
                 />
               </div>
 
@@ -181,6 +185,7 @@ const AddSkillCenter = () => {
                     { label: "School", value: 2 },
                   ]}
                 />
+
               </div>
 
               {/* Contact Person */}
@@ -192,6 +197,7 @@ const AddSkillCenter = () => {
                   onChange={handleChange}
                   placeholder="Enter contact person name"
                   error={errors.contactPerson}
+                  mandatory
                 />
               </div>
 
@@ -205,6 +211,7 @@ const AddSkillCenter = () => {
                   onChange={handleChange}
                   placeholder="Enter mobile number"
                   error={errors.mobile}
+                  mandatory
                 />
               </div>
 
@@ -218,6 +225,7 @@ const AddSkillCenter = () => {
                   onChange={handleChange}
                   placeholder="Enter email address"
                   error={errors.email}
+                  mandatory
                 />
               </div>
 
@@ -229,8 +237,26 @@ const AddSkillCenter = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Create a password"
-                  error={errors.password}
+                  placeholder={
+                    isEditMode
+                      ? "Leave blank to keep existing password"
+                      : "Create a password"
+                  }
+                  error={ errors.password}
+                />
+              </div>
+
+              <div className="col-md-4">
+                <FormSelect
+                  label="Founder"
+                  name="founderId"
+                  value={formData.founderId}
+                  onChange={handleChange}
+                  error={errors.founderId}
+                  options={founders.map((founder) => ({
+                    label: founder.name,
+                    value: founder.id
+                  }))}
                 />
               </div>
 
@@ -272,6 +298,7 @@ const AddSkillCenter = () => {
                   onChange={handleChange}
                   placeholder="Enter Area"
                   error={errors.area}
+                  mandatory
                 />
               </div>
 

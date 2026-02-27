@@ -124,7 +124,7 @@ const FormSelect = ({
       />
 
       {error && (
-        <div className="text-danger mt-1">
+        <div className="text-danger small">
           {error}
         </div>
       )}
