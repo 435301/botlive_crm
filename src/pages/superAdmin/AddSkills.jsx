@@ -242,7 +242,8 @@ const AddSkillCenter = () => {
                       ? "Leave blank to keep existing password"
                       : "Create a password"
                   }
-                  error={ errors.password}
+                  error={errors.password}
+                  mandatory = {!isEditMode}
                 />
               </div>
 

@@ -226,12 +226,12 @@ const ManageSkillCenters = () => {
                   <th>#</th>
                   <th>Center Code</th>
                   <th>Name</th>
-                  <th>Type</th>
+                  <th>Centre Type</th>
                   <th>Address</th>
-                  <th>Contact</th>
+                  <th>Contact Person</th>
                   <th>Mobile</th>
                   <th>Email</th>
-                  <th>Password</th>
+                  {/* <th>Password</th> */}
                   <th>State</th>
                   <th>District</th>
                   <th>Area</th>
@@ -244,7 +244,7 @@ const ManageSkillCenters = () => {
               <tbody>
                 {isLoading ? (
                   <tr>
-                    <td colSpan="4" className="text-center py-4">
+                    <td colSpan="8" className="text-center py-4">
                       Loading...
                     </td>
                   </tr>
@@ -259,7 +259,7 @@ const ManageSkillCenters = () => {
                       <td>{center.contactPerson}</td>
                       <td>{center.mobile}</td>
                       <td>{center.email}</td>
-                      <td>{center.password}</td>
+                      {/* <td>{center.password}</td> */}
                       <td>{center.state?.stateName}</td>
                       <td>{center.district?.districtName}</td>
                       <td>{center.area}</td>

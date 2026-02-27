@@ -154,7 +154,7 @@ const AddFounder = () => {
                                             : "Create a password"
                                     }
                                     error={errors.password}
-
+                                    mandatory={!isEditMode}
                                 />
                             </div>
 
@@ -169,7 +169,7 @@ const AddFounder = () => {
                         <div className="mt-4 text-center">
                             <FormActions
                                 onCancel={() => navigate("/superAdmin/manage-founders")}
-                                 saveText= {createMutation.isPending ? "Saving...": "Save"}
+                                saveText={createMutation.isPending ? "Saving..." : "Save"}
                                 cancelText="Cancel"
                                 disableSave={isLoading}
                             />

@@ -61,7 +61,7 @@ const Settings = () => {
     <div className="container-fluid">
       <div className="card shadow-sm p-3">
         <div className="card-body">
-          <h4 className="mb-4">Code Settings</h4>
+          <h5 className="fw-bold mb-2">Code Settings</h5>
 
           {Object.keys(userTypeMap).map((type) => (
             <form
@@ -69,7 +69,7 @@ const Settings = () => {
               onSubmit={(e) => handleSubmit(e, type)}
               className="row g-3 mt-4"
             >
-              <h5 className="mb-3">{userTypeMap[type]}</h5>
+              <h5>{userTypeMap[type]}</h5>
 
               <div className="col-md-5">
                 <FormInput
