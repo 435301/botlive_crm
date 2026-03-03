@@ -150,3 +150,21 @@ export const validateModule = (formData) => {
 
   return errors;
 };
+
+export const validateGrade= (formData) => {
+  const errors = {};
+
+  if (!formData.centreType) {
+    errors.centreType = "Centre Type is required";
+  }
+
+  if (!formData.gradeBatch?.trim()) {
+    errors.gradeBatch = "Grade/Batch is required";
+  }
+
+  if (formData.status === undefined || formData.status === "") {
+    errors.status = "Status is required";
+  }
+
+  return errors;
+};

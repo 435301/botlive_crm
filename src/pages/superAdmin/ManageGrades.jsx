@@ -1,48 +1,39 @@
 import React, { useState } from "react";
 import Pagination from "../../components/Pagination";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
+import { useCrud } from "../../hooks/useCrud";
+import DeleteConfirmationModal from "../../Modals/deleteModal";
 
-/* ===== DUMMY DATA ===== */
-const centers = [
-    {
-        id: 1,
-        centerType: "School",
-        grade: "Grade 1",
-        batch: "Batch A",
-        status: "Active",
-    },
-    {
-        id: 2,
-        centerType: "School",
-        grade: "Grade 1",
-        batch: "Batch A",
-        status: "Active",
-    },
-    {
-        id: 3,
-        centerType: "Skill Center",
-        grade: "Grade 2",
-        batch: "Batch B",
-        status: "Inactive",
-    },
-    {
-        id: 4,
-        centerType: "Skill Center",
-        grade: "Grade 3",
-        batch: "Batch C",
-        status: "Active",
-    },
-];
 
 const ManageGrades = () => {
+    const navigate = useNavigate();
     const [search, setSearch] = useState("");
-    const [centerType, setCenterType] = useState("");
+    const [centreType, setCentreType] = useState("");
     const [status, setStatus] = useState("");
     const [page, setPage] = useState(1);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deleteId, setDeleteId] = useState(null);
 
-    const ITEMS_PER_PAGE = 5;
+    const { useList, deleteMutation } = useCrud({
+        entity: "grade",
+        listUrl: "/grade/list",
+        getUrl: (id) => `/grade/${id}`,
+        updateUrl: (id) => `/grade/update/${id}`,
+        deleteUrl: (id) => `/grade/delete/${id}`,
+    });
+
+    const { data, isLoading } = useList({
+        search,
+        status,
+        page,
+        centreType,
+    });
+
+    const grades = data?.data || [];
+    const totalPages = data?.totalPages || 1;
+
     const handleImportExcel = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -56,32 +47,24 @@ const ManageGrades = () => {
         // later you can generate excel using XLSX
     };
 
-    /* ===== FILTER LOGIC ===== */
-    const filteredData = centers.filter((c) => {
-        const matchSearch =
-            c.grade.toLowerCase().includes(search.toLowerCase()) ||
-            c.batch.toLowerCase().includes(search.toLowerCase());
-
-        const matchcentertype = centerType ? c.centerType.toLowerCase() === centerType.toLowerCase() : true;
-        const matchStatus2 = status ? c.status === status : true;
-
-
-        return matchSearch && matchcentertype && matchStatus2;
-    });
-
-    /* ===== PAGINATION ===== */
-    const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
-    const startIndex = (page - 1) * ITEMS_PER_PAGE;
-    const paginatedData = filteredData.slice(
-        startIndex,
-        startIndex + ITEMS_PER_PAGE,
-    );
-
     const resetFilters = () => {
         setSearch("");
         setStatus("");
+        setCentreType("");
         setPage(1);
     };
+
+    const handleDeleteClick = (id) => {
+        setDeleteId(id);
+        setShowDeleteModal(true);
+    };
+
+    const handleDelete = async () => {
+        setShowDeleteModal(false);
+        setDeleteId(null);
+        deleteMutation.mutate(deleteId);
+    };
+
 
     return (
         <div className="container-fluid">
@@ -124,7 +107,7 @@ const ManageGrades = () => {
                         Export Excel
                     </button>
                     <Link
-                        to="/add-grade"
+                        to="/superAdmin/add-grade"
                         className="btn add-skill-btn d-flex align-items-center"
                     >
                         <i className="ti ti-graduation-cap me-2"></i>
@@ -138,14 +121,14 @@ const ManageGrades = () => {
 
                     <div className="col-lg-3 col-md-6">
                         <SelectFilter
-                            value={centerType}
+                            value={centreType}
                             placeholder="All Center Types"
                             options={[
-                                { label: "School", value: "school" },
-                                { label: "Skill Centre", value: "skill" },
+                                { label: "School", value: 2 },
+                                { label: "Skill Centre", value: 1 },
                             ]}
                             onChange={(value) => {
-                                setCenterType(value);
+                                setCentreType(value);
                                 setPage(1);
                             }}
                         />
@@ -166,8 +149,8 @@ const ManageGrades = () => {
                             value={status}
                             placeholder="All Status"
                             options={[
-                                { label: "Active", value: "Active" },
-                                { label: "Inactive", value: "Inactive" },
+                                { label: "Active", value: 1 },
+                                { label: "Inactive", value: 0 },
                             ]}
                             onChange={(value) => {
                                 setStatus(value);
@@ -178,10 +161,6 @@ const ManageGrades = () => {
 
                     <div className="col-lg-3 col-md-12">
                         <div className="d-flex gap-2">
-                            <button className="btn filter-btn">
-                                <i className="bi bi-search me-1"></i>
-                            </button>
-
                             <button
                                 className="btn reset-btn"
                                 onClick={resetFilters}
@@ -210,27 +189,27 @@ const ManageGrades = () => {
                             </thead>
 
                             <tbody>
-                                {paginatedData.length > 0 ? (
-                                    paginatedData.map((item, index) => (
+                                {grades.length > 0 ? (
+                                    grades.map((item, index) => (
                                         <tr key={item.id}>
-                                            <td>{startIndex + index + 1}</td>
-                                            <td>{item.centerType}</td>
-                                            <td>{item.centerType === "School" ? item.grade : item.batch}</td>
+                                            <td>{index + 1}</td>
+                                            <td>{item.centreType === 1 ? "Skill Centre" : "School"}</td>
+                                            <td>{item.gradeBatch}</td>
                                             <td>
                                                 <span
-                                                    className={`badge ${item.status === "Active"
+                                                    className={`badge ${item.status === 1
                                                         ? "bg-success"
                                                         : "bg-secondary"
                                                         }`}
                                                 >
-                                                    {item.status}
+                                                    {item.status === 1 ? "Active" : "Inactive"}
                                                 </span>
                                             </td>
                                             <td className="text-center">
-                                                <button className="btn btn-outline-primary btn-sm me-2">
+                                                <button className="btn btn-outline-primary btn-sm me-2" onClick={()=>navigate(`/superAdmin/edit-grade/${item?.id}`) }>
                                                     <i className="bi bi-pencil"></i>
                                                 </button>
-                                                <button className="btn btn-outline-danger btn-sm">
+                                                <button className="btn btn-outline-danger btn-sm" onClick={()=> handleDeleteClick(item.id)}>
                                                     <i className="bi bi-trash"></i>
                                                 </button>
                                             </td>
@@ -255,6 +234,10 @@ const ManageGrades = () => {
                             onPageChange={setPage}
                         />
                     )}
+                    <DeleteConfirmationModal
+                        show={showDeleteModal}
+                        handleClose={() => setShowDeleteModal(false)}
+                        handleConfirm={handleDelete} />
                 </div>
             </div>
         </div>

@@ -208,22 +208,9 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/superAdmin/add-grade"
-            element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
-                {lazyLoad(AddGrades)}
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/manage-grades"
-            element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
-                {lazyLoad(ManageGrades)}
-              </ProtectedRoute>
-            }
-          />
+          <Route  path="/superAdmin/add-grade" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddGrades)}</ProtectedRoute>} />
+          <Route  path="/superAdmin/edit-grade/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddGrades)}</ProtectedRoute>} />
+          <Route path="/superAdmin/manage-grades" element={ <ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageGrades)}</ProtectedRoute>}/>
           <Route
             path="/superAdmin/add-assigned-chapter"
             element={
