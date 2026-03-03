@@ -189,22 +189,9 @@ function App() {
             path="/superAdmin/manage-trainers"
             element={lazyLoad(ManageTrainers)}
           />
-          <Route
-            path="/superAdmin/add-module"
-            element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
-                {lazyLoad(AddModule)}
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/superAdmin/manage-module"
-            element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
-                {lazyLoad(ManageModule)}
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/superAdmin/add-module" element={<ProtectedRoute allowedRoles={["super-admin"]}>   {lazyLoad(AddModule)} </ProtectedRoute>} />
+          <Route path="/superAdmin/edit-module/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>   {lazyLoad(AddModule)} </ProtectedRoute>} />
+          <Route path="/superAdmin/manage-module" element={<ProtectedRoute allowedRoles={["super-admin"]}>  {lazyLoad(ManageModule)}</ProtectedRoute>} />
           <Route
             path="/superAdmin/add-chapters"
             element={

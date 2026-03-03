@@ -132,3 +132,21 @@ export const validateCourse = (formData) => {
 
   return errors;
 };
+
+export const validateModule = (formData) => {
+  const errors = {};
+
+  if (!formData.courseId) {
+    errors.courseId = "Course is required";
+  }
+
+  if (!formData.moduleTitle?.trim()) {
+    errors.moduleTitle = "Module Title is required";
+  }
+
+  if (formData.status === undefined || formData.status === "") {
+    errors.status = "Status is required";
+  }
+
+  return errors;
+};

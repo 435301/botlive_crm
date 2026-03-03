@@ -124,6 +124,7 @@ const AddSkillCenter = () => {
                 onCancel={() => navigate("/superAdmin/manage-course")}
                 saveText="Save"
                 cancelText="Cancel"
+                disabled={isLoading}
               />
             </div>
           </form>

@@ -134,10 +134,6 @@ const ManageDistrict = () => {
 
           <div className="col-lg-3 col-md-12">
             <div className="d-flex gap-2">
-              <button className="btn filter-btn">
-                <i className="bi bi-search me-1"></i>
-              </button>
-
               <button
                 className="btn reset-btn"
                 onClick={resetFilters}

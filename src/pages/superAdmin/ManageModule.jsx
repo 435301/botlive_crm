@@ -1,70 +1,49 @@
 import React, { useState } from "react";
 import Pagination from "../../components/Pagination";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
+import { useCrud } from "../../hooks/useCrud";
+import DeleteConfirmationModal from "../../Modals/deleteModal";
 
-/* ===== SAMPLE MODULE DATA ===== */
-const modulesData = [
-  {
-    id: 1,
-    centerType: "Skill Center",
-    centerName: "Hyderabad Skill Center",
-    course: "Frontend Development",
-    moduleName: "React Basics",
-    videos: ["intro.mp4", "components.mp4"],
-    pdfs: ["react-basics.pdf"],
-    status: "Active",
-  },
-  {
-    id: 2,
-    centerType: "School",
-    centerName: "Green Valley School",
-    course: "Web Development",
-    moduleName: "Python Fundamentals",
-    videos: ["syntax.mp4"],
-    pdfs: ["python-notes.pdf", "examples.pdf"],
-    status: "Inactive",
-  },
-  {
-    id: 3,
-    centerType: "Skill Center",
-    centerName: "Tech Skill Hub",
-    course: "Data Science",
-    moduleName: "JS DOM Manipulation",
-    videos: ["dom.mp4"],
-    pdfs: ["js-dom.pdf"],
-    status: "Active",
-  },
-];
 
 const ManageModule = () => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const [centerType, setCenterType] = useState("");
-  const [course, setCourse] = useState("");
+  const [courseId, setCourseId] = useState("");
   const [status, setStatus] = useState("");
   const [page, setPage] = useState(1);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
-  const ITEMS_PER_PAGE = 5;
 
-  /* ===== FILTER MODULES ===== */
-  const filteredData = modulesData.filter((t) => {
-    const matchSearch = t.moduleName
-      .toLowerCase()
-      .includes(search.toLowerCase());
-    const matchCenterType = centerType ? t.centerType === centerType : true;
-    const matchStatus = status ? t.status === status : true;
-
-    return matchSearch && matchCenterType && matchStatus;
+  const { useList, deleteMutation } = useCrud({
+    entity: "module",
+    listUrl: "/module/list",
+    getUrl: (id) => `/module/${id}`,
+    updateUrl: (id) => `/module/update/${id}`,
+    deleteUrl: (id) => `/module/delete/${id}`,
   });
 
-  /* ===== PAGINATION ===== */
-  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
-  const startIndex = (page - 1) * ITEMS_PER_PAGE;
-  const paginatedData = filteredData.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE,
-  );
+  const { data, isLoading } = useList({
+    search,
+    status,
+    page,
+    courseId,
+  });
+
+  const modules = data?.data || [];
+  const totalPages = data?.totalPages || 1;
+
+  const { useList: CourseListQuery } = useCrud({
+    entity: "course",
+    listUrl: "/course/list",
+  });
+
+  const { data: courseList } = CourseListQuery({ page: 1, search: "", status: 1, courseId:courseId });
+  const courses = courseList?.data || []
+  console.log('courses', courses)
+
   const handleImportExcel = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -80,9 +59,20 @@ const ManageModule = () => {
 
   const resetFilters = () => {
     setSearch("");
-    setCenterType("");
+    setCourseId("");
     setStatus("");
     setPage(1);
+  };
+
+  const handleDeleteClick = (id) => {
+    setDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+  const handleDelete = async () => {
+    setShowDeleteModal(false);
+    setDeleteId(null);
+    deleteMutation.mutate(deleteId);
   };
 
   return (
@@ -123,7 +113,7 @@ const ManageModule = () => {
           </button>
           {/* Add Skill Center button */}
           <Link
-            to="/add-module"
+            to="/superAdmin/add-module"
             className="btn add-skill-btn d-flex align-items-center"
           >
             <i className="ti ti-graduation-cap me-2"></i>
@@ -149,15 +139,14 @@ const ManageModule = () => {
 
           <div className="col-md-3">
             <SelectFilter
-              value={course}
+              value={courseId}
               placeholder="All Courses"
-              options={[
-                { label: "Web Development", value: "Web Development" },
-                { label: "Frontend Development", value: "Frontend Development" },
-                { label: "Data Science", value: "Data Science" },
-              ]}
+              options={courses?.map((course) => ({
+                label: course.courseTitle,
+                value: String(course.id)
+              }))}
               onChange={(value) => {
-                setCourse(value);
+                setCourseId(value);
                 setPage(1);
               }}
             />
@@ -168,8 +157,8 @@ const ManageModule = () => {
               value={status}
               placeholder="All Status"
               options={[
-                { label: "Active", value: "Active" },
-                { label: "Inactive", value: "Inactive" },
+                { label: "Active", value: 1 },
+                { label: "Inactive", value: 0 },
               ]}
               onChange={(value) => {
                 setStatus(value);
@@ -180,10 +169,6 @@ const ManageModule = () => {
 
           <div className="col-lg-3 col-md-12">
             <div className="d-flex gap-2">
-              <button className="btn filter-btn">
-                <i className="bi bi-search me-1"></i>
-              </button>
-
               <button
                 className="btn reset-btn"
                 onClick={resetFilters}
@@ -203,41 +188,39 @@ const ManageModule = () => {
             <thead>
               <tr>
                 <th>#</th>
-                {/* <th>Center Type</th> */}
-                {/* <th>Center Name</th> */}
                 <th>Course</th>
                 <th>Module Name</th>
-                {/* <th>Videos</th> */}
-                {/* <th>PDFs</th> */}
                 <th>Status</th>
                 <th className="text-center">Actions</th>
               </tr>
             </thead>
 
             <tbody>
-              {paginatedData.length ? (
-                paginatedData.map((t, i) => (
+              {isLoading ? (
+                <tr>
+                  <td colSpan = "4" className="text-center py-4">
+                    Loading...
+                  </td>
+                </tr>
+                ): modules.length ? (
+                modules.map((t, i) => (
                   <tr key={t.id}>
-                    <td>{startIndex + i + 1}</td>
-                    {/* <td>{t.centerType}</td> */}
-                    {/* <td>{t.centerName}</td> */}
-                    <td>{t.course}</td>
-                    <td>{t.moduleName}</td>
-                    {/* <td>{t.videos.length}</td> */}
-                    {/* <td>{t.pdfs.length}</td> */}
+                    <td>{i + 1}</td>
+                    <td>{t.course.courseTitle}</td>
+                    <td>{t.moduleTitle}</td>
                     <td>
                       <span
-                        className={`badge ${t.status === "Active" ? "bg-success" : "bg-secondary"
+                        className={`badge ${t.status === 1 ? "bg-success" : "bg-secondary"
                           }`}
                       >
-                        {t.status}
+                        {t.status === 1 ? "Active" : "Inactive"}
                       </span>
                     </td>
                     <td className="text-center">
-                      <button className="btn btn-outline-primary btn-sm me-2">
+                      <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-module/${t.id}`)}>
                         <i className="bi bi-pencil"></i>
                       </button>
-                      <button className="btn btn-outline-danger btn-sm">
+                      <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(t.id)}>
                         <i className="bi bi-trash"></i>
                       </button>
                     </td>
@@ -262,6 +245,11 @@ const ManageModule = () => {
             onPageChange={setPage}
           />
         )}
+        <DeleteConfirmationModal
+          show={showDeleteModal}
+          handleClose={() => setShowDeleteModal(false)}
+          handleConfirm={handleDelete}
+        />
       </div>
     </div>
   );
