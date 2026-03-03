@@ -118,3 +118,17 @@ export const validateFounder = (formData, isEditMode) => {
 
   return errors;
 };
+
+export const validateCourse = (formData) => {
+  const errors = {};
+
+  if (!formData.courseTitle?.trim()) {
+    errors.courseTitle = "Course Title is required";
+  }
+
+  if (formData.status === undefined || formData.status === "") {
+    errors.status = "Status is required";
+  }
+
+  return errors;
+};

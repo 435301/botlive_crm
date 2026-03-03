@@ -4,7 +4,7 @@ import store from "../redux/store";
 import { logoutAdmin } from "../redux/slices/adminSlice";
 
 const axiosInstance = axios.create({
-    baseURL: "http://192.168.29.251:8000",
+    baseURL: "http://192.168.29.252:8000",
     headers: {
     "Content-Type": "application/json",
   },

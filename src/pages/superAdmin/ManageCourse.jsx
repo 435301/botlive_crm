@@ -1,51 +1,37 @@
 import React, { useState } from "react";
 import Pagination from "../../components/Pagination";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
-
-/* ===== DUMMY DATA ===== */
-const centers = [
-  {
-    id: 1,
-    centerType: "School",
-    centerName: "Green Valley School",
-    courseTitle: "Frontend Development",
-    duration: "1 Year",
-    status: "Active",
-  },
-  {
-    id: 2,
-    centerType: "Skill Center",
-    centerName: "Hyderabad Skill Center",
-    courseTitle: "Web Development",
-    duration: "6 Months",
-    status: "Active",
-  },
-  {
-    id: 3,
-    centerType: "Skill Center",
-    centerName: "Tech Skill Hub",
-    courseTitle: "Data Science",
-    duration: "8 Months",
-    status: "Inactive",
-  },
-  {
-    id: 4,
-    centerType: "School",
-    centerName: "Bright Future School",
-    courseTitle: "Backend Development",
-    duration: "1 Year",
-    status: "Active",
-  },
-];
+import { useCrud } from "../../hooks/useCrud";
+import DeleteConfirmationModal from "../../Modals/deleteModal";
 
 const ManageCourse = () => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [page, setPage] = useState(1);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
-  const ITEMS_PER_PAGE = 5;
+  const { useList, deleteMutation } = useCrud({
+    entity: "course",
+    listUrl: "/course/list",
+    getUrl: (id) => `/course/${id}`,
+    createUrl: "/course/add",
+    updateUrl: (id) => `/course/update/${id}`,
+    deleteUrl: (id) => `/course/delete/${id}`,
+  });
+
+  const { data, isLoading } = useList({
+    search,
+    status,
+    page,
+  });
+
+  const courses = data?.data || [];
+  const totalPages = data?.totalPages || 1;
+
   const handleImportExcel = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -59,30 +45,23 @@ const ManageCourse = () => {
     // later you can generate excel using XLSX
   };
 
-  /* ===== FILTER LOGIC ===== */
-  const filteredData = centers.filter((c) => {
-    const matchSearch =
-      c.centerName.toLowerCase().includes(search.toLowerCase()) ||
-      c.courseOrGrade.toLowerCase().includes(search.toLowerCase());
-
-    const matchStatus = status ? c.status === status : true;
-
-    return matchSearch && matchStatus;
-  });
-
-  /* ===== PAGINATION ===== */
-  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
-  const startIndex = (page - 1) * ITEMS_PER_PAGE;
-  const paginatedData = filteredData.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE,
-  );
-
   const resetFilters = () => {
     setSearch("");
     setStatus("");
     setPage(1);
   };
+
+  const handleDeleteClick = (id) => {
+    setDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+  const handleDelete = async () => {
+    setShowDeleteModal(false);
+    setDeleteId(null);
+    deleteMutation.mutate(deleteId);
+  };
+
 
   return (
     <div className="container-fluid">
@@ -125,7 +104,7 @@ const ManageCourse = () => {
             Export Excel
           </button>
           <Link
-            to="/add-course"
+            to="/superAdmin/add-course"
             className="btn add-skill-btn d-flex align-items-center"
           >
             <i className="ti ti-graduation-cap me-2"></i>
@@ -152,8 +131,8 @@ const ManageCourse = () => {
               value={status}
               placeholder="All Status"
               options={[
-                { label: "Active", value: "Active" },
-                { label: "Inactive", value: "Inactive" },
+                { label: "Active", value: 1 },
+                { label: "Inactive", value: 0 },
               ]}
               onChange={(value) => {
                 setStatus(value);
@@ -164,10 +143,6 @@ const ManageCourse = () => {
 
           <div className="col-lg-5 col-md-12">
             <div className="d-flex gap-2">
-              <button className="btn filter-btn">
-                <i className="bi bi-search me-1"></i>
-              </button>
-
               <button
                 className="btn reset-btn"
                 onClick={resetFilters}
@@ -188,39 +163,39 @@ const ManageCourse = () => {
               <thead>
                 <tr>
                   <th>#</th>
-                  {/* <th>Center Type</th>
-                  <th>School / Skill Center</th> */}
                   <th>Course Title</th>
-                  {/* <th>Duration</th> */}
                   <th>Status</th>
                   <th className="text-center">Actions</th>
                 </tr>
               </thead>
 
               <tbody>
-                {paginatedData.length > 0 ? (
-                  paginatedData.map((item, index) => (
+                {isLoading ? (
+                  <tr>
+                    <td colSpan="4" className="text-centre py-4">
+                      Loading...
+                    </td>
+                  </tr>
+                ) : courses.length > 0 ? (
+                  courses.map((item, index) => (
                     <tr key={item.id}>
-                      <td>{startIndex + index + 1}</td>
-                      {/* <td>{item.centerType}</td> */}
-                      {/* <td>{item.centerName}</td> */}
+                      <td>{index + 1}</td>
                       <td>{item.courseTitle}</td>
-                      {/* <td>{item.duration}</td> */}
                       <td>
                         <span
-                          className={`badge ${item.status === "Active"
+                          className={`badge ${item.status === 1
                             ? "bg-success"
                             : "bg-secondary"
                             }`}
                         >
-                          {item.status}
+                          {item.status === 1 ? "Active" : "Inactive"}
                         </span>
                       </td>
                       <td className="text-center">
-                        <button className="btn btn-outline-primary btn-sm me-2">
+                        <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-course/${item?.id}`)}>
                           <i className="bi bi-pencil"></i>
                         </button>
-                        <button className="btn btn-outline-danger btn-sm">
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(item?.id)}>
                           <i className="bi bi-trash"></i>
                         </button>
                       </td>
@@ -245,6 +220,12 @@ const ManageCourse = () => {
               onPageChange={setPage}
             />
           )}
+
+          <DeleteConfirmationModal
+            show={showDeleteModal}
+            handleClose={() => setShowDeleteModal(false)}
+            handleConfirm={handleDelete}
+          />
         </div>
       </div>
     </div>

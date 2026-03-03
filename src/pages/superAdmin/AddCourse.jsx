@@ -1,32 +1,69 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import FormInput from "../../components/FormInput";
 import FormActions from "../../components/FormActions";
 import StatusSelect from "../../components/StatusSelect";
+import { useCrud } from "../../hooks/useCrud";
+import { validateCourse } from "../../utils/validation";
 
 const AddSkillCenter = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const isEditMode = Boolean(id);
 
-  const [formData, setFormData] = useState({
-    centerCode: "",
-    centerType: "",
-    courseOrGrade: "",
-    duration: "",
-    status: "Active",
+  const { useGetById, createMutation, updateMutation } = useCrud({
+    entity: "course",
+    listUrl: "/course/list",
+    getUrl: (id) => `/course/${id}`,
+    createUrl: "/course/add",
+    updateUrl: (id) => `/course/update/${id}`,
+    deleteUrl: (id) => `/course/delete/${id}`,
   });
 
+  const { data, isLoading } = useGetById(id);
+
+  const [formData, setFormData] = useState({
+    courseTitle: "",
+    status: 1,
+  });
+
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (data) {
+      setFormData({
+        courseTitle: data.courseTitle,
+        status: data.status
+      });
+    }
+  }, [data]);
+
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: "", }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("New Course Data:", formData);
-    navigate("/manage-course");
+    const validationErrors = validateCourse(formData);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    if (isEditMode) {
+      updateMutation.mutate(
+        { id, data: formData },
+        { onSuccess: () => navigate("/superAdmin/manage-course") }
+      );
+    } else {
+      createMutation.mutate(formData, {
+        onSuccess: () => navigate("/superAdmin/manage-course"),
+      });
+    }
   };
-
-  // const isSchool = formData.centerType === "School";
 
   return (
     <div className="container-fluid">
@@ -47,7 +84,7 @@ const AddSkillCenter = () => {
 
         {/* Right: Manage Skills Button */}
         <Link
-          to="/manage-course"
+          to="/superAdmin/manage-course"
           className="btn manage-skills-btn d-flex align-items-center"
         >
           <i className="ti ti-certificate me-2"></i>
@@ -62,40 +99,6 @@ const AddSkillCenter = () => {
 
           <form onSubmit={handleSubmit}>
             <div className="row g-3">
-              {/* Center Code */}
-              {/* <div className="col-md-4">
-                <label className="form-label">
-                  Center Code<span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="centerCode"
-                  placeholder="CEN-005"
-                  value={formData.centerCode}
-                  onChange={handleChange}
-                  required
-                />
-              </div> */}
-
-              {/* Center Type */}
-              {/* <div className="col-md-4">
-                <label className="form-label">
-                  Center Type<span className="text-danger">*</span>
-                </label>
-                <select
-                  className="form-select"
-                  name="centerType"
-                  value={formData.centerType}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Select Type</option>
-                  <option value="School">School</option>
-                  <option value="Skill Center">Skill Center</option>
-                </select>
-              </div> */}
-
               {/* Course / Grade */}
               <div className="col-md-4">
                 <FormInput
@@ -104,36 +107,21 @@ const AddSkillCenter = () => {
                   value={formData.courseTitle}
                   onChange={handleChange}
                   placeholder="Enter Course Title"
-                  required
+                  mandatory
+                  error={errors.courseTitle}
                 />
               </div>
 
-              {/* Course Duration */}
-              {/* <div className="col-md-4">
-                <label className="form-label">
-                  Course Duration <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="duration"
-                  placeholder="e.g. 6 Months"
-                  value={formData.duration}
-                  onChange={handleChange}
-                  required
-                />
-              </div> */}
-
               {/* Status */}
               <div className="col-md-4">
-                <StatusSelect formData={formData} handleChange={handleChange}  />
+                <StatusSelect name="status" value={formData.status} handleChange={handleChange} error={errors.status} />
               </div>
             </div>
 
             {/* ===== ACTION BUTTONS ===== */}
             <div className="mt-4 text-center">
-                 <FormActions
-                onCancel={() => navigate("/manage-course")}
+              <FormActions
+                onCancel={() => navigate("/superAdmin/manage-course")}
                 saveText="Save"
                 cancelText="Cancel"
               />

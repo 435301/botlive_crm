@@ -126,7 +126,7 @@ function App() {
 
   return (
     <Router>
-        <Toaster
+      <Toaster
         position="top-right"
         reverseOrder={false}
         toastOptions={{
@@ -169,14 +169,7 @@ function App() {
             }
           />
           <Route path="/superAdmin/edit-skill-centre/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddSkills)}</ProtectedRoute>} />
-          <Route
-            path="/superAdmin/add-course"
-            element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
-                {lazyLoad(AddCourse)}
-              </ProtectedRoute>
-            }
-          />
+
           <Route
             path="/superAdmin/settings"
             element={
@@ -185,14 +178,9 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/superAdmin/manage-course"
-            element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
-                {lazyLoad(ManageCourse)}
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/superAdmin/add-course" element={<ProtectedRoute allowedRoles={["super-admin"]}> {lazyLoad(AddCourse)} </ProtectedRoute>} />
+          <Route path="/superAdmin/edit-course/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}> {lazyLoad(AddCourse)} </ProtectedRoute>} />
+          <Route path="/superAdmin/manage-course" element={<ProtectedRoute allowedRoles={["super-admin"]}>  {lazyLoad(ManageCourse)}</ProtectedRoute>} />
           <Route
             path="/superAdmin/add-trainers"
             element={lazyLoad(AddTrainers)}
