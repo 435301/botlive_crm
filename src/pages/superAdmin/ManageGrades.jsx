@@ -189,39 +189,46 @@ const ManageGrades = () => {
                             </thead>
 
                             <tbody>
-                                {grades.length > 0 ? (
-                                    grades.map((item, index) => (
-                                        <tr key={item.id}>
-                                            <td>{index + 1}</td>
-                                            <td>{item.centreType === 1 ? "Skill Centre" : "School"}</td>
-                                            <td>{item.gradeBatch}</td>
-                                            <td>
-                                                <span
-                                                    className={`badge ${item.status === 1
-                                                        ? "bg-success"
-                                                        : "bg-secondary"
-                                                        }`}
-                                                >
-                                                    {item.status === 1 ? "Active" : "Inactive"}
-                                                </span>
-                                            </td>
-                                            <td className="text-center">
-                                                <button className="btn btn-outline-primary btn-sm me-2" onClick={()=>navigate(`/superAdmin/edit-grade/${item?.id}`) }>
-                                                    <i className="bi bi-pencil"></i>
-                                                </button>
-                                                <button className="btn btn-outline-danger btn-sm" onClick={()=> handleDeleteClick(item.id)}>
-                                                    <i className="bi bi-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
+                                {isLoading ? (
                                     <tr>
-                                        <td colSpan="7" className="text-center text-muted py-4">
-                                            No records found
+                                        <td colSpan="4" className="text-center py-4">
+                                            Loading...
                                         </td>
                                     </tr>
-                                )}
+                                ) :
+                                    grades.length > 0 ? (
+                                        grades.map((item, index) => (
+                                            <tr key={item.id}>
+                                                <td>{index + 1}</td>
+                                                <td>{item.centreType === 1 ? "Skill Centre" : "School"}</td>
+                                                <td>{item.gradeBatch}</td>
+                                                <td>
+                                                    <span
+                                                        className={`badge ${item.status === 1
+                                                            ? "bg-success"
+                                                            : "bg-secondary"
+                                                            }`}
+                                                    >
+                                                        {item.status === 1 ? "Active" : "Inactive"}
+                                                    </span>
+                                                </td>
+                                                <td className="text-center">
+                                                    <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-grade/${item?.id}`)}>
+                                                        <i className="bi bi-pencil"></i>
+                                                    </button>
+                                                    <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(item.id)}>
+                                                        <i className="bi bi-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="7" className="text-center text-muted py-4">
+                                                No records found
+                                            </td>
+                                        </tr>
+                                    )}
                             </tbody>
                         </table>
                     </div>
