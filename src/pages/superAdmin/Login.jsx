@@ -24,11 +24,18 @@ const Login = () => {
   // 2 = OTP
   // 3 = Reset Password
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    dispatch(adminLogin({ username: email, password }));
+ const handleLogin = async (e) => {
+  e.preventDefault();
+
+  try {
+    await dispatch(
+      adminLogin({ username: email, password })
+    ).unwrap(); // waits for success
     navigate("/superAdmin");
-  };
+  } catch (error) {
+    console.error("Login failed:", error);
+  }
+};
 
   const handleSendOtp = (e) => {
     e.preventDefault();

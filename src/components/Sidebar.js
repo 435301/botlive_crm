@@ -9,7 +9,7 @@ import {
   BookOpen,
   Layers,
   Settings,
-  // GraduationCap,
+  GraduationCap,
   KeyRound,
   LogOut,
 } from "lucide-react";
@@ -454,7 +454,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
           </div>
 
           {/* Student Management */}
-          {/* <div
+          <div
             className={`nav-group ${isParentActive([
               "/superAdmin/add-student",
               "/superAdmin/manage-students",
@@ -486,7 +486,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
                 Manage Students
               </NavLink>
             </div>
-          </div> */}
+          </div>
           {/* Settings */}
           <NavLink to="/superAdmin/settings" className={getNavLinkClass}>
             <Settings size={18} />
