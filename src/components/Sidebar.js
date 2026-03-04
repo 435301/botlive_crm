@@ -137,7 +137,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               <Building2 size={18} />
               {!collapsed && (
                 <>
-                  <span>Skill Center Management</span>
+                  <span>Skill Center/ School Management</span>
                   <ChevronDown
                     size={16}
                     className={`arrow ${openMenu === "skillCenter" ? "rotate" : ""}`}
@@ -149,13 +149,13 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               className={`submenu ${openMenu === "skillCenter" ? "open" : ""}`}
             >
               <NavLink to="/superAdmin/add-skill-centre" className={getNavLinkClass}>
-                Add Skill Center
+                Add Skill Center/School
               </NavLink>
               <NavLink
                 to="/superAdmin/manage-skill-centres"
                 className={getNavLinkClass}
               >
-                Manage Skill Centers
+                Manage Skill Centers/Schools
               </NavLink>
             </div>
           </div>
