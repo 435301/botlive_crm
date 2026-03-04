@@ -1,33 +1,91 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import PriorityInput from "../../components/priorityInput";
 import FormActions from "../../components/FormActions";
 import FormSelect from "../../components/FormSelect";
 import StatusSelect from "../../components/StatusSelect";
+import { useCrud } from "../../hooks/useCrud";
+import useCourses from "../../hooks/useCourses";
+import useModules from "../../hooks/useModule";
+import FormInput from "../../components/FormInput";
 
 
 const AddChapters = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const isEditMode = Boolean(id);
 
-  const [formData, setFormData] = useState({
-    course: "",
-    moduleName: "",
+  const { useGetById, createMutation, updateMutation } = useCrud({
+    entity: "chapter",
+    getUrl: (id) => `/chapter/${id}`,
+    createUrl: "/chapter/add",
+    updateUrl: (id) => `/chapter/update/${id}`,
   });
+
+  const { data, isLoading } = useGetById(id);
+  console.log('data', data)
+  const [formData, setFormData] = useState({
+    courseId: "",
+    moduleId: "",
+  });
+
+  const { courses } = useCourses();
+
+  const { modules } = useModules();
+
+  const filteredModules = React.useMemo(() => {
+    if (!modules || !formData.courseId) return [];
+    return modules.filter(
+      (mod) => String(mod.courseId) === String(formData.courseId)
+    );
+  }, [modules, formData.courseId]);
+
+  const [errors, setErrors] = useState({});
 
   const [chapters, setChapters] = useState([
     {
       chapterName: "",
       videos: [],
       pdfs: [],
-      status: "Active",
+      status: 1,
       priority: 1,
     },
   ]);
 
+  useEffect(() => {
+    if (data && isEditMode) {
+       console.log("Course object:", data.course);
+      setFormData({
+        courseId: String(data.course?.id || ""),
+        moduleId: String(data.module?.id || ""),
+      });
+
+      setChapters([
+        {
+          chapterName: data.chapterTitle || "",
+          videos: [],
+          pdfs: [],
+          existingVideos: data.videos || [],
+          existingPdfs: data.pdfs || [],
+          status: data.status || 1,
+          priority: data.priority || 1,
+        },
+      ]);
+    }
+  }, [data, isEditMode]);
+
+
   /* ===== HANDLE COURSE / MODULE CHANGE ===== */
   const handleMainChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    if (name === "courseId") {
+      setFormData({
+        courseId: value,
+        moduleId: "",
+      });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   /* ===== HANDLE CHAPTER FIELD CHANGE ===== */
@@ -53,7 +111,7 @@ const AddChapters = () => {
         chapterName: "",
         videos: [],
         pdfs: [],
-        status: "Active",
+        status: 1,
         priority: chapters.length + 1,
       },
     ]);
@@ -65,23 +123,54 @@ const AddChapters = () => {
     setChapters(updated);
   };
 
-  /* ===== FINAL SUBMIT ===== */
   const handleSubmit = (e) => {
     e.preventDefault();
+    const form = new FormData();
+    // Main fields
+    form.append("courseId", formData.courseId);
+    form.append("moduleId", formData.moduleId);
 
-    const payload = {
-      course: formData.course,
-      moduleName: formData.moduleName,
-      chapters: chapters.map((ch) => ({
-        ...ch,
-        videos: Array.from(ch.videos),
-        pdfs: Array.from(ch.pdfs),
-      })),
-    };
+    // Chapters
+    chapters.forEach((chapter, index) => {
+      form.append(`chapters[${index}][chapterTitle]`, chapter.chapterName);
+      form.append(`chapters[${index}][status]`, chapter.status);
+      form.append(`chapters[${index}][priority]`, chapter.priority);
 
-    console.log("FINAL SUBMIT DATA:", payload);
+      // Videos
+      if (chapter.videos) {
+        Array.from(chapter.videos).forEach((video) => {
+          form.append(`chapters[${index}][videos]`, video);
+        });
+      }
 
-    navigate("/manage-chapters");
+      // PDFs
+      if (chapter.pdfs) {
+        Array.from(chapter.pdfs).forEach((pdf) => {
+          form.append(`chapters[${index}][pdfs]`, pdf);
+        });
+      }
+    });
+
+    // Debug
+    for (let pair of form.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+
+    // Call API
+    if (isEditMode) {
+      updateMutation.mutate(
+        { id, data: form },
+        {
+          onSuccess: () =>
+            navigate("/superAdmin/manage-chapters"),
+        }
+      );
+    } else {
+      createMutation.mutate(form, {
+        onSuccess: () =>
+          navigate("/superAdmin/manage-chapters"),
+      });
+    }
   };
 
   return (
@@ -93,7 +182,7 @@ const AddChapters = () => {
           <p className="mb-0">Create Multiple Chapters</p>
         </div>
 
-        <Link to="/manage-chapters" className="btn btn-outline-primary">
+        <Link to="/supeAdmin/manage-chapters" className="btn btn-outline-primary">
           Manage Chapters
         </Link>
       </div>
@@ -107,28 +196,28 @@ const AddChapters = () => {
               <div className="col-md-6">
                 <FormSelect
                   label="Course Name"
-                  name="course"
-                  value={formData.course}
+                  name="courseId"
+                  value={formData.courseId}
                   onChange={handleMainChange}
-                  required
-                  options={[
-                    { label: "Web Development", value: "Web Development" },
-                    { label: "Data Science", value: "Data Science" },
-                  ]}
+                  mandatory
+                  options={courses?.map((course) => ({
+                    label: course.courseTitle,
+                    value: course.id
+                  }))}
                 />
               </div>
 
               <div className="col-md-6">
                 <FormSelect
-                  label="   Module Name"
-                  name="moduleName"
-                  value={formData.moduleName}
+                  label="Module Name"
+                  name="moduleId"
+                  value={formData.moduleId}
                   onChange={handleMainChange}
-                  required
-                  options={[
-                    { label: "React Basics", value: "React Basics" },
-                    { label: "Python Fundamentals", value: "Python Fundamentals" },
-                  ]}
+                  mandatory
+                  options={filteredModules.map((module) => ({
+                    label: module.moduleTitle,
+                    value: module.id
+                  }))}
                 />
               </div>
 
@@ -185,6 +274,19 @@ const AddChapters = () => {
                         handleChapterChange(index, e)
                       }
                     />
+                    {/* Existing Videos */}
+                    {chapter.existingVideos?.length > 0 && (
+                      <div className="mt-2">
+                        <strong>Existing Videos:</strong>
+                        <ul>
+                          {chapter.existingVideos.map((video) => (
+                            <li key={video.id}>
+                              {video.videoPdf.split("/").pop()}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
 
                   <div className="col-md-4">
@@ -199,10 +301,23 @@ const AddChapters = () => {
                         handleChapterChange(index, e)
                       }
                     />
+                    {/* Existing PDFs */}
+                    {chapter.existingPdfs?.length > 0 && (
+                      <div className="mt-2">
+                        <strong>Existing PDFs:</strong>
+                        <ul>
+                          {chapter.existingPdfs.map((pdf) => (
+                            <li key={pdf.id}>
+                              {pdf.videoPdf.split("/").pop()}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
 
                   <div className="col-md-4">
-                  <StatusSelect formData={formData} handleChange={handleMainChange} />
+                    <StatusSelect name="status" value={chapter.status} handleChange={(e) => handleChapterChange(index, e)} error={errors.status} />
                   </div>
 
                   <div className="col-md-4">
@@ -231,9 +346,10 @@ const AddChapters = () => {
             {/* ACTION BUTTONS */}
             <div className="mt-4 text-center">
               <FormActions
-                onCancel={() => navigate("/manage-chapters")}
-                saveText="Save"
+                onCancel={() => navigate("/superAdmin/manage-chapters")}
+                saveText={isLoading ? "Saving" : "Save"}
                 cancelText="Cancel"
+                disabled={isLoading}
               />
             </div>
           </form>

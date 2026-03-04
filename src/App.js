@@ -192,25 +192,12 @@ function App() {
           <Route path="/superAdmin/add-module" element={<ProtectedRoute allowedRoles={["super-admin"]}>   {lazyLoad(AddModule)} </ProtectedRoute>} />
           <Route path="/superAdmin/edit-module/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>   {lazyLoad(AddModule)} </ProtectedRoute>} />
           <Route path="/superAdmin/manage-module" element={<ProtectedRoute allowedRoles={["super-admin"]}>  {lazyLoad(ManageModule)}</ProtectedRoute>} />
-          <Route
-            path="/superAdmin/add-chapters"
-            element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
-                {lazyLoad(AddChapters)}
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/superAdmin/manage-chapters"
-            element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
-                {lazyLoad(ManageChaptersModule)}
-              </ProtectedRoute>
-            }
-          />
-          <Route  path="/superAdmin/add-grade" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddGrades)}</ProtectedRoute>} />
-          <Route  path="/superAdmin/edit-grade/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddGrades)}</ProtectedRoute>} />
-          <Route path="/superAdmin/manage-grades" element={ <ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageGrades)}</ProtectedRoute>}/>
+          <Route path="/superAdmin/add-chapters" element={<ProtectedRoute allowedRoles={["super-admin"]}> {lazyLoad(AddChapters)}</ProtectedRoute>} />
+          <Route path="/superAdmin/edit-chapter/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}> {lazyLoad(AddChapters)}</ProtectedRoute>} />
+          <Route path="/superAdmin/manage-chapters" element={<ProtectedRoute allowedRoles={["super-admin"]}> {lazyLoad(ManageChaptersModule)} </ProtectedRoute>} />
+          <Route path="/superAdmin/add-grade" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddGrades)}</ProtectedRoute>} />
+          <Route path="/superAdmin/edit-grade/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddGrades)}</ProtectedRoute>} />
+          <Route path="/superAdmin/manage-grades" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ManageGrades)}</ProtectedRoute>} />
           <Route
             path="/superAdmin/add-assigned-chapter"
             element={

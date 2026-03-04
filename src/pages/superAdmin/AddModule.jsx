@@ -6,6 +6,7 @@ import FormInput from "../../components/FormInput";
 import { useCrud } from "../../hooks/useCrud";
 import { validateModule } from "../../utils/validation";
 import FormSelect from "../../components/FormSelect";
+import useCourses from "../../hooks/useCourses";
 
 const AddSkillCenter = () => {
 
@@ -22,13 +23,7 @@ const AddSkillCenter = () => {
     deleteUrl: (id) => `/module/delete/${id}`,
   });
 
-  const { useList: CourseListQuery } = useCrud({
-    entity: "course",
-    listUrl: "/course/list",
-  });
-
-  const { data: courseList } = CourseListQuery({ page: 1, search: "", status: 1, });
-  const courses = courseList?.data || []
+  const {courses} = useCourses();
   const { data, isLoading } = useGetById(id);
 
   const [formData, setFormData] = useState({

@@ -86,7 +86,7 @@ const FormSelect = ({
 
       <Select
         name={name}
-        value={selectedOption}
+        value={selectedOption || ""}
         onChange={(selected) =>
           onChange({
             target: { name, value: selected ? selected.value : "" },
