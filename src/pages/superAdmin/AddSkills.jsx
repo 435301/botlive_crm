@@ -53,6 +53,7 @@ const AddSkillCenter = () => {
     area: "",
     status: 1,
     founderId: "",
+    udiseCode: "",
   });
   const [errors, setErrors] = useState({});
 
@@ -188,6 +189,22 @@ const AddSkillCenter = () => {
                 />
 
               </div>
+
+              {formData.centerType === 2 && (
+                <div className="col-md-4">
+                  <FormInput
+                    type="text"
+                    label=" udise Code"
+                    name="udiseCode"
+                    value={formData.udiseCode}
+                    onChange={handleChange}
+                    placeholder="Enter udise Code "
+                    error={errors.udiseCode}
+                    mandatory
+                  />
+                </div>
+              )}
+
 
               {/* Contact Person */}
               <div className="col-md-4">

@@ -227,6 +227,7 @@ const ManageSkillCenters = () => {
                   <th>Center Code</th>
                   <th>Name</th>
                   <th>Centre Type</th>
+                  <th>UDISE Code</th>
                   <th>Address</th>
                   <th>Contact Person</th>
                   <th>Mobile</th>
@@ -255,6 +256,7 @@ const ManageSkillCenters = () => {
                       <td className="">{center.centerCode}</td>
                       <td>{center.centerName}</td>
                       <td>{center.centerType === 1 ? "Skill Centre" : "School"}</td>
+                      <td>{center.udiseCode || "-"}</td>
                       <td>{center.address}</td>
                       <td>{center.contactPerson}</td>
                       <td>{center.mobile}</td>
