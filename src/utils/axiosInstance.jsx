@@ -4,7 +4,7 @@ import store from "../redux/store";
 import { logoutAdmin } from "../redux/slices/adminSlice";
 
 const axiosInstance = axios.create({
-    baseURL: "http://16.170.148.110:8000",
+    baseURL: "https://cyientfoundation.duckdns.org",
     headers: {
     "Content-Type": "application/json",
   },
