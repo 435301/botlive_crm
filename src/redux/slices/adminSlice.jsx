@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import BASE_URL from "../../config/config";
 import axios from "axios";
-import { toast } from "react-toastify";
 import Cookies from "js-cookie";
+import {toast} from "react-hot-toast";
 export const adminLogin = createAsyncThunk(
     "admin/login",
     async (credentials, { rejectWithValue }) => {
