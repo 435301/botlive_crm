@@ -151,7 +151,7 @@ function App() {
             path="/login"
             element={<PublicRoute>{lazyLoad(Login)}</PublicRoute>}
           />
-          <Route path="/superAdmin" element={lazyLoad(Dashboard)} />
+          <Route path="/superAdmin" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(Dashboard)}</ProtectedRoute>} />
           <Route
             path="/superAdmin/manage-skill-centres"
             element={
