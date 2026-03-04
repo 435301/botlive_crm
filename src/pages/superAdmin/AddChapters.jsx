@@ -7,7 +7,6 @@ import StatusSelect from "../../components/StatusSelect";
 import { useCrud } from "../../hooks/useCrud";
 import useCourses from "../../hooks/useCourses";
 import useModules from "../../hooks/useModule";
-import FormInput from "../../components/FormInput";
 
 
 const AddChapters = () => {
@@ -170,6 +169,7 @@ const AddChapters = () => {
         onSuccess: () =>
           navigate("/superAdmin/manage-chapters"),
       });
+      setErrors("");
     }
   };
 

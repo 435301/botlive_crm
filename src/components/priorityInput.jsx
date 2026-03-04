@@ -1,7 +1,6 @@
-import styles from "../assets/css/style.module.css";
+
 
 const PriorityInput = ({ value, onChange }) => {
-    const options = Array.from({ length: 15 }, (_, i) => i + 1);
 
     return (
         <div>

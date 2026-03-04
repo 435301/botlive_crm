@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
-import BASE_URL_JOB from "../../config/config";
 import useCourses from "../../hooks/useCourses";
 import useModules from "../../hooks/useModule";
 
@@ -17,7 +16,7 @@ const ManageChaptersModule = () => {
     const [status, setStatus] = useState("");
     const [page, setPage] = useState(1);
 
-    const { useList, deleteMutation } = useCrud({
+    const { useList } = useCrud({
         entity: "chapter",
         listUrl: "/chapter/list",
         deleteUrl: (id) => `/chapter/delete/${id}`,
@@ -202,7 +201,13 @@ const ManageChaptersModule = () => {
                         </thead>
 
                         <tbody>
-                            {chapters.length ? (
+                            { isLoading ? (
+                                <tr>
+                                    <td colSpan="4" className="text-center py-4">
+                                        Loading...
+                                    </td>
+                                </tr>
+                                ): chapters.length ? (
                                 chapters.map((t, i) => (
                                     <tr key={t.id}>
                                         <td>{i + 1}</td>
