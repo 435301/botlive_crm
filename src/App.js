@@ -283,9 +283,9 @@ function App() {
             }
           />
           <Route
-            path="/superAdmin/manage-founders" element={<ProtectedRoute allowedRoles={["super-admin"]}>  {lazyLoad(ManageFounders)}</ProtectedRoute>} />
-          <Route path="/superAdmin/add-founder" element={<ProtectedRoute allowedRoles={["super-admin"]}> {lazyLoad(AddFounder)}</ProtectedRoute>} />
-          <Route path="/superAdmin/edit-founder/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddFounder)}</ProtectedRoute>} />
+            path="/superAdmin/manage-owners" element={<ProtectedRoute allowedRoles={["super-admin"]}>  {lazyLoad(ManageFounders)}</ProtectedRoute>} />
+          <Route path="/superAdmin/add-owner" element={<ProtectedRoute allowedRoles={["super-admin"]}> {lazyLoad(AddFounder)}</ProtectedRoute>} />
+          <Route path="/superAdmin/edit-owner/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddFounder)}</ProtectedRoute>} />
         </Routes>
       </LayoutWrapper>
     </Router>
