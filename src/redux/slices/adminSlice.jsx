@@ -14,8 +14,8 @@ export const adminLogin = createAsyncThunk(
                 toast.error(data.message);
                 return rejectWithValue(data.message);
             }
-
-            Cookies.set("super-admin-token", data.data.token, {
+            return data; // success only
+            Cookies.set("supe   r-admin-token", data.data.token, {
                 expires: 7, // 7 days
                 secure: false, // if it is https set to true
                 sameSite: "Strict",
