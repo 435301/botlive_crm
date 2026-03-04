@@ -10,12 +10,11 @@ export const adminLogin = createAsyncThunk(
             const response = await axios.post(`${BASE_URL}/admin/login`, credentials);
             const data = response.data;
 
-            if (!data.status) {
+            if (!data.status || !data.data?.token) {
                 toast.error(data.message);
                 return rejectWithValue(data.message);
             }
-            return data; // success only
-            Cookies.set("supe   r-admin-token", data.data.token, {
+            Cookies.set("super-admin-token", data.data.token, {
                 expires: 7, // 7 days
                 secure: false, // if it is https set to true
                 sameSite: "Strict",
