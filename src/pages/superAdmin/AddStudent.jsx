@@ -2,9 +2,19 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import FormActions from "../../components/FormActions";
+// import { useCrud } from "../../hooks/useCrud";
 
 const AddStudent = () => {
   const navigate = useNavigate();
+
+    // const { useGetById, createMutation, updateMutation } = useCrud({
+    //   entity: "state",
+    //   listUrl: "/state/list",
+    //   getUrl: (id) => `/state/${id}`,
+    //   createUrl: "/state/add",
+    //   updateUrl: (id) => `/state/update/${id}`,
+    //   deleteUrl: (id) => `/state/delete/${id}`,
+    // });
 
   const [formData, setFormData] = useState({
     courseType: "",
@@ -32,15 +42,37 @@ const AddStudent = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    console.log("Student Data:", formData);
+  try {
+    const dataToSend = new FormData();
 
-    // Redirect after save
+    // Append all text fields
+    dataToSend.append("courseType", formData.courseType);
+    dataToSend.append("centerName", formData.centerName);
+    dataToSend.append("trainer", formData.trainer);
+    dataToSend.append("course", formData.course);
+    dataToSend.append("enrollmentNumber", formData.enrollmentNumber);
+    dataToSend.append("studentName", formData.studentName);
+    dataToSend.append("gender", formData.gender);
+    dataToSend.append("dob", formData.dob);
+    dataToSend.append("adharNumber", formData.adharNumber);
+    dataToSend.append("mobile", formData.mobile);
+    dataToSend.append("email", formData.email);
+    dataToSend.append("password", formData.password);
+    dataToSend.append("status", formData.status);
+
+    // Append file
+    if (formData.studentPhoto) {
+      dataToSend.append("studentPhoto", formData.studentPhoto);
+    }
+
     navigate("/manage-students");
-  };
-
+  } catch (error) {
+    console.error("Error creating student:", error);
+  }
+};
   return (
     <div className="container-fluid">
       {/* ===== HEADER ===== */}

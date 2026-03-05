@@ -9,13 +9,14 @@ const FormInput = ({
   type = "text",
   className,
   error,
+  mandatory,
 }) => {
   return (
     <div className={className}>
       {label && (
         <label className="form-label">
           {label}
-          <span className="text-danger"> *</span>
+          {mandatory && <span className="text-danger"> *</span>}
         </label>
       )}
 
@@ -26,10 +27,10 @@ const FormInput = ({
         value={value}
         placeholder={placeholder}
         onChange={onChange}
-      // required={required}
+        mandatory={mandatory}
       />
       {error && (
-        <div className=" d-flex invalid-feedback">
+        <div className="text-danger small">
           {error}
         </div>
       )}

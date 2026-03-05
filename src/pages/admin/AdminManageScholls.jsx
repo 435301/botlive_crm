@@ -187,13 +187,6 @@ const ManageSkillCenters = () => {
               </button>
 
               {/* Add School Center button */}
-              <Link
-                to="/admin/add-schools-skills"
-                className="btn add-skill-btn d-flex align-items-center"
-              >
-                <i className="ti ti-graduation-cap me-2"></i>
-                Add School Center
-              </Link>
             </div>
           </div>
 

@@ -443,6 +443,7 @@ tr {
   border-style: solid;
   border-width: 0;
   white-space: nowrap;
+  font-size: 14px;
 }
 /* GRADIENTS */
 .grad-blue {
@@ -1360,6 +1361,20 @@ button .filter-btn :hover {
   border-radius: 0px;
   color: #555;
 }
+.password-toggle-btn {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6c757d;
+}
+
+.password-toggle-btn:hover {
+  color: #000;
+}
 .forgot-link {
   color: #019aa8;
   cursor: pointer;
@@ -1716,7 +1731,11 @@ button .filter-btn :hover {
   justify-content: space-between;
   margin-top: 10px;
 }
-
+.bg-warning {
+  --bs-bg-opacity: 1;
+  background-color: rgb(255 193 7 / 9%) !important;
+  color: #ffc107 !important;
+}
 /* Attendance */
 .present strong {
   color: #16a34a;
@@ -1724,6 +1743,11 @@ button .filter-btn :hover {
 
 .absent strong {
   color: #dc2626;
+}
+.bg-danger {
+  --bs-bg-opacity: 1;
+  background-color: rgb(220 53 69 / 14%) !important;
+  color: #ff5722 !important;
 }
 
 /* Responsive */

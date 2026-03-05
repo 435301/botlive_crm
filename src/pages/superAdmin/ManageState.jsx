@@ -71,7 +71,7 @@ const ManageState = () => {
         {/* Add Skill Center button */}
         <div className="d-flex gap-2">
           <Link
-            to="/add-state"
+            to="/superAdmin/add-state"
             className="btn add-skill-btn d-flex align-items-center"
           >
             <i className="ti ti-graduation-cap me-2"></i>
@@ -160,7 +160,7 @@ const ManageState = () => {
                           </span>
                         </td>
                         <td className="text-center">
-                          <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/edit-state/${item.id}`)}>
+                          <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-state/${item.id}`)}>
                             <i className="bi bi-pencil"></i>
                           </button>
                           <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(item.id)}>

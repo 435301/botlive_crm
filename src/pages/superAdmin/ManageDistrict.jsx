@@ -81,7 +81,7 @@ const ManageDistrict = () => {
         {/* Add Skill Center button */}
         <div className="d-flex gap-2">
           <Link
-            to="/add-district"
+            to="/superAdmin/add-district"
             className="btn add-skill-btn d-flex align-items-center"
           >
             <i className="ti ti-graduation-cap me-2"></i>
@@ -134,10 +134,6 @@ const ManageDistrict = () => {
 
           <div className="col-lg-3 col-md-12">
             <div className="d-flex gap-2">
-              <button className="btn filter-btn">
-                <i className="bi bi-search me-1"></i>
-              </button>
-
               <button
                 className="btn reset-btn"
                 onClick={resetFilters}
@@ -189,7 +185,7 @@ const ManageDistrict = () => {
                         </span>
                       </td>
                       <td className="text-center">
-                        <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/edit-district/${item.id}`)}>
+                        <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-district/${item.id}`)}>
                           <i className="bi bi-pencil"></i>
                         </button>
                         <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(item.id)}>

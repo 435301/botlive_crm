@@ -1,123 +1,46 @@
 import React, { useState } from "react";
 import Pagination from "../../components/Pagination";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
+import { useCrud } from "../../hooks/useCrud";
+import useStates from "../../hooks/useStates";
+import useDistricts from "../../hooks/useDistricts";
+import DeleteConfirmationModal from "../../Modals/deleteModal";
 import AdminSidebar from "../../components/admin/AdminSidebar";
 import AdminHeader from "../../components/admin/AdminHeader";
-const skillCenters = [
-  {
-    centerCode: "CEN-001",
-    name: "Hyderabad Skill Center",
-    centerType: "Skill Center",
-    address: "Madhapur, Hyderabad",
-    contactPerson: "Ramesh Kumar",
-    mobile: "9876543210",
-    email: "hyd@center.com",
-    password: "********",
-    state: "Telangana",
-    district: "Hyderabad",
-    area: "Madhapur",
-    status: "Active",
-  },
-  {
-    centerCode: "CEN-002",
-    name: "Green Valley School",
-    centerType: "School",
-    address: "Whitefield, Bangalore",
-    contactPerson: "Anita Sharma",
-    mobile: "9123456789",
-    email: "gvs@school.com",
-    password: "********",
-    state: "Karnataka",
-    district: "Bangalore",
-    area: "Whitefield",
-    status: "Inactive",
-  },
-  {
-    centerCode: "CEN-003",
-    name: "Tech Skill Hub",
-    centerType: "Skill Center",
-    address: "Gachibowli, Hyderabad",
-    contactPerson: "Suresh Rao",
-    mobile: "9988776655",
-    email: "tech@hub.com",
-    password: "********",
-    state: "Telangana",
-    district: "Hyderabad",
-    area: "Gachibowli",
-    status: "Active",
-  },
-  {
-    centerCode: "CEN-004",
-    name: "Bright Future School",
-    centerType: "School",
-    address: "HSR Layout, Bangalore",
-    contactPerson: "Kavya Nair",
-    mobile: "9090909090",
-    email: "bright@school.com",
-    password: "********",
-    state: "Karnataka",
-    district: "Bangalore",
-    area: "HSR Layout",
-    status: "Inactive",
-  },
-  {
-    centerCode: "CEN-001",
-    name: "Hyderabad Skill Center",
-    centerType: "Skill Center",
-    address: "Madhapur, Hyderabad",
-    contactPerson: "Ramesh Kumar",
-    mobile: "9876543210",
-    email: "hyd@center.com",
-    password: "********",
-    state: "Telangana",
-    district: "Hyderabad",
-    area: "Madhapur",
-    status: "Active",
-  },
-  {
-    centerCode: "CEN-002",
-    name: "Green Valley School",
-    centerType: "School",
-    address: "Whitefield, Bangalore",
-    contactPerson: "Anita Sharma",
-    mobile: "9123456789",
-    email: "gvs@school.com",
-    password: "********",
-    status: "Inactive",
-  },
-  {
-    centerCode: "CEN-003",
-    name: "Tech Skill Hub",
-    centerType: "Skill Center",
-    address: "Gachibowli, Hyderabad",
-    contactPerson: "Suresh Rao",
-    mobile: "9988776655",
-    email: "tech@hub.com",
-    password: "********",
-    status: "Active",
-  },
-  {
-    centerCode: "CEN-004",
-    name: "Bright Future School",
-    centerType: "School",
-    address: "HSR Layout, Bangalore",
-    contactPerson: "Kavya Nair",
-    mobile: "9090909090",
-    email: "bright@school.com",
-    password: "********",
-    status: "Inactive",
-  },
-];
 
 const ManageSkillCenters = () => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [state, setState] = useState("");
   const [district, setDistrict] = useState("");
   const [type, setType] = useState("");
   const [page, setPage] = useState(1);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+
+  const { useList, deleteMutation } = useCrud({
+    entity: "skillCenter",
+    listUrl: "/skillCenter/list",
+    deleteUrl: (id) => `/skillCenter/delete/${id}`,
+  });
+
+  const { data, isLoading } = useList({
+    search,
+    status,
+    page,
+    stateId: state,
+    districtId: district,
+    centerType: type,
+  });
+  const skills = data?.data || [];
+  const totalPages = data?.totalPages || 1;
+
+  const { states } = useStates();
+  const { districts } = useDistricts();
+
   const handleImportExcel = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -131,35 +54,28 @@ const ManageSkillCenters = () => {
     // later you can generate excel using XLSX
   };
 
-  const ITEMS_PER_PAGE = 5;
-
-  /* ===== FILTER LOGIC ===== */
-  const filteredCenters = skillCenters.filter((center) => {
-    const matchSearch =
-      center.name.toLowerCase().includes(search.toLowerCase()) ||
-      center.address.toLowerCase().includes(search.toLowerCase());
-
-    const matchStatus = status ? center.status === status : true;
-
-    return matchSearch && matchStatus;
-  });
-
-  /* ===== PAGINATION LOGIC ===== */
-  const totalPages = Math.ceil(filteredCenters.length / ITEMS_PER_PAGE);
-  const startIndex = (page - 1) * ITEMS_PER_PAGE;
-  const paginatedCenters = filteredCenters.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE,
-  );
-
   const resetFilters = () => {
     setSearch("");
     setStatus("");
+    setDistrict("");
+    setState("");
+    setType("");
     setPage(1);
   };
 
+  const handleDeleteClick = (id) => {
+    setDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+  const handleDelete = async () => {
+    setShowDeleteModal(false);
+    setDeleteId(null);
+    deleteMutation.mutate(deleteId);
+  };
+
   return (
-    <div className="admin-layout d-flex">
+    <div className="admin-layout ">
       {/* ===== SIDEBAR ===== */}
       <AdminSidebar />
 
@@ -176,9 +92,9 @@ const ManageSkillCenters = () => {
                 <i className="ti ti-certificate fs-16"></i>
               </div>
               <div>
-                <h5 className="fw-bold mb-0">Manage School/Skill Centers</h5>
+                <h5 className="fw-bold mb-0">Manage Skill Centers</h5>
                 <p className="sub-text mb-0">
-                  View, edit and manage all school/skill centers
+                  View, edit and manage all skill centers
                 </p>
               </div>
             </div>
@@ -207,15 +123,9 @@ const ManageSkillCenters = () => {
               </button>
 
               {/* Add Skill Center */}
-              <Link
-                to="/add-skills"
-                className="btn add-skill-btn d-flex align-items-center"
-              >
-                <i className="ti ti-graduation-cap me-2"></i>
-                Add School/Skill Center
-              </Link>
             </div>
           </div>
+
           {/* ===== FILTERS ===== */}
           <div className="filter-wrapper mb-3">
             <div className="row g-2 align-items-center">
@@ -234,10 +144,10 @@ const ManageSkillCenters = () => {
                 <SelectFilter
                   value={state}
                   placeholder="All States"
-                  options={[
-                    { label: "Telangana", value: "Telangana" },
-                    { label: "Karnataka", value: "Karnataka" },
-                  ]}
+                  options={states.map((state) => ({
+                    label: state.stateName,
+                    value: state.id,
+                  }))}
                   onChange={(value) => {
                     setState(value);
                     setPage(1);
@@ -249,10 +159,10 @@ const ManageSkillCenters = () => {
                 <SelectFilter
                   value={district}
                   placeholder="All Districts"
-                  options={[
-                    { label: "Hyderabad", value: "Hyderabad" },
-                    { label: "Bangalore", value: "Bangalore" },
-                  ]}
+                  options={districts.map((district) => ({
+                    label: district.districtName,
+                    value: district.id,
+                  }))}
                   onChange={(value) => {
                     setDistrict(value);
                     setPage(1);
@@ -265,8 +175,8 @@ const ManageSkillCenters = () => {
                   value={type}
                   placeholder="All Types"
                   options={[
-                    { label: "School", value: "School" },
-                    { label: "Skill Center", value: "Skill Center" },
+                    { label: "Skill Centre", value: 1 },
+                    { label: "School", value: 2 },
                   ]}
                   onChange={(value) => {
                     setType(value);
@@ -280,8 +190,8 @@ const ManageSkillCenters = () => {
                   value={status}
                   placeholder="All Status"
                   options={[
-                    { label: "Active", value: "Active" },
-                    { label: "Inactive", value: "Inactive" },
+                    { label: "Active", value: 1 },
+                    { label: "Inactive", value: 0 },
                   ]}
                   onChange={(value) => {
                     setStatus(value);
@@ -307,63 +217,89 @@ const ManageSkillCenters = () => {
               </div>
             </div>
           </div>
-          {/* ===== TABLE ===== */}
+
           {/* ===== TABLE ===== */}
           <div className="card shadow-sm rounded-3 p-2">
             <div className="card-body p-1">
               <div className="table-responsive">
-                {/* <table className="table table-bordered table-striped align-middle student-modern-table">
+                {" "}
+                <table className="table table-bordered table-striped align-middle student-modern-table">
                   <thead className="">
                     <tr>
                       <th>#</th>
                       <th>Center Code</th>
                       <th>Name</th>
-                      <th>Type</th>
+                      <th>Centre Type</th>
+                      <th>UDISE Code</th>
                       <th>Address</th>
-                      <th>Contact</th>
+                      <th>Contact Person</th>
                       <th>Mobile</th>
                       <th>Email</th>
-                      <th>Password</th>
+                      {/* <th>Password</th> */}
                       <th>State</th>
                       <th>District</th>
                       <th>Area</th>
+                      <th>Founder</th>
                       <th>Status</th>
                       <th className="text-center">Actions</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    {paginatedCenters.length > 0 ? (
-                      paginatedCenters.map((center, index) => (
+                    {isLoading ? (
+                      <tr>
+                        <td colSpan="8" className="text-center py-4">
+                          Loading...
+                        </td>
+                      </tr>
+                    ) : skills?.length > 0 ? (
+                      skills?.map((center, index) => (
                         <tr key={center.centerCode}>
-                          <td>{startIndex + index + 1}</td>
+                          <td>{index + 1}</td>
                           <td className="">{center.centerCode}</td>
-                          <td>{center.name}</td>
-                          <td>{center.centerType}</td>
+                          <td>{center.centerName}</td>
+                          <td>
+                            {center.centerType === 1
+                              ? "Skill Centre"
+                              : "School"}
+                          </td>
+                          <td>{center.udiseCode || "-"}</td>
                           <td>{center.address}</td>
                           <td>{center.contactPerson}</td>
                           <td>{center.mobile}</td>
                           <td>{center.email}</td>
-                          <td>{center.password}</td>
-                          <td>{center.state}</td>
-                          <td>{center.district}</td>
+                          {/* <td>{center.password}</td> */}
+                          <td>{center.state?.stateName}</td>
+                          <td>{center.district?.districtName}</td>
                           <td>{center.area}</td>
+                          <td>{center.founder?.name}</td>
+
                           <td>
                             <span
                               className={`badge ${
-                                center.status === "Active"
+                                center.status === 1
                                   ? "bg-success"
                                   : "bg-secondary"
                               }`}
                             >
-                              {center.status}
+                              {center.status === 1 ? "Active" : "Inactive"}
                             </span>
                           </td>
                           <td className="text-center">
-                            <button className="btn btn-outline-primary btn-sm me-2">
+                            <button
+                              className="btn btn-outline-primary btn-sm me-2"
+                              onClick={() =>
+                                navigate(
+                                  `/superAdmin/edit-skill-centre/${center.id}`,
+                                )
+                              }
+                            >
                               <i className="bi bi-pencil"></i>
                             </button>
-                            <button className="btn btn-outline-danger btn-sm">
+                            <button
+                              className="btn btn-outline-danger btn-sm"
+                              onClick={() => handleDeleteClick(center.id)}
+                            >
                               <i className="bi bi-trash"></i>
                             </button>
                           </td>
@@ -380,7 +316,7 @@ const ManageSkillCenters = () => {
                       </tr>
                     )}
                   </tbody>
-                </table> */}
+                </table>
               </div>
 
               {/* ===== PAGINATION ===== */}
@@ -391,6 +327,12 @@ const ManageSkillCenters = () => {
                   onPageChange={setPage}
                 />
               )}
+
+              <DeleteConfirmationModal
+                show={showDeleteModal}
+                handleClose={() => setShowDeleteModal(false)}
+                handleConfirm={handleDelete}
+              />
             </div>
           </div>
         </div>

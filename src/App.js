@@ -13,13 +13,14 @@ import Sidebar from "./components/Sidebar";
 // import ErrorBoundary from "./components/ErrorBoundary";
 import PageLoader from "./components/PageLoader";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import PublicRoute from "./components/PublicRoute";
 import AddState from "./pages/superAdmin/AddState";
 import AddDistrict from "./pages/superAdmin/AddDistrict";
 import ManageDistrict from "./pages/superAdmin/ManageDistrict";
-// Super admin
+import ManageFounders from "./pages/superAdmin/ManageFounders";
+import AddFounder from "./pages/superAdmin/AddFounder";
+import { Toaster } from "react-hot-toast";
+
 const Dashboard = lazy(() => import("./pages/superAdmin/Dashboard"));
 const Login = lazy(() => import("./pages/superAdmin/Login"));
 const Manage = lazy(() => import("./pages/superAdmin/Manage"));
@@ -56,13 +57,26 @@ const ManageStates = lazy(() => import("./pages/superAdmin/ManageState"));
 // Admin
 
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
-const AdminManageScholls = lazy(
-  () => import("./pages/admin/AdminManageScholls"),
-);
 const AdminAddSchoolsSkills = lazy(
   () => import("./pages/admin/AdminAddSchoolsSkills"),
 );
+const AdminAddSkills = lazy(() => import("./pages/admin/AdminAddSkills"));
+const AdminManageScholls = lazy(
+  () => import("./pages/admin/AdminManageScholls"),
+);
 const AdminManageSkills = lazy(() => import("./pages/admin/AdminManageSkills"));
+const ManageReportStudents = lazy(
+  () => import("./pages/admin/ManageReportStudents"),
+);
+const SchollDetails = lazy(() => import("./pages/admin/SchollDetails"));
+const SkillsDetails = lazy(() => import("./pages/admin/SkillsDetails"));
+const AdminChangePassword = lazy(
+  () => import("./pages/admin/AdminChangePassword"),
+);
+
+const ManageReportSkills = lazy(
+  () => import("./pages/admin/ManageReportSkills"),
+);
 
 /* =========================
    Layout Wrapper
@@ -83,7 +97,6 @@ function LayoutWrapper({
   if (isLoginPage) {
     return <>{children}</>;
   }
-
   //  ALL OTHER PAGES
   return (
     <>
@@ -138,6 +151,18 @@ function App() {
 
   return (
     <Router>
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "#0f172a",
+            color: "#fff",
+            borderRadius: "8px",
+          },
+        }}
+      />
       <LayoutWrapper
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
@@ -151,9 +176,16 @@ function App() {
             path="/login"
             element={<PublicRoute>{lazyLoad(Login)}</PublicRoute>}
           />
-          <Route path="/" element={lazyLoad(Dashboard)} />
           <Route
-            path="/superAdmin/manage-skills"
+            path="/superAdmin"
+            element={
+              <ProtectedRoute allowedRoles={["super-admin"]}>
+                {lazyLoad(Dashboard)}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superAdmin/manage-skill-centres"
             element={
               <ProtectedRoute allowedRoles={["super-admin"]}>
                 {lazyLoad(Manage)}
@@ -161,7 +193,7 @@ function App() {
             }
           />
           <Route
-            path="/superAdmin/add-skills"
+            path="/superAdmin/add-skill-centre"
             element={
               <ProtectedRoute allowedRoles={["super-admin"]}>
                 {lazyLoad(AddSkills)}
@@ -169,10 +201,10 @@ function App() {
             }
           />
           <Route
-            path="/superAdmin/add-course"
+            path="/superAdmin/edit-skill-centre/:id"
             element={
               <ProtectedRoute allowedRoles={["super-admin"]}>
-                {lazyLoad(AddCourse)}
+                {lazyLoad(AddSkills)}
               </ProtectedRoute>
             }
           />
@@ -185,9 +217,28 @@ function App() {
             }
           />
           <Route
+            path="/superAdmin/add-course"
+            element={
+              <ProtectedRoute allowedRoles={["super-admin"]}>
+                {" "}
+                {lazyLoad(AddCourse)}{" "}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superAdmin/edit-course/:id"
+            element={
+              <ProtectedRoute allowedRoles={["super-admin"]}>
+                {" "}
+                {lazyLoad(AddCourse)}{" "}
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/superAdmin/manage-course"
             element={
               <ProtectedRoute allowedRoles={["super-admin"]}>
+                {" "}
                 {lazyLoad(ManageCourse)}
               </ProtectedRoute>
             }
@@ -204,7 +255,17 @@ function App() {
             path="/superAdmin/add-module"
             element={
               <ProtectedRoute allowedRoles={["super-admin"]}>
-                {lazyLoad(AddModule)}
+                {" "}
+                {lazyLoad(AddModule)}{" "}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superAdmin/edit-module/:id"
+            element={
+              <ProtectedRoute allowedRoles={["super-admin"]}>
+                {" "}
+                {lazyLoad(AddModule)}{" "}
               </ProtectedRoute>
             }
           />
@@ -212,6 +273,7 @@ function App() {
             path="/superAdmin/manage-module"
             element={
               <ProtectedRoute allowedRoles={["super-admin"]}>
+                {" "}
                 {lazyLoad(ManageModule)}
               </ProtectedRoute>
             }
@@ -220,6 +282,16 @@ function App() {
             path="/superAdmin/add-chapters"
             element={
               <ProtectedRoute allowedRoles={["super-admin"]}>
+                {" "}
+                {lazyLoad(AddChapters)}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superAdmin/edit-chapter/:id"
+            element={
+              <ProtectedRoute allowedRoles={["super-admin"]}>
+                {" "}
                 {lazyLoad(AddChapters)}
               </ProtectedRoute>
             }
@@ -228,7 +300,8 @@ function App() {
             path="/superAdmin/manage-chapters"
             element={
               <ProtectedRoute allowedRoles={["super-admin"]}>
-                {lazyLoad(ManageChaptersModule)}
+                {" "}
+                {lazyLoad(ManageChaptersModule)}{" "}
               </ProtectedRoute>
             }
           />
@@ -241,7 +314,15 @@ function App() {
             }
           />
           <Route
-            path="/manage-grades"
+            path="/superAdmin/edit-grade/:id"
+            element={
+              <ProtectedRoute allowedRoles={["super-admin"]}>
+                {lazyLoad(AddGrades)}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superAdmin/manage-grades"
             element={
               <ProtectedRoute allowedRoles={["super-admin"]}>
                 {lazyLoad(ManageGrades)}
@@ -332,25 +413,59 @@ function App() {
               </ProtectedRoute>
             }
           />
-          {/* Admin Routes */}
-          <Route path="/admin/dashboard" element={lazyLoad(AdminDashboard)} />
           <Route
-            path="/admin/manage-schools"
-            element={lazyLoad(AdminManageScholls)}
+            path="/superAdmin/manage-owners"
+            element={
+              <ProtectedRoute allowedRoles={["super-admin"]}>
+                {" "}
+                {lazyLoad(ManageFounders)}
+              </ProtectedRoute>
+            }
           />
+          <Route
+            path="/superAdmin/add-owner"
+            element={
+              <ProtectedRoute allowedRoles={["super-admin"]}>
+                {" "}
+                {lazyLoad(AddFounder)}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superAdmin/edit-owner/:id"
+            element={
+              <ProtectedRoute allowedRoles={["super-admin"]}>
+                {lazyLoad(AddFounder)}
+              </ProtectedRoute>
+            }
+          />
+          {/* Admin */}
+          <Route path="/admin/admin" element={<AdminDashboard />} />
           <Route
             path="/admin/add-schools-skills"
-            element={lazyLoad(AdminAddSchoolsSkills)}
+            element={<AdminAddSchoolsSkills />}
           />
+          <Route path="/admin/add-skills" element={<AdminAddSkills />} />
           <Route
-            path="/admin/manage-skills"
-            element={lazyLoad(AdminManageSkills)}
+            path="/admin/manage-schools"
+            element={<AdminManageScholls />}
+          />
+          <Route path="/admin/manage-skills" element={<AdminManageSkills />} />
+          <Route
+            path="/admin/report-students"
+            element={<ManageReportStudents />}
+          />
+          <Route path="/admin/scholl-details" element={<SchollDetails />} />
+          <Route path="/admin/report-skills" element={<ManageReportSkills />} />
+          <Route path="/admin/skill-details" element={<SkillsDetails />} />
+          <Route
+            path="/admin/change-password"
+            element={<AdminChangePassword />}
           />
         </Routes>
       </LayoutWrapper>
     </Router>
   );
 }
-<ToastContainer position="top-right" autoClose={3000} theme="colored" />;
 
 export default App;

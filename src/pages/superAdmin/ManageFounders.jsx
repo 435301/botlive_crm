@@ -3,35 +3,34 @@ import Pagination from "../../components/Pagination";
 import { Link, useNavigate } from "react-router-dom";
 import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
-import { useCrud } from "../../hooks/useCrud";
 import DeleteConfirmationModal from "../../Modals/deleteModal";
+import { useCrud } from "../../hooks/useCrud";
 
 
-const ManageGrades = () => {
+const ManageFounders = () => {
     const navigate = useNavigate();
     const [search, setSearch] = useState("");
-    const [centreType, setCentreType] = useState("");
     const [status, setStatus] = useState("");
     const [page, setPage] = useState(1);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
 
     const { useList, deleteMutation } = useCrud({
-        entity: "grade",
-        listUrl: "/grade/list",
-        getUrl: (id) => `/grade/${id}`,
-        updateUrl: (id) => `/grade/update/${id}`,
-        deleteUrl: (id) => `/grade/delete/${id}`,
+        entity: "founder",
+        listUrl: "/founder/list",
+        getUrl: (id) => `/founder/${id}`,
+        createUrl: "/founder/add",
+        updateUrl: (id) => `/founder/update/${id}`,
+        deleteUrl: (id) => `/founder/delete/${id}`,
     });
 
     const { data, isLoading } = useList({
         search,
         status,
         page,
-        centreType,
     });
 
-    const grades = data?.data || [];
+    const founders = data?.data || [];
     const totalPages = data?.totalPages || 1;
 
     const handleImportExcel = (e) => {
@@ -50,7 +49,6 @@ const ManageGrades = () => {
     const resetFilters = () => {
         setSearch("");
         setStatus("");
-        setCentreType("");
         setPage(1);
     };
 
@@ -65,7 +63,6 @@ const ManageGrades = () => {
         deleteMutation.mutate(deleteId);
     };
 
-
     return (
         <div className="container-fluid">
             {/* ===== HEADER ===== */}
@@ -76,9 +73,9 @@ const ManageGrades = () => {
                         <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
                     </div>
                     <div>
-                        <h5 className="fw-bold mb-0">Grades/Batches Management</h5>
+                        <h5 className="fw-bold mb-0">Founder Management</h5>
                         <p className="sub-text mb-0">
-                            View, edit and manage all grades/batches
+                            View, edit and manage all founders
                         </p>
                     </div>
                     {/* Right: Action Buttons */}
@@ -107,36 +104,21 @@ const ManageGrades = () => {
                         Export Excel
                     </button>
                     <Link
-                        to="/superAdmin/add-grade"
+                        to="/superAdmin/add-owner"
                         className="btn add-skill-btn d-flex align-items-center"
                     >
                         <i className="ti ti-graduation-cap me-2"></i>
-                        Add Grade/Batch
+                        Add Owner
                     </Link>
                 </div>
             </div>
             {/* ===== FILTERS ===== */}
             <div className="filter-wrapper mb-3">
                 <div className="row g-2 align-items-center">
-
-                    <div className="col-lg-3 col-md-6">
-                        <SelectFilter
-                            value={centreType}
-                            placeholder="All Center Types"
-                            options={[
-                                { label: "School", value: 2 },
-                                { label: "Skill Centre", value: 1 },
-                            ]}
-                            onChange={(value) => {
-                                setCentreType(value);
-                                setPage(1);
-                            }}
-                        />
-                    </div>
-                    <div className="col-lg-3 col-md-6">
+                    <div className="col-lg-4 col-md-6">
                         <SearchInput
                             value={search}
-                            placeholder="Search by grade or batch"
+                            placeholder="Search by founder name"
                             onChange={(value) => {
                                 setSearch(value);
                                 setPage(1);
@@ -159,8 +141,12 @@ const ManageGrades = () => {
                         />
                     </div>
 
-                    <div className="col-lg-3 col-md-12">
+                    <div className="col-lg-5 col-md-12">
                         <div className="d-flex gap-2">
+                            <button className="btn filter-btn">
+                                <i className="bi bi-search me-1"></i>
+                            </button>
+
                             <button
                                 className="btn reset-btn"
                                 onClick={resetFilters}
@@ -181,8 +167,10 @@ const ManageGrades = () => {
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Center Type</th>
-                                    <th>Grade / Batch</th>
+                                    <th>Founder Name</th>
+                                    <th>Email</th>
+                                    <th>Mobile</th>
+                                    {/* <th>Password</th> */}
                                     <th>Status</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
@@ -195,40 +183,41 @@ const ManageGrades = () => {
                                             Loading...
                                         </td>
                                     </tr>
-                                ) :
-                                    grades.length > 0 ? (
-                                        grades.map((item, index) => (
-                                            <tr key={item.id}>
-                                                <td>{index + 1}</td>
-                                                <td>{item.centreType === 1 ? "Skill Centre" : "School"}</td>
-                                                <td>{item.gradeBatch}</td>
-                                                <td>
-                                                    <span
-                                                        className={`badge ${item.status === 1
-                                                            ? "bg-success"
-                                                            : "bg-secondary"
-                                                            }`}
-                                                    >
-                                                        {item.status === 1 ? "Active" : "Inactive"}
-                                                    </span>
-                                                </td>
-                                                <td className="text-center">
-                                                    <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-grade/${item?.id}`)}>
-                                                        <i className="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(item.id)}>
-                                                        <i className="bi bi-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan="7" className="text-center text-muted py-4">
-                                                No records found
+                                ) : founders?.length > 0 ? (
+                                    founders.map((item, index) => (
+                                        <tr key={item.id}>
+                                            <td>{index + 1}</td>
+                                            <td>{item.name}</td>
+                                            <td>{item.email}</td>
+                                            <td>{item.mobile}</td>
+                                            {/* <td>{item.password}</td> */}
+                                            <td>
+                                                <span
+                                                    className={`badge ${item.status === 1
+                                                        ? "bg-success"
+                                                        : "bg-secondary"
+                                                        }`}
+                                                >
+                                                    {item.status === 1 ? "Active" : "Inactive"}
+                                                </span>
+                                            </td>
+                                            <td className="text-center">
+                                                <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-owner/${item?.id}`)}>
+                                                    <i className="bi bi-pencil"></i>
+                                                </button>
+                                                <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(item?.id)}>
+                                                    <i className="bi bi-trash"></i>
+                                                </button>
                                             </td>
                                         </tr>
-                                    )}
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="7" className="text-center text-muted py-4">
+                                            No records found
+                                        </td>
+                                    </tr>
+                                )}
                             </tbody>
                         </table>
                     </div>
@@ -241,14 +230,16 @@ const ManageGrades = () => {
                             onPageChange={setPage}
                         />
                     )}
+
                     <DeleteConfirmationModal
                         show={showDeleteModal}
                         handleClose={() => setShowDeleteModal(false)}
-                        handleConfirm={handleDelete} />
+                        handleConfirm={handleDelete}
+                    />
                 </div>
             </div>
         </div>
     );
 };
 
-export default ManageGrades;
+export default ManageFounders;

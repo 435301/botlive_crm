@@ -1,32 +1,71 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import FormActions from "../../components/FormActions";
 import StatusSelect from "../../components/StatusSelect";
 import FormSelect from "../../components/FormSelect";
 import FormInput from "../../components/FormInput";
+import { useCrud } from "../../hooks/useCrud";
+import { validateGrade } from "../../utils/validation";
 
 const AddGrades = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const isEditMode = Boolean(id);
 
-  const [formData, setFormData] = useState({
-    centerType: "",
-    batch: "",
-    grade: "",
-    status: "Active",
+  const { useGetById, createMutation, updateMutation } = useCrud({
+    entity: "grade",
+    listUrl: "/grade/list",
+    getUrl: (id) => `/grade/${id}`,
+    createUrl: "/grade/add",
+    updateUrl: (id) => `/grade/update/${id}`,
+    deleteUrl: (id) => `/grade/delete/${id}`,
   });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const { data, isLoading } = useGetById(id);
+  const [formData, setFormData] = useState({
+    centreType: "",
+    gradeBatch: "",
+    status: 1,
+  });
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (data) {
+      setFormData({
+        centreType: data.centreType,
+        gradeBatch: data.gradeBatch,
+        status: data.status,
+      });
+    }
+  }, [data]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("New Course Data:", formData);
-    navigate("/manage-course");
+    const validationErrors = validateGrade(formData);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    if (isEditMode) {
+      updateMutation.mutate(
+        { id, data: formData },
+        { onSuccess: () => navigate("/superAdmin/manage-grades") }
+      );
+    } else {
+      createMutation.mutate(formData, {
+        onSuccess: () => navigate("/superAdmin/manage-grades"),
+      });
+    }
   };
 
-  const isSchool = formData.centerType === "School";
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: "", }));
+  };
+
+  const isSchool = formData.centerType === 1;
 
   return (
     <div className="container-fluid">
@@ -47,7 +86,7 @@ const AddGrades = () => {
 
         {/* Right: Manage Skills Button */}
         <Link
-          to="/manage-grades"
+          to="/superAdmin/manage-grades"
           className="btn manage-skills-btn d-flex align-items-center"
         >
           <i className="ti ti-certificate me-2"></i>
@@ -63,38 +102,39 @@ const AddGrades = () => {
           <form onSubmit={handleSubmit}>
             <div className="row g-3">
 
-
               {/* Center Type */}
               <div className="col-md-4">
                 <FormSelect
-                  label="Center Type"
-                  name="centerType"
-                  value={formData.centerType}
+                  label="Centre Type"
+                  name="centreType"
+                  value={formData.centreType}
                   onChange={handleChange}
-                  required
+                  mandatory
                   options={[
-                    { label: "School", value: "School" },
-                    { label: "Skill Center", value: "Skill Center" },
+                    { label: "Skill Center", value: 1 },
+                    { label: "School", value: 2 },
                   ]}
+                  error={errors.centreType}
                 />
               </div>
 
               {/* Course / Grade */}
               <div className="col-md-4">
                 <FormInput
-                  label={isSchool ? "School Name" : "Skill Center Name"}
-                  name={isSchool ? "grade" : "batch"}
-                  value={isSchool ? formData.grade : formData.batch}
+                  label={isSchool ? "Skill Center Name" :"School Name" }
+                  name="gradeBatch"
+                  value={formData.gradeBatch}
                   onChange={handleChange}
-                  placeholder={`Enter ${isSchool ? "School" : "Skill Center"} Name`}
-                  required
+                  placeholder={`Enter ${isSchool ? "Skill Center" : "School"} Name`}
+                  mandatory
+                  error={errors.gradeBatch}
                 />
 
               </div>
 
               {/* Status */}
               <div className="col-md-4">
-                <StatusSelect formData={formData} handleChange={handleChange} />
+                <StatusSelect name="status" value={formData.status} handleChange={handleChange} error={errors.status} />
               </div>
             </div>
 
@@ -102,9 +142,10 @@ const AddGrades = () => {
             <div className="mt-4 text-center">
 
               <FormActions
-                onCancel={() => navigate("/manage-grades")}
+                onCancel={() => navigate("/superAdmin/manage-grades")}
                 saveText="Save"
                 cancelText="Cancel"
+                disabled={isLoading}
               />
             </div>
           </form>

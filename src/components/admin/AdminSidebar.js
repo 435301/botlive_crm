@@ -94,18 +94,18 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
             </div>
 
             <div className={`submenu ${openMenu === "reports" ? "open" : ""}`}>
-              <NavLink to="/reports/student" className={getNavLinkClass}>
-                Student Reports
+              <NavLink to="/admin/report-students" className={getNavLinkClass}>
+                Schools
               </NavLink>
 
-              <NavLink to="/reports/trainer" className={getNavLinkClass}>
-                Trainer Reports
+              <NavLink to="/admin/report-skills" className={getNavLinkClass}>
+                Skill centre
               </NavLink>
             </div>
           </div>
 
           {/* Change Password */}
-          <NavLink to="/change-password" className={getNavLinkClass}>
+          <NavLink to="/admin/change-password" className={getNavLinkClass}>
             <KeyRound size={18} />
             {!collapsed && <span>Change Password</span>}
           </NavLink>

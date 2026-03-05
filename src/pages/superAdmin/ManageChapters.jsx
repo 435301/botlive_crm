@@ -1,77 +1,41 @@
 import React, { useState } from "react";
 import Pagination from "../../components/Pagination";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
+import { useCrud } from "../../hooks/useCrud";
+import useCourses from "../../hooks/useCourses";
+import useModules from "../../hooks/useModule";
 
-/* ===== SAMPLE MODULE DATA ===== */
-const modulesData = [
-    {
-        id: 1,
-        centerType: "Skill Center",
-        centerName: "Hyderabad Skill Center",
-        course: "Frontend Development",
-        moduleName: "React Basics",
-        chapterName: "React Basics",
-        videos: ["intro.mp4", "components.mp4"],
-        pdfs: ["react-basics.pdf"],
-        status: "Active",
-        priority: "Low"
-    },
-    {
-        id: 2,
-        centerType: "School",
-        centerName: "Green Valley School",
-        course: "Web Development",
-        moduleName: "Python Fundamentals",
-        chapterName: "DOM Manipulation",
-        videos: ["syntax.mp4"],
-        pdfs: ["python-notes.pdf", "examples.pdf"],
-        status: "Inactive",
-        priority: "Medium"
-    },
-    {
-        id: 3,
-        centerType: "Skill Center",
-        centerName: "Tech Skill Hub",
-        course: "Data Science",
-        moduleName: "JS DOM Manipulation",
-        chapterName: "Data Structures",
-        videos: ["dom.mp4"],
-        pdfs: ["js-dom.pdf"],
-        status: "Active",
-        priority: "High"
-    },
-];
 
 const ManageChaptersModule = () => {
+    const navigate = useNavigate();
     const [search, setSearch] = useState("");
-    const [centerType, setCenterType] = useState("");
     const [course, setCourse] = useState("");
     const [module, setModule] = useState("");
     const [status, setStatus] = useState("");
     const [page, setPage] = useState(1);
 
-    const ITEMS_PER_PAGE = 5;
-
-    /* ===== FILTER MODULES ===== */
-    const filteredData = modulesData.filter((t) => {
-        const matchSearch = t.moduleName
-            .toLowerCase()
-            .includes(search.toLowerCase());
-        const matchCenterType = centerType ? t.centerType === centerType : true;
-        const matchStatus = status ? t.status === status : true;
-
-        return matchSearch && matchCenterType && matchStatus;
+    const { useList } = useCrud({
+        entity: "chapter",
+        listUrl: "/chapter/list",
+        deleteUrl: (id) => `/chapter/delete/${id}`,
     });
 
-    /* ===== PAGINATION ===== */
-    const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
-    const startIndex = (page - 1) * ITEMS_PER_PAGE;
-    const paginatedData = filteredData.slice(
-        startIndex,
-        startIndex + ITEMS_PER_PAGE,
-    );
+    const { data, isLoading } = useList({
+        search,
+        courseId: course,
+        moduleId: module,
+        status,
+        page,
+    });
+
+    const chapters = data?.data || [];
+    const totalPages = data?.totalPages || 1;
+
+    const {courses} = useCourses();
+    const {modules} = useModules();
+
     const handleImportExcel = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -87,7 +51,8 @@ const ManageChaptersModule = () => {
 
     const resetFilters = () => {
         setSearch("");
-        setCenterType("");
+        setCourse("");
+        setModule("");
         setStatus("");
         setPage(1);
     };
@@ -157,12 +122,12 @@ const ManageChaptersModule = () => {
                     <div className="col-md-2">
                         <SelectFilter
                             value={course}
+                            name= "course"
                             placeholder="All Courses"
-                            options={[
-                                { label: "Web Development", value: "web-dev" },
-                                { label: "Frontend Development", value: "frontend" },
-                                { label: "Data Science", value: "data-science" },
-                            ]}
+                            options={courses.map((course)=> ({
+                                label: course.courseTitle,
+                                value: String(course.id)
+                            }))}
                             onChange={(value) => {
                                 setCourse(value);
                                 setPage(1);
@@ -171,14 +136,14 @@ const ManageChaptersModule = () => {
                     </div>
 
                     <div className="col-md-2">
-                         <SelectFilter
+                        <SelectFilter
                             value={module}
+                            name="module"
                             placeholder="All Modules"
-                            options={[
-                                { label: "React Basics", value: "React Basics" },
-                                { label: "Python Fundamentals", value: "Python Fundamentals" },
-                                { label: "JS DOM Manipulation", value: "JS DOM Manipulation" },
-                            ]}
+                            options={modules.map((module)=>({
+                                label: module.moduleTitle,
+                                value: String(module.id)
+                            }))}
                             onChange={(value) => {
                                 setModule(value);
                                 setPage(1);
@@ -191,8 +156,8 @@ const ManageChaptersModule = () => {
                             value={status}
                             placeholder="All Status"
                             options={[
-                                { label: "Active", value: "Active" },
-                                { label: "Inactive", value: "Inactive" },
+                                { label: "Active", value: 1},
+                                { label: "Inactive", value: 0 },
                             ]}
                             onChange={(value) => {
                                 setStatus(value);
@@ -203,10 +168,6 @@ const ManageChaptersModule = () => {
 
                     <div className="col-lg-3 col-md-12">
                         <div className="d-flex gap-2">
-                            <button className="btn filter-btn">
-                                <i className="bi bi-search me-1"></i>
-                            </button>
-
                             <button
                                 className="btn reset-btn"
                                 onClick={resetFilters}
@@ -231,8 +192,8 @@ const ManageChaptersModule = () => {
                                 <th>Course Name</th>
                                 <th>Module Name</th>
                                 <th>Chapter Name</th>
-                                <th>Videos</th>
-                                <th>PDFs</th>
+                                {/* <th>Videos</th>
+                                <th>PDFs</th> */}
                                 <th>Priority</th>
                                 <th>Status</th>
                                 <th className="text-center">Actions</th>
@@ -240,51 +201,62 @@ const ManageChaptersModule = () => {
                         </thead>
 
                         <tbody>
-                            {paginatedData.length ? (
-                                paginatedData.map((t, i) => (
+                            { isLoading ? (
+                                <tr>
+                                    <td colSpan="4" className="text-center py-4">
+                                        Loading...
+                                    </td>
+                                </tr>
+                                ): chapters.length ? (
+                                chapters.map((t, i) => (
                                     <tr key={t.id}>
-                                        <td>{startIndex + i + 1}</td>
-                                        {/* <td>{t.centerType}</td> */}
+                                        <td>{i + 1}</td>
+                                        <td>{t.course.courseTitle}</td>
+                                        <td>{t.module.moduleTitle}</td>
+                                        <td>{t.chapterTitle}</td>
+                                        {/* <td>  {t.videos?.length ? (
+                                            t.videos.map((video, index) => (
+                                                <div key={index}>
+                                                    <a
+                                                        href={`${import.meta.env.VITE_BASE_URL}/uploads/videos/${video}`}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                    >
+                                                        {video}
+                                                    </a>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            "-"
+                                        )}</td>
 
-                                        <td>{t.course}</td>
-                                        <td>{t.moduleName}</td>
-                                        <td>{i + 1}: {t.chapterName}</td>
-                                        <td>  {t.videos.map((video, index) => (
-                                            <div key={index}>
-                                                <a
-                                                    href={`/uploads/videos/${video}`}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                >
-                                                    {video}
-                                                </a>
-                                            </div>
-                                        ))}</td>
-
-                                        <td>{t.pdfs.map((pdf, index) => (
-                                            <div key={index}>
-                                                <a
-                                                    href={`/uploads/pdfs/${pdf}`}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                >
-                                                    {pdf}
-                                                </a>
-
-                                            </div>
-                                        ))}</td>
+                                        <td> {t.pdfs?.length ? (
+                                            t.pdfs.map((pdf, index) => (
+                                                <div key={index}>
+                                                    <a
+                                                        href={`${BASE_URL_JOB}/uploads/pdfs/${pdf}`}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                    >
+                                                        {pdf}   
+                                                    </a>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            "-"
+                                        )}</td> */}
                                         <td>{t.priority}</td>
                                         <td>
                                             <span
-                                                className={`badge ${t.status === "Active" ? "bg-success" : "bg-secondary"
+                                                className={`badge ${t.status === 1 ? "bg-success" : "bg-secondary"
                                                     }`}
                                             >
-                                                {t.status}
+                                                {t.status === 1 ? "Active" :"Inactive"}
                                             </span>
                                         </td>
 
                                         <td className="text-center">
-                                            <button className="btn btn-outline-primary btn-sm me-2">
+                                            <button className="btn btn-outline-primary btn-sm me-2" onClick={()=> navigate(`/superAdmin/edit-chapter/${t.id}`)}>
                                                 <i className="bi bi-pencil"></i>
                                             </button>
                                             <button className="btn btn-outline-danger btn-sm">

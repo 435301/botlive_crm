@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import BASE_URL from "../../config/config";
 import axios from "axios";
-import { toast } from "react-toastify";
 import Cookies from "js-cookie";
+import {toast} from "react-hot-toast";
 export const adminLogin = createAsyncThunk(
     "admin/login",
     async (credentials, { rejectWithValue }) => {
@@ -10,11 +10,10 @@ export const adminLogin = createAsyncThunk(
             const response = await axios.post(`${BASE_URL}/admin/login`, credentials);
             const data = response.data;
 
-            if (!data.status) {
+            if (!data.status || !data.data?.token) {
                 toast.error(data.message);
                 return rejectWithValue(data.message);
             }
-
             Cookies.set("super-admin-token", data.data.token, {
                 expires: 7, // 7 days
                 secure: false, // if it is https set to true
