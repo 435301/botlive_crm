@@ -128,10 +128,6 @@ const locationPieData = [
 
 /* ===== QUICK INFO ===== */
 
-/* ===== PIE DATA ===== */
-
-/* ===== BAR DATA ===== */
-
 const Dashboard = () => {
   return (
     <div className="container-fluid">

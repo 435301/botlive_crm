@@ -19,7 +19,7 @@ import PublicRoute from "./components/PublicRoute";
 import AddState from "./pages/superAdmin/AddState";
 import AddDistrict from "./pages/superAdmin/AddDistrict";
 import ManageDistrict from "./pages/superAdmin/ManageDistrict";
-
+// Super admin
 const Dashboard = lazy(() => import("./pages/superAdmin/Dashboard"));
 const Login = lazy(() => import("./pages/superAdmin/Login"));
 const Manage = lazy(() => import("./pages/superAdmin/Manage"));
@@ -52,6 +52,18 @@ const AddSchoolsSkills = lazy(
 );
 const ChangePassword = lazy(() => import("./pages/superAdmin/ChangePassword"));
 const ManageStates = lazy(() => import("./pages/superAdmin/ManageState"));
+
+// Admin
+
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const AdminManageScholls = lazy(
+  () => import("./pages/admin/AdminManageScholls"),
+);
+const AdminAddSchoolsSkills = lazy(
+  () => import("./pages/admin/AdminAddSchoolsSkills"),
+);
+const AdminManageSkills = lazy(() => import("./pages/admin/AdminManageSkills"));
+
 /* =========================
    Layout Wrapper
 ========================= */
@@ -319,6 +331,20 @@ function App() {
                 {lazyLoad(ManageDistrict)}
               </ProtectedRoute>
             }
+          />
+          {/* Admin Routes */}
+          <Route path="/admin/dashboard" element={lazyLoad(AdminDashboard)} />
+          <Route
+            path="/admin/manage-schools"
+            element={lazyLoad(AdminManageScholls)}
+          />
+          <Route
+            path="/admin/add-schools-skills"
+            element={lazyLoad(AdminAddSchoolsSkills)}
+          />
+          <Route
+            path="/admin/manage-skills"
+            element={lazyLoad(AdminManageSkills)}
           />
         </Routes>
       </LayoutWrapper>
