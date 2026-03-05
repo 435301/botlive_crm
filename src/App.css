@@ -1313,7 +1313,7 @@ button .filter-btn :hover {
     url("../src/assets/images/page-title.jpg"); /* your image path */
 
   background-size: cover;
-  background-position: center;
+  background-position: initial;
   background-repeat: no-repeat;
 }
 
