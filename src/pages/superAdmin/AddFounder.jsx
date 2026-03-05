@@ -54,11 +54,11 @@ const AddFounder = () => {
         if (isEditMode) {
             updateMutation.mutate(
                 { id, data: formData },
-                { onSuccess: () => navigate("/superAdmin/manage-owners") }
+                { onSuccess: () => navigate("/superAdmin/manage-administrator") }
             );
         } else {
             createMutation.mutate(formData, {
-                onSuccess: () => navigate("/superAdmin/manage-owners"),
+                onSuccess: () => navigate("/superAdmin/manage-administrator"),
             });
         }
     };
@@ -79,27 +79,27 @@ const AddFounder = () => {
                         <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
                     </div>
                     <div>
-                        <h5 className="fw-bold mb-0">Owner Management</h5>
+                        <h5 className="fw-bold mb-0">Administrator Management</h5>
                         <p className="sub-text mb-0">
-                            View, edit and manage all owners
+                            View, edit and manage all administrators
                         </p>
                     </div>
                 </div>
 
                 {/* Right: Manage Skills Button */}
                 <Link
-                    to="/superAdmin/manage-owners"
+                    to="/superAdmin/manage-administrator"
                     className="btn manage-skills-btn d-flex align-items-center"
                 >
                     <i className="ti ti-certificate me-2"></i>
-                    Manage Founder
+                    Manage Administrator
                 </Link>
             </div>
 
             {/* ===== FORM ===== */}
             <div className="card shadow-sm p-1">
                 <div className="card-body">
-                    <h5 className="fw-bold mb-4">{isEditMode ? "Edit Owner" : "Create Owner"} </h5>
+                    <h5 className="fw-bold mb-4">{isEditMode ? "Edit Administrator" : "Create Administrator"} </h5>
 
                     <form onSubmit={handleSubmit}>
                         <div className="row g-3">
@@ -168,7 +168,7 @@ const AddFounder = () => {
                         {/* ===== ACTION BUTTONS ===== */}
                         <div className="mt-4 text-center">
                             <FormActions
-                                onCancel={() => navigate("/superAdmin/manage-owners")}
+                                onCancel={() => navigate("/superAdmin/manage-administrator")}
                                 saveText={createMutation.isPending ? "Saving..." : "Save"}
                                 cancelText="Cancel"
                                 disableSave={isLoading}

@@ -421,8 +421,8 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
           {/* Founder management */}
           <div
             className={`nav-group ${isParentActive([
-              "/superAdmin/add-owner",
-              "/superAdmin/manage-owners",
+              "/superAdmin/add-administrator",
+              "/superAdmin/manage-administrator",
             ])
               ? "active"
               : ""
@@ -432,7 +432,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               <BookOpen size={18} />
               {!collapsed && (
                 <>
-                  <span>Owner Management</span>
+                  <span>Administrator Management</span>
                   <ChevronDown
                     size={16}
                     className={`arrow ${openMenu === "founder" ? "rotate" : ""}`}
@@ -441,14 +441,14 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               )}
             </div>
             <div className={`submenu ${openMenu === "founder" ? "open" : ""}`}>
-              <NavLink to="/superAdmin/add-owner" className={getNavLinkClass}>
-                Add Owner
+              <NavLink to="/superAdmin/add-administrator" className={getNavLinkClass}>
+               Add Administrator 
               </NavLink>
               <NavLink
-                to="/superAdmin/manage-owners"
+                to="/superAdmin/manage-administrator"
                 className={getNavLinkClass}
               >
-                Manage Owners
+                Manage Aministrator
               </NavLink>
             </div>
           </div>
