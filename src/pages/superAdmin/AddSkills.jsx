@@ -266,7 +266,7 @@ const AddSkillCenter = () => {
 
               <div className="col-md-4">
                 <FormSelect
-                  label="Founder"
+                  label="Administrator"
                   name="founderId"
                   value={formData.founderId}
                   onChange={handleChange}
