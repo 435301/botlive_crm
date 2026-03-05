@@ -1,19 +1,14 @@
 import React, { useState } from "react";
 import Pagination from "../../components/Pagination";
-import { useNavigate } from "react-router-dom";
 import SearchInput from "../../components/SearchInput";
-import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
-import useStates from "../../hooks/useStates";
-import useDistricts from "../../hooks/useDistricts";
+
 import DeleteConfirmationModal from "../../Modals/deleteModal";
 import AdminSidebar from "../../components/admin/AdminSidebar";
 import AdminHeader from "../../components/admin/AdminHeader";
 import { Link } from "react-router-dom";
 
 const ManageSkillCenters = () => {
-  const navigate = useNavigate();
-
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [state, setState] = useState("");
@@ -42,9 +37,6 @@ const ManageSkillCenters = () => {
   const skills = data?.data || [];
   const totalPages = data?.totalPages || 1;
 
-  const { states } = useStates();
-  const { districts } = useDistricts();
-
   const resetFilters = () => {
     setSearch("");
     setStatus("");
@@ -52,11 +44,6 @@ const ManageSkillCenters = () => {
     setState("");
     setType("");
     setPage(1);
-  };
-
-  const handleDeleteClick = (id) => {
-    setDeleteId(id);
-    setShowDeleteModal(true);
   };
 
   const handleDelete = async () => {

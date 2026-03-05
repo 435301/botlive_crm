@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import { Menu, User, LogOut, ChevronDown } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 const Header = ({ toggleSidebar, toggleCollapse, collapsed }) => {
   const [openProfile, setOpenProfile] = useState(false);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   return (
     <header className={`header ${collapsed ? "collapsed" : ""}`}>

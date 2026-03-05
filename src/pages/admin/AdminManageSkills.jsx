@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Pagination from "../../components/Pagination";
-import { Link, useNavigate } from "react-router-dom";
 import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
@@ -9,6 +8,7 @@ import useDistricts from "../../hooks/useDistricts";
 import DeleteConfirmationModal from "../../Modals/deleteModal";
 import AdminSidebar from "../../components/admin/AdminSidebar";
 import AdminHeader from "../../components/admin/AdminHeader";
+import { useNavigate } from "react-router-dom";
 
 const ManageSkillCenters = () => {
   const navigate = useNavigate();
