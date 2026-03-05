@@ -40,7 +40,7 @@ const ManageModule = () => {
     listUrl: "/course/list",
   });
 
-  const { data: courseList } = CourseListQuery({ page: 1, search: "", status: 1, courseId:courseId });
+  const { data: courseList } = CourseListQuery({ page: "", search: "", status: 1, courseId:courseId });
   const courses = courseList?.data || []
   console.log('courses', courses)
 
