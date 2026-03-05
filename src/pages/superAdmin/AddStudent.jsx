@@ -320,6 +320,7 @@ const AddStudent = () => {
                   value={formData.aadharNumber}
                   onChange={handleChange}
                   error={errors.aadharNumber}
+                  placeholder="Enter Aadhar number"
                   mandatory
                 />
               </div>
@@ -345,6 +346,7 @@ const AddStudent = () => {
                   value={formData.mobile}
                   onChange={handleChange}
                   error={errors.mobile}
+                  placeholder="Enter mobile number"
                   mandatory
                 />
               </div>
@@ -358,6 +360,7 @@ const AddStudent = () => {
                   value={formData.email}
                   onChange={handleChange}
                   error={errors.email}
+                  placeholder="Enter email address"
                   mandatory
                 />
               </div>

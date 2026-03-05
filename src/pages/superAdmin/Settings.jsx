@@ -4,9 +4,9 @@ import FormInput from "../../components/FormInput";
 
 const userTypeMap = {
   1: "Skill Center / School",
-  2: "Founder",
+  2: "Administrator",
   3: "Trainer",
-  4: "Student",
+  // 4: "Student",
 };
 
 const Settings = () => {
