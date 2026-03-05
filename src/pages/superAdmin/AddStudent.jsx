@@ -390,7 +390,7 @@ const AddStudent = () => {
             <div className="mt-4 text-center">
               <FormActions
                 onCancel={() => navigate("/superAdmin/manage-students")}
-                saveText="Save"
+                saveText={createMutation.isPending ? "Saving..." : "Save"}
                 cancelText="Cancel"
               />
             </div>

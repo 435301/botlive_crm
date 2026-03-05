@@ -208,3 +208,17 @@ export const validateSchoolStudent = (formData, isEditMode) => {
 
   return newErrors;
 };
+
+export const validateCategory = (formData) => {
+  const errors = {};
+
+  if (!formData.category?.trim()) {
+    errors.category = "Category is required";
+  }
+
+  if (formData.status === undefined || formData.status === "") {
+    errors.status = "Status is required";
+  }
+
+  return errors;
+};

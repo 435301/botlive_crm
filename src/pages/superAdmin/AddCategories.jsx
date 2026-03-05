@@ -5,26 +5,26 @@ import FormInput from "../../components/FormInput";
 import FormActions from "../../components/FormActions";
 import StatusSelect from "../../components/StatusSelect";
 import { useCrud } from "../../hooks/useCrud";
-import { validateCourse } from "../../utils/validation";
+import { validateCategory, validateCourse } from "../../utils/validation";
 
-const AddSkillCenter = () => {
+const AddCategories = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const isEditMode = Boolean(id);
 
   const { useGetById, createMutation, updateMutation } = useCrud({
-    entity: "course",
-    listUrl: "/course/list",
-    getUrl: (id) => `/course/${id}`,
-    createUrl: "/course/add",
-    updateUrl: (id) => `/course/update/${id}`,
-    deleteUrl: (id) => `/course/delete/${id}`,
+    entity: "category",
+    listUrl: "/category/list",
+    getUrl: (id) => `/category/${id}`,
+    createUrl: "/category/add",
+    updateUrl: (id) => `/category/update/${id}`,
+    deleteUrl: (id) => `/category/delete/${id}`,
   });
 
   const { data, isLoading } = useGetById(id);
 
   const [formData, setFormData] = useState({
-    courseTitle: "",
+    category: "",
     status: 1,
   });
 
@@ -33,7 +33,7 @@ const AddSkillCenter = () => {
   useEffect(() => {
     if (data) {
       setFormData({
-        courseTitle: data.courseTitle,
+        category: data.category,
         status: data.status
       });
     }
@@ -48,7 +48,7 @@ const AddSkillCenter = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const validationErrors = validateCourse(formData);
+    const validationErrors = validateCategory(formData);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -56,11 +56,11 @@ const AddSkillCenter = () => {
     if (isEditMode) {
       updateMutation.mutate(
         { id, data: formData },
-        { onSuccess: () => navigate("/superAdmin/manage-course") }
+        { onSuccess: () => navigate("/superAdmin/manage-category") }
       );
     } else {
       createMutation.mutate(formData, {
-        onSuccess: () => navigate("/superAdmin/manage-course"),
+        onSuccess: () => navigate("/superAdmin/manage-category"),
       });
     }
   };
@@ -122,7 +122,7 @@ const AddSkillCenter = () => {
             <div className="mt-4 text-center">
               <FormActions
                 onCancel={() => navigate("/superAdmin/manage-course")}
-                 saveText={isLoading ? "Saving" : "Save"}
+                saveText="Save"
                 cancelText="Cancel"
                 disabled={isLoading}
               />
@@ -134,4 +134,4 @@ const AddSkillCenter = () => {
   );
 };
 
-export default AddSkillCenter;
+export default AddCategories;

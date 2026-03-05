@@ -143,7 +143,7 @@ const AddGrades = () => {
 
               <FormActions
                 onCancel={() => navigate("/superAdmin/manage-grades")}
-                saveText="Save"
+                 saveText={isLoading ? "Saving" : "Save"}
                 cancelText="Cancel"
                 disabled={isLoading}
               />

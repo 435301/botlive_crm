@@ -127,7 +127,7 @@ const AddSkillCenter = () => {
             <div className="mt-4 text-center">
               <FormActions
                 onCancel={() => navigate("/superAdmin/manage-module")}
-                saveText="Save"
+                saveText={createMutation.isPending ? "Saving..." : "Save"}
                 cancelText="Cancel"
                 disabled={isLoading}
               />
