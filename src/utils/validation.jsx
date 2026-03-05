@@ -222,3 +222,31 @@ export const validateCategory = (formData) => {
 
   return errors;
 };
+
+export const validateQualification= (formData) => {
+  const errors = {};
+
+  if (!formData.qualification?.trim()) {
+    errors.qualification = "Qualification is required";
+  }
+
+  if (formData.status === undefined || formData.status === "") {
+    errors.status = "Status is required";
+  }
+
+  return errors;
+};
+
+export const validateOccupation= (formData) => {
+  const errors = {};
+
+  if (!formData.occupation?.trim()) {
+    errors.occupation = "Occupation is required";
+  }
+
+  if (formData.status === undefined || formData.status === "") {
+    errors.status = "Status is required";
+  }
+
+  return errors;
+};

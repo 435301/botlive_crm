@@ -120,6 +120,46 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               >
                 Manage District
               </NavLink>
+
+               <NavLink
+                to="/superAdmin/add-category"
+                className={getNavLinkClass}
+              >
+                Add Category
+              </NavLink>
+              <NavLink
+                to="/superAdmin/manage-category"
+                className={getNavLinkClass}
+              >
+                Manage Category
+              </NavLink>
+
+               <NavLink
+                to="/superAdmin/add-qualification"
+                className={getNavLinkClass}
+              >
+                Add Qualification
+              </NavLink>
+              <NavLink
+                to="/superAdmin/manage-qualification"
+                className={getNavLinkClass}
+              >
+                Manage Qualification
+              </NavLink>
+
+              <NavLink
+                to="/superAdmin/add-occupation"
+                className={getNavLinkClass}
+              >
+                Add Occupation
+              </NavLink>
+              <NavLink
+                to="/superAdmin/manage-occupation"
+                className={getNavLinkClass}
+              >
+                Manage Occupation
+              </NavLink>
+
             </div>
           </div>
 
@@ -452,6 +492,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               </NavLink>
             </div>
           </div>
+
 
           {/* Student Management */}
           <div
