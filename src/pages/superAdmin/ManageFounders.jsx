@@ -73,9 +73,9 @@ const ManageFounders = () => {
                         <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
                     </div>
                     <div>
-                        <h5 className="fw-bold mb-0">Founder Management</h5>
+                        <h5 className="fw-bold mb-0">Administrator Management</h5>
                         <p className="sub-text mb-0">
-                            View, edit and manage all founders
+                            View, edit and manage all administrators
                         </p>
                     </div>
                     {/* Right: Action Buttons */}
@@ -104,11 +104,11 @@ const ManageFounders = () => {
                         Export Excel
                     </button>
                     <Link
-                        to="/superAdmin/add-owner"
+                        to="/superAdmin/add-administrator"
                         className="btn add-skill-btn d-flex align-items-center"
                     >
                         <i className="ti ti-graduation-cap me-2"></i>
-                        Add Owner
+                        Add Administrator
                     </Link>
                 </div>
             </div>
@@ -118,7 +118,7 @@ const ManageFounders = () => {
                     <div className="col-lg-4 col-md-6">
                         <SearchInput
                             value={search}
-                            placeholder="Search by founder name"
+                            placeholder="Search by administrator name"
                             onChange={(value) => {
                                 setSearch(value);
                                 setPage(1);
@@ -143,10 +143,6 @@ const ManageFounders = () => {
 
                     <div className="col-lg-5 col-md-12">
                         <div className="d-flex gap-2">
-                            <button className="btn filter-btn">
-                                <i className="bi bi-search me-1"></i>
-                            </button>
-
                             <button
                                 className="btn reset-btn"
                                 onClick={resetFilters}
@@ -167,7 +163,7 @@ const ManageFounders = () => {
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Founder Name</th>
+                                    <th>Administrator Name</th>
                                     <th>Email</th>
                                     <th>Mobile</th>
                                     {/* <th>Password</th> */}
@@ -202,7 +198,7 @@ const ManageFounders = () => {
                                                 </span>
                                             </td>
                                             <td className="text-center">
-                                                <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-owner/${item?.id}`)}>
+                                                <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-administrator/${item?.id}`)}>
                                                     <i className="bi bi-pencil"></i>
                                                 </button>
                                                 <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(item?.id)}>

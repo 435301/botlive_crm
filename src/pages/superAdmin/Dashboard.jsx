@@ -141,7 +141,11 @@ const Dashboard = () => {
           </div>
           <div>
             <h5 className="fw-bold mb-0">Dashboard</h5>
+<<<<<<< HEAD
             <p className="sub-text mb-0">Welcome, Cyient Foundation</p>
+=======
+            <p className="sub-text mb-0">Welcome, Cyient Foundation !</p>
+>>>>>>> dc6f26e3a6ccfa94ee6720492f481f42dc3907bf
           </div>
         </div>
         {stats.map((item, i) => (

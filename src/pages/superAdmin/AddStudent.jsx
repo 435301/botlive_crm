@@ -1,78 +1,168 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import FormActions from "../../components/FormActions";
-// import { useCrud } from "../../hooks/useCrud";
+import { useCrud } from "../../hooks/useCrud";
+import { validateSchoolStudent } from "../../utils/validation";
+import FormSelect from "../../components/FormSelect";
+import FormInput from "../../components/FormInput";
+import StatusSelect from "../../components/StatusSelect";
+import useSchools from "../../hooks/useSchools";
+import useGrades from "../../hooks/useGrades";
+import PasswordInput from "../../components/PasswordInput";
+import { formatToInputDate } from "../../utils/formatDateInput";
 
 const AddStudent = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const isEditMode = Boolean(id);
 
-    // const { useGetById, createMutation, updateMutation } = useCrud({
-    //   entity: "state",
-    //   listUrl: "/state/list",
-    //   getUrl: (id) => `/state/${id}`,
-    //   createUrl: "/state/add",
-    //   updateUrl: (id) => `/state/update/${id}`,
-    //   deleteUrl: (id) => `/state/delete/${id}`,
-    // });
+  const { useGetById, createMutation, updateMutation } = useCrud({
+    entity: "student/school",
+    listUrl: "/student/school/list",
+    getUrl: (id) => `/student/school/${id}`,
+    createUrl: "/student/school/add",
+    updateUrl: (id) => `/student/school/update/${id}`,
+    deleteUrl: (id) => `/student/school/delete/${id}`,
+  });
+
+  const { data: studentData } = useGetById(id, {
+    enabled: isEditMode,
+  });
+
+  useEffect(() => {
+    if (studentData?.data) {
+      setFormData({
+        schoolId: studentData.data.schoolId || "",
+        enrollmentNumber: studentData.data.enrollmentNumber || "",
+        studentName: studentData.data.studentName || "",
+        fatherName: studentData.data.fatherName || "",
+        gender: studentData.data.gender || "",
+        dob: studentData.data.dob || "",
+        gradeId: studentData.data.gradeId || "",
+        aadharNumber: studentData.data.aadharNumber || "",
+        mobile: studentData.data.mobile || "",
+        email: studentData.data.email || "",
+        password: "",
+        studentPhoto: null,
+        status: studentData.status
+      });
+    }
+  }, [studentData]);
+
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
-    courseType: "",
-    centerName: "",
-    trainer: "",
-    course: "",
+    centreType: "",
+    schoolId: "",
     enrollmentNumber: "",
     studentName: "",
     gender: "",
     dob: "",
-    adharNumber: "",
-    studentPhoto: null,
+    gradeId: "",
+    aadharNumber: "",
     mobile: "",
     email: "",
     password: "",
-    status: "Active",
+    fatherName: "",
+    studentPhoto: null,
+    status: 1
   });
+
+  const { schools } = useSchools();
+  const { grades } = useGrades();
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
+
     if (files) {
       setFormData({ ...formData, [name]: files[0] });
     } else {
-      setFormData({ ...formData, [name]: value });
+      if (name === "centreType") {
+        setFormData({
+          ...formData,
+          centreType: value,
+          schoolId: ""   // reset school when type changes
+        });
+
+      } if (name === "grade") {
+        setFormData({
+          ...formData,
+          centreType: value,
+          gradeId: ""   // reset grade when type changes
+        });
+
+      }
+      if (name === "dob") {
+        const [year, month, day] = value.split("-");
+        const formatted = `${day}-${month}-${year}`;
+
+        setFormData({
+          ...formData,
+          [name]: formatted,
+        });
+      }
+      else {
+        setFormData((prev) => ({
+          ...prev,
+          [name]: value,
+        }));
+      }
+    };
+    setErrors((prev) => ({ ...prev, [name]: "", }));
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationErrors = validateSchoolStudent(formData, isEditMode);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
     }
+    try {
+      const dataToSend = new FormData();
+      // Object.keys(formData).forEach((key) => {
+      //   if (formData[key]) {
+      //     dataToSend.append(key, formData[key]);
+      //   }
+      // });
+      // // Append all text fields
+      dataToSend.append("centreType", formData.centreType);
+      dataToSend.append("schoolId", formData.schoolId);
+      dataToSend.append("enrollmentNumber", formData.enrollmentNumber);
+      dataToSend.append("studentName", formData.studentName);
+      dataToSend.append("fatherName", formData.fatherName);
+      dataToSend.append("gender", formData.gender);
+      dataToSend.append("gradeId", formData.gradeId);
+      dataToSend.append("dob", formData.dob);
+      dataToSend.append("aadharNumber", formData.aadharNumber);
+      dataToSend.append("mobile", formData.mobile);
+      dataToSend.append("email", formData.email);
+      dataToSend.append("status", formData.status);
+      if (formData.studentPhoto) {
+        dataToSend.append("studentPhoto", formData.studentPhoto);
+      }
+
+      if (formData.password) {
+        dataToSend.append("password", formData.password);
+      }
+
+      if (isEditMode) {
+        updateMutation.mutate(
+          { id, data: dataToSend },
+          { onSuccess: () => navigate("/superAdmin/manage-students") }
+        );
+      } else {
+        createMutation.mutate(dataToSend, {
+          onSuccess: () => navigate("/superAdmin/manage-students"),
+        });
+      }
+      setErrors("");
+    } catch (error) {
+      console.error("Student save error:", error);
+    }
+
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  try {
-    const dataToSend = new FormData();
-
-    // Append all text fields
-    dataToSend.append("courseType", formData.courseType);
-    dataToSend.append("centerName", formData.centerName);
-    dataToSend.append("trainer", formData.trainer);
-    dataToSend.append("course", formData.course);
-    dataToSend.append("enrollmentNumber", formData.enrollmentNumber);
-    dataToSend.append("studentName", formData.studentName);
-    dataToSend.append("gender", formData.gender);
-    dataToSend.append("dob", formData.dob);
-    dataToSend.append("adharNumber", formData.adharNumber);
-    dataToSend.append("mobile", formData.mobile);
-    dataToSend.append("email", formData.email);
-    dataToSend.append("password", formData.password);
-    dataToSend.append("status", formData.status);
-
-    // Append file
-    if (formData.studentPhoto) {
-      dataToSend.append("studentPhoto", formData.studentPhoto);
-    }
-
-    navigate("/manage-students");
-  } catch (error) {
-    console.error("Error creating student:", error);
-  }
-};
   return (
     <div className="container-fluid">
       {/* ===== HEADER ===== */}
@@ -91,7 +181,7 @@ const AddStudent = () => {
 
         {/* Right: Manage Skills Button */}
         <Link
-          to="/manage-students"
+          to="/superAdmin/manage-students"
           className="btn manage-skills-btn d-flex align-items-center"
         >
           <i className="ti ti-certificate me-2"></i>
@@ -108,217 +198,195 @@ const AddStudent = () => {
             <div className="row g-3">
               {/* Course Type */}
               <div className="col-md-4">
-                <label className="form-label">Course Type</label>
-                <select
-                  className="form-select"
-                  name="courseType"
-                  value={formData.courseType}
+                <FormSelect
+                  label="Centre Type"
+                  name="centreType"
+                  value={formData.centreType}
                   onChange={handleChange}
-                  required
-                >
-                  <option value="">Select Course Type</option>
-                  <option value="Full-time">Full-time</option>
-                  <option value="Part-time">Part-time</option>
-                </select>
-              </div>
-
-              {/* Center Name */}
-              <div className="col-md-4">
-                <label className="form-label">Skill Center / School</label>
-                <select
-                  className="form-select"
-                  name="centerName"
-                  value={formData.centerName}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Select Center</option>
-                  <option value="Center A">Center A</option>
-                  <option value="Center B">Center B</option>
-                  <option value="Center C">Center C</option>
-                </select>
-              </div>
-
-              {/* Trainer */}
-              <div className="col-md-4">
-                <label className="form-label">Trainer</label>
-                <select
-                  className="form-select"
-                  name="trainer"
-                  value={formData.trainer}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Select Trainer</option>
-                  <option value="Trainer 1">Trainer 1</option>
-                  <option value="Trainer 2">Trainer 2</option>
-                </select>
-              </div>
-
-              {/* Course */}
-              <div className="col-md-4">
-                <label className="form-label">Course</label>
-                <select
-                  className="form-select"
-                  name="course"
-                  value={formData.course}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Select Course</option>
-                  <option value="Web Development">Web Development</option>
-                  <option value="Data Science">Data Science</option>
-                  <option value="Python">Python</option>
-                  <option value="UI/UX">UI/UX</option>
-                </select>
-              </div>
-
-              {/* Enrollment Number */}
-              <div className="col-md-4">
-                <label className="form-label">Student Enrollment Number</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="enrollmentNumber"
-                  placeholder="Enter enrollment number"
-                  value={formData.enrollmentNumber}
-                  onChange={handleChange}
-                  required
+                  mandatory
+                  options={[
+                    { label: "Skill Center", value: 1 },
+                    { label: "School", value: 2 },
+                  ]}
+                  error={errors.centreType}
                 />
               </div>
 
+              {/* {formData.centreType === 2 && ( */}
+              <div className="col-md-4">
+                <FormSelect
+                  label="School"
+                  name="schoolId"
+                  value={formData.schoolId}
+                  onChange={handleChange}
+                  options={schools.map((school) => ({
+                    label: school.centerName,
+                    value: school.id,
+                  }))}
+                  error={errors.schoolId}
+                  mandatory
+                />
+              </div>
+              {/* )} */}
+
+              {/* Enrollment Number */}
+              <div className="col-md-4">
+                <FormInput
+                  label="Enrollment Number"
+                  name="enrollmentNumber"
+                  value={formData.enrollmentNumber}
+                  onChange={handleChange}
+                  placeholder="Enter enrollment number"
+                  error={errors.enrollmentNumber}
+                  mandatory
+                />
+              </div>
+
+
               {/* Student Name */}
               <div className="col-md-4">
-                <label className="form-label">Student Name</label>
-                <input
-                  type="text"
-                  className="form-control"
+                <FormInput
+                  label="Student Name"
                   name="studentName"
-                  placeholder="Enter student name"
                   value={formData.studentName}
                   onChange={handleChange}
-                  required
+                  placeholder="Enter student name"
+                  error={errors.studentName}
+                  mandatory
+                />
+              </div>
+
+              <div className="col-md-4">
+                <FormInput
+                  label="Father Number"
+                  name="fatherName"
+                  value={formData.fatherName}
+                  onChange={handleChange}
+                  placeholder="Enter father name"
+                  error={errors.fatherName}
+                  mandatory
                 />
               </div>
 
               {/* Gender */}
               <div className="col-md-4">
-                <label className="form-label">Gender</label>
-                <select
-                  className="form-select"
+                <FormSelect
+                  label="Gender"
                   name="gender"
                   value={formData.gender}
                   onChange={handleChange}
-                  required
-                >
-                  <option value="">Select Gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
+                  options={[
+                    { label: "Male", value: 1 },
+                    { label: "Female", value: 2 },
+                    { label: "Other", value: 3 },
+                  ]}
+                  error={errors.gender}
+                  mandatory
+                />
               </div>
 
               {/* Date of Birth */}
               <div className="col-md-4">
-                <label className="form-label">Date of Birth</label>
-                <input
+                <FormInput
                   type="date"
-                  className="form-control"
+                  label="Date of Birth"
                   name="dob"
-                  value={formData.dob}
+                  value={formatToInputDate(formData.dob)}
                   onChange={handleChange}
-                  required
+                  error={errors.dob}
+                  mandatory
                 />
               </div>
 
               {/* Adhar Number */}
               <div className="col-md-4">
-                <label className="form-label">Adhar Number</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="adharNumber"
-                  placeholder="Enter Adhar number"
-                  value={formData.adharNumber}
+                <FormSelect
+                  label="Grade"
+                  name="gradeId"
+                  value={formData.gradeId}
                   onChange={handleChange}
-                  required
+                  options={grades.map((grade) => ({
+                    label: grade.gradeBatch,
+                    value: grade.id
+                  }))}
+                  error={errors.gradeId}
+                />
+              </div>
+
+              <div className="col-md-4">
+                <FormInput
+                  label="Aadhar Number"
+                  name="aadharNumber"
+                  value={formData.aadharNumber}
+                  onChange={handleChange}
+                  error={errors.aadharNumber}
+                  mandatory
                 />
               </div>
 
               {/* Student Photograph */}
               <div className="col-md-4">
-                <label className="form-label">Student Photograph</label>
+                <label className="form-label">Student Photograph<span className="text-danger"> *</span></label>
                 <input
                   type="file"
                   className="form-control"
                   name="studentPhoto"
                   accept="image/*"
                   onChange={handleChange}
-                  required
+                  error={errors.studentPhoto}
                 />
               </div>
 
               {/* Mobile Number */}
               <div className="col-md-4">
-                <label className="form-label">Mobile Number</label>
-                <input
-                  type="tel"
-                  className="form-control"
+                <FormInput
+                  label="Mobile"
                   name="mobile"
-                  placeholder="Enter mobile number"
                   value={formData.mobile}
                   onChange={handleChange}
-                  required
+                  error={errors.mobile}
+                  mandatory
                 />
               </div>
 
               {/* Email Address */}
               <div className="col-md-4">
-                <label className="form-label">Email Address</label>
-                <input
+                <FormInput
                   type="email"
-                  className="form-control"
+                  label="Email"
                   name="email"
-                  placeholder="Enter email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
+                  error={errors.email}
+                  mandatory
                 />
               </div>
-
-              {/* Password */}
               <div className="col-md-4">
-                <label className="form-label">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
+                <PasswordInput
+                  label="Password"
                   name="password"
-                  placeholder="Enter password"
                   value={formData.password}
                   onChange={handleChange}
-                  required
+                  placeholder={
+                    isEditMode
+                      ? "Leave blank to keep existing password"
+                      : "Create a password"
+                  }
+                  error={errors.password}
+                  mandatory={!isEditMode}
                 />
               </div>
 
               {/* Status */}
               <div className="col-md-4">
-                <label className="form-label">Status</label>
-                <select
-                  className="form-select"
-                  name="status"
-                  value={formData.status}
-                  onChange={handleChange}
-                >
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
+                <StatusSelect name="status" value={formData.status} handleChange={handleChange} error={errors.status} />
               </div>
             </div>
 
             {/* ===== ACTION BUTTONS ===== */}
             <div className="mt-4 text-center">
-                <FormActions
-                onCancel={() => navigate("/manage-students")}
+              <FormActions
+                onCancel={() => navigate("/superAdmin/manage-students")}
                 saveText="Save"
                 cancelText="Cancel"
               />

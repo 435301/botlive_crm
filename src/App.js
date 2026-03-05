@@ -414,6 +414,7 @@ function App() {
             }
           />
           <Route
+<<<<<<< HEAD
             path="/superAdmin/manage-owners"
             element={
               <ProtectedRoute allowedRoles={["super-admin"]}>
@@ -462,6 +463,11 @@ function App() {
             path="/admin/change-password"
             element={<AdminChangePassword />}
           />
+=======
+            path="/superAdmin/manage-administrator" element={<ProtectedRoute allowedRoles={["super-admin"]}>  {lazyLoad(ManageFounders)}</ProtectedRoute>} />
+          <Route path="/superAdmin/add-administrator" element={<ProtectedRoute allowedRoles={["super-admin"]}> {lazyLoad(AddFounder)}</ProtectedRoute>} />
+          <Route path="/superAdmin/edit-administrator/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddFounder)}</ProtectedRoute>} />
+>>>>>>> dc6f26e3a6ccfa94ee6720492f481f42dc3907bf
         </Routes>
       </LayoutWrapper>
     </Router>

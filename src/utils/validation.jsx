@@ -168,3 +168,43 @@ export const validateGrade= (formData) => {
 
   return errors;
 };
+
+export const validateSchoolStudent = (formData, isEditMode) => {
+  let newErrors = {};
+
+  if(!formData.centreType) newErrors.centreType = "Centre Type is required"
+  if (!formData.schoolId) newErrors.schoolId = "School is required";
+
+  if (!formData.enrollmentNumber)
+    newErrors.enrollmentNumber = "Enrollment number required";
+
+  if (!formData.studentName)
+    newErrors.studentName = "Student name required";
+
+  if (!formData.gender) newErrors.gender = "Gender required";
+
+  if (!formData.gradeId) newErrors.gradeId = "Grade required";
+
+  if (!formData.mobile || formData.mobile.length !== 10)
+    newErrors.mobile = "Valid mobile number required";
+
+  if (!formData.email)
+    newErrors.email = "Email required";
+
+   if (!formData.dob)
+    newErrors.dob = "DOB required";
+
+  if (!isEditMode && !formData.password)
+    newErrors.password = "Password required";
+
+  if (!formData.aadharNumber || formData.aadharNumber.length !== 12)
+    newErrors.aadharNumber = "Valid Aadhar required";
+
+  if (!formData.fatherName)
+    newErrors.fatherName = "Father name required";
+
+  if (!isEditMode && !formData.studentPhoto)
+    newErrors.studentPhoto = "Student photo required";
+
+  return newErrors;
+};
