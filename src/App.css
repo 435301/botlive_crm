@@ -443,6 +443,7 @@ tr {
   border-style: solid;
   border-width: 0;
   white-space: nowrap;
+  font-size: 14px;
 }
 /* GRADIENTS */
 .grad-blue {
@@ -1604,4 +1605,154 @@ button .filter-btn :hover {
   min-height: 100vh;
   padding: 20px;
   transition: margin-left 0.3s ease;
+}
+.simple-campus-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  transition: 0.3s ease;
+}
+
+.simple-campus-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+}
+
+.campus-title {
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.staff-count {
+  font-size: 32px;
+  font-weight: bold;
+  color: #4f46e5;
+  margin-bottom: 15px;
+}
+
+.staff-count span {
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  color: #777;
+}
+
+.attendance-row {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 12px;
+}
+
+.attendance-row small {
+  color: #888;
+}
+
+.attendance-row p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.attendance-percent {
+  font-size: 13px;
+  color: #555;
+  background: #f3f4f6;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: inline-block;
+}
+/* ===== CAMPUS OVERVIEW UI ===== */
+
+.campus-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px;
+  border: 1px solid #eef2f7;
+  transition: 0.3s;
+}
+
+.campus-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Header */
+.campus-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.campus-header h6 {
+  font-weight: 600;
+  font-size: 14px;
+  color: #374151;
+}
+
+/* Icon */
+.campus-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: #e0e7ff;
+  color: #4f46e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+/* Student icon color */
+.campus-icon.student {
+  background: #e6f9f0;
+  color: #16a34a;
+}
+
+/* Main count */
+.campus-main {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0;
+}
+
+/* Label */
+.campus-label {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Flex row */
+.campus-flex {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.bg-warning {
+  --bs-bg-opacity: 1;
+  background-color: rgb(255 193 7 / 9%) !important;
+  color: #ffc107 !important;
+}
+/* Attendance */
+.present strong {
+  color: #16a34a;
+}
+
+.absent strong {
+  color: #dc2626;
+}
+.bg-danger {
+  --bs-bg-opacity: 1;
+  background-color: rgb(220 53 69 / 14%) !important;
+  color: #ff5722 !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .campus-main {
+    font-size: 22px;
+  }
 }

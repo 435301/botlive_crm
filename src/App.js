@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import "./App.css";
 import "@tabler/icons-webfont/dist/tabler-icons.min.css";
-
+ 
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 // import ErrorBoundary from "./components/ErrorBoundary";
@@ -20,12 +20,12 @@ import ManageDistrict from "./pages/superAdmin/ManageDistrict";
 import ManageFounders from "./pages/superAdmin/ManageFounders";
 import AddFounder from "./pages/superAdmin/AddFounder";
 import { Toaster } from "react-hot-toast";
-
+ 
 const Dashboard = lazy(() => import("./pages/superAdmin/Dashboard"));
 const Login = lazy(() => import("./pages/superAdmin/Login"));
 const Manage = lazy(() => import("./pages/superAdmin/Manage"));
 const Settings = lazy(() => import("./pages/superAdmin/Settings"));
-
+ 
 const AddSkills = lazy(() => import("./pages/superAdmin/AddSkills"));
 const AddCourse = lazy(() => import("./pages/superAdmin/AddCourse"));
 const ManageCourse = lazy(() => import("./pages/superAdmin/ManageCourse"));
@@ -53,6 +53,29 @@ const AddSchoolsSkills = lazy(
 );
 const ChangePassword = lazy(() => import("./pages/superAdmin/ChangePassword"));
 const ManageStates = lazy(() => import("./pages/superAdmin/ManageState"));
+// Admin
+
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const AdminAddSchoolsSkills = lazy(
+  () => import("./pages/admin/AdminAddSchoolsSkills"),
+);
+const AdminAddSkills = lazy(() => import("./pages/admin/AdminAddSkills"));
+const AdminManageScholls = lazy(
+  () => import("./pages/admin/AdminManageScholls"),
+);
+const AdminManageSkills = lazy(() => import("./pages/admin/AdminManageSkills"));
+const ManageReportStudents = lazy(
+  () => import("./pages/admin/ManageReportStudents"),
+);
+const SchollDetails = lazy(() => import("./pages/admin/SchollDetails"));
+const SkillsDetails = lazy(() => import("./pages/admin/SkillsDetails"));
+const AdminChangePassword = lazy(
+  () => import("./pages/admin/AdminChangePassword"),
+);
+
+const ManageReportSkills = lazy(
+  () => import("./pages/admin/ManageReportSkills"),
+);
 /* =========================
    Layout Wrapper
 ========================= */
@@ -67,7 +90,7 @@ function LayoutWrapper({
 }) {
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
-
+ 
   //  LOGIN PAGE (no header, no sidebar, no content)
   if (isLoginPage) {
     return <>{children}</>;
@@ -81,20 +104,20 @@ function LayoutWrapper({
         toggleTheme={() => setDark(!dark)}
         dark={dark}
       />
-
+ 
       <Sidebar
         show={sidebarOpen}
         collapsed={collapsed}
         closeSidebar={() => setSidebarOpen(false)}
       />
-
+ 
       <div className={`content ${collapsed ? "collapsed" : ""}`}>
         {children}
       </div>
     </>
   );
 }
-
+ 
 /* =========================
    App Component
 ========================= */
@@ -106,16 +129,16 @@ function App() {
   const [dark, setDark] = useState(
     JSON.parse(localStorage.getItem("darkMode")) || false,
   );
-
+ 
   useEffect(() => {
     localStorage.setItem("sidebarCollapsed", collapsed);
   }, [collapsed]);
-
+ 
   useEffect(() => {
     localStorage.setItem("darkMode", dark);
     document.body.className = dark ? "dark" : "";
   }, [dark]);
-
+ 
   const lazyLoad = (Component) => (
     // <ErrorBoundary>
     <Suspense fallback={<PageLoader />}>
@@ -123,7 +146,7 @@ function App() {
     </Suspense>
     // </ErrorBoundary>
   );
-
+ 
   return (
     <Router>
       <Toaster
@@ -169,7 +192,7 @@ function App() {
             }
           />
           <Route path="/superAdmin/edit-skill-centre/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddSkills)}</ProtectedRoute>} />
-
+ 
           <Route
             path="/superAdmin/settings"
             element={
@@ -286,11 +309,35 @@ function App() {
             path="/superAdmin/manage-administrator" element={<ProtectedRoute allowedRoles={["super-admin"]}>  {lazyLoad(ManageFounders)}</ProtectedRoute>} />
           <Route path="/superAdmin/add-administrator" element={<ProtectedRoute allowedRoles={["super-admin"]}> {lazyLoad(AddFounder)}</ProtectedRoute>} />
           <Route path="/superAdmin/edit-administrator/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddFounder)}</ProtectedRoute>} />
+          <Route path="/admin/admin" element={<AdminDashboard />} />
+          <Route
+            path="/admin/add-schools-skills"
+            element={<AdminAddSchoolsSkills />}
+          />
+          <Route path="/admin/add-skills" element={<AdminAddSkills />} />
+          <Route
+            path="/admin/manage-schools"
+            element={<AdminManageScholls />}
+          />
+          <Route path="/admin/manage-skills" element={<AdminManageSkills />} />
+          <Route
+            path="/admin/report-students"
+            element={<ManageReportStudents />}
+          />
+          <Route path="/admin/scholl-details" element={<SchollDetails />} />
+          <Route path="/admin/report-skills" element={<ManageReportSkills />} />
+          <Route path="/admin/skill-details" element={<SkillsDetails />} />
+          <Route
+            path="/admin/change-password"
+            element={<AdminChangePassword />}
+          />
         </Routes>
       </LayoutWrapper>
     </Router>
   );
 }
-
-
+ 
+ 
 export default App;
+ 
+ 
