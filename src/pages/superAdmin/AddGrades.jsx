@@ -65,7 +65,7 @@ const AddGrades = () => {
     setErrors((prev) => ({ ...prev, [name]: "", }));
   };
 
-  const isSchool = formData.centerType === 1;
+  const isSchool = formData.centreType === 1;
 
   return (
     <div className="container-fluid">

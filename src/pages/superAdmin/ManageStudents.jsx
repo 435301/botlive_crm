@@ -3,147 +3,46 @@ import Pagination from "../../components/Pagination";
 import { Link } from "react-router-dom";
 import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
+import { useCrud } from "../../hooks/useCrud";
+// import BASE_URL_JOB from "../../config/config";
+import useSchools from "../../hooks/useSchools";
 
-/* ===== SAMPLE STUDENT DATA ===== */
-const studentsData = [
-  {
-    id: 1,
-    courseType: "Full-time",
-    centerName: "Hyderabad Skill Center",
-    trainer: "Ramesh Kumar",
-    course: "Web Development",
-    enrollmentNumber: "ENR-001",
-    studentName: "Amit Kumar",
-    gender: "Male",
-    dob: "2002-03-15",
-    adharNumber: "123456789012",
-    studentPhoto: "https://via.placeholder.com/50",
-    mobile: "9876543210",
-    email: "amit@gmail.com",
-    password: "********",
-    status: "Active",
-  },
-  {
-    id: 2,
-    courseType: "Part-time",
-    centerName: "Green Valley School",
-    trainer: "Anita Sharma",
-    course: "Python",
-    enrollmentNumber: "ENR-002",
-    studentName: "Neha Sharma",
-    gender: "Female",
-    dob: "2003-06-20",
-    adharNumber: "987654321012",
-    studentPhoto: "https://via.placeholder.com/50",
-    mobile: "9123456789",
-    email: "neha@gmail.com",
-    password: "********",
-    status: "Inactive",
-  },
-  {
-    id: 3,
-    courseType: "Full-time",
-    centerName: "Tech Skill Hub",
-    trainer: "Suresh Rao",
-    course: "Data Science",
-    enrollmentNumber: "ENR-003",
-    studentName: "Rahul Singh",
-    gender: "Male",
-    dob: "2001-11-05",
-    adharNumber: "112233445566",
-    studentPhoto: "https://via.placeholder.com/50",
-    mobile: "9988776655",
-    email: "rahul@gmail.com",
-    password: "********",
-    status: "Active",
-  },
-  {
-    id: 1,
-    courseType: "Full-time",
-    centerName: "Hyderabad Skill Center",
-    trainer: "Ramesh Kumar",
-    course: "Web Development",
-    enrollmentNumber: "ENR-001",
-    studentName: "Amit Kumar",
-    gender: "Male",
-    dob: "2002-03-15",
-    adharNumber: "123456789012",
-    studentPhoto: "https://via.placeholder.com/50",
-    mobile: "9876543210",
-    email: "amit@gmail.com",
-    password: "********",
-    status: "Active",
-  },
-  {
-    id: 2,
-    courseType: "Part-time",
-    centerName: "Green Valley School",
-    trainer: "Anita Sharma",
-    course: "Python",
-    enrollmentNumber: "ENR-002",
-    studentName: "Neha Sharma",
-    gender: "Female",
-    dob: "2003-06-20",
-    adharNumber: "987654321012",
-    studentPhoto: "https://via.placeholder.com/50",
-    mobile: "9123456789",
-    email: "neha@gmail.com",
-    password: "********",
-    status: "Inactive",
-  },
-  {
-    id: 3,
-    courseType: "Full-time",
-    centerName: "Tech Skill Hub",
-    trainer: "Suresh Rao",
-    course: "Data Science",
-    enrollmentNumber: "ENR-003",
-    studentName: "Rahul Singh",
-    gender: "Male",
-    dob: "2001-11-05",
-    adharNumber: "112233445566",
-    studentPhoto: "https://via.placeholder.com/50",
-    mobile: "9988776655",
-    email: "rahul@gmail.com",
-    password: "********",
-    status: "Active",
-  },
-];
 
 const ManageStudents = () => {
   const [search, setSearch] = useState("");
-  const [courseType, setCourseType] = useState("");
+  const [centreType, setCentreType] = useState("");
+  const [centreId, setCentreId] = useState("");
   const [status, setStatus] = useState("");
   const [page, setPage] = useState(1);
 
-  const ITEMS_PER_PAGE = 5;
-
-  /* ===== FILTER ===== */
-  const filteredStudents = studentsData.filter((s) => {
-    const matchSearch =
-      s.studentName.toLowerCase().includes(search.toLowerCase()) ||
-      s.enrollmentNumber.toLowerCase().includes(search.toLowerCase());
-
-    const matchCourseType = courseType ? s.courseType === courseType : true;
-    const matchStatus = status ? s.status === status : true;
-
-    return matchSearch && matchCourseType && matchStatus;
+  const { useList } = useCrud({
+    entity: "student/school",
+    listUrl: "/student/list",
+    getUrl: (id) => `/student/school/${id}`,
+    updateUrl: (id) => `/student/school/update/${id}`,
+    deleteUrl: (id) => `/student/school/delete/${id}`,
   });
 
-  /* ===== PAGINATION ===== */
-  const totalPages = Math.ceil(filteredStudents.length / ITEMS_PER_PAGE);
-  const startIndex = (page - 1) * ITEMS_PER_PAGE;
-  const paginatedData = filteredStudents.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE,
-  );
+  const { data, isLoading } = useList({
+    search,
+    status,
+    page,
+    centreType,
+    centreId,
+  });
+
+  const schools = data?.data || [];
+  const totalPages = data?.totalPages || 1;
+  const { schoolsData } = useSchools();
 
   const resetFilters = () => {
     setSearch("");
-    setCourseType("");
+    setCentreType("");
+    setCentreId("");
     setStatus("");
     setPage(1);
   };
+
   const handleImportExcel = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -196,7 +95,7 @@ const ManageStudents = () => {
 
           {/* Add Skill Center button */}
           <Link
-            to="/add-student"
+            to="/superAdmin/add-student"
             className="btn add-skill-btn d-flex align-items-center"
           >
             <i className="ti ti-graduation-cap me-2"></i>
@@ -209,10 +108,10 @@ const ManageStudents = () => {
       {/* ===== FILTERS ===== */}
       <div className="filter-wrapper mb-3">
         <div className="row g-2 align-items-center">
-          <div className="col-lg-3 col-md-6">
+          <div className="col-lg-4 col-md-6">
             <SearchInput
               value={search}
-              placeholder="Search by location"
+              placeholder="Search by student, mobile, enrollment no.. "
               onChange={(value) => {
                 setSearch(value);
                 setPage(1);
@@ -220,28 +119,43 @@ const ManageStudents = () => {
             />
           </div>
 
-          <div className="col-lg-3 col-md-6">
+          <div className="col-lg-2 col-md-6">
             <SelectFilter
-              value={courseType}
-              placeholder="All Course Types"
+              value={centreType}
+              placeholder="All Centre Types"
               options={[
-                { label: "Full-time", value: "Full-time" },
-                { label: "Part-time", value: "Part-time" },
+                { label: "Skill Centre", value: 1 },
+                { label: "School", value: 2 },
               ]}
               onChange={(value) => {
-                setCourseType(value);
+                setCentreType(value);
                 setPage(1);
               }}
             />
           </div>
 
-          <div className="col-lg-3 col-md-6">
+          <div className="col-lg-2 col-md-6">
+            <SelectFilter
+              value={centreId}
+              placeholder="All Centre Names"
+              options={schoolsData?.map((school) => ({
+                label: school.centerName,
+                value: school.id
+              }))}
+              onChange={(value) => {
+                setCentreType(value);
+                setPage(1);
+              }}
+            />
+          </div>
+
+          <div className="col-lg-2 col-md-6">
             <SelectFilter
               value={status}
               placeholder="All Status"
               options={[
-                { label: "Active", value: "Active" },
-                { label: "Inactive", value: "Inactive" },
+                { label: "Active", value: 1 },
+                { label: "Inactive", value: 0 },
               ]}
               onChange={(value) => {
                 setStatus(value);
@@ -250,12 +164,8 @@ const ManageStudents = () => {
             />
           </div>
 
-          <div className="col-lg-3 col-md-12">
+          <div className="col-lg-2 col-md-12">
             <div className="d-flex gap-2">
-              <button className="btn filter-btn">
-                <i className="bi bi-search me-1"></i>
-              </button>
-
               <button
                 className="btn reset-btn"
                 onClick={resetFilters}
@@ -276,54 +186,56 @@ const ManageStudents = () => {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Course Type</th>
+                  <th>Centre Type</th>
                   <th>Center Name</th>
-                  <th>Trainer</th>
-                  <th>Course</th>
-                  <th>Enrollment Number</th>
                   <th>Student Name</th>
-                  <th>Gender</th>
-                  <th>DOB</th>
-                  <th>Aadhar Number</th>
-                  <th>Photo</th>
                   <th>Mobile</th>
                   <th>Email</th>
+                  <th>Gender</th>
+                  <th>DOB</th>
+                  {/* <th>Grade/Batch</th> */}
+                  <th>Enrollment Number</th>
+                  <th>Aadhar Number</th>
+                  {/* <th>Photo</th> */}
                   <th>Status</th>
                   <th className="text-center">Actions</th>
                 </tr>
               </thead>
 
               <tbody>
-                {paginatedData.length > 0 ? (
-                  paginatedData.map((s, index) => (
+                {isLoading ? (
+                  <tr>
+                    <td colSpan="12" className="text-center py-5">Loading...</td>
+                  </tr>
+                ) : schools.length > 0 ? (
+                  schools.map((s, index) => (
                     <tr key={s.id}>
-                      <td>{startIndex + index + 1}</td>
-                      <td>{s.courseType}</td>
-                      <td>{s.centerName}</td>
-                      <td>{s.trainer}</td>
-                      <td>{s.course}</td>
-                      <td>{s.enrollmentNumber}</td>
-                      <td>{s.studentName}</td>
-                      <td>{s.gender}</td>
+                      <td>{index + 1}</td>
+                      <td>{s.centerType === 2 ? "School" : "Skill Centre"}</td>
+                      <td>{s.centre.centerName}</td>
+                      <td>{s.fullName}</td>
+                      <td>{s.mobile}</td>
+                      <td>{s.email}</td>
+                      <td>{s.gender === 1 ? "Male" : 2 ? "Female" : 3 ? "Other" : ""}</td>
                       <td>{s.dob}</td>
-                      <td>{s.adharNumber}</td>
-                      <td>
+                      {/* <td>{s.gradeBatchId}</td> */}
+                      <td>{s.enrolmentNumber}</td>
+                      <td>{s.aadharNumber}</td>
+                      {/* <td>
                         <img
-                          src={s.studentPhoto}
+                          src={`${BASE_URL_JOB}${s.studentPhoto}`}
                           alt={s.studentName}
                           style={{ width: "50px", borderRadius: "50%" }}
                         />
-                      </td>
-                      <td>{s.mobile}</td>
-                      <td>{s.email}</td>
+                      </td> */}
                       <td>
                         <span
-                          className={`badge ${s.status === "Active"
+                          className={`badge ${s.status === 1
                             ? "bg-success"
                             : "bg-secondary"
                             }`}
                         >
-                          {s.status}
+                          {s.status === 1 ? "Active" : "Inactive"}
                         </span>
                       </td>
                       <td className="text-center">
