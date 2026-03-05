@@ -193,7 +193,7 @@ const ManageStudents = () => {
                   <th>Email</th>
                   <th>Gender</th>
                   <th>DOB</th>
-                  {/* <th>Grade/Batch</th> */}
+                  <th>Grade/Batch</th>
                   <th>Enrollment Number</th>
                   <th>Aadhar Number</th>
                   {/* <th>Photo</th> */}
@@ -212,13 +212,13 @@ const ManageStudents = () => {
                     <tr key={s.id}>
                       <td>{index + 1}</td>
                       <td>{s.centerType === 2 ? "School" : "Skill Centre"}</td>
-                      <td>{s.centre.centerName}</td>
+                      <td>{s?.centre?.centerName}</td>
                       <td>{s.fullName}</td>
                       <td>{s.mobile}</td>
                       <td>{s.email}</td>
                       <td>{s.gender === 1 ? "Male" : 2 ? "Female" : 3 ? "Other" : ""}</td>
                       <td>{s.dob}</td>
-                      {/* <td>{s.gradeBatchId}</td> */}
+                      <td>{s?.gradeBatch?.gradeBatch}</td>
                       <td>{s.enrolmentNumber}</td>
                       <td>{s.aadharNumber}</td>
                       {/* <td>
