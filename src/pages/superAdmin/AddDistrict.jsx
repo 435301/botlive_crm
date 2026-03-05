@@ -26,7 +26,7 @@ const AddDistrict = () => {
     listUrl: "/state/list",
   });
 
-  const { data: stateList } = stateListQuery({ page: 1, search: "", status: 1, });
+  const { data: stateList } = stateListQuery({ page: "", search: "", status: 1, });
   const states = stateList?.data || []
   const { data, isLoading } = useGetById(id);
 
