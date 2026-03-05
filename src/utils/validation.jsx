@@ -43,7 +43,7 @@ export const validateSkills = (formData, isEditMode) => {
   }
 
   if (!formData.founderId || formData.founderId === "") {
-    errors.founderId = "Founder is required";
+    errors.founderId = "Administrator is required";
   }
   if (!formData.centerType) {
     errors.centerType = "Centre Type is required";
