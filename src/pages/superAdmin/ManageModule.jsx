@@ -205,7 +205,7 @@ const perPage = data?.perPage || 15;
                 ): modules.length ? (
                 modules.map((t, i) => (
                   <tr key={t.id}>
-                    <td>{(page - 1) * perPage + index + 1}</td>
+                    <td>{(page - 1) * perPage + i + 1}</td>
                     <td>{t.course.courseTitle}</td>
                     <td>{t.moduleTitle}</td>
                     <td>
