@@ -85,9 +85,9 @@ const ManageSkillCenters = () => {
             <i className="ti ti-certificate fs-16"></i>
           </div>
           <div>
-            <h5 className="fw-bold mb-0">Manage School/Skill Centers</h5>
+            <h5 className="fw-bold mb-0">Manage </h5>
             <p className="sub-text mb-0">
-              View, edit and manage all school/skill centers
+              View, edit and manage all projects
             </p>
           </div>
         </div>
@@ -121,7 +121,7 @@ const ManageSkillCenters = () => {
             className="btn add-skill-btn d-flex align-items-center"
           >
             <i className="ti ti-graduation-cap me-2"></i>
-            Add School/Skill Center
+            Add 
           </Link>
         </div>
       </div>

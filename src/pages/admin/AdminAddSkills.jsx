@@ -44,9 +44,9 @@ const AddSkillCenter = () => {
             <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
           </div>
           <div>
-            <h5 className="fw-bold mb-0">School/Skill Center Management</h5>
+            <h5 className="fw-bold mb-0">Project Management</h5>
             <p className="sub-text mb-0">
-              View, edit and manage all school/skill centers
+              View, edit and manage all schools/skill centers
             </p>
           </div>
         </div>

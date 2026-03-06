@@ -123,9 +123,9 @@ const AddSkillCenter = () => {
             <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
           </div>
           <div>
-            <h5 className="fw-bold mb-0">School/Skill Center Management</h5>
+            <h5 className="fw-bold mb-0">Project Management</h5>
             <p className="sub-text mb-0">
-              View, edit and manage all school/skill centers
+              View, edit and manage all projects
             </p>
           </div>
         </div>
@@ -136,7 +136,7 @@ const AddSkillCenter = () => {
           className="btn manage-skills-btn d-flex align-items-center"
         >
           <i className="ti ti-certificate me-2"></i>
-          Manage School/Skill Center
+          Manage
         </Link>
       </div>
 
@@ -144,7 +144,7 @@ const AddSkillCenter = () => {
       {/* ===== FORM CARD ===== */}
       <div className="card shadow-sm p-2">
         <div className="card-body">
-          <h5 className="fw-bold mb-4">{isEditMode ? "Edit School/Skill Center" : "Create School/Skill Center"} </h5>
+          <h5 className="fw-bold mb-4">{isEditMode ? "Edit" : "Create"} </h5>
 
           <form onSubmit={handleSubmit}>
             <div className="row g-3">
@@ -177,7 +177,7 @@ const AddSkillCenter = () => {
               {/* Center Type */}
               <div className="col-md-4">
                 <FormSelect
-                  label=" School/Skill Center Type"
+                  label=" Project Type"
                   name="centerType"
                   value={formData.centerType}
                   onChange={handleChange}

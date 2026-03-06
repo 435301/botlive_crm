@@ -669,7 +669,7 @@ body.dark .pie-center-value {
   font-weight: 500;
   color: #0b0a0a;
   background: #f9fafb;
-  text-align: center;
+  text-align: left;
 }
 .card .card-title {
   margin-bottom: 0;
@@ -680,7 +680,7 @@ body.dark .pie-center-value {
 .student-modern-table td {
   font-size: 13px;
   /* padding: 5px; */
-  text-align: center;
+  text-align: left;
   font-weight: 400;
 }
 /* Avatar */

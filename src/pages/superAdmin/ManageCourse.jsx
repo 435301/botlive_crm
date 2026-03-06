@@ -162,7 +162,7 @@ const ManageCourse = () => {
             <table className="table table-bordered table-striped align-middle student-modern-table">
               <thead>
                 <tr>
-                  <th>#</th>
+                  <th>#</th>  
                   <th>Course Title</th>
                   <th>Status</th>
                   <th className="text-center">Actions</th>

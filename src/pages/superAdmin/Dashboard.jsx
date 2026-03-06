@@ -15,6 +15,47 @@ import useStates from "../../hooks/useStates";
 import SelectFilter from "../../components/SelectFilter";
 import useDistricts from "../../hooks/useDistricts";
 
+// const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
+//   const RADIAN = Math.PI / 180;
+//   const radius = outerRadius + 18;
+//   const x = cx + radius * Math.cos(-midAngle * RADIAN);
+//   const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+//   return (
+//     <text
+//       x={x}
+//       y={y}
+//       fill="#555"
+//       fontSize={11}
+//       textAnchor={x > cx ? "start" : "end"}
+//       dominantBaseline="central"
+//     >
+//       {name}
+//     </text>
+//   );
+// };
+//  {locationPieData.map((item, index) => (
+//             <div className="col-12" key={index}>
+//               <div className="card p-4 shadow-sm ">
+//                 <h6 className="text-center mb-2 fw-semibold">{item.title}</h6>
+
+//                 <ResponsiveContainer width="100%" height={350}>
+//                   <BarChart data={item.data}  margin={{ top: 20, right: 30, left: 10, bottom: 20 }}>
+//                   <BarChart data={item.data} margin={{ top: 20, right: 30, left: 10, bottom: 20 }}>
+//                     <CartesianGrid strokeDasharray="5 5" />
+
+//                     <XAxis dataKey="name" />
+//                     <YAxis />
+//                     {item.data.length < 10 && <XAxis dataKey="name" />}
+//                     <YAxis domain={[0, 100]}
+//                       ticks={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]} />
+
+//                     <Tooltip />
+//                     <Legend />
+//                     {/* <Legend /> */}
+
+//                     <Bar dataKey="value" barSize={40}>
+//                       {item.data.map((entry, i) => (
 
 const locationPieData = [
   {
