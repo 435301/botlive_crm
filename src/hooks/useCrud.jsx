@@ -43,7 +43,7 @@ export const useCrud = ({
       queryFn: async () => {
         if (!getAllUrl) return null;
         const res = await axiosInstance.get(getAllUrl);
-        return res.data.data;
+        return res.data;
       },
       enabled: !!getAllUrl,
     });
