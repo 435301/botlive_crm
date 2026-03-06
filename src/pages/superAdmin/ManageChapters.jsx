@@ -31,7 +31,7 @@ const ManageChaptersModule = () => {
     });
 
     const chapters = data?.data || [];
-    const totalPages = data?.totalPages || 1;
+   const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
 
     const {courses} = useCourses();
     const {modules} = useModules();

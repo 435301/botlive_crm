@@ -40,7 +40,8 @@ const ManageDistrict = () => {
   });
 
   const districts = data?.data || [];
-  const totalPages = data?.totalPages || 1;
+  const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
+  const perPage = data?.perPage || 15;
 
   const handleDeleteClick = (id) => {
     setDeleteId(id);
@@ -171,7 +172,7 @@ const ManageDistrict = () => {
                 ) : districts?.length > 0 ? (
                   districts?.map((item, index) => (
                     <tr key={item?.id}>
-                      <td>{index + 1}</td>
+                     <td>{(page - 1) * perPage + index + 1}</td>
                       <td>{item?.state?.stateName}</td>
                       <td>{item?.districtName}</td>
                       <td>

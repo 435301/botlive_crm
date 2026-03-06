@@ -32,7 +32,8 @@ const ManageStudents = () => {
   });
 
   const schools = data?.data || [];
-  const totalPages = data?.totalPages || 1;
+  const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
+  const perPage = data?.perPage || 15;
   const { schoolsData } = useSchools();
 
   const resetFilters = () => {
@@ -210,7 +211,7 @@ const ManageStudents = () => {
                 ) : schools.length > 0 ? (
                   schools.map((s, index) => (
                     <tr key={s.id}>
-                      <td>{index + 1}</td>
+                      <td>{(page - 1) * perPage + index + 1}</td>
                       <td>{s.centerType === 2 ? "School" : "Skill Centre"}</td>
                       <td>{s?.centre?.centerName}</td>
                       <td>{s.fullName}</td>

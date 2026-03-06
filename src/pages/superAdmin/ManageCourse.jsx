@@ -30,7 +30,7 @@ const ManageCourse = () => {
   });
 
   const courses = data?.data || [];
-  const totalPages = data?.totalPages || 1;
+  const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
 
   const handleImportExcel = (e) => {
     const file = e.target.files[0];

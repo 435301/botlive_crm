@@ -32,10 +32,12 @@ const ManageSkillCenters = () => {
     page,
     stateId: state,
     districtId: district,
-    centerType: type,
+    centerType: type
   });
+
   const skills = data?.data || [];
-  const totalPages = data?.totalPages || 1;
+  const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
+  const perPage = data?.perPage || 15;
 
   const { states } = useStates();
   const { districts } = useDistricts();
@@ -252,7 +254,7 @@ const ManageSkillCenters = () => {
                 ) : skills?.length > 0 ? (
                   skills?.map((center, index) => (
                     <tr key={center.centerCode}>
-                      <td>{index + 1}</td>
+                      <td>{(page - 1) * perPage + index + 1}</td>
                       <td className="">{center.centerCode}</td>
                       <td>{center.centerName}</td>
                       <td>{center.centerType === 1 ? "Skill Centre" : "School"}</td>

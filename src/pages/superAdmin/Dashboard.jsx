@@ -1,134 +1,81 @@
 import React from "react";
 import StudentTable from "../../components/StudentTable";
 
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  Tooltip, ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Legend,
+  Cell
+} from "recharts";
+import { useCrud } from "../../hooks/useCrud";
 
-/* ===== TOP STATS ===== */
-const stats = [
-  {
-    title: "Total Skill Centers",
-    value: "12",
-    icon: "bi-building",
-    iconBg: "#e0e7ff", // light blue
-    iconColor: "#4a90e2",
-    subtitle: "Active centers",
-    subtitleColor: "primary",
-  },
-  {
-    title: "Total Students",
-    value: "1,280",
-    icon: "bi-mortarboard",
-    iconBg: "#e6f9f0", // light green
-    iconColor: "#50c878",
-    subtitle: "Enrolled this year",
-    subtitleColor: "success",
-  },
-  {
-    title: "Total Trainers",
-    value: "86",
-    icon: "bi-person-badge",
-    iconBg: "#fff4e6", // light yellow
-    iconColor: "#f39c12",
-    subtitle: "Active trainers",
-    subtitleColor: "warning",
-  },
-  {
-    title: "Total Courses",
-    value: "42",
-    icon: "bi-journal",
-    iconBg: "#fde6e6", // light red
-    iconColor: "#e74c3c",
-    subtitle: "Ongoing courses",
-    subtitleColor: "danger",
-  },
-  {
-    title: "Total Assessments",
-    value: "120",
-    icon: "bi-file-earmark-text",
-    iconBg: "#e6f0fa", // light purple
-    iconColor: "#9b59b6",
-    subtitle: "Scheduled assessments",
-    subtitleColor: "secondary",
-  },
-  {
-    title: "Performance Metrics",
-    value: "85%",
-    icon: "bi-bar-chart",
-    iconBg: "#fff0f6", // pinkish
-    iconColor: "#e91e63",
-    subtitle: "Average performance",
-    subtitleColor: "danger",
-  },
-  {
-    title: "Activity Logs",
-    value: "320",
-    icon: "bi-clock-history",
-    iconBg: "#e6fff8", // light teal
-    iconColor: "#1abc9c",
-    subtitle: "Recent activities",
-    subtitleColor: "info",
-  },
-];
-const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
-  const RADIAN = Math.PI / 180;
-  const radius = outerRadius + 18;
-  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+// const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
+//   const RADIAN = Math.PI / 180;
+//   const radius = outerRadius + 18;
+//   const x = cx + radius * Math.cos(-midAngle * RADIAN);
+//   const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-  return (
-    <text
-      x={x}
-      y={y}
-      fill="#555"
-      fontSize={11}
-      textAnchor={x > cx ? "start" : "end"}
-      dominantBaseline="central"
-    >
-      {name}
-    </text>
-  );
-};
+//   return (
+//     <text
+//       x={x}
+//       y={y}
+//       fill="#555"
+//       fontSize={11}
+//       textAnchor={x > cx ? "start" : "end"}
+//       dominantBaseline="central"
+//     >
+//       {name}
+//     </text>
+//   );
+// };
 
 const locationPieData = [
   {
-    title: "Nagaland",
+    title: "Location Wise Students",
     data: [
-      { name: "Jan", value: 30, color: "#fbbf24" },
-      { name: "Feb", value: 20, color: "#14b8a6" },
-      { name: "Mar", value: 15, color: "#fb923c" },
-      { name: "Apr", value: 35, color: "#38bdf8" },
-    ],
-  },
-  {
-    title: "Pmlanka",
-    data: [
-      { name: "Jan", value: 40, color: "#facc15" },
-      { name: "Feb", value: 25, color: "#22c55e" },
-      { name: "Mar", value: 35, color: "#fb7185" },
-    ],
-  },
-  {
-    title: "Hospet",
-    data: [
-      { name: "Jan", value: 28, color: "#0ea5e9" },
-      { name: "Feb", value: 22, color: "#84cc16" },
-      { name: "Mar", value: 30, color: "#f59e0b" },
-      { name: "Apr", value: 20, color: "#06b6d4" },
-    ],
-  },
-  {
-    title: "Vizag",
-    data: [
-      { name: "Jan", value: 33, color: "#f97316" },
-      { name: "Feb", value: 27, color: "#22c55e" },
-      { name: "Mar", value: 40, color: "#3b82f6" },
-    ],
-  },
+      { name: "Urban", value: 40, color: "#4CAF50" },
+      { name: "Rural", value: 60, color: "#2196F3" },
+      { name: "Urban", value: 40, color: "#4CAF50" },
+      { name: "Rural", value: 60, color: "#2196F3" },
+      { name: "Urban", value: 40, color: "#4CAF50" },
+      { name: "Rural", value: 60, color: "#2196F3" },
+      { name: "Urban", value: 40, color: "#4CAF50" },
+      { name: "Rural", value: 60, color: "#2196F3" },
+      { name: "Urban", value: 40, color: "#4CAF50" },
+      { name: "Rural", value: 60, color: "#2196F3" },
+
+    ]
+  }
 ];
 
 /* ===== QUICK INFO ===== */
 
 const Dashboard = () => {
+    const { useGetAll } = useCrud({
+      entity: "dashboard",
+      getAllUrl: "/admin/getDashboard",
+    });
+
+    
+  const { data } = useGetAll();
+ const dashboard = data?.data || [];
+ const total = dashboard.skillCenters?.total ;
+ console.log('total', total)
+ const stats = [
+   { title: "skillCenters", value: dashboard.skillCenters?.total || 0 },
+  { title: "Schools", value: dashboard.schools?.total || 0},
+  { title: "Students", value: dashboard.students?.total || 0, icon: "bi-people" },
+  { title: "Trainers", value: dashboard.trainers?.total || 0, icon: "bi-person-workspace" },
+  { title: "Courses", value: dashboard.courses?.total || 0, icon: "bi-book" },
+  { title: "Modules", value: dashboard.modules?.total || 0, icon: "bi-journal-text" },
+  { title: "Chapters", value: dashboard.chapters?.total || 0, icon: "bi-file-text" },
+ ]
+  console.log('stats', stats)
+
   return (
     <div className="container-fluid">
       {/* ===== TOP KPI CARDS ===== */}
@@ -184,29 +131,26 @@ const Dashboard = () => {
           <h5 className="fw-bold mb-3">Location-wise Student Distribution</h5>
 
           {locationPieData.map((item, index) => (
-            <div className="col-12 col-md-6 col-lg-3" key={index}>
-              <div className="card p-3 shadow-sm h-100">
+            <div className="col-12" key={index}>
+              <div className="card p-4 shadow-sm ">
                 <h6 className="text-center mb-2 fw-semibold">{item.title}</h6>
 
-                <ResponsiveContainer width="100%" height={220}>
-                  <PieChart>
-                    <Pie
-                      data={item.data}
-                      dataKey="value"
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={55}
-                      outerRadius={80}
-                      paddingAngle={3}
-                      labelLine
-                      label={renderCustomLabel}
-                    >
+                <ResponsiveContainer width="100%" height={350}>
+                  <BarChart data={item.data}  margin={{ top: 20, right: 30, left: 10, bottom: 20 }}>
+                    <CartesianGrid strokeDasharray="5 5" />
+
+                    <XAxis dataKey="name" />
+                    <YAxis />
+
+                    <Tooltip />
+                    <Legend />
+
+                    <Bar dataKey="value" barSize={40}>
                       {item.data.map((entry, i) => (
                         <Cell key={i} fill={entry.color} />
                       ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
+                    </Bar>
+                  </BarChart>
                 </ResponsiveContainer>
               </div>
             </div>

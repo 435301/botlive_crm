@@ -30,8 +30,8 @@ const ManageOccupations= () => {
   });
 
   const occupation = data?.data || [];
-  const totalPages = data?.totalPages || 1;
-
+  const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
+  const perPage = data?.perPage || 15;
   const handleImportExcel = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -179,7 +179,7 @@ const ManageOccupations= () => {
                 ) : occupation.length > 0 ? (
                   occupation.map((item, index) => (
                     <tr key={item.id}>
-                      <td>{index + 1}</td>
+                      <td>{(page - 1) * perPage + index + 1}</td>
                       <td>{item.occupation}</td>
                       <td>
                         <span

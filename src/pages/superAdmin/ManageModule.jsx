@@ -33,8 +33,8 @@ const ManageModule = () => {
   });
 
   const modules = data?.data || [];
-  const totalPages = data?.totalPages || 1;
-
+  const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
+const perPage = data?.perPage || 15;
   const { useList: CourseListQuery } = useCrud({
     entity: "course",
     listUrl: "/course/list",
@@ -205,7 +205,7 @@ const ManageModule = () => {
                 ): modules.length ? (
                 modules.map((t, i) => (
                   <tr key={t.id}>
-                    <td>{i + 1}</td>
+                    <td>{(page - 1) * perPage + index + 1}</td>
                     <td>{t.course.courseTitle}</td>
                     <td>{t.moduleTitle}</td>
                     <td>

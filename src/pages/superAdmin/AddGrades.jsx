@@ -121,11 +121,11 @@ const AddGrades = () => {
               {/* Course / Grade */}
               <div className="col-md-4">
                 <FormInput
-                  label={isSchool ? "Skill Center Name" :"School Name" }
+                  label={isSchool ? "Grade " :"Batch" }
                   name="gradeBatch"
                   value={formData.gradeBatch}
                   onChange={handleChange}
-                  placeholder={`Enter ${isSchool ? "Skill Center" : "School"} Name`}
+                  placeholder={`Enter ${isSchool ? "Grade" : "Batch"} Name`}
                   mandatory
                   error={errors.gradeBatch}
                 />
