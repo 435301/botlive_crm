@@ -13,7 +13,7 @@ const useSchools = () => {
     founderId: "",
     stateId: "",
     districtId: "",
-    centerType: 2,
+    centerType: "",
     page: "",
   });
 console.log("Schools API response:", query.data);
