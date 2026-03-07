@@ -35,7 +35,7 @@ const ManageStudents = () => {
   const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
   const perPage = data?.perPage || 15;
   const { schoolsData } = useSchools();
-
+  console.log('centerName', schoolsData)
   const resetFilters = () => {
     setSearch("");
     setCentreType("");
@@ -147,7 +147,7 @@ const ManageStudents = () => {
                 value: school.id
               }))}
               onChange={(value) => {
-                setCentreType(value);
+                setCentreId(value);
                 setPage(1);
               }}
             />
@@ -215,16 +215,27 @@ const ManageStudents = () => {
                   schools.map((s, index) => (
                     <tr key={s.id}>
                       <td>{(page - 1) * perPage + index + 1}</td>
-                      <td>{s.centerType === 2 ? "School" : "Skill Centre"}</td>
-                      <td>{s?.centre?.centerName}</td>
-                      <td>{s.fullName}</td>
-                      <td>{s.mobile}</td>
-                      <td>{s.email}</td>
+                      <td>
+                        {s.centre.centerType === 1
+                          ? "Skill Development"
+                          : s.centre.centerType === 2
+                            ? "AI & STEM Learning"
+                            : s.centre.centerType === 3
+                              ? "Education Development"
+                              : s.centre.centerType === 4
+                                ? "Innovation & Entrepreneurs"
+                                : s.centre.centerType === 5 ?
+                                  "Community Development" : ""}
+                      </td>
+                      <td>{s?.centre?.centerName || "-"}</td>
+                      <td>{s.fullName || "-"}</td>
+                      <td>{s.mobile || "-"}</td>
+                      <td>{s.email || "-"}</td>
                       <td>{s.gender === 1 ? "Male" : 2 ? "Female" : 3 ? "Other" : ""}</td>
-                      <td>{s.dob}</td>
+                      <td>{s.dob || "-"}</td>
                       <td>{s?.gradeBatch?.gradeBatch}</td>
-                      <td>{s.enrolmentNumber}</td>
-                      <td>{s.aadharNumber}</td>
+                      <td>{s.enrolmentNumber || "-"}</td>
+                      <td>{s.aadharNumber || "-"}</td>
                       {/* <td>
                         <img
                           src={`${BASE_URL_JOB}${s.studentPhoto}`}

@@ -8,14 +8,18 @@ const useSchools = () => {
   });
 
   const query = useList({
-    page: "",
     search: "",
     status: 1,
+    founderId: "",
+    stateId: "",
+    districtId: "",
     centerType: 2,
+    page: "",
   });
+console.log("Schools API response:", query.data);
 
   return {
-    schools: query.data?.data || [],
+    schoolsData: query.data?.data || [],
     isLoading: query.isLoading,
   };
 };

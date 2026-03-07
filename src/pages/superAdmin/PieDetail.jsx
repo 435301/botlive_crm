@@ -4,25 +4,25 @@ import SelectFilter from "../../components/SelectFilter";
 import { useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
 
-const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
-    const RADIAN = Math.PI / 180;
-    const radius = outerRadius + 18;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+// const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
+//     const RADIAN = Math.PI / 180;
+//     const radius = outerRadius + 18;
+//     const x = cx + radius * Math.cos(-midAngle * RADIAN);
+//     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-    return (
-        <text
-            x={x}
-            y={y}
-            fill="#555"
-            fontSize={11}
-            textAnchor={x > cx ? "start" : "end"}
-            dominantBaseline="central"
-        >
-            {name}
-        </text>
-    );
-};
+//     return (
+//         <text
+//             x={x}
+//             y={y}
+//             fill="#555"
+//             fontSize={11}
+//             textAnchor={x > cx ? "start" : "end"}
+//             dominantBaseline="central"
+//         >
+//             {name}
+//         </text>
+//     );
+// };
 
 const PieDetail = () => {
     const location = useLocation();
@@ -48,7 +48,6 @@ const PieDetail = () => {
         listUrl: "/admin/attendancePercentageByDistrict",
     });
     const { chartData } = location.state || {}; // chart data passed from dashboard
-    console.log('chartData', chartData);
     const districtId = chartData?.data?.[0]?.districtId;
     const { data, isLoading, isError } = useList(
         {
@@ -59,15 +58,8 @@ const PieDetail = () => {
             retry: false
         }
     );
-    const attendanceByDistrict = (data?.data || []).map((item) => {
-        const present = Number(item.percentage);
-        const absent = 100 - present;
 
-        return [
-            { name: "Present", value: present, color: "#4CAF50" },
-            { name: "Absent", value: absent, color: "#019aa8" }
-        ];
-    }).flat();
+    const attendanceByArea = data?.data || [];
 
     if (!chartData) return <div>No data available</div>;
     if (!districtId) return <div>District not found</div>;
@@ -85,29 +77,57 @@ const PieDetail = () => {
             </div>
             {isLoading ? (
                 <div className="text-center">Loading...</div>
+
             ) : isError ? (
                 <p className="text-center text-danger">No Data Found</p>
-            ) : attendanceByDistrict.length > 0 ? (
-                <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                        <Pie
-                            data={attendanceByDistrict}
-                            dataKey="value"
-                            cx="50%"
-                            cy="50%"
-                            innerRadius={70}
-                            outerRadius={120}
-                            paddingAngle={3}
-                            label={renderCustomLabel}
-                            labelLine
-                        >
-                            {attendanceByDistrict.map((entry, index) => (
-                                <Cell key={index} fill={entry.color} />
-                            ))}
-                        </Pie>
-                        <Tooltip />
-                    </PieChart>
-                </ResponsiveContainer>
+
+            ) : attendanceByArea.length > 0 ? (
+
+                <div className="row">
+                    {attendanceByArea.map((item, index) => {
+                        const present = Number(item.percentage);
+                        const absent = 100 - present;
+
+                        const pieData = [
+                            { name: "Present", value: present, color: "#019aa8" },
+                            { name: "Absent", value: absent, color: "#facb48" }
+                        ];
+
+                        return (
+                            <div className="col-md-4 col-lg-3 mb-4" key={index}>
+                                <div className="card shadow-sm p-3">
+                                    <h6 className="text-center mb-3">
+                                        {item.area.trim()}
+                                    </h6>
+                                    <ResponsiveContainer width="100%" height={220}>
+                                        <PieChart>
+                                            <Pie
+                                                data={pieData}
+                                                dataKey="value"
+                                                cx="50%"
+                                                cy="50%"
+                                                innerRadius={45}
+                                                outerRadius={70}
+                                                paddingAngle={3}
+                                                label
+                                            >
+                                                {pieData.map((entry, i) => (
+                                                    <Cell key={i} fill={entry.color} />
+                                                ))}
+                                            </Pie>
+
+                                            <Tooltip />
+                                        </PieChart>
+                                    </ResponsiveContainer>
+
+                                </div>
+
+                            </div>
+                        );
+                    })}
+
+                </div>
+
             ) : (
                 <p className="text-center">No Data Found</p>
             )}

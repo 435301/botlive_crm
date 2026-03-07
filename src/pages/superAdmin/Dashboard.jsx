@@ -47,10 +47,11 @@ const Dashboard = () => {
   const attendanceData = attendanceDataRaw?.data?.map(item => ({
     title: item.district.districtName,
     data: [
-      { name: "Present", value: Number(item.percentage), color: "#4CAF50" , districtId: item.districtId, area: item.area},
-      { name: "Absent", value: 100 - Number(item.percentage), color: "#019aa8", districtId: item.districtId, area: item.area},
+      { name: "Present", value: Number(item.percentage), color: "#019aa8" , districtId: item.districtId, area: item.area},
+      { name: "Absent", value: 100 - Number(item.percentage), color: "#facb48", districtId: item.districtId, area: item.area},
     ],
   })) || [];
+
 
   const handleChartClick = (item) => {
     navigate("/superAdmin/pie-detail", { state: { chartData: { title: item.title,  data: item.data.slice(0, 2) } } });
@@ -60,10 +61,10 @@ const Dashboard = () => {
   const dashboard = data?.data || [];
   const stats = [
     {
-      title: "Skill Centers",
-      value: dashboard.skillCenters?.total || 0,
-      subtitle: `${dashboard.skillCenters?.active || 0} Active`,
-      subtitleInactive: `${dashboard.skillCenters?.inactive || 0} Inactive`,
+      title: "Skill Development Centres",
+      value: dashboard.skillDevelopmentCentres?.total || 0,
+      subtitle: `${dashboard.skillDevelopmentCentres?.active || 0} Active`,
+      subtitleInactive: `${dashboard.skillDevelopmentCentres?.inactive || 0} Inactive`,
       subtitleInactiveColor: "danger",
       subtitleColor: "success",
       icon: "bi-building",
@@ -71,15 +72,48 @@ const Dashboard = () => {
       iconColor: "#0d6efd",
     },
     {
-      title: "Schools",
-      value: dashboard.schools?.total || 0,
-      subtitle: `${dashboard.schools?.active || 0} Active`,
+      title: "AI And Stem Learning Centres",
+      value: dashboard.aiAndStemLearningCentres?.total || 0,
+      subtitle: `${dashboard.aiAndStemLearningCentres?.active || 0} Active`,
       subtitleColor: "success",
-      subtitleInactive: `${dashboard.schools?.inactive || 0} Inactive`,
+      subtitleInactive: `${dashboard.aiAndStemLearningCentres?.inactive || 0} Inactive`,
       subtitleInactiveColor: "danger",
       icon: "bi-mortarboard",
       iconBg: "#fff4e5",
       iconColor: "#ff9800",
+    },
+    {
+      title: "Education Development Centres",
+      value: dashboard.educationDevelopmentCentres?.total || 0,
+      subtitle: `${dashboard.educationDevelopmentCentres?.active || 0} Active`,
+      subtitleColor: "success",
+      subtitleInactive: `${dashboard.educationDevelopmentCentres?.inactive || 0} Inactive`,
+      subtitleInactiveColor: "danger",
+      icon: "bi-people",
+      iconBg: "#e8ffe8",
+      iconColor: "#28a745",
+    },
+    {
+      title: "Innovation And Entrepreneurs Centres",
+      value: dashboard.innovationAndEntrepreneursCentres?.total || 0,
+      subtitle: `${dashboard.innovationAndEntrepreneursCentres?.active || 0} Active`,
+      subtitleColor: "success",
+      subtitleInactive: `${dashboard.innovationAndEntrepreneursCentres?.inactive || 0} Inactive`,
+      subtitleInactiveColor: "danger",
+      icon: "bi-person-badge",
+      iconBg: "#f3e8ff",
+      iconColor: "#6f42c1",
+    },
+    {
+      title: "Community Development Centres",
+      value: dashboard.communityDevelopmentCentres?.total || 0,
+      subtitle: `${dashboard.communityDevelopmentCentres?.active || 0} Active`,
+      subtitleColor: "success",
+      subtitleInactive: `${dashboard.communityDevelopmentCentres?.inactive || 0} Inactive`,
+      subtitleInactiveColor: "danger",
+      icon: "bi-book",
+      iconBg: "#e8f0ff",
+      iconColor: "#3f51b5",
     },
     {
       title: "Students",
@@ -88,9 +122,9 @@ const Dashboard = () => {
       subtitleColor: "success",
       subtitleInactive: `${dashboard.students?.inactive || 0} Inactive`,
       subtitleInactiveColor: "danger",
-      icon: "bi-people",
-      iconBg: "#e8ffe8",
-      iconColor: "#28a745",
+      icon: "bi-folder",
+      iconBg: "#fff0f0",
+      iconColor: "#dc3545",
     },
     {
       title: "Trainers",
@@ -99,9 +133,9 @@ const Dashboard = () => {
       subtitleColor: "success",
       subtitleInactive: `${dashboard.trainers?.inactive || 0} Inactive`,
       subtitleInactiveColor: "danger",
-      icon: "bi-person-badge",
-      iconBg: "#f3e8ff",
-      iconColor: "#6f42c1",
+      icon: "bi-journal-text",
+      iconBg: "#e6f9ff",
+      iconColor: "#20c997",
     },
     {
       title: "Courses",
@@ -110,9 +144,9 @@ const Dashboard = () => {
       subtitleColor: "success",
       subtitleInactive: `${dashboard.courses?.inactive || 0} Inactive`,
       subtitleInactiveColor: "danger",
-      icon: "bi-book",
-      iconBg: "#e8f0ff",
-      iconColor: "#3f51b5",
+      icon: "bi-journal-text",
+      iconBg: "#e6f9ff",
+      iconColor: "#20c997",
     },
     {
       title: "Modules",
@@ -121,9 +155,9 @@ const Dashboard = () => {
       subtitleColor: "success",
       subtitleInactive: `${dashboard.modules?.inactive || 0} Inactive`,
       subtitleInactiveColor: "danger",
-      icon: "bi-folder",
-      iconBg: "#fff0f0",
-      iconColor: "#dc3545",
+      icon: "bi-journal-text",
+      iconBg: "#e6f9ff",
+      iconColor: "#20c997",
     },
     {
       title: "Chapters",
