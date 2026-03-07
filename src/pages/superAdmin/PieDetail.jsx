@@ -132,7 +132,7 @@ const PieDetail = () => {
                                                         borderRadius: "2px"
                                                     }}
                                                 ></span>
-                                                <span>{item.name}: {item.value}</span>
+                                                <span>{item.name}:{item.value}%</span>
                                             </div>
                                         ))}
                                     </div>
