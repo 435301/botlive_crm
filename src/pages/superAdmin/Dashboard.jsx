@@ -47,14 +47,14 @@ const Dashboard = () => {
   const attendanceData = attendanceDataRaw?.data?.map(item => ({
     title: item.district.districtName,
     data: [
-      { name: "Present", value: Number(item.percentage), color: "#019aa8" , districtId: item.districtId, area: item.area},
-      { name: "Absent", value: 100 - Number(item.percentage), color: "#facb48", districtId: item.districtId, area: item.area},
+      { name: "Present", value: Number(item.percentage), color: "#019aa8", districtId: item.districtId, area: item.area },
+      { name: "Absent", value: 100 - Number(item.percentage), color: "#facb48", districtId: item.districtId, area: item.area },
     ],
   })) || [];
 
 
   const handleChartClick = (item) => {
-    navigate("/superAdmin/pie-detail", { state: { chartData: { title: item.title,  data: item.data.slice(0, 2) } } });
+    navigate("/superAdmin/pie-detail", { state: { chartData: { title: item.title, data: item.data.slice(0, 2) } } });
   };
 
   const { data } = useGetAll();
@@ -128,7 +128,12 @@ const Dashboard = () => {
     },
     {
       title: "Trainers",
-      value: dashboard.trainers?.total || 0,
+      value:
+        (dashboard.skillDevelopmentCentres?.total ?? 0) +
+        (dashboard.aiAndStemLearningCentres?.total ?? 0) +
+        (dashboard.educationDevelopmentCentres?.total ?? 0) +
+        (dashboard.innovationAndEntrepreneursCentres?.total ?? 0) +
+        (dashboard.communityDevelopmentCentres?.total ?? 0),
       subtitle: `${dashboard.trainers?.active || 0} Active`,
       subtitleColor: "success",
       subtitleInactive: `${dashboard.trainers?.inactive || 0} Inactive`,
