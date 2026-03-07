@@ -48,12 +48,14 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: var(--sidebar);
+  width: var(--sidebar, 250px);
   height: 100vh;
   background: #019aa8;
-  padding: 0px;
+  padding: 0;
   transition: width 0.3s ease;
   z-index: 1200;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar.collapsed {
@@ -208,6 +210,21 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
+
+  /* Make the nav scrollable */
+  flex: 1; /* fill remaining height of sidebar */
+  overflow-y: auto; /* enable vertical scroll */
+  padding: 10px;
+}
+
+/* Optional: scrollbar styling */
+.sidebar-nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
 }
 
 /* Arrow rotate */
