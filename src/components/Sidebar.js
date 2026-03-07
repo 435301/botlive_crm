@@ -5,7 +5,7 @@ import {
   LayoutDashboard,
   ChevronDown,
   Building2,
-  // UserCog,
+  UserCog,
   BookOpen,
   Layers,
   Settings,
@@ -121,7 +121,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
                 Manage District
               </NavLink>
 
-               <NavLink
+              <NavLink
                 to="/superAdmin/add-category"
                 className={getNavLinkClass}
               >
@@ -134,7 +134,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
                 Manage Category
               </NavLink>
 
-               <NavLink
+              <NavLink
                 to="/superAdmin/add-qualification"
                 className={getNavLinkClass}
               >
@@ -189,13 +189,13 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               className={`submenu ${openMenu === "skillCenter" ? "open" : ""}`}
             >
               <NavLink to="/superAdmin/add-skill-centre" className={getNavLinkClass}>
-                Add 
+                Add
               </NavLink>
               <NavLink
                 to="/superAdmin/manage-skill-centres"
                 className={getNavLinkClass}
               >
-                Manage 
+                Manage
               </NavLink>
             </div>
           </div>
@@ -234,43 +234,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
             </div>
           </div> */}
 
-          {/* Trainer Management */}
-          {/* <div
-            className={`nav-group ${isParentActive([
-              "/superAdmin/add-trainers",
-              "/superAdmin/manage-trainers",
-            ])
-              ? "active"
-              : ""
-              }`}
-          >
-            <div className="nav-link" onClick={() => toggleMenu("trainer")}>
-              <UserCog size={18} />
-              {!collapsed && (
-                <>
-                  <span>Trainer Management</span>
-                  <ChevronDown
-                    size={16}
-                    className={`arrow ${openMenu === "trainer" ? "rotate" : ""}`}
-                  />
-                </>
-              )}
-            </div>
-            <div className={`submenu ${openMenu === "trainer" ? "open" : ""}`}>
-              <NavLink
-                to="/superAdmin/add-trainers"
-                className={getNavLinkClass}
-              >
-                Add Trainer
-              </NavLink>
-              <NavLink
-                to="/superAdmin/manage-trainers"
-                className={getNavLinkClass}
-              >
-                Manage Trainers
-              </NavLink>
-            </div>
-          </div> */}
+
 
           {/* Course Management */}
           <div
@@ -482,7 +446,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
             </div>
             <div className={`submenu ${openMenu === "founder" ? "open" : ""}`}>
               <NavLink to="/superAdmin/add-administrator" className={getNavLinkClass}>
-               Add Administrator 
+                Add Administrator
               </NavLink>
               <NavLink
                 to="/superAdmin/manage-administrator"
@@ -525,6 +489,43 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
                 className={getNavLinkClass}
               >
                 Manage Students
+              </NavLink>
+            </div>
+          </div>
+          {/* Trainer Management */}
+          <div
+            className={`nav-group ${isParentActive([
+              "/superAdmin/add-trainers",
+              "/superAdmin/manage-trainers",
+            ])
+              ? "active"
+              : ""
+              }`}
+          >
+            <div className="nav-link" onClick={() => toggleMenu("trainer")}>
+              <UserCog size={18} />
+              {!collapsed && (
+                <>
+                  <span>Trainer Management</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "trainer" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
+            </div>
+            <div className={`submenu ${openMenu === "trainer" ? "open" : ""}`}>
+              <NavLink
+                to="/superAdmin/add-trainers"
+                className={getNavLinkClass}
+              >
+                Add Trainer
+              </NavLink>
+              <NavLink
+                to="/superAdmin/manage-trainers"
+                className={getNavLinkClass}
+              >
+                Manage Trainers
               </NavLink>
             </div>
           </div>

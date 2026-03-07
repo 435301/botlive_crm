@@ -158,7 +158,7 @@ const ManageTrainers = () => {
           </button>
           {/* Add Skill Center button */}
           <Link
-            to="/add-trainers"
+            to="/superAdmin/add-trainers"
             className="btn add-skill-btn d-flex align-items-center"
           >
             <i className="ti ti-graduation-cap me-2"></i>

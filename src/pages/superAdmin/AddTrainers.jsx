@@ -68,7 +68,7 @@ const AddTrainer = () => {
 
         {/* Right: Manage Skills Button */}
         <Link
-          to="/manage-trainers"
+          to="/superAdmin/manage-trainers"
           className="btn manage-skills-btn d-flex align-items-center"
         >
           <i className="ti ti-certificate me-2"></i>
