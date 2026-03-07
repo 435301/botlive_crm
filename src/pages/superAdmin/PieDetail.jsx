@@ -66,7 +66,8 @@ const PieDetail = () => {
 
     return (
         <div className="container mt-4" style={{ height: "500px" }}>
-            <h4 className="mb-4">{chartData.title} - {chartData.area}</h4>
+            <h5 className="mb-4">Area Wise Attendance Dashboard</h5>
+            <h4 className="mb-4">{chartData.title} - Attendance Overview</h4>
             <div className="mb-3" style={{ maxWidth: "200px" }}>
                 <SelectFilter
                     value={month}
@@ -119,7 +120,22 @@ const PieDetail = () => {
                                             <Tooltip />
                                         </PieChart>
                                     </ResponsiveContainer>
-
+                                    <div style={{ display: "flex", justifyContent: "center", gap: "20px", marginTop: "10px" }}>
+                                        {pieData.map((item, index) => (
+                                            <div key={index} style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                                                <span
+                                                    style={{
+                                                        width: "12px",
+                                                        height: "12px",
+                                                        backgroundColor: item.color,
+                                                        display: "inline-block",
+                                                        borderRadius: "2px"
+                                                    }}
+                                                ></span>
+                                                <span>{item.name}: {item.value}</span>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
 
                             </div>
