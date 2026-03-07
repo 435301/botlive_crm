@@ -112,7 +112,7 @@ const PieDetail = () => {
                                 <div className="card border-success shadow-sm p-3">
                                     <h6 className="text-success">Highest Attendance</h6>
                                     <p className="mb-1"><strong>Area:</strong> {highest.area.trim()}</p>
-                                    <p className="mb-1"><strong>Percentage:</strong> {highest.percentage}%</p>
+                                    <p className="mb-1"><strong>Percentage:</strong> {Math.round(highest.percentage)}%</p>
                                 </div>
                             </div>
                         )}
@@ -122,7 +122,7 @@ const PieDetail = () => {
                                 <div className="card border-danger shadow-sm p-3">
                                     <h6 className="text-danger">Lowest Attendance</h6>
                                     <p className="mb-1"><strong>Area:</strong> {lowest.area.trim()}</p>
-                                    <p className="mb-1"><strong>Percentage:</strong> {lowest.percentage}%</p>
+                                    <p className="mb-1"><strong>Percentage:</strong> {Math.round(lowest.percentage)}%</p>
                                 </div>
                             </div>
                         )}
@@ -137,8 +137,8 @@ const PieDetail = () => {
                                 const absent = 100 - present;
 
                                 const pieData = [
-                                    { name: "Present", value: present, color: "#019aa8" },
-                                    { name: "Absent", value: absent, color: "#facb48" }
+                                    { name: "Present", value: Math.round(present), color: "#019aa8" },
+                                    { name: "Absent", value: Math.round(absent), color: "#facb48" }
                                 ];
 
                                 return (
@@ -166,7 +166,7 @@ const PieDetail = () => {
                                                         ))}
                                                     </Pie>
 
-                                                    <Tooltip />
+                                                    <Tooltip formatter={(value) => `${value}%`} />
                                                 </PieChart>
                                             </ResponsiveContainer>
 
@@ -188,7 +188,7 @@ const PieDetail = () => {
                                                                 borderRadius: "2px"
                                                             }}
                                                         />
-                                                        <span>{p.name}:{p.value}%</span>
+                                                        <span>{p.name}:{Math.round(p.value)}%</span>
                                                     </div>
                                                 ))}
                                             </div>

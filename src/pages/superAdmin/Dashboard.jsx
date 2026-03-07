@@ -24,7 +24,7 @@ const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
       textAnchor={x > cx ? "start" : "end"}
       dominantBaseline="central"
     >
-      {name}
+      {name}%
     </text>
   );
 };
@@ -218,10 +218,6 @@ const Dashboard = () => {
                       </small>
                     )}</div>
 
-
-
-
-
                 </div>
                 <div
                   className="d-flex align-items-center justify-content-center rounded-3"
@@ -243,11 +239,11 @@ const Dashboard = () => {
         <div className="row g-4 mt-4">
           <h5 className="fw-bold mb-3"> Attendance Performance </h5>
           {attendanceData.map((item, index) => (<div className="col-12 col-md-6 col-lg-3" key={index} onClick={() => handleChartClick(item)} style={{ cursor: "pointer" }}>
-            <div className="card p-3 shadow-sm h-100">
+            <div className="card p-1 shadow-sm h-100">
               <h6 className="text-center mb-2 fw-semibold">{item.title}</h6>
               <ResponsiveContainer width="100%" height={220}>
                 <PieChart>
-                  <Pie data={item.data} instead of this give a coloum chart dataKey="value" cx="50%" cy="50%" innerRadius={55} outerRadius={80} paddingAngle={3} labelLine label={renderCustomLabel} > {item.data.map((entry, i) => (<Cell key={i} fill={entry.color} />))} </Pie> <Tooltip />
+                  <Pie data={item.data} dataKey="value" cx="50%" cy="50%" innerRadius={55} outerRadius={80} paddingAngle={3} labelLine label={renderCustomLabel} > {item.data.map((entry, i) => (<Cell key={i} fill={entry.color} />))} </Pie> <Tooltip formatter={(value) => `${value}%`} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
