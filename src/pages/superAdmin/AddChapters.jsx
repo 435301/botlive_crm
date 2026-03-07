@@ -263,7 +263,7 @@ const AddChapters = () => {
                   </div>
 
                   <div className="col-md-4">
-                    <label className="form-label">Videos <span className="text-danger">*</span></label>
+                    <label className="form-label">Videos</label>
                     <input
                       type="file"
                       className="form-control"
@@ -290,7 +290,7 @@ const AddChapters = () => {
                   </div>
 
                   <div className="col-md-4">
-                    <label className="form-label">PDF Files <span className="text-danger">*</span></label>
+                    <label className="form-label">PDF Files</label>
                     <input
                       type="file"
                       className="form-control"
