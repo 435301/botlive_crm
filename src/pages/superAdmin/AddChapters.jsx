@@ -182,7 +182,7 @@ const AddChapters = () => {
           <p className="mb-0">Create Multiple Chapters</p>
         </div>
 
-        <Link to="/supeAdmin/manage-chapters" className="btn btn-outline-primary">
+        <Link to="/superAdmin/manage-chapters" className="btn btn-outline-primary">
           Manage Chapters
         </Link>
       </div>

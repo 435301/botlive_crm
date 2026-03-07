@@ -95,7 +95,7 @@ const ManageChaptersModule = () => {
                     </button>
                     {/* Add Skill Center button */}
                     <Link
-                        to="/add-chapters"
+                        to="/superAdmin/add-chapters"
                         className="btn add-skill-btn d-flex align-items-center"
                     >
                         <i className="ti ti-graduation-cap me-2"></i>
