@@ -111,8 +111,11 @@ const AddGrades = () => {
                   onChange={handleChange}
                   mandatory
                   options={[
-                    { label: "Skill Center", value: 1 },
-                    { label: "School", value: 2 },
+                    { label: "Skill Development", value: 1 },
+                    { label: "AI & STEM Learning", value: 2 },
+                    { label: "Education Development", value: 3 },
+                    { label: "Innovation & Entrepreneurs", value: 4 },
+                    { label: "Community Development", value: 5 },
                   ]}
                   error={errors.centreType}
                 />
@@ -121,7 +124,7 @@ const AddGrades = () => {
               {/* Course / Grade */}
               <div className="col-md-4">
                 <FormInput
-                  label={isSchool ? "Grade " :"Batch" }
+                  label={isSchool ? "Grade " : "Batch"}
                   name="gradeBatch"
                   value={formData.gradeBatch}
                   onChange={handleChange}
@@ -143,7 +146,7 @@ const AddGrades = () => {
 
               <FormActions
                 onCancel={() => navigate("/superAdmin/manage-grades")}
-                 saveText={isLoading ? "Saving" : "Save"}
+                saveText={isLoading ? "Saving" : "Save"}
                 cancelText="Cancel"
                 disabled={isLoading}
               />

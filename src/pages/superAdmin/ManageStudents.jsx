@@ -125,8 +125,11 @@ const ManageStudents = () => {
               value={centreType}
               placeholder="All Centre Types"
               options={[
-                { label: "Skill Centre", value: 1 },
-                { label: "School", value: 2 },
+                { label: "Skill Development", value: 1 },
+                { label: "AI & STEM Learning", value: 2 },
+                { label: "Education Development", value: 3 },
+                { label: "Innovation & Entrepreneurs", value: 4 },
+                { label: "Community Development", value: 5 },
               ]}
               onChange={(value) => {
                 setCentreType(value);
@@ -187,7 +190,7 @@ const ManageStudents = () => {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Centre Type</th>
+                  <th>Project Type</th>
                   <th>Center Name</th>
                   <th>Student Name</th>
                   <th>Mobile</th>

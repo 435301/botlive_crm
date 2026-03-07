@@ -125,8 +125,11 @@ const ManageGrades = () => {
                             value={centreType}
                             placeholder="All Center Types"
                             options={[
-                                { label: "School", value: 2 },
-                                { label: "Skill Centre", value: 1 },
+                                { label: "Skill Development", value: 1 },
+                                { label: "AI & STEM Learning", value: 2 },
+                                { label: "Education Development", value: 3 },
+                                { label: "Innovation & Entrepreneurs", value: 4 },
+                                { label: "Community Development", value: 5 },
                             ]}
                             onChange={(value) => {
                                 setCentreType(value);
@@ -182,7 +185,7 @@ const ManageGrades = () => {
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Center Type</th>
+                                    <th>Project Type</th>
                                     <th>Grade / Batch</th>
                                     <th>Status</th>
                                     <th className="text-center">Actions</th>

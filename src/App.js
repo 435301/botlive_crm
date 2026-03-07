@@ -26,6 +26,7 @@ import ManageQualification from "./pages/superAdmin/ManageQualification";
 import AddQualification from "./pages/superAdmin/AddQualification";
 import AddOccupation from "./pages/superAdmin/AddOccupation";
 import ManageOccupations from "./pages/superAdmin/ManageOccupations";
+import PieDetail from "./pages/superAdmin/PieDetail";
 
 const Dashboard = lazy(() => import("./pages/superAdmin/Dashboard"));
 const Login = lazy(() => import("./pages/superAdmin/Login"));
@@ -327,6 +328,7 @@ function App() {
           <Route path="/superAdmin/add-occupation" element={<ProtectedRoute allowedRoles={["super-admin"]}> {lazyLoad(AddOccupation)}</ProtectedRoute>} />
           <Route path="/superAdmin/edit-occupation/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddOccupation)}</ProtectedRoute>} />
 
+          <Route path="/superAdmin/pie-detail" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(PieDetail)}</ProtectedRoute>} />
 
           <Route path="/admin/admin" element={<AdminDashboard />} />
           <Route

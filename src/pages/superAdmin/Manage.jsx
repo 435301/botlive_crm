@@ -121,7 +121,7 @@ const ManageSkillCenters = () => {
             className="btn add-skill-btn d-flex align-items-center"
           >
             <i className="ti ti-graduation-cap me-2"></i>
-            Add 
+            Add
           </Link>
         </div>
       </div>
@@ -175,8 +175,11 @@ const ManageSkillCenters = () => {
               value={type}
               placeholder="All Types"
               options={[
-                { label: "Skill Centre", value: 1 },
-                { label: "School", value: 2 },
+                { label: "Skill Development", value: 1 },
+                { label: "AI & STEM Learning", value: 2 },
+                { label: "Education Development", value: 3 },
+                { label: "Innovation & Entrepreneurs", value: 4 },
+                { label: "Community Development", value: 5 },
               ]}
               onChange={(value) => {
                 setType(value);
@@ -228,7 +231,7 @@ const ManageSkillCenters = () => {
                   <th>#</th>
                   <th>Center Code</th>
                   <th>Name</th>
-                  <th>Centre Type</th>
+                  <th>Project Type</th>
                   <th>UDISE Code</th>
                   <th>Address</th>
                   <th>Contact Person</th>

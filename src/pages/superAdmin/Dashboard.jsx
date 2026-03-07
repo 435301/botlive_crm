@@ -1,150 +1,63 @@
-import React, { useState } from "react";
-import StudentTable from "../../components/StudentTable";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   Tooltip, ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Cell
+  Cell,
+  PieChart,
+  Pie
 } from "recharts";
 import { useCrud } from "../../hooks/useCrud";
-import useStates from "../../hooks/useStates";
-import SelectFilter from "../../components/SelectFilter";
-import useDistricts from "../../hooks/useDistricts";
 
-// const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
-//   const RADIAN = Math.PI / 180;
-//   const radius = outerRadius + 18;
-//   const x = cx + radius * Math.cos(-midAngle * RADIAN);
-//   const y = cy + radius * Math.sin(-midAngle * RADIAN);
+const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
+  const RADIAN = Math.PI / 180;
+  const radius = outerRadius + 18;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-//   return (
-//     <text
-//       x={x}
-//       y={y}
-//       fill="#555"
-//       fontSize={11}
-//       textAnchor={x > cx ? "start" : "end"}
-//       dominantBaseline="central"
-//     >
-//       {name}
-//     </text>
-//   );
-// };
-//  {locationPieData.map((item, index) => (
-//             <div className="col-12" key={index}>
-//               <div className="card p-4 shadow-sm ">
-//                 <h6 className="text-center mb-2 fw-semibold">{item.title}</h6>
-
-//                 <ResponsiveContainer width="100%" height={350}>
-//                   <BarChart data={item.data}  margin={{ top: 20, right: 30, left: 10, bottom: 20 }}>
-//                   <BarChart data={item.data} margin={{ top: 20, right: 30, left: 10, bottom: 20 }}>
-//                     <CartesianGrid strokeDasharray="5 5" />
-
-//                     <XAxis dataKey="name" />
-//                     <YAxis />
-//                     {item.data.length < 10 && <XAxis dataKey="name" />}
-//                     <YAxis domain={[0, 100]}
-//                       ticks={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]} />
-
-//                     <Tooltip />
-//                     <Legend />
-//                     {/* <Legend /> */}
-
-//                     <Bar dataKey="value" barSize={40}>
-//                       {item.data.map((entry, i) => (
-
-const locationPieData = [
-  {
-    title: "Campus Wise Attendance",
-    data: [
-      { name: "Campus 1", value: 40, color: "#4CAF50" },
-      { name: "Campus 2", value: 60, color: "#2196F3" },
-      { name: "Campus 3", value: 80, color: "#4CAF50" },
-      { name: "Campus 4", value: 100, color: "#2196F3" },
-      { name: "Campus 5", value: 90, color: "#4CAF50" },
-      { name: "Campus 6", value: 30, color: "#4CAF50" },
-      { name: "Campus 7", value: 10, color: "#2196F3" },
-      { name: "Campus 8", value: 80, color: "#4CAF50" },
-      { name: "Campus 9", value: 100, color: "#2196F3" },
-      { name: "Campus 10", value: 20, color: "#4CAF50" },
-      { name: "Campus 1", value: 40, color: "#4CAF50" },
-      { name: "Campus 2", value: 60, color: "#2196F3" },
-      { name: "Campus 3", value: 80, color: "#4CAF50" },
-      { name: "Campus 4", value: 100, color: "#2196F3" },
-      { name: "Campus 5", value: 90, color: "#4CAF50" },
-      { name: "Campus 6", value: 30, color: "#4CAF50" },
-      { name: "Campus 7", value: 10, color: "#2196F3" },
-      { name: "Campus 8", value: 80, color: "#4CAF50" },
-      { name: "Campus 9", value: 100, color: "#2196F3" },
-      { name: "Campus 10", value: 20, color: "#4CAF50" },
-      { name: "Campus 1", value: 40, color: "#4CAF50" },
-      { name: "Campus 2", value: 60, color: "#2196F3" },
-      { name: "Campus 3", value: 80, color: "#4CAF50" },
-      { name: "Campus 4", value: 100, color: "#2196F3" },
-      { name: "Campus 5", value: 90, color: "#4CAF50" },
-      { name: "Campus 6", value: 30, color: "#4CAF50" },
-      { name: "Campus 7", value: 10, color: "#2196F3" },
-      { name: "Campus 8", value: 80, color: "#4CAF50" },
-      { name: "Campus 9", value: 100, color: "#2196F3" },
-      { name: "Campus 10", value: 20, color: "#4CAF50" },
-      { name: "Campus 1", value: 40, color: "#4CAF50" },
-      { name: "Campus 2", value: 60, color: "#2196F3" },
-      { name: "Campus 3", value: 80, color: "#4CAF50" },
-      { name: "Campus 4", value: 100, color: "#2196F3" },
-      { name: "Campus 5", value: 90, color: "#4CAF50" },
-      { name: "Campus 6", value: 30, color: "#4CAF50" },
-      { name: "Campus 7", value: 10, color: "#2196F3" },
-      { name: "Campus 8", value: 80, color: "#4CAF50" },
-      { name: "Campus 9", value: 100, color: "#2196F3" },
-      { name: "Campus 10", value: 20, color: "#4CAF50" },
-      { name: "Campus 1", value: 40, color: "#4CAF50" },
-      { name: "Campus 2", value: 60, color: "#2196F3" },
-      { name: "Campus 3", value: 80, color: "#4CAF50" },
-      { name: "Campus 4", value: 100, color: "#2196F3" },
-      { name: "Campus 5", value: 90, color: "#4CAF50" },
-      { name: "Campus 6", value: 30, color: "#4CAF50" },
-      { name: "Campus 7", value: 10, color: "#2196F3" },
-      { name: "Campus 8", value: 80, color: "#4CAF50" },
-      { name: "Campus 9", value: 100, color: "#2196F3" },
-      { name: "Campus 10", value: 20, color: "#4CAF50" },
-    ]
-  }
-];
-
-/* ===== QUICK INFO ===== */
+  return (
+    <text
+      x={x}
+      y={y}
+      fill="#555"
+      fontSize={11}
+      textAnchor={x > cx ? "start" : "end"}
+      dominantBaseline="central"
+    >
+      {name}
+    </text>
+  );
+};
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const { useGetAll } = useCrud({
     entity: "dashboard",
     getAllUrl: "/admin/getDashboard",
   });
 
-  const [stateId, setStateId] = useState("");
-  const [districtId, setDistrictId] = useState("");
-  const [month, setMonth] = useState("");
-  const months = [
-    { label: "January", value: 1, },
-    { label: "Febraury", value: 2, },
-    { label: "March", value: 3, },
-    { label: "April", value: 4, },
-    { label: "May", value: 5, },
-    { label: "June", value: 6 },
-    { label: "July", value: 7 },
-    { label: "August", value: 8 },
-    { label: "September", value: 9 },
-    { label: "October", value: 10 },
-    { label: "November", value: 11 },
-    { label: "December", value: 12 }
-  ]
+  const { useGetAll: useGetAttendance } = useCrud({
+    entity: "attendance",
+    getAllUrl: "/admin/attendancePercentage",
+  });
 
+  const { data: attendanceDataRaw } = useGetAttendance();
+
+  // transform attendance for chart
+  const attendanceData = attendanceDataRaw?.data?.map(item => ({
+    title: item.district.districtName,
+    data: [
+      { name: "Present", value: Number(item.percentage), color: "#4CAF50" , districtId: item.districtId, area: item.area},
+      { name: "Absent", value: 100 - Number(item.percentage), color: "#019aa8", districtId: item.districtId, area: item.area},
+    ],
+  })) || [];
+
+  const handleChartClick = (item) => {
+    navigate("/superAdmin/pie-detail", { state: { chartData: { title: item.title,  data: item.data.slice(0, 2) } } });
+  };
 
   const { data } = useGetAll();
   const dashboard = data?.data || [];
-  console.log('dashboard', dashboard)
   const stats = [
     {
       title: "Skill Centers",
@@ -224,8 +137,6 @@ const Dashboard = () => {
       iconColor: "#20c997",
     },
   ];
-  const { states } = useStates();
-  const { districts } = useDistricts();
 
 
   return (
@@ -292,78 +203,23 @@ const Dashboard = () => {
         {/* ===== LOCATION DONUT PIE CHARTS ===== */}
         <div className="row g-4 mt-4">
           <h5 className="fw-bold mb-3"> Attendance Performance </h5>
-          <div className="col-md-2">
-            <SelectFilter
-              value={stateId}
-              placeholder="All States"
-              options={states?.map((state) => ({
-                label: state.stateName,
-                value: String(state.id),
-              }))}
-              onChange={(value) => {
-                setStateId(value);
-              }}
-            />
-          </div>
-          <div className="col-md-2">
-            <SelectFilter
-              value={districtId}
-              placeholder="All Districts"
-              options={districts?.map((district) => ({
-                label: district.districtName,
-                value: String(district.id),
-              }))}
-              onChange={(value) => {
-                setDistrictId(value);
-              }}
-            />
-          </div>
-          <div className="col-md-2">
-            <SelectFilter
-              value={month}
-              placeholder="All months"
-              options={months?.map((month) => ({
-                label: month.label,
-                value: month.value,
-              }))}
-              onChange={(value) => {
-                setMonth(value);
-              }}
-            />
-          </div>
-
-          {locationPieData.map((item, index) => (
-            <div className="col-12" key={index}>
-              <div className="card p-4 shadow-sm ">
-                <h6 className="text-center mb-2 fw-semibold">{item.title}</h6>
-
-                <ResponsiveContainer width="100%" height={350}>
-                  <BarChart data={item.data} margin={{ top: 20, right: 30, left: 10, bottom: 20 }}>
-                    <CartesianGrid strokeDasharray="5 5" />
-
-                    {item.data.length < 10 && <XAxis dataKey="name" />}
-                    <YAxis domain={[0, 100]}
-                      ticks={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]} />
-
-                    <Tooltip />
-                    {/* <Legend /> */}
-
-                    <Bar dataKey="value" barSize={40}>
-                      {item.data.map((entry, i) => (
-                        <Cell key={i} fill={entry.color} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
+          {attendanceData.map((item, index) => (<div className="col-12 col-md-6 col-lg-3" key={index} onClick={() => handleChartClick(item)} style={{ cursor: "pointer" }}>
+            <div className="card p-3 shadow-sm h-100">
+              <h6 className="text-center mb-2 fw-semibold">{item.title}</h6>
+              <ResponsiveContainer width="100%" height={220}>
+                <PieChart>
+                  <Pie data={item.data} instead of this give a coloum chart dataKey="value" cx="50%" cy="50%" innerRadius={55} outerRadius={80} paddingAngle={3} labelLine label={renderCustomLabel} > {item.data.map((entry, i) => (<Cell key={i} fill={entry.color} />))} </Pie> <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
             </div>
+          </div>
           ))}
         </div>
 
-        <div className="col-12 col-sm-12 col-lg-12">
+        {/* <div className="col-12 col-sm-12 col-lg-12">
           {" "}
           <StudentTable />
-        </div>
+        </div> */}
       </div>
 
       {/* ===== CHARTS ===== */}

@@ -183,11 +183,13 @@ const AddSkillCenter = () => {
                   onChange={handleChange}
                   error={errors.centerType}
                   options={[
-                    { label: "Skill Center", value: 1 },
-                    { label: "School", value: 2 },
+                    { label: "Skill Development", value: 1 },
+                    { label: "AI & STEM Learning", value: 2 },
+                    {label: "Education Development", value: 3},
+                    {label: "Innovation & Entrepreneurs", value: 4},
+                    {label: "Community Development", value: 5},
                   ]}
                 />
-
               </div>
 
               {formData.centerType === 2 && (
