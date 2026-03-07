@@ -27,8 +27,11 @@ import { useCrud } from "../../hooks/useCrud";
 const PieDetail = () => {
     const location = useLocation();
     const [month, setMonth] = useState(new Date().getMonth() + 1);
-    // const [month, setMonth] = useState(1);
-
+    const [year, setYear] = useState(new Date().getFullYear());
+    const years = [];
+    for (let y = 2025; y <= year + 40; y++) {
+        years.push({ label: y, value: y });
+    }
     const months = [
         { label: "January", value: 1, },
         { label: "Febraury", value: 2, },
@@ -42,7 +45,9 @@ const PieDetail = () => {
         { label: "October", value: 10 },
         { label: "November", value: 11 },
         { label: "December", value: 12 }
-    ]
+    ];
+
+
     const { useList } = useCrud({
         entity: "attendance",
         listUrl: "/admin/attendancePercentageByDistrict",
@@ -52,7 +57,8 @@ const PieDetail = () => {
     const { data, isLoading, isError } = useList(
         {
             districtId: Number(chartData?.data?.[0]?.districtId),
-            month: Number(month)
+            month: Number(month),
+            year: Number(year)
         },
         {
             retry: false
@@ -72,14 +78,23 @@ const PieDetail = () => {
         <div className="container mt-4">
             <h5 className="mb-4">Area Wise Attendance Dashboard</h5>
             <p className="mb-4">{chartData.title} - Attendance Overview</p>
-
-            <div className="mb-3" style={{ maxWidth: "200px" }}>
-                <SelectFilter
-                    value={month}
-                    placeholder="Select month"
-                    options={months}
-                    onChange={setMonth}
-                />
+            <div className="row">
+                <div className="mb-3" style={{ maxWidth: "200px" }}>
+                    <SelectFilter
+                        value={month}
+                        placeholder="Select month"
+                        options={months}
+                        onChange={setMonth}
+                    />
+                </div>
+                <div className="mb-3" style={{ maxWidth: "200px" }}>
+                    <SelectFilter
+                        value={year}
+                        placeholder="Select year"
+                        options={years}
+                        onChange={setYear}
+                    />
+                </div>
             </div>
 
             {isLoading ? (
