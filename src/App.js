@@ -114,7 +114,7 @@ function LayoutWrapper({
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
   const noLayoutPaths = [
-    "/login",
+    "/",
     "/school-skill-center/login",
     "/trainer-module/login",
     "/student-module/login",
@@ -207,6 +207,12 @@ function App() {
             path="/login"
             element={<PublicRoute>{lazyLoad(Login)}</PublicRoute>}
           />
+
+          <Route
+            path="/"
+            element={<PublicRoute>{lazyLoad(Login)}</PublicRoute>}
+          />
+
           <Route
             path="/superAdmin"
             element={
