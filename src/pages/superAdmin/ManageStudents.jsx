@@ -56,6 +56,9 @@ const ManageStudents = () => {
     console.log("Export Excel clicked");
     // later you can generate excel using XLSX
   };
+  const filteredCentres = centreType
+    ? schoolsData?.filter((school) => school.centerType === centreType)
+    : schoolsData;
 
   return (
     <div className="container-fluid">
@@ -133,6 +136,7 @@ const ManageStudents = () => {
               ]}
               onChange={(value) => {
                 setCentreType(value);
+                setCentreId(null);
                 setPage(1);
               }}
             />
@@ -142,7 +146,7 @@ const ManageStudents = () => {
             <SelectFilter
               value={centreId}
               placeholder="All Centre Names"
-              options={schoolsData?.map((school) => ({
+              options={filteredCentres?.map((school) => ({
                 label: school.centerName,
                 value: school.id
               }))}
