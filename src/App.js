@@ -27,6 +27,9 @@ import AddQualification from "./pages/superAdmin/AddQualification";
 import AddOccupation from "./pages/superAdmin/AddOccupation";
 import ManageOccupations from "./pages/superAdmin/ManageOccupations";
 import PieDetail from "./pages/superAdmin/PieDetail";
+import AddActivity from "./pages/superAdmin/AddActivity";
+import ManageActivities from "./pages/superAdmin/ManageActivities";
+import ViewActivity from "./pages/superAdmin/ViewActivityFiles";
 
 const Dashboard = lazy(() => import("./pages/superAdmin/Dashboard"));
 const Login = lazy(() => import("./pages/superAdmin/Login"));
@@ -567,6 +570,11 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+            <Route path="/superAdmin/manage-activities" element={<ProtectedRoute allowedRoles={["super-admin"]}> {lazyLoad(ManageActivities)}</ProtectedRoute>} />
+          <Route path="/superAdmin/add-activity"  element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddActivity)}</ProtectedRoute> } />
+          <Route path="/superAdmin/edit-activity/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddActivity)}</ProtectedRoute>   }/>
+          <Route path="/superAdmin/view-activity/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ViewActivity)}</ProtectedRoute>   }/>
 
           <Route path="/admin/admin" element={<AdminDashboard />} />
           <Route

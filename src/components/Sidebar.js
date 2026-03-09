@@ -529,6 +529,41 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               </NavLink>
             </div>
           </div>
+          {/* Activity Management */}
+          <div
+            className={`nav-group ${isParentActive([
+              "/superAdmin/add-activity",
+              "/superAdmin/manage-activities",
+            ])
+              ? "active"
+              : ""
+              }`}
+          >
+            <div className="nav-link" onClick={() => toggleMenu("activity")}>
+              <GraduationCap size={18} />
+              {!collapsed && (
+                <>
+                  <span>Activity Management</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "activity" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
+            </div>
+            <div className={`submenu ${openMenu === "activity" ? "open" : ""}`}>
+              <NavLink to="/superAdmin/add-activity" className={getNavLinkClass}>
+                Add Activity
+              </NavLink>
+              <NavLink
+                to="/superAdmin/manage-activities"
+                className={getNavLinkClass}
+              >
+                Manage Activities
+              </NavLink>
+            </div>
+          </div>
+
           {/* Settings */}
           <NavLink to="/superAdmin/settings" className={getNavLinkClass}>
             <Settings size={18} />

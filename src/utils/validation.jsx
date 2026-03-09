@@ -151,7 +151,7 @@ export const validateModule = (formData) => {
   return errors;
 };
 
-export const validateGrade= (formData) => {
+export const validateGrade = (formData) => {
   const errors = {};
 
   if (!formData.centreType) {
@@ -172,7 +172,7 @@ export const validateGrade= (formData) => {
 export const validateSchoolStudent = (formData, isEditMode) => {
   let newErrors = {};
 
-  if(!formData.centreType) newErrors.centreType = "Centre Type is required"
+  if (!formData.centreType) newErrors.centreType = "Centre Type is required"
   if (!formData.schoolId) newErrors.schoolId = "School is required";
 
   if (!formData.enrollmentNumber)
@@ -191,7 +191,7 @@ export const validateSchoolStudent = (formData, isEditMode) => {
   if (!formData.email)
     newErrors.email = "Email required";
 
-   if (!formData.dob)
+  if (!formData.dob)
     newErrors.dob = "DOB required";
 
   if (!isEditMode && !formData.password)
@@ -223,7 +223,7 @@ export const validateCategory = (formData) => {
   return errors;
 };
 
-export const validateQualification= (formData) => {
+export const validateQualification = (formData) => {
   const errors = {};
 
   if (!formData.qualification?.trim()) {
@@ -237,7 +237,7 @@ export const validateQualification= (formData) => {
   return errors;
 };
 
-export const validateOccupation= (formData) => {
+export const validateOccupation = (formData) => {
   const errors = {};
 
   if (!formData.occupation?.trim()) {
@@ -247,6 +247,38 @@ export const validateOccupation= (formData) => {
   if (formData.status === undefined || formData.status === "") {
     errors.status = "Status is required";
   }
+
+  return errors;
+};
+
+export const validateActivity = (formData, isEditMode) => {
+  const errors = {};
+
+  if (!formData.centreId) {
+    errors.centreId = "Centre is required";
+  }
+
+  if (!formData.activityTitle?.trim()) {
+    errors.activityTitle = "Activity Title is required";
+  }
+
+  if (!formData.description?.trim()) {
+    errors.description = "Description is required";
+  }
+
+  if (!formData.centreType) {
+    errors.centreType = "Project Type is required";
+  }
+
+  if (formData.status === undefined || formData.status === "") {
+    errors.status = "Status is required";
+  }
+
+  if (!isEditMode && !formData.photos)
+    errors.photos = "Photo is required";
+
+  if (!isEditMode && !formData.videos)
+    errors.videos = "Video is required";
 
   return errors;
 };

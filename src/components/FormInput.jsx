@@ -10,6 +10,8 @@ const FormInput = ({
   className,
   error,
   mandatory,
+  multiple,
+  accept,
 }) => {
   return (
     <div className={className}>
@@ -28,6 +30,8 @@ const FormInput = ({
         placeholder={placeholder}
         onChange={onChange}
         mandatory={mandatory}
+        multiple={multiple}
+          accept={accept}  
       />
       {error && (
         <div className="text-danger small">
