@@ -120,8 +120,8 @@ function LayoutWrapper({
     "/",
     "/school-skill-center/login",
     "/trainer-module/login",
-    "/student-module/login",
     "/admin/login",
+    "/student/login",
   ];
   if (noLayoutPaths.includes(location.pathname)) {
     return <>{children}</>; // no header/sidebar
@@ -611,7 +611,7 @@ function App() {
           />
           {/* Student Moduke login */}
           <Route
-            path="/student-module/login"
+            path="/student/login"
             element={<StudentModuleLogin />}
           />
           <Route path="/admin/login" element={<AdminLogin />} />
