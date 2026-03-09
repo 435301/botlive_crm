@@ -30,6 +30,7 @@ import PieDetail from "./pages/superAdmin/PieDetail";
 import AddActivity from "./pages/superAdmin/AddActivity";
 import ManageActivities from "./pages/superAdmin/ManageActivities";
 import ViewActivity from "./pages/superAdmin/ViewActivityFiles";
+import StudentDashboard from "./pages/StudentModule/StudentDashboard";
 
 const Dashboard = lazy(() => import("./pages/superAdmin/Dashboard"));
 const Login = lazy(() => import("./pages/superAdmin/Login"));
@@ -219,7 +220,7 @@ function App() {
           <Route
             path="/superAdmin"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(Dashboard)}
               </ProtectedRoute>
             }
@@ -227,7 +228,7 @@ function App() {
           <Route
             path="/superAdmin/manage-skill-centres"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(Manage)}
               </ProtectedRoute>
             }
@@ -235,7 +236,7 @@ function App() {
           <Route
             path="/superAdmin/add-skill-centre"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(AddSkills)}
               </ProtectedRoute>
             }
@@ -243,7 +244,7 @@ function App() {
           <Route
             path="/superAdmin/edit-skill-centre/:id"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(AddSkills)}
               </ProtectedRoute>
             }
@@ -252,7 +253,7 @@ function App() {
           <Route
             path="/superAdmin/settings"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(Settings)}
               </ProtectedRoute>
             }
@@ -260,7 +261,7 @@ function App() {
           <Route
             path="/superAdmin/add-course"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
                 {lazyLoad(AddCourse)}{" "}
               </ProtectedRoute>
@@ -269,7 +270,7 @@ function App() {
           <Route
             path="/superAdmin/edit-course/:id"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
                 {lazyLoad(AddCourse)}{" "}
               </ProtectedRoute>
@@ -278,7 +279,7 @@ function App() {
           <Route
             path="/superAdmin/manage-course"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
                 {lazyLoad(ManageCourse)}
               </ProtectedRoute>
@@ -295,7 +296,7 @@ function App() {
           <Route
             path="/superAdmin/add-module"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
                 {lazyLoad(AddModule)}{" "}
               </ProtectedRoute>
@@ -304,7 +305,7 @@ function App() {
           <Route
             path="/superAdmin/edit-module/:id"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
                 {lazyLoad(AddModule)}{" "}
               </ProtectedRoute>
@@ -313,7 +314,7 @@ function App() {
           <Route
             path="/superAdmin/manage-module"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
                 {lazyLoad(ManageModule)}
               </ProtectedRoute>
@@ -322,7 +323,7 @@ function App() {
           <Route
             path="/superAdmin/add-chapters"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
                 {lazyLoad(AddChapters)}
               </ProtectedRoute>
@@ -331,7 +332,7 @@ function App() {
           <Route
             path="/superAdmin/edit-chapter/:id"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
                 {lazyLoad(AddChapters)}
               </ProtectedRoute>
@@ -340,7 +341,7 @@ function App() {
           <Route
             path="/superAdmin/manage-chapters"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
                 {lazyLoad(ManageChaptersModule)}{" "}
               </ProtectedRoute>
@@ -349,7 +350,7 @@ function App() {
           <Route
             path="/superAdmin/add-grade"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(AddGrades)}
               </ProtectedRoute>
             }
@@ -357,7 +358,7 @@ function App() {
           <Route
             path="/superAdmin/edit-grade/:id"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(AddGrades)}
               </ProtectedRoute>
             }
@@ -365,7 +366,7 @@ function App() {
           <Route
             path="/superAdmin/manage-grades"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(ManageGrades)}
               </ProtectedRoute>
             }
@@ -373,7 +374,7 @@ function App() {
           <Route
             path="/superAdmin/add-assigned-chapter"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(AddAssignedChapters)}
               </ProtectedRoute>
             }
@@ -381,7 +382,7 @@ function App() {
           <Route
             path="/superAdmin/manage-assigned-chapters"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(ManageAssignedChapters)}
               </ProtectedRoute>
             }
@@ -409,7 +410,7 @@ function App() {
           <Route
             path="/superAdmin/add-state"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(AddState)}
               </ProtectedRoute>
             }
@@ -417,7 +418,7 @@ function App() {
           <Route
             path="/superAdmin/edit-state/:id"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(AddState)}
               </ProtectedRoute>
             }
@@ -425,7 +426,7 @@ function App() {
           <Route
             path="/superAdmin/manage-states"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(ManageStates)}
               </ProtectedRoute>
             }
@@ -433,7 +434,7 @@ function App() {
           <Route
             path="/superAdmin/add-district"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(AddDistrict)}
               </ProtectedRoute>
             }
@@ -441,7 +442,7 @@ function App() {
           <Route
             path="/superAdmin/edit-district/:id"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(AddDistrict)}
               </ProtectedRoute>
             }
@@ -449,7 +450,7 @@ function App() {
           <Route
             path="/superAdmin/manage-districts"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(ManageDistrict)}
               </ProtectedRoute>
             }
@@ -457,7 +458,7 @@ function App() {
           <Route
             path="/superAdmin/manage-administrator"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
                 {lazyLoad(ManageFounders)}
               </ProtectedRoute>
@@ -466,7 +467,7 @@ function App() {
           <Route
             path="/superAdmin/add-administrator"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
                 {lazyLoad(AddFounder)}
               </ProtectedRoute>
@@ -475,7 +476,7 @@ function App() {
           <Route
             path="/superAdmin/edit-administrator/:id"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(AddFounder)}
               </ProtectedRoute>
             }
@@ -484,7 +485,7 @@ function App() {
           <Route
             path="/superAdmin/manage-category"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
                 {lazyLoad(ManageCategory)}
               </ProtectedRoute>
@@ -493,7 +494,7 @@ function App() {
           <Route
             path="/superAdmin/add-category"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
                 {lazyLoad(AddCategories)}
               </ProtectedRoute>
@@ -502,7 +503,7 @@ function App() {
           <Route
             path="/superAdmin/edit-category/:id"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(AddCategories)}
               </ProtectedRoute>
             }
@@ -511,7 +512,7 @@ function App() {
           <Route
             path="/superAdmin/manage-qualification"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
                 {lazyLoad(ManageQualification)}
               </ProtectedRoute>
@@ -520,7 +521,7 @@ function App() {
           <Route
             path="/superAdmin/add-qualification"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
                 {lazyLoad(AddQualification)}
               </ProtectedRoute>
@@ -529,7 +530,7 @@ function App() {
           <Route
             path="/superAdmin/edit-qualification/:id"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(AddQualification)}
               </ProtectedRoute>
             }
@@ -538,7 +539,7 @@ function App() {
           <Route
             path="/superAdmin/manage-occupation"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
                 {lazyLoad(ManageOccupations)}
               </ProtectedRoute>
@@ -547,7 +548,7 @@ function App() {
           <Route
             path="/superAdmin/add-occupation"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
                 {lazyLoad(AddOccupation)}
               </ProtectedRoute>
@@ -556,7 +557,7 @@ function App() {
           <Route
             path="/superAdmin/edit-occupation/:id"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(AddOccupation)}
               </ProtectedRoute>
             }
@@ -565,16 +566,16 @@ function App() {
           <Route
             path="/superAdmin/pie-detail"
             element={
-              <ProtectedRoute allowedRoles={["super-admin"]}>
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(PieDetail)}
               </ProtectedRoute>
             }
           />
 
-            <Route path="/superAdmin/manage-activities" element={<ProtectedRoute allowedRoles={["super-admin"]}> {lazyLoad(ManageActivities)}</ProtectedRoute>} />
-          <Route path="/superAdmin/add-activity"  element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddActivity)}</ProtectedRoute> } />
-          <Route path="/superAdmin/edit-activity/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(AddActivity)}</ProtectedRoute>   }/>
-          <Route path="/superAdmin/view-activity/:id" element={<ProtectedRoute allowedRoles={["super-admin"]}>{lazyLoad(ViewActivity)}</ProtectedRoute>   }/>
+          <Route path="/superAdmin/manage-activities" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login"> {lazyLoad(ManageActivities)}</ProtectedRoute>} />
+          <Route path="/superAdmin/add-activity" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(AddActivity)}</ProtectedRoute>} />
+          <Route path="/superAdmin/edit-activity/:id" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(AddActivity)}</ProtectedRoute>} />
+          <Route path="/superAdmin/view-activity/:id" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ViewActivity)}</ProtectedRoute>} />
 
           <Route path="/admin/admin" element={<AdminDashboard />} />
           <Route
@@ -610,10 +611,9 @@ function App() {
             element={<TrainerModuleLogin />}
           />
           {/* Student Moduke login */}
-          <Route
-            path="/student/login"
-            element={<StudentModuleLogin />}
-          />
+
+          <Route path="/student/login" element={<PublicRoute>{lazyLoad(StudentModuleLogin)}</PublicRoute>} />
+          <Route path="/student/dashboard" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(StudentDashboard)}</ProtectedRoute>} />
           <Route path="/admin/login" element={<AdminLogin />} />
         </Routes>
       </LayoutWrapper>

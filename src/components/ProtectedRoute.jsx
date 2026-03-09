@@ -1,18 +1,25 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { isAuthenticated, getAdminRole } from "../utils/auth";
+import { isAuthenticated, getAdminRole, isStudentAuthenticated, getStudentRole } from "../utils/auth";
 
-const ProtectedRoute = ({ children, allowedRoles }) => {
-  if (!isAuthenticated()) {
-    return <Navigate to="/login" replace />;
+const ProtectedRoute = ({ children, allowedRoles, loginPath = "/login" }) => {
+  let role = null;
+  
+  //check super admin login
+  if (isAuthenticated()) {
+    role = getAdminRole();
   }
-   if (allowedRoles) {
-    const role = getAdminRole();
-    if (!allowedRoles.includes(role)) {
-      return <Navigate to="/login" replace />;
-    }
+  // check student login
+  if (!role && isStudentAuthenticated()) {
+    role = getStudentRole();
+  }
+  if (!role) {
+    return <Navigate to={loginPath} replace />;
   }
 
+  if (allowedRoles && !allowedRoles.includes(role)) {
+    return <Navigate to={loginPath} replace />;
+  }
 
   return children;
 };
