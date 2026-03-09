@@ -134,7 +134,7 @@ const adminSlice = createSlice({
             state.token = null;
             Cookies.remove("super-admin");
             Cookies.remove("super-admin-token");
-            toast.info("Logged out successfully");
+            toast.success("Logged out successfully");
         },
     },
     extraReducers: (builder) => {
