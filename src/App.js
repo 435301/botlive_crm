@@ -614,6 +614,7 @@ function App() {
 
           <Route path="/student/login" element={<PublicRoute>{lazyLoad(StudentModuleLogin)}</PublicRoute>} />
           <Route path="/student/dashboard" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(StudentDashboard)}</ProtectedRoute>} />
+
           <Route path="/admin/login" element={<AdminLogin />} />
         </Routes>
       </LayoutWrapper>

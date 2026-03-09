@@ -1,6 +1,6 @@
 import React from "react";
-import AdminSidebar from "../../components/admin/AdminSidebar";
-import AdminHeader from "../../components/admin/AdminHeader";
+import StudentSidebar from "../../components/student/studentSidebar";
+import StudentHeader from "../../components/student/StudentHeader";
 
 /* ===== UPDATED TOP STATS ===== */
 const stats = [
@@ -55,13 +55,13 @@ const StudentDashboard = () => {
     <div className="admin-layout d-flex">
 
       {/* ===== SIDEBAR ===== */}
-      <AdminSidebar />
+      <StudentSidebar />
 
       {/* ===== MAIN CONTENT ===== */}
       <div className="admin-main flex-grow-1">
 
         {/* ===== HEADER ===== */}
-        <AdminHeader />
+        <StudentHeader />
 
         {/* ===== PAGE CONTENT ===== */}
         <div className="container-fluid p-4">

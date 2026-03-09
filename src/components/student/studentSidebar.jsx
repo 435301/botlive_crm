@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import logo from "../../assets/images/logo.png";
 
-const Sidebar = ({ collapsed, show, closeSidebar }) => {
+const StudentSidebar = ({ collapsed, show, closeSidebar }) => {
   const [openMenu, setOpenMenu] = useState(null);
 
   const toggleMenu = (menu) => {
@@ -45,7 +45,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
         <nav className="sidebar-nav">
           {/* Dashboard */}
-          <NavLink to="/admin/admin" className={getNavLinkClass}>
+          <NavLink to="/student/dashboard" className={getNavLinkClass}>
             <LayoutDashboard size={18} />
             {!collapsed && <span>Dashboard</span>}
           </NavLink>
@@ -66,11 +66,11 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
             </div>
 
             <div className={`submenu ${openMenu === "campus" ? "open" : ""}`}>
-              <NavLink to="/admin/manage-schools" className={getNavLinkClass}>
+              <NavLink to="/student/manage-schools" className={getNavLinkClass}>
                 School
               </NavLink>
 
-              <NavLink to="/admin/manage-skills" className={getNavLinkClass}>
+              <NavLink to="/student/manage-skills" className={getNavLinkClass}>
                 SKill Center{" "}
               </NavLink>
             </div>
@@ -94,18 +94,18 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
             </div>
 
             <div className={`submenu ${openMenu === "reports" ? "open" : ""}`}>
-              <NavLink to="/admin/report-students" className={getNavLinkClass}>
+              <NavLink to="/student/report-students" className={getNavLinkClass}>
                 Schools
               </NavLink>
 
-              <NavLink to="/admin/report-skills" className={getNavLinkClass}>
+              <NavLink to="/student/report-skills" className={getNavLinkClass}>
                 Skill centre
               </NavLink>
             </div>
           </div>
 
           {/* Change Password */}
-          <NavLink to="/admin/change-password" className={getNavLinkClass}>
+          <NavLink to="/student/change-password" className={getNavLinkClass}>
             <KeyRound size={18} />
             {!collapsed && <span>Change Password</span>}
           </NavLink>
@@ -121,4 +121,4 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
   );
 };
 
-export default Sidebar;
+export default StudentSidebar;
