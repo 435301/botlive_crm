@@ -130,7 +130,7 @@ const studentSlice = createSlice({
         error: null,
     },
     reducers: {
-        logoutAdmin: (state) => {
+        logoutStudent: (state) => {
             state.admin = null;
             state.token = null;
             Cookies.remove("student");
@@ -187,5 +187,5 @@ const studentSlice = createSlice({
     },
 });
 
-export const { logoutAdmin } = studentSlice.actions;
+export const { logoutStudent } = studentSlice.actions;
 export default studentSlice.reducer;

@@ -1,8 +1,19 @@
 import React, { useState } from "react";
 import { Menu, User, LogOut, ChevronDown } from "lucide-react";
+import { logoutStudent } from "../../redux/slices/studentSlice";
+import { useNavigate } from "react-router-dom";
+import {useDispatch} from "react-redux";
 
 const StudentHeader = ({ toggleSidebar, toggleCollapse, collapsed }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [openProfile, setOpenProfile] = useState(false);
+
+    const handleLogout = () => {
+      dispatch(logoutStudent());
+      navigate("/student/login");
+    };
+  
 
   return (
     <header className={`header ${collapsed ? "collapsed" : ""}`}>
@@ -43,7 +54,7 @@ const StudentHeader = ({ toggleSidebar, toggleCollapse, collapsed }) => {
             <div className="profile-item">
               <User size={16} /> My Profile
             </div>
-            <div className="profile-item danger">
+            <div className="profile-item danger" onClick={handleLogout}>
               <LogOut size={16} /> Logout
             </div>
           </div>
