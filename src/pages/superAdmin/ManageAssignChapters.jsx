@@ -1,77 +1,55 @@
 import React, { useState } from "react";
 import Pagination from "../../components/Pagination";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SelectFilter from "../../components/SelectFilter";
+import useCourses from "../../hooks/useCourses";
+import useGrades from "../../hooks/useGrades";
+import useModules from "../../hooks/useModule";
+import useChapters from "../../hooks/useChapters";
+import { useCrud } from "../../hooks/useCrud";
+import DeleteConfirmationModal from "../../Modals/deleteModal";
 
-/* ===== SAMPLE MODULE DATA ===== */
-const modulesData = [
-    {
-        id: 1,
-        centerType: "Skill Center",
-        centerName: "Hyderabad Skill Center",
-        course: "Frontend Development",
-        moduleName: "React Basics",
-        chapterName: "Introduction to React",
-        videos: ["intro.mp4", "components.mp4"],
-        pdfs: ["react-basics.pdf"],
-        status: "Active",
-        priority: "Low"
-    },
-    {
-        id: 2,
-        centerType: "School",
-        centerName: "Green Valley School",
-        course: "Web Development",
-        moduleName: "Python Fundamentals",
-        chapterName: "DOM Manipulation",
-        videos: ["syntax.mp4"],
-        pdfs: ["python-notes.pdf", "examples.pdf"],
-        status: "Inactive",
-        priority: "Medium"
-    },
-    {
-        id: 3,
-        centerType: "Skill Center",
-        centerName: "Tech Skill Hub",
-        course: "Data Science",
-        moduleName: "JS DOM Manipulation",
-        chapterName: "Data Structures",
-        videos: ["dom.mp4"],
-        pdfs: ["js-dom.pdf"],
-        status: "Active",
-        priority: "High"
-    },
-];
 
 const ManageAssignedChapters = () => {
+    const navigate = useNavigate();
     const [search, setSearch] = useState("");
-    const [centerType, setCenterType] = useState("");
-    const [course, setCourse] = useState("");
-    const [module, setModule] = useState("");
-    const [chapterName, setChapterName] = useState("");
+    const [gradeBatchId, setGradeBatchId] = useState("");
+    const [courseId, setCourseId] = useState("");
+    const [moduleId, setModuleId] = useState("");
+    const [chapterIds, setChapterIds] = useState("");
     const [status, setStatus] = useState("");
     const [page, setPage] = useState(1);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deleteId, setDeleteId] = useState(null);
 
-    const ITEMS_PER_PAGE = 5;
-
-    /* ===== FILTER MODULES ===== */
-    const filteredData = modulesData.filter((t) => {
-        const matchSearch = t.moduleName
-            .toLowerCase()
-            .includes(search.toLowerCase());
-        const matchCenterType = centerType ? t.centerType === centerType : true;
-        const matchStatus = status ? t.status === status : true;
-
-        return matchSearch && matchCenterType && matchStatus;
+    const { useList, deleteMutation } = useCrud({
+        entity: "assignChapter",
+        listUrl: "/assignChapter/list",
+        deleteUrl: (id) => `/assignChapter/delete/${id}`,
     });
 
-    /* ===== PAGINATION ===== */
-    const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
-    const startIndex = (page - 1) * ITEMS_PER_PAGE;
-    const paginatedData = filteredData.slice(
-        startIndex,
-        startIndex + ITEMS_PER_PAGE,
-    );
+    const { data, isLoading } = useList({
+        search,
+        status,
+        page,
+        courseId,
+        moduleId,
+        gradeBatchId,
+        chapterIds,
+    });
+
+    const assignedChapters = data?.data || [];
+    const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
+    const perPage = data?.perPage || 15;
+
+    const { courses } = useCourses();
+    const { grades } = useGrades();
+    const { modules } = useModules();
+    const { chapters } = useChapters();
+
+    const filteredModules = modules?.filter((module) => module.courseId === Number(courseId))
+    const filteredChapters = chapters?.filter((chapter) => chapter.moduleId === Number(moduleId));
+
     const handleImportExcel = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -87,9 +65,23 @@ const ManageAssignedChapters = () => {
 
     const resetFilters = () => {
         setSearch("");
-        setCenterType("");
+        setChapterIds([]);
+        setCourseId("");
+        setGradeBatchId("");
+        setModuleId("");
         setStatus("");
         setPage(1);
+    };
+
+    const handleDeleteClick = (id) => {
+        setDeleteId(id);
+        setShowDeleteModal(true);
+    };
+
+    const handleDelete = async () => {
+        setShowDeleteModal(false);
+        setDeleteId(null);
+        deleteMutation.mutate(deleteId);
     };
 
     return (
@@ -130,7 +122,7 @@ const ManageAssignedChapters = () => {
                     </button>
                     {/* Add Skill Center button */}
                     <Link
-                        to="/add-assigned-chapter"
+                        to="/superAdmin/add-assigned-chapter"
                         className="btn add-skill-btn d-flex align-items-center"
                     >
                         <i className="ti ti-graduation-cap me-2"></i>
@@ -145,60 +137,72 @@ const ManageAssignedChapters = () => {
                 <div className="row g-2">
 
                     <div className="col-md-2">
-                         <SelectFilter
-                            value={course}
+                        <SelectFilter
+                            value={gradeBatchId}
+                            placeholder="All Grades"
+                            options={grades.map((grade) => ({
+                                label: grade.gradeBatch,
+                                value: grade.id
+                            }))}
+                            onChange={(value) => {
+                                setGradeBatchId(value);
+                                setPage(1);
+                            }}
+                        />
+                    </div>
+
+                    <div className="col-md-2">
+                        <SelectFilter
+                            value={courseId}
                             placeholder="All Courses"
-                            options={[
-                                { label: "Web Development", value: "Web Development" },
-                                { label: "Frontend Development", value: "Frontend Development" },
-                                { label: "Data Science", value: "Data Science" },
-                            ]}
+                            options={courses.map((course) => ({
+                                label: course.courseTitle,
+                                value: course.id
+                            }))}
                             onChange={(value) => {
-                                setCourse(value);
+                                setCourseId(value);
                                 setPage(1);
                             }}
                         />
                     </div>
 
                     <div className="col-md-2">
-                          <SelectFilter
-                            value={module}
+                        <SelectFilter
+                            value={moduleId}
                             placeholder="All Modules"
-                            options={[
-                                { label: "React Basics", value: "React Basics" },
-                                { label: "Python Fundamentals", value: "Python Fundamentals" },
-                                { label: "JS DOM Manipulation", value: "JS DOM Manipulation" },
-                            ]}
+                            options={filteredModules.map((module) => ({
+                                label: module.moduleTitle,
+                                value: module.id
+                            }))}
                             onChange={(value) => {
-                                setModule(value);
+                                setModuleId(value);
                                 setPage(1);
                             }}
                         />
                     </div>
 
                     <div className="col-md-2">
-                         <SelectFilter
-                            value={chapterName}
+                        <SelectFilter
+                            value={chapterIds}
                             placeholder="All Chapters"
-                            options={[
-                                { label: "Introduction to React", value: "Introduction to React" },
-                                { label: "Data Structures", value: "Data Structures" },
-                                { label: "DOM Manipulation", value: "DOM Manipulation" },
-                            ]}
+                            options={filteredChapters.map((chapter) => ({
+                                label: chapter.chapterTitle,
+                                value: chapter.id
+                            }))}
                             onChange={(value) => {
-                                setChapterName(value);
+                                setChapterIds(value);
                                 setPage(1);
                             }}
                         />
                     </div>
 
                     <div className="col-md-2">
-                       <SelectFilter
+                        <SelectFilter
                             value={status}
                             placeholder="All Status"
                             options={[
-                                { label: "Active", value: "Active" },
-                                { label: "Inactive", value: "Inactive" },
+                                { label: "Active", value: 1 },
+                                { label: "Inactive", value: 0 },
                             ]}
                             onChange={(value) => {
                                 setStatus(value);
@@ -207,12 +211,8 @@ const ManageAssignedChapters = () => {
                         />
                     </div>
 
-                    <div className="col-lg-3 col-md-12">
+                    <div className="col-lg-2 col-md-12">
                         <div className="d-flex gap-2">
-                            <button className="btn filter-btn">
-                                <i className="bi bi-search me-1"></i>
-                            </button>
-
                             <button
                                 className="btn reset-btn"
                                 onClick={resetFilters}
@@ -232,8 +232,7 @@ const ManageAssignedChapters = () => {
                         <thead>
                             <tr>
                                 <th>#</th>
-                                {/* <th>Center Type</th> */}
-
+                                <th>Grade</th>
                                 <th>Course Name</th>
                                 <th>Module Name</th>
                                 <th>Chapter Name</th>
@@ -243,29 +242,43 @@ const ManageAssignedChapters = () => {
                         </thead>
 
                         <tbody>
-                            {paginatedData.length ? (
-                                paginatedData.map((t, i) => (
+                            {isLoading ? (
+                                <tr>
+                                    <td colSpan="8" className="text-center py-5">Loading...</td>
+                                </tr>
+                            ) : assignedChapters.length ? (
+                                assignedChapters.map((t, i) => (
                                     <tr key={t.id}>
-                                        <td>{startIndex + i + 1}</td>
-                                        {/* <td>{t.centerType}</td> */}
-
-                                        <td>{t.course}</td>
-                                        <td>{t.moduleName}</td>
-                                        <td> {t.chapterName}</td>
+                                        <td>{(page - 1) * perPage + i + 1}</td>
+                                        <td>{t.gradeBatch.gradeBatch}</td>
+                                        <td>{t.course.courseTitle}</td>
+                                        <td>{t.module.moduleTitle}</td>
+                                        <td> <details>
+                                            <summary>
+                                                {t.assignedChapters?.length} Chapters
+                                            </summary>
+                                            <ul className="mt-2 ps-3">
+                                                {t.assignedChapters?.map((item) => (
+                                                    <li key={item.id}>
+                                                        {item.chapter?.chapterTitle}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </details></td>
                                         <td>
                                             <span
-                                                className={`badge ${t.status === "Active" ? "bg-success" : "bg-secondary"
+                                                className={`badge ${t.status === 1 ? "bg-success" : "bg-secondary"
                                                     }`}
                                             >
-                                                {t.status}
+                                                {t.status === 1 ? "Active" : "Inactive"}
                                             </span>
                                         </td>
 
                                         <td className="text-center">
-                                            <button className="btn btn-outline-primary btn-sm me-2">
+                                            <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-assigned-chapter/${t.id}`)}>
                                                 <i className="bi bi-pencil"></i>
                                             </button>
-                                            <button className="btn btn-outline-danger btn-sm">
+                                            <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(t.id)}>
                                                 <i className="bi bi-trash"></i>
                                             </button>
                                         </td>
@@ -290,6 +303,11 @@ const ManageAssignedChapters = () => {
                         onPageChange={setPage}
                     />
                 )}
+                <DeleteConfirmationModal
+                    show={showDeleteModal}
+                    handleClose={() => setShowDeleteModal(false)}
+                    handleConfirm={handleDelete}
+                />
             </div>
         </div>
     );

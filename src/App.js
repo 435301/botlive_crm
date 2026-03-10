@@ -372,21 +372,10 @@ function App() {
             }
           />
           <Route
-            path="/superAdmin/add-assigned-chapter"
-            element={
-              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
-                {lazyLoad(AddAssignedChapters)}
-              </ProtectedRoute>
-            }
-          />
+            path="/superAdmin/add-assigned-chapter" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login"> {lazyLoad(AddAssignedChapters)}</ProtectedRoute>} />
           <Route
-            path="/superAdmin/manage-assigned-chapters"
-            element={
-              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
-                {lazyLoad(ManageAssignedChapters)}
-              </ProtectedRoute>
-            }
-          />
+            path="/superAdmin/manage-assigned-chapters" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageAssignedChapters)}</ProtectedRoute>} />
+          <Route path="/superAdmin/edit-assigned-chapter/:id" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login"> {lazyLoad(AddAssignedChapters)}</ProtectedRoute>} />
           <Route
             path="/superAdmin/add-student"
             element={lazyLoad(AddStudent)}

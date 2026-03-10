@@ -1,42 +1,111 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import FormSelect from "../../components/FormSelect";
 import FormActions from "../../components/FormActions";
 import StatusSelect from "../../components/StatusSelect";
+import useCourses from "../../hooks/useCourses";
+import useGrades from "../../hooks/useGrades";
+import { useCrud } from "../../hooks/useCrud";
+import { validateAssignChapters } from "../../utils/validation";
+import useModules from "../../hooks/useModule";
+import useChapters from "../../hooks/useChapters";
+import MultiSelectWithCheckbox from "../../components/MultiSelectWithCheckbox";
 
 const AddAssignedChapter = () => {
     const navigate = useNavigate();
+    const { id } = useParams();
+    const isEditMode = Boolean(id);
 
-    const [formData, setFormData] = useState({
-        grade: "",
-        chapterName: "",
-        courseName: "",
-        moduleName: "",
-        status: "Active",
+    const { useGetById, createMutation, updateMutation } = useCrud({
+        entity: "assignChapter",
+        listUrl: "/assignChapter/list",
+        getUrl: (id) => `/assignChapter/${id}`,
+        createUrl: "/assignChapter/add",
+        updateUrl: (id) => `/assignChapter/update/${id}`,
+        deleteUrl: (id) => `/assignChapter/delete/${id}`,
     });
 
+    const { data, isLoading } = useGetById(id);
+    const [formData, setFormData] = useState({
+        gradeBatchId: "",
+        chapterIds: [],
+        courseId: "",
+        moduleId: "",
+        status: 1,
+    });
+    const [errors, setErrors] = useState({});
+
+    const { courses } = useCourses();
+    const { grades } = useGrades();
+    const { modules } = useModules();
+    const { chapters } = useChapters();
+
+    const filteredModules = modules?.filter((module) => module.courseId === Number(formData.courseId))
+    const filteredChapters = chapters?.filter((chapter) => chapter.moduleId === Number(formData.moduleId));
+
+    useEffect(() => {
+        if (data) {
+            setFormData({
+                gradeBatchId: data.gradeBatchId,
+                courseId: data.courseId,
+                moduleId: data.moduleId,
+                chapterIds:data.assignedChapters?.map(
+                        (item) => item.chapterId
+                    ) || [],
+                status: data.status,
+            });
+        }
+    }, [data]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setFormData((prev) => {
+            if (name === "courseId") {
+                return {
+                    ...prev,
+                    courseId: value,
+                    moduleId: "",
+                    chapterIds: [],
+                };
+            }
+
+            if (name === "moduleId") {
+                return {
+                    ...prev,
+                    moduleId: value,
+                    chapterIds: [],
+                };
+            }
+
+            return {
+                ...prev,
+                [name]: value,
+            };
+        });
+        setErrors((prev) => ({ ...prev, [name]: "", }));
 
     };
 
     // FINAL SAVE
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        const payload = {
-            grade: formData.grade,
-            chapterName: formData.chapterName,
-            courseName: formData.courseName,
-            moduleName: formData.moduleName,
-            status: formData.status,
-        };
-
-        console.log("FINAL SUBMIT DATA:", payload);
-
-        navigate("/manage-assigned-chapters");
+        const validationErrors = validateAssignChapters(formData);
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+        if (isEditMode) {
+            updateMutation.mutate(
+                { id, data: formData },
+                {
+                    onSuccess: () => navigate("/superAdmin/manage-assigned-chapters")
+                }
+            );
+        } else {
+            createMutation.mutate(formData, {
+                onSuccess: () => navigate("/superAdmin/manage-assigned-chapters"),
+            });
+        }
     };
 
     return (
@@ -48,7 +117,7 @@ const AddAssignedChapter = () => {
                     <p className="mb-0">View, edit and manage all assigned chapters</p>
                 </div>
 
-                <Link to="/manage-assigned-chapters" className="btn btn-outline-primary">
+                <Link to="/superAdmin/manage-assigned-chapters" className="btn btn-outline-primary">
                     Manage Assigned Chapters
                 </Link>
             </div>
@@ -63,49 +132,66 @@ const AddAssignedChapter = () => {
 
                             <div className="col-md-4">
                                 <FormSelect
-                                    label="Course Name"
-                                    name="course"
-                                    value={formData.course}
+                                    label="Grade"
+                                    name="gradeBatchId"
+                                    value={formData.gradeBatchId}
                                     onChange={handleChange}
-                                    required
-                                    options={[
-                                        { label: "Web Development", value: "Web Development" },
-                                        { label: "Data Science", value: "Data Science" },
-                                        { label: "Frontend Development", value: "Frontend Development" },
-                                        { label: "Backend Development", value: "Backend Development" },
-                                    ]}
+                                    mandatory
+                                    options={grades.map((grade) => ({
+                                        label: grade.gradeBatch,
+                                        value: grade.id
+                                    }))}
+                                    error={errors.gradeBatchId}
+                                />
+                            </div>
+
+                            <div className="col-md-4">
+                                <FormSelect
+                                    label="Course Name"
+                                    name="courseId"
+                                    value={formData.courseId}
+                                    onChange={handleChange}
+                                    mandatory
+                                    options={courses.map((course) => ({
+                                        label: course.courseTitle,
+                                        value: course.id
+                                    }))}
+                                    error={errors.courseId}
                                 />
                             </div>
 
                             <div className="col-md-4">
                                 <FormSelect
                                     label="Module Name"
-                                    name="moduleName"
-                                    value={formData.moduleName}
+                                    name="moduleId"
+                                    value={formData.moduleId}
                                     onChange={handleChange}
-                                    required
-                                    options={[
-                                        { label: "React Basics", value: "React Basics" },
-                                        { label: "Python Fundamentals", value: "Python Fundamentals" },
-                                    ]}
+                                    mandatory
+                                    options={filteredModules.map((module) => ({
+                                        label: module.moduleTitle,
+                                        value: module.id
+                                    }))}
+                                    error={errors.moduleId}
                                 />
                             </div>
 
                             <div className="col-md-4">
-                                <FormSelect
+                                <MultiSelectWithCheckbox
                                     label="Chapter Name"
-                                    name="chapterName"
-                                    value={formData.chapterName}
-                                    onChange={handleChange}
+                                    name="chapterIds"
+                                    value={formData.chapterIds}
                                     required
-                                    options={[
-                                        { label: "Introduction To React", value: "Introduction To React" },
-                                        { label: "DOM Manipulation", value: "DOM Manipulation" },
-                                    ]}
+                                    options={filteredChapters.map((chapter) => ({
+                                        label: chapter.chapterTitle,
+                                        value: chapter.id,
+                                    }))}
+                                    onChange={handleChange}
+                                    error={errors.chapterIds}
                                 />
                             </div>
+
                             <div className="col-md-4">
-                                <StatusSelect formData={formData} handleChange={handleChange} />
+                                <StatusSelect name="status" value={formData.status} handleChange={handleChange} error={errors.status} />
                             </div>
 
                         </div>
@@ -114,9 +200,10 @@ const AddAssignedChapter = () => {
                         {/* ACTION BUTTONS */}
                         <div className="mt-4 text-center">
                             <FormActions
-                                onCancel={() => navigate("/manage-assigned-chapters")}
-                                saveText="Save"
+                                onCancel={() => navigate("/superAdmin/manage-assigned-chapters")}
+                                saveText={isEditMode ? updateMutation.isPending ? "Saving..." : "Save" : createMutation.isPending ? "Saving..." : "Save"}
                                 cancelText="Cancel"
+                                disabled={isLoading}
                             />
                         </div>
                     </form>

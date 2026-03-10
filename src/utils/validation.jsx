@@ -282,3 +282,29 @@ export const validateActivity = (formData, isEditMode) => {
 
   return errors;
 };
+
+export const validateAssignChapters = (formData) => {
+  const errors = {};
+
+  if (!formData.courseId) {
+    errors.courseId = "course is required";
+  }
+
+  if (!formData.gradeBatchId) {
+    errors.gradeBatchId = "Grade/Batch is required";
+  }
+
+  if (!formData.moduleId) {
+    errors.moduleId = "Module is required";
+  }
+
+  if (!formData.chapterIds || formData.chapterIds.length === 0) {
+    errors.chapterIds = "Please select at least one chapter";
+  }
+
+  if (formData.status === undefined || formData.status === "") {
+    errors.status = "Status is required";
+  }
+
+  return errors;
+};

@@ -34,13 +34,13 @@ const ManageModule = () => {
 
   const modules = data?.data || [];
   const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
-const perPage = data?.perPage || 15;
+  const perPage = data?.perPage || 15;
   const { useList: CourseListQuery } = useCrud({
     entity: "course",
     listUrl: "/course/list",
   });
 
-  const { data: courseList } = CourseListQuery({ page: "", search: "", status: 1, courseId:courseId });
+  const { data: courseList } = CourseListQuery({ page: "", search: "", status: 1, courseId: courseId });
   const courses = courseList?.data || []
   console.log('courses', courses)
 
@@ -198,11 +198,11 @@ const perPage = data?.perPage || 15;
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan = "4" className="text-center py-4">
+                  <td colSpan="4" className="text-center py-4">
                     Loading...
                   </td>
                 </tr>
-                ): modules.length ? (
+              ) : modules.length ? (
                 modules.map((t, i) => (
                   <tr key={t.id}>
                     <td>{(page - 1) * perPage + i + 1}</td>
