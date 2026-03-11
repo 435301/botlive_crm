@@ -31,6 +31,9 @@ import AddActivity from "./pages/superAdmin/AddActivity";
 import ManageActivities from "./pages/superAdmin/ManageActivities";
 import ViewActivity from "./pages/superAdmin/ViewActivityFiles";
 import StudentDashboard from "./pages/StudentModule/StudentDashboard";
+import ManageStudentChapters from "./pages/StudentModule/StudentChapters";
+import ViewChapter from "./pages/superAdmin/ViewChapter";
+import ViewStudentChapter from "./pages/superAdmin/ViewStudentChapter";
 
 const Dashboard = lazy(() => import("./pages/superAdmin/Dashboard"));
 const Login = lazy(() => import("./pages/superAdmin/Login"));
@@ -338,6 +341,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+             <Route path="/superAdmin/view-chapter/:id" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login"> {lazyLoad(ViewChapter)} </ProtectedRoute>}
+          />
           <Route
             path="/superAdmin/manage-chapters"
             element={
@@ -599,11 +604,13 @@ function App() {
             path="/trainer-module/login"
             element={<TrainerModuleLogin />}
           />
-          {/* Student Moduke login */}
+
+          {/* Student Module login */}
 
           <Route path="/student/login" element={<PublicRoute>{lazyLoad(StudentModuleLogin)}</PublicRoute>} />
           <Route path="/student/dashboard" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(StudentDashboard)}</ProtectedRoute>} />
-
+          <Route path="/student/manage-chapters" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(ManageStudentChapters)}</ProtectedRoute>} />
+          <Route path="/student/view-chapter/:id" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(ViewStudentChapter)}</ProtectedRoute>} />
           <Route path="/admin/login" element={<AdminLogin />} />
         </Routes>
       </LayoutWrapper>

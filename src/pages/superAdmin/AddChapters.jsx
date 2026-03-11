@@ -7,6 +7,7 @@ import StatusSelect from "../../components/StatusSelect";
 import { useCrud } from "../../hooks/useCrud";
 import useCourses from "../../hooks/useCourses";
 import useModules from "../../hooks/useModule";
+import BASE_URL_JOB from "../../config/config";
 
 
 const AddChapters = () => {
@@ -44,8 +45,10 @@ const AddChapters = () => {
   const [chapters, setChapters] = useState([
     {
       chapterName: "",
-      videos: [],
-      pdfs: [],
+      videos: null,
+      pdfs: null,
+      existingVideos: [],
+      existingPdfs: [],
       status: 1,
       priority: 1,
     },
@@ -53,7 +56,7 @@ const AddChapters = () => {
 
   useEffect(() => {
     if (data && isEditMode) {
-       console.log("Course object:", data.course);
+      console.log("Course object:", data.course);
       setFormData({
         courseId: String(data.course?.id || ""),
         moduleId: String(data.module?.id || ""),
@@ -62,8 +65,8 @@ const AddChapters = () => {
       setChapters([
         {
           chapterName: data.chapterTitle || "",
-          videos: [],
-          pdfs: [],
+          videos: null,
+          pdfs: null,
           existingVideos: data.videos || [],
           existingPdfs: data.pdfs || [],
           status: data.status || 1,
@@ -85,33 +88,39 @@ const AddChapters = () => {
     } else {
       setFormData({ ...formData, [name]: value });
     }
+    setErrors((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
   };
 
   /* ===== HANDLE CHAPTER FIELD CHANGE ===== */
   const handleChapterChange = (index, e) => {
-    const { name, value, files } = e.target;
+    const { name, value, files, type } = e.target;
 
     const updatedChapters = [...chapters];
 
-    if (files) {
-      updatedChapters[index][name] = files;
+    if (type === "file") {
+      updatedChapters[index][name] =
+        files && files.length > 0 ? files : null;
     } else {
       updatedChapters[index][name] = value;
     }
 
     setChapters(updatedChapters);
   };
-
   /* ===== ADD NEW CHAPTER FORM ===== */
   const addNewChapter = () => {
-    setChapters([
-      ...chapters,
+    setChapters((prev) => [
+      ...prev,
       {
         chapterName: "",
-        videos: [],
-        pdfs: [],
+        videos: null,
+        pdfs: null,
+        existingVideos: [],
+        existingPdfs: [],
         status: 1,
-        priority: chapters.length + 1,
+        priority: prev.length + 1,
       },
     ]);
   };
@@ -124,39 +133,29 @@ const AddChapters = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const form = new FormData();
-    // Main fields
     form.append("courseId", formData.courseId);
     form.append("moduleId", formData.moduleId);
 
-    // Chapters
-    chapters.forEach((chapter, index) => {
-      form.append(`chapters[${index}][chapterTitle]`, chapter.chapterName);
-      form.append(`chapters[${index}][status]`, chapter.status);
-      form.append(`chapters[${index}][priority]`, chapter.priority);
+    if (isEditMode) {
+      //  EDIT → Send Single Chapter Format
+      const chapter = chapters[0];
+      form.append("chapterTitle", chapter.chapterName);
+      form.append("status", chapter.status);
+      form.append("priority", chapter.priority);
 
-      // Videos
       if (chapter.videos) {
         Array.from(chapter.videos).forEach((video) => {
-          form.append(`chapters[${index}][videos]`, video);
+          form.append("videos", video);
         });
       }
-
-      // PDFs
       if (chapter.pdfs) {
         Array.from(chapter.pdfs).forEach((pdf) => {
-          form.append(`chapters[${index}][pdfs]`, pdf);
+          form.append("pdfs", pdf);
         });
       }
-    });
 
-    // Debug
-    for (let pair of form.entries()) {
-      console.log(pair[0], pair[1]);
-    }
-
-    // Call API
-    if (isEditMode) {
       updateMutation.mutate(
         { id, data: form },
         {
@@ -164,12 +163,32 @@ const AddChapters = () => {
             navigate("/superAdmin/manage-chapters"),
         }
       );
+
     } else {
+      // CREATE → Send Multiple Chapters Format
+
+      chapters.forEach((chapter, index) => {
+        form.append(`chapters[${index}][chapterTitle]`, chapter.chapterName);
+        form.append(`chapters[${index}][status]`, chapter.status);
+        form.append(`chapters[${index}][priority]`, chapter.priority);
+
+        if (chapter.videos) {
+          Array.from(chapter.videos).forEach((video) => {
+            form.append(`chapters[${index}][videos]`, video);
+          });
+        }
+
+        if (chapter.pdfs) {
+          Array.from(chapter.pdfs).forEach((pdf) => {
+            form.append(`chapters[${index}][pdfs]`, pdf);
+          });
+        }
+      });
+
       createMutation.mutate(form, {
         onSuccess: () =>
           navigate("/superAdmin/manage-chapters"),
       });
-      setErrors("");
     }
   };
 
@@ -202,7 +221,7 @@ const AddChapters = () => {
                   mandatory
                   options={courses?.map((course) => ({
                     label: course.courseTitle,
-                    value: course.id
+                    value: String(course.id)
                   }))}
                 />
               </div>
@@ -216,7 +235,7 @@ const AddChapters = () => {
                   mandatory
                   options={filteredModules.map((module) => ({
                     label: module.moduleTitle,
-                    value: module.id
+                    value: String(module.id)
                   }))}
                 />
               </div>
@@ -274,17 +293,27 @@ const AddChapters = () => {
                         handleChapterChange(index, e)
                       }
                     />
+
                     {/* Existing Videos */}
                     {chapter.existingVideos?.length > 0 && (
                       <div className="mt-2">
-                        <strong>Existing Videos:</strong>
-                        <ul>
+                        <div className="flex flex-wrap gap-2 mt-1">
                           {chapter.existingVideos.map((video) => (
-                            <li key={video.id}>
-                              {video.videoPdf.split("/").pop()}
-                            </li>
+                            <a
+                              key={video.id}
+                              href={`${BASE_URL_JOB}${video.videoPdf}`} // link when clicked
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <video width="120" controls>
+                                <source
+                                  src={`${BASE_URL_JOB}${video.videoPdf}`}
+                                  type="video/mp4"
+                                />
+                              </video>
+                            </a>
                           ))}
-                        </ul>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -302,16 +331,26 @@ const AddChapters = () => {
                       }
                     />
                     {/* Existing PDFs */}
+
                     {chapter.existingPdfs?.length > 0 && (
                       <div className="mt-2">
-                        <strong>Existing PDFs:</strong>
-                        <ul>
+                        <div className="flex flex-wrap gap-2 mt-1">
                           {chapter.existingPdfs.map((pdf) => (
-                            <li key={pdf.id}>
-                              {pdf.videoPdf.split("/").pop()}
-                            </li>
+                            <a
+                              key={pdf.id}
+                              href={`${BASE_URL_JOB}${pdf.videoPdf}`} // link when clicked
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <iframe
+                                src={`${BASE_URL_JOB}${pdf.videoPdf}`}
+                                width="120"
+                                height="150"
+                                title={pdf.videoPdf.split("/").pop()}
+                              />
+                            </a>
                           ))}
-                        </ul>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -347,7 +386,7 @@ const AddChapters = () => {
             <div className="mt-4 text-center">
               <FormActions
                 onCancel={() => navigate("/superAdmin/manage-chapters")}
-                saveText={isLoading ? "Saving" : "Save"}
+                saveText={isEditMode ? updateMutation.isPending ? "Saving..." : "Save" : createMutation.isPending ? "Saving..." : "Save"}
                 cancelText="Cancel"
                 disabled={isLoading}
               />

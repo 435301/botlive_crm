@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "../utils/axiosInstance";
-import {toast} from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 export const useCrud = ({
     entity,
@@ -10,7 +10,7 @@ export const useCrud = ({
     updateUrl,
     deleteUrl,
     getAllUrl,
-    
+
 }) => {
     const queryClient = useQueryClient();
 
@@ -31,22 +31,26 @@ export const useCrud = ({
             queryKey: [entity, id],
             queryFn: async () => {
                 const res = await axiosInstance.get(getUrl(id));
-                return res.data.data;
+                if (res.data?.data !== undefined) {
+                    return res.data.data;
+                }
+                //  Otherwise return full response
+                return res.data ?? {};
             },
             enabled: !!id,
         });
 
- // ================= GET ALL (GET) =================
-  const useGetAll = () =>
-    useQuery({
-      queryKey: [entity, "all"],
-      queryFn: async () => {
-        if (!getAllUrl) return null;
-        const res = await axiosInstance.get(getAllUrl);
-        return res.data;
-      },
-      enabled: !!getAllUrl,
-    });
+    // ================= GET ALL (GET) =================
+    const useGetAll = () =>
+        useQuery({
+            queryKey: [entity, "all"],
+            queryFn: async () => {
+                if (!getAllUrl) return null;
+                const res = await axiosInstance.get(getAllUrl);
+                return res.data;
+            },
+            enabled: !!getAllUrl,
+        });
 
 
     // ================= CREATE =================

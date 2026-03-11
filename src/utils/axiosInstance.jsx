@@ -2,17 +2,19 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import store from "../redux/store";
 import { logoutAdmin } from "../redux/slices/adminSlice";
+import { logoutStudent } from "../redux/slices/studentSlice";
 
 const axiosInstance = axios.create({
     baseURL: "https://cyientfoundation.duckdns.org",
-    headers: {
-    "Content-Type": "application/json",
-  },
+    // headers: {
+    //     "Content-Type": "application/json",
+    // },
 });
 
 // ================= REQUEST INTERCEPTOR =================
 axiosInstance.interceptors.request.use(
     (config) => {
+        //  First check admin
         const adminData = Cookies.get("super-admin");
 
         if (adminData) {
@@ -21,12 +23,24 @@ axiosInstance.interceptors.request.use(
 
             if (token) {
                 config.headers.Authorization = `Bearer ${token}`;
+                return config;
             }
         }
+        // Then check student
+        const studentData = Cookies.get("student");
+
+        if (studentData) {
+            const parsed = JSON.parse(studentData);
+            const token = parsed?.token;
+
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+        }
+
         if (config.data instanceof FormData) {
             delete config.headers["Content-Type"];
         }
-
 
         return config;
     },
@@ -48,9 +62,18 @@ axiosInstance.interceptors.response.use(
         if (response.status === 401) {
             console.warn("Unauthorized - Logging out");
 
-            store.dispatch(logoutAdmin());
-            Cookies.remove("super-admin");
-            window.location.href = "/login";
+            //  Check which user is logged in
+            if (Cookies.get("super-admin")) {
+                store.dispatch(logoutAdmin());
+                Cookies.remove("super-admin");
+                window.location.href = "/login";
+            }
+
+            if (Cookies.get("student")) {
+                store.dispatch(logoutStudent());
+                Cookies.remove("student");
+                window.location.href = "/student/login";
+            }
         }
 
         //  403 - Forbidden

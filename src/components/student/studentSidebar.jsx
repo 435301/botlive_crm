@@ -59,28 +59,29 @@ const StudentSidebar = ({ collapsed, show, closeSidebar }) => {
             {!collapsed && <span>Dashboard</span>}
           </NavLink>
 
-          {/* Campus Dropdown */}
+
+          {/* Cirriculam Dropdown */}
           <div className="nav-group">
-            <div className="nav-link" onClick={() => toggleMenu("campus")}>
+            <div className="nav-link" onClick={() => toggleMenu("curriculam")}>
               <Building2 size={18} />
               {!collapsed && (
                 <>
-                  <span>Campuses</span>
+                  <span>Curriculam</span>
                   <ChevronDown
                     size={16}
-                    className={`arrow ${openMenu === "campus" ? "rotate" : ""}`}
+                    className={`arrow ${openMenu === "curriculam" ? "rotate" : ""}`}
                   />
                 </>
               )}
             </div>
 
-            <div className={`submenu ${openMenu === "campus" ? "open" : ""}`}>
-              <NavLink to="/student/manage-schools" className={getNavLinkClass}>
-                School
-              </NavLink>
+            <div className={`submenu ${openMenu === "curriculam" ? "open" : ""}`}>
+              {/* <NavLink to="/student/manage-chapters" className={getNavLinkClass}>
+                Modules
+              </NavLink> */}
 
-              <NavLink to="/student/manage-skills" className={getNavLinkClass}>
-                SKill Center{" "}
+              <NavLink to="/student/manage-chapters" className={getNavLinkClass}>
+                Chapters
               </NavLink>
             </div>
           </div>

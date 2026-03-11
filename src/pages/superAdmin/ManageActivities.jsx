@@ -41,7 +41,7 @@ const ManageActivities = () => {
 
     const { schoolsData } = useSchools();
 
-      const filteredCentres = centreType ? schoolsData?.filter((school) => school.centerType === centreType)  : schoolsData;
+    const filteredCentres = centreType ? schoolsData?.filter((school) => school.centerType === centreType) : schoolsData;
 
 
     const handleImportExcel = (e) => {
@@ -209,10 +209,12 @@ const ManageActivities = () => {
                         <thead>
                             <tr>
                                 <th>#</th>
-                                 <th>Centre Type</th>
+                                <th>Centre Type</th>
                                 <th>Centre Name</th>
                                 <th>Activity Title</th>
                                 <th>Description</th>
+                                <th>Images</th>
+                                <th>Videos</th>
                                 <th>Status</th>
                                 <th className="text-center">Actions</th>
                             </tr>
@@ -234,6 +236,16 @@ const ManageActivities = () => {
                                         <td>{activity.activityTitle}</td>
                                         <td title={activity.description}>{activity.description.slice(0, 50)}...</td>
                                         <td>
+                                            <Link to={`/superAdmin/view-activity/${activity.id}`} className="text-primary text-decoration-underline">
+                                                {activity.photoCount}
+                                            </Link>
+                                        </td>
+                                        <td>
+                                            <Link to={`/superAdmin/view-activity/${activity.id}`} className="text-primary text-decoration-underline">
+                                                {activity.videoCount}
+                                            </Link>
+                                        </td> 
+                                        <td>
                                             <span
                                                 className={`badge ${activity.status === 1 ? "bg-success" : "bg-secondary"
                                                     }`}
@@ -245,7 +257,7 @@ const ManageActivities = () => {
                                             <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-activity/${activity.id}`)}>
                                                 <i className="bi bi-pencil"></i>
                                             </button>
-                                             <button className="btn btn-outline-success btn-sm me-2" onClick={() => navigate(`/superAdmin/view-activity/${activity.id}`)}>
+                                            <button className="btn btn-outline-success btn-sm me-2" onClick={() => navigate(`/superAdmin/view-activity/${activity.id}`)}>
                                                 <i className="bi bi-eye"></i>
                                             </button>
                                             <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(activity.id)}>

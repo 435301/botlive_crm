@@ -6,6 +6,7 @@ import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
 import useCourses from "../../hooks/useCourses";
 import useModules from "../../hooks/useModule";
+import DeleteConfirmationModal from "../../Modals/deleteModal";
 
 
 const ManageChaptersModule = () => {
@@ -15,8 +16,10 @@ const ManageChaptersModule = () => {
     const [module, setModule] = useState("");
     const [status, setStatus] = useState("");
     const [page, setPage] = useState(1);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deleteId, setDeleteId] = useState(null);
 
-    const { useList } = useCrud({
+    const { useList, deleteMutation } = useCrud({
         entity: "chapter",
         listUrl: "/chapter/list",
         deleteUrl: (id) => `/chapter/delete/${id}`,
@@ -31,10 +34,10 @@ const ManageChaptersModule = () => {
     });
 
     const chapters = data?.data || [];
-   const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
+    const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
 
-    const {courses} = useCourses();
-    const {modules} = useModules();
+    const { courses } = useCourses();
+    const { modules } = useModules();
 
     const handleImportExcel = (e) => {
         const file = e.target.files[0];
@@ -55,6 +58,17 @@ const ManageChaptersModule = () => {
         setModule("");
         setStatus("");
         setPage(1);
+    };
+
+    const handleDeleteClick = (id) => {
+        setDeleteId(id);
+        setShowDeleteModal(true);
+    };
+
+    const handleDelete = async () => {
+        setShowDeleteModal(false);
+        setDeleteId(null);
+        deleteMutation.mutate(deleteId);
     };
 
     return (
@@ -122,9 +136,9 @@ const ManageChaptersModule = () => {
                     <div className="col-md-2">
                         <SelectFilter
                             value={course}
-                            name= "course"
+                            name="course"
                             placeholder="All Courses"
-                            options={courses.map((course)=> ({
+                            options={courses.map((course) => ({
                                 label: course.courseTitle,
                                 value: String(course.id)
                             }))}
@@ -140,7 +154,7 @@ const ManageChaptersModule = () => {
                             value={module}
                             name="module"
                             placeholder="All Modules"
-                            options={modules.map((module)=>({
+                            options={modules.map((module) => ({
                                 label: module.moduleTitle,
                                 value: String(module.id)
                             }))}
@@ -156,7 +170,7 @@ const ManageChaptersModule = () => {
                             value={status}
                             placeholder="All Status"
                             options={[
-                                { label: "Active", value: 1},
+                                { label: "Active", value: 1 },
                                 { label: "Inactive", value: 0 },
                             ]}
                             onChange={(value) => {
@@ -192,8 +206,8 @@ const ManageChaptersModule = () => {
                                 <th>Course Name</th>
                                 <th>Module Name</th>
                                 <th>Chapter Name</th>
-                                {/* <th>Videos</th>
-                                <th>PDFs</th> */}
+                                <th>Videos</th>
+                                <th>PDFs</th>
                                 <th>Priority</th>
                                 <th>Status</th>
                                 <th className="text-center">Actions</th>
@@ -201,65 +215,44 @@ const ManageChaptersModule = () => {
                         </thead>
 
                         <tbody>
-                            { isLoading ? (
+                            {isLoading ? (
                                 <tr>
                                     <td colSpan="4" className="text-center py-4">
                                         Loading...
                                     </td>
                                 </tr>
-                                ): chapters.length ? (
+                            ) : chapters.length ? (
                                 chapters.map((t, i) => (
                                     <tr key={t.id}>
                                         <td>{i + 1}</td>
                                         <td>{t.course.courseTitle}</td>
                                         <td>{t.module.moduleTitle}</td>
                                         <td>{t.chapterTitle}</td>
-                                        {/* <td>  {t.videos?.length ? (
-                                            t.videos.map((video, index) => (
-                                                <div key={index}>
-                                                    <a
-                                                        href={`${import.meta.env.VITE_BASE_URL}/uploads/videos/${video}`}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                    >
-                                                        {video}
-                                                    </a>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            "-"
-                                        )}</td>
+                                        <td>
+                                            <Link to={`/superAdmin/view-chapter/${t.id}`} className="text-primary text-decoration-underline">
+                                                {t.videoCount}
+                                            </Link>
+                                        </td>
 
-                                        <td> {t.pdfs?.length ? (
-                                            t.pdfs.map((pdf, index) => (
-                                                <div key={index}>
-                                                    <a
-                                                        href={`${BASE_URL_JOB}/uploads/pdfs/${pdf}`}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                    >
-                                                        {pdf}   
-                                                    </a>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            "-"
-                                        )}</td> */}
+                                        <td><Link to={`/superAdmin/view-chapter/${t.id}`} className="text-primary text-decoration-underline">{t.pdfCount}</Link></td>
                                         <td>{t.priority}</td>
                                         <td>
                                             <span
                                                 className={`badge ${t.status === 1 ? "bg-success" : "bg-secondary"
                                                     }`}
                                             >
-                                                {t.status === 1 ? "Active" :"Inactive"}
+                                                {t.status === 1 ? "Active" : "Inactive"}
                                             </span>
                                         </td>
 
                                         <td className="text-center">
-                                            <button className="btn btn-outline-primary btn-sm me-2" onClick={()=> navigate(`/superAdmin/edit-chapter/${t.id}`)}>
+                                            <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-chapter/${t.id}`)}>
                                                 <i className="bi bi-pencil"></i>
                                             </button>
-                                            <button className="btn btn-outline-danger btn-sm">
+                                            <button className="btn btn-outline-success btn-sm me-2" onClick={() => navigate(`/superAdmin/view-chapter/${t.id}`)}>
+                                                <i className="bi bi-eye"></i>
+                                            </button>
+                                            <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(t.id)}>
                                                 <i className="bi bi-trash"></i>
                                             </button>
                                         </td>
@@ -284,6 +277,11 @@ const ManageChaptersModule = () => {
                         onPageChange={setPage}
                     />
                 )}
+                <DeleteConfirmationModal
+                    show={showDeleteModal}
+                    handleClose={() => setShowDeleteModal(false)}
+                    handleConfirm={handleDelete}
+                />
             </div>
         </div>
     );
