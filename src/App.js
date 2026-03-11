@@ -34,6 +34,8 @@ import StudentDashboard from "./pages/StudentModule/StudentDashboard";
 import ManageStudentChapters from "./pages/StudentModule/StudentChapters";
 import ViewChapter from "./pages/superAdmin/ViewChapter";
 import ViewStudentChapter from "./pages/superAdmin/ViewStudentChapter";
+import StudentHeader from "./components/student/StudentHeader";
+import StudentSidebar from "./components/student/studentSidebar";
 
 const Dashboard = lazy(() => import("./pages/superAdmin/Dashboard"));
 const Login = lazy(() => import("./pages/superAdmin/Login"));
@@ -135,25 +137,40 @@ function LayoutWrapper({
   if (isLoginPage) {
     return <>{children}</>;
   }
+  const isStudentRoute = location.pathname.startsWith("/student");
   //  ALL OTHER PAGES
   return (
     <>
-      <Header
-        toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-        toggleCollapse={() => setCollapsed(!collapsed)}
-        toggleTheme={() => setDark(!dark)}
-        dark={dark}
-      />
+      {/* ===== STUDENT LAYOUT ===== */}
+      {isStudentRoute ? (
+        <>
+          <StudentHeader />
+          <StudentSidebar />
+          <div className="content">
+            {children}
+          </div>
+        </>
+      ) : (
+        /* ===== ADMIN / DEFAULT LAYOUT ===== */
+        <>
+          <Header
+            toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+            toggleCollapse={() => setCollapsed(!collapsed)}
+            toggleTheme={() => setDark(!dark)}
+            dark={dark}
+          />
 
-      <Sidebar
-        show={sidebarOpen}
-        collapsed={collapsed}
-        closeSidebar={() => setSidebarOpen(false)}
-      />
+          <Sidebar
+            show={sidebarOpen}
+            collapsed={collapsed}
+            closeSidebar={() => setSidebarOpen(false)}
+          />
 
-      <div className={`content ${collapsed ? "collapsed" : ""}`}>
-        {children}
-      </div>
+          <div className={`content ${collapsed ? "collapsed" : ""}`}>
+            {children}
+          </div>
+        </>
+      )}
     </>
   );
 }
