@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Building2,
@@ -9,8 +9,12 @@ import {
   LogOut,
 } from "lucide-react";
 import logo from "../../assets/images/logo.png";
+import { useDispatch } from "react-redux";
+import { logoutSubAdmin } from "../../redux/slices/subAdminSlice";
 
-const Sidebar = ({ collapsed, show, closeSidebar }) => {
+const AdminSidebar = ({ collapsed, show, closeSidebar }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [openMenu, setOpenMenu] = useState(null);
 
   const toggleMenu = (menu) => {
@@ -20,6 +24,12 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
   const getNavLinkClass = ({ isActive }) =>
     `nav-link ${isActive ? "active" : ""}`;
 
+  const handleLogout = () => {
+    dispatch(logoutSubAdmin());
+    navigate("/admin/login");
+  };
+
+
   return (
     <>
       {/* Mobile backdrop */}
@@ -28,9 +38,8 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
       )}
 
       <aside
-        className={`sidebar ${collapsed ? "collapsed" : ""} ${
-          show ? "show" : ""
-        }`}
+        className={`sidebar ${collapsed ? "collapsed" : ""} ${show ? "show" : ""
+          }`}
       >
         {/* Logo */}
         <div className="sidebar-logo">
@@ -45,7 +54,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
         <nav className="sidebar-nav">
           {/* Dashboard */}
-          <NavLink to="/admin/admin" className={getNavLinkClass}>
+          <NavLink to="/admin/dashboard" className={getNavLinkClass}>
             <LayoutDashboard size={18} />
             {!collapsed && <span>Dashboard</span>}
           </NavLink>
@@ -85,9 +94,8 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
                   <span>Reports</span>
                   <ChevronDown
                     size={16}
-                    className={`arrow ${
-                      openMenu === "reports" ? "rotate" : ""
-                    }`}
+                    className={`arrow ${openMenu === "reports" ? "rotate" : ""
+                      }`}
                   />
                 </>
               )}
@@ -111,14 +119,14 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
           </NavLink>
 
           {/* Logout */}
-          <NavLink to="/logout" className="nav-link">
+          <div className="nav-link cursor" onClick={handleLogout}>
             <LogOut size={18} />
             {!collapsed && <span>Logout</span>}
-          </NavLink>
+          </div>
         </nav>
       </aside>
     </>
   );
 };
 
-export default Sidebar;
+export default AdminSidebar;

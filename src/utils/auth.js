@@ -37,3 +37,21 @@ export const getStudentRole = () => {
   const decoded = jwtDecode(token);
   return decoded.role;
 };
+
+//sub admin
+
+export const getSubAdminToken = () => {
+  return Cookies.get("sub-admin-token");
+};
+
+export const isSubAdminAuthenticated = () => {
+ return !!getSubAdminToken();
+};
+
+export const getSubAdminRole = () => {
+  const token = getSubAdminToken();
+  if (!token) return null;
+
+  const decoded = jwtDecode(token);
+  return decoded.role;
+};

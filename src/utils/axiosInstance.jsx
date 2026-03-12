@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import store from "../redux/store";
 import { logoutAdmin } from "../redux/slices/adminSlice";
 import { logoutStudent } from "../redux/slices/studentSlice";
+import { logoutSubAdmin } from "../redux/slices/subAdminSlice";
 
 const axiosInstance = axios.create({
     baseURL: "https://cyientfoundation.duckdns.org",
@@ -38,6 +39,18 @@ axiosInstance.interceptors.request.use(
             }
         }
 
+          //  check sub admin
+        const subAdminData = Cookies.get("sub_admin");
+
+        if (subAdminData) {
+            const parsed = JSON.parse(subAdminData);
+            const token = parsed?.token;
+
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+        }
+        
         if (config.data instanceof FormData) {
             delete config.headers["Content-Type"];
         }
@@ -73,6 +86,12 @@ axiosInstance.interceptors.response.use(
                 store.dispatch(logoutStudent());
                 Cookies.remove("student");
                 window.location.href = "/student/login";
+            }
+
+             if (Cookies.get("sub_admin")) {
+                store.dispatch(logoutSubAdmin());
+                Cookies.remove("sub_admin");
+                window.location.href = "/admin/login";
             }
         }
 

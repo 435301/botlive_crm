@@ -2,11 +2,64 @@ import React, { useState } from "react";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import logo from "../../assets/images/logo.png";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { subAdminLogin, subAdminResetPassword, subAdminSendOtp, subAdminVerifyOtp } from "../../redux/slices/subAdminSlice";
 
-const Login = () => {
+const SubAdminLogin = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading } = useSelector((state) => state.subAdmin);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showForgot, setShowForgot] = useState(false);
+  const [step, setStep] = useState(1);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      await dispatch(
+        subAdminLogin({ email: email, password })
+      ).unwrap(); // waits for success
+      navigate("/admin/dashboard");
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
+  };
+
+  const handleSendOtp = (e) => {
+    e.preventDefault();
+    dispatch(subAdminSendOtp(email)).then((res) => {
+      if (res.meta.requestStatus === "fulfilled") {
+        setStep(2);
+      }
+    });
+  };
+
+  const handleVerifyOtp = (e) => {
+    e.preventDefault();
+    dispatch(subAdminVerifyOtp({ email, otp })).then((res) => {
+      if (res.meta.requestStatus === "fulfilled") {
+        setStep(3);
+      }
+    });
+  };
+
+  const handleResetPassword = (e) => {
+    e.preventDefault();
+    dispatch(subAdminResetPassword({ email, newPassword, confirmPassword }))
+      .then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          setShowForgot(false);
+          setStep(1);
+        }
+      });
+  };
 
   return (
     <div className="login-page">
@@ -14,45 +67,136 @@ const Login = () => {
         <div className="login-logo text-center">
           <img src={logo} className="login-logo-img" alt="login" />
         </div>
+        {!showForgot ? (
+          <>
+            {/* <h2 className="login-heading">Sign In</h2> */}
+            <p className="login-desc">
+              Welcome back Admin! Please login to your account
+            </p>
 
-        <p className="login-desc">Welcome back! Admin/Founder Login</p>
-        <Form onSubmit="">
-          <Form.Group className="mb-3">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </Form.Group>
+            <Form onSubmit={handleLogin}>
+              <Form.Group className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Password</Form.Label>
-            <InputGroup>
-              <Form.Control
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <Button
-                className="eye-btn"
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              <Form.Group className="mb-3">
+                <Form.Label>Password</Form.Label>
+                <InputGroup>
+                  <Form.Control
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <Button
+                    className="eye-btn"
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </Button>
+                </InputGroup>
+              </Form.Group>
+
+              <Button className="login-btn" type="submit" disabled={loading}>
+                {loading ? "Logging in..." : "Login"}
               </Button>
-            </InputGroup>
-          </Form.Group>
+            </Form>
+            <Link className="forgot-link" onClick={() => setShowForgot(true)}>
+              Forgot Password?
+            </Link>
+          </>
+        ) : (
+          <>
+            {step === 1 && (
+              <Form onSubmit={handleSendOtp}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter registered email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </Form.Group>
 
-          <Button className="login-btn" type="submit">
-            Login
-          </Button>
-        </Form>
+                <Button className="login-btn" type="submit" disabled={loading}>
+                  Send OTP
+                </Button>
+              </Form>
+            )}
+
+            {step === 2 && (
+              <Form onSubmit={handleVerifyOtp}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Enter OTP</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="Enter OTP"
+                    value={otp}
+                    onChange={(e) => setOtp(Number((e.target.value)))}
+                  />
+                </Form.Group>
+
+                <Button className="login-btn" type="submit" disabled={loading}>
+                  Verify OTP
+                </Button>
+              </Form>
+            )}
+
+            {step === 3 && (
+              <Form onSubmit={handleResetPassword}>
+                <Form.Group className="mb-3">
+                  <Form.Label>New Password</Form.Label>
+                  <InputGroup>
+                    <Form.Control
+                      type="password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                    />
+                    <Button
+                      className="eye-btn"
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </Button>
+                  </InputGroup>
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Confirm Password</Form.Label>
+                  <InputGroup>
+                    <Form.Control
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                    <Button
+                      className="eye-btn"
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </Button>
+                  </InputGroup>
+                </Form.Group>
+                <Button className="login-btn" type="submit" disabled={loading}>
+                  Reset Password
+                </Button>
+              </Form>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
 };
 
-export default Login;
+export default SubAdminLogin;

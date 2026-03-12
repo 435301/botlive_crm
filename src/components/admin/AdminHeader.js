@@ -1,8 +1,18 @@
 import React, { useState } from "react";
 import { Menu, User, LogOut, ChevronDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import {useDispatch} from "react-redux";
+import { logoutSubAdmin } from "../../redux/slices/subAdminSlice";
 
-const Header = ({ toggleSidebar, toggleCollapse, collapsed }) => {
+const AdminHeader = ({ toggleSidebar, toggleCollapse, collapsed }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [openProfile, setOpenProfile] = useState(false);
+
+    const handleLogout = () => {
+      dispatch(logoutSubAdmin());
+      navigate("/admin/login");
+    };
 
   return (
     <header className={`header ${collapsed ? "collapsed" : ""}`}>
@@ -43,7 +53,7 @@ const Header = ({ toggleSidebar, toggleCollapse, collapsed }) => {
             <div className="profile-item">
               <User size={16} /> My Profile
             </div>
-            <div className="profile-item danger">
+            <div className="profile-item danger" onClick={handleLogout}>
               <LogOut size={16} /> Logout
             </div>
           </div>
@@ -53,4 +63,4 @@ const Header = ({ toggleSidebar, toggleCollapse, collapsed }) => {
   );
 };
 
-export default Header;
+export default AdminHeader;
