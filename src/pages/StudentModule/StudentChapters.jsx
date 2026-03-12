@@ -108,7 +108,7 @@ const ManageStudentChapters = () => {
                 <div className="row g-2">
 
 
-                    <div className="col-md-2">
+                    <div className="col-md-4">
                         <SelectFilter
                             value={courseId}
                             name="courseId"
@@ -125,7 +125,7 @@ const ManageStudentChapters = () => {
                         />
                     </div>
 
-                    <div className="col-md-2">
+                    <div className="col-md-4">
                         <SelectFilter
                             value={moduleId}
                             name="moduleId"
