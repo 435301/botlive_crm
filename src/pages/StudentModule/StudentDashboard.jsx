@@ -3,7 +3,7 @@ import React from "react";
 /* ===== UPDATED TOP STATS ===== */
 const stats = [
   {
-    title: "Total Schools",
+    title: "New Chapters",
     value: "25",
     icon: "bi-building",
     iconBg: "#e6f0fa",
@@ -12,7 +12,7 @@ const stats = [
     subtitleColor: "primary",
   },
   {
-    title: "Total Skill Centers",
+    title: "In Progress Chapters",
     value: "12",
     icon: "bi-building",
     iconBg: "#e0e7ff",
@@ -21,7 +21,7 @@ const stats = [
     subtitleColor: "info",
   },
   {
-    title: "Total Trainers",
+    title: "Completed Chapters",
     value: "86",
     icon: "bi-person-badge",
     iconBg: "#fff4e6",
@@ -29,43 +29,35 @@ const stats = [
     subtitle: "Active trainers",
     subtitleColor: "warning",
   },
-  {
-    title: "Total Students",
-    value: "1,280",
-    icon: "bi-mortarboard",
-    iconBg: "#e6f9f0",
-    iconColor: "#50c878",
-    subtitle: "Enrolled students",
-    subtitleColor: "success",
-  },
+
 ];
 
 /* ===== Campus Data ===== */
-const campusData = [
-  { name: "Vizag Campus", staff: 25, students: 420, absent: 3, present: 22 },
-  { name: "Nagaland Campus", staff: 18, students: 300, absent: 2, present: 16 },
-  { name: "Hospet Campus", staff: 20, students: 360, absent: 4, present: 16 },
-  { name: "Pmlanka Campus", staff: 15, students: 280, absent: 1, present: 14 },
-];
+// const campusData = [
+//   { name: "Vizag Campus", staff: 25, students: 420, absent: 3, present: 22 },
+//   { name: "Nagaland Campus", staff: 18, students: 300, absent: 2, present: 16 },
+//   { name: "Hospet Campus", staff: 20, students: 360, absent: 4, present: 16 },
+//   { name: "Pmlanka Campus", staff: 15, students: 280, absent: 1, present: 14 },
+// ];
 
 const StudentDashboard = () => {
   return (
     <>
       {/* ===== PAGE CONTENT ===== */}
       <div className="container-fluid p-4">
- <div className="d-flex justify-content-between align-items-center mb-4">
-                {/* Modern heading with skill icon */}
-                <div className="d-flex align-items-center heading-with-icon">
-                    <div className="icon-badge">
-                        <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
-                    </div>
-                    <div>
-                        <h5 className="fw-bold mb-0">Students Dashboard</h5>
-                        <p className="sub-text mb-0">Welcome , Cyient Foundation</p>
-                    </div>
-                </div>
-
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          {/* Modern heading with skill icon */}
+          <div className="d-flex align-items-center heading-with-icon">
+            <div className="icon-badge">
+              <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
             </div>
+            <div>
+              <h5 className="fw-bold mb-0">Students Dashboard</h5>
+              <p className="sub-text mb-0">Welcome , Cyient Foundation</p>
+            </div>
+          </div>
+
+        </div>
         {/* ===== KPI CARDS ===== */}
         <div className="row g-3">
           {stats.map((item, i) => (
@@ -98,7 +90,7 @@ const StudentDashboard = () => {
         </div>
 
         {/* ===== STAFF OVERVIEW ===== */}
-        <div className="mt-4">
+        {/* <div className="mt-4">
           <h5 className="fw-bold mb-3">Campus Staff Overview</h5>
 
           <div className="row g-3">
@@ -129,10 +121,10 @@ const StudentDashboard = () => {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* ===== STUDENT OVERVIEW ===== */}
-        <div className="mt-5">
+        {/* <div className="mt-5">
           <h5 className="fw-bold mb-3">Student Overview</h5>
 
           <div className="row g-3">
@@ -163,7 +155,7 @@ const StudentDashboard = () => {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
       </div></>
 
