@@ -1,103 +1,36 @@
 import React, { useState } from "react";
 import Pagination from "../../components/Pagination";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
+import { useCrud } from "../../hooks/useCrud";
+import DeleteConfirmationModal from "../../Modals/deleteModal";
 
-const trainers = [
-  {
-    trainerCode: "TRN-001",
-    fullName: "Ramesh Kumar",
-    centerType: "Skill Center",
-    centerName: "Hyderabad Skill Center",
-    mobile: "9876543210",
-    email: "ramesh@gmail.com",
-    qualification: "B.Tech",
-    joiningDate: "2023-01-10",
-    status: "Working",
-  },
-  {
-    trainerCode: "TRN-002",
-    fullName: "Anita Sharma",
-    centerType: "School",
-    centerName: "Green Valley School",
-    mobile: "9123456789",
-    email: "anita@gmail.com",
-    qualification: "M.Sc",
-    joiningDate: "2022-06-15",
-    status: "Resigned",
-  },
-  {
-    trainerCode: "TRN-003",
-    fullName: "Suresh Rao",
-    centerType: "Skill Center",
-    centerName: "Tech Skill Hub",
-    mobile: "9988776655",
-    email: "suresh@gmail.com",
-    qualification: "BCA",
-    joiningDate: "2024-02-01",
-    status: "Working",
-  },
-  {
-    trainerCode: "TRN-001",
-    fullName: "Ramesh Kumar",
-    centerType: "Skill Center",
-    centerName: "Hyderabad Skill Center",
-    mobile: "9876543210",
-    email: "ramesh@gmail.com",
-    qualification: "B.Tech",
-    joiningDate: "2023-01-10",
-    status: "Working",
-  },
-  {
-    trainerCode: "TRN-002",
-    fullName: "Anita Sharma",
-    centerType: "School",
-    centerName: "Green Valley School",
-    mobile: "9123456789",
-    email: "anita@gmail.com",
-    qualification: "M.Sc",
-    joiningDate: "2022-06-15",
-    status: "Resigned",
-  },
-  {
-    trainerCode: "TRN-003",
-    fullName: "Suresh Rao",
-    centerType: "Skill Center",
-    centerName: "Tech Skill Hub",
-    mobile: "9988776655",
-    email: "suresh@gmail.com",
-    qualification: "BCA",
-    joiningDate: "2024-02-01",
-    status: "Working",
-  },
-];
+
 
 const ManageTrainers = () => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [page, setPage] = useState(1);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
-  const ITEMS_PER_PAGE = 5;
-
-  /* ===== FILTER ===== */
-  const filteredTrainers = trainers.filter((t) => {
-    const matchSearch =
-      t.fullName.toLowerCase().includes(search.toLowerCase()) ||
-      t.trainerCode.toLowerCase().includes(search.toLowerCase());
-
-    const matchStatus = status ? t.status === status : true;
-
-    return matchSearch && matchStatus;
+  const { useList, deleteMutation } = useCrud({
+    entity: "trainer",
+    listUrl: "/trainer/list",
+    getUrl: (id) => `/trainer/${id}`,
+    deleteUrl: (id) => `/trainer/delete/${id}`,
   });
 
-  /* ===== PAGINATION ===== */
-  const totalPages = Math.ceil(filteredTrainers.length / ITEMS_PER_PAGE);
-  const startIndex = (page - 1) * ITEMS_PER_PAGE;
-  const paginatedData = filteredTrainers.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE,
-  );
+  const { data, isLoading } = useList({
+    search,
+    status,
+    page,
+  });
+  const trainers = data?.data || [];
+  const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
+  const perPage = data?.perPage || 15;
 
   const resetFilters = () => {
     setSearch("");
@@ -117,6 +50,16 @@ const ManageTrainers = () => {
     // later you can generate excel using XLSX
   };
 
+  const handleDeleteClick = (id) => {
+    setDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+  const handleDelete = async () => {
+    setShowDeleteModal(false);
+    setDeleteId(null);
+    deleteMutation.mutate(deleteId);
+  };
   return (
     <div className="container-fluid">
       {/* ===== HEADER ===== */}
@@ -158,7 +101,7 @@ const ManageTrainers = () => {
           </button>
           {/* Add Skill Center button */}
           <Link
-            to="/superAdmin/add-trainers"
+            to="/admin/add-trainer"
             className="btn add-skill-btn d-flex align-items-center"
           >
             <i className="ti ti-graduation-cap me-2"></i>
@@ -173,7 +116,7 @@ const ManageTrainers = () => {
           <div className="col-lg-4 col-md-6">
             <SearchInput
               value={search}
-              placeholder="Search by trainer name or code"
+              placeholder="Search by trainer name , code and mobile"
               onChange={(value) => {
                 setSearch(value);
                 setPage(1);
@@ -186,8 +129,8 @@ const ManageTrainers = () => {
               value={status}
               placeholder="All Status"
               options={[
-                { label: "Working", value: "Working" },
-                { label: "Resigned", value: "Resigned" },
+                { label: "Working", value: 1 },
+                { label: "Resigned", value: 0},
               ]}
               onChange={(value) => {
                 setStatus(value);
@@ -198,10 +141,6 @@ const ManageTrainers = () => {
 
           <div className="col-lg-5 col-md-12">
             <div className="d-flex gap-2">
-              <button className="btn filter-btn">
-                <i className="bi bi-search me-1"></i>
-              </button>
-
               <button
                 className="btn reset-btn"
                 onClick={resetFilters}
@@ -224,45 +163,47 @@ const ManageTrainers = () => {
                   <th>#</th>
                   <th>Trainer Code</th>
                   <th>Trainer Name</th>
-                  <th>Center Type</th>
-                  <th>Center Name</th>
                   <th>Mobile</th>
                   <th>Email</th>
                   <th>Qualification</th>
                   <th>Joining Date</th>
+                  <th>Grade/Batch</th>
                   <th>Status</th>
                   <th className="text-center">Actions</th>
                 </tr>
               </thead>
 
               <tbody>
-                {paginatedData.length > 0 ? (
-                  paginatedData.map((t, index) => (
+                {isLoading ? (
+                  <tr>
+                    <td colSpan="4" className="text-center py-5">Loading...</td>
+                  </tr>
+                ) : trainers.length > 0 ? (
+                  trainers.map((t, index) => (
                     <tr key={t.trainerCode}>
-                      <td>{startIndex + index + 1}</td>
+                      <td>{(page - 1) * perPage + index + 1}</td>
                       <td>{t.trainerCode}</td>
                       <td>{t.fullName}</td>
-                      <td>{t.centerType}</td>
-                      <td>{t.centerName}</td>
                       <td>{t.mobile}</td>
                       <td>{t.email}</td>
-                      <td>{t.qualification}</td>
-                      <td>{t.joiningDate}</td>
+                      <td>{t?.qualification?.qualification}</td>
+                      <td>{t.dateOfJoining}</td>
+                      <td>{t?.gradeBatch?.gradeBatch}</td>
                       <td>
                         <span
-                          className={`badge ${t.status === "Working"
+                          className={`badge ${t.status === 1
                             ? "bg-success"
                             : "bg-secondary"
                             }`}
                         >
-                          {t.status}
+                          {t.status === 1 ? "Working" : "Resigned"}
                         </span>
                       </td>
                       <td className="text-center">
-                        <button className="btn btn-outline-primary btn-sm me-2">
+                        <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/admin/edit-trainer/${t.id}`)}>
                           <i className="bi bi-pencil"></i>
                         </button>
-                        <button className="btn btn-outline-danger btn-sm">
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(t.id)}>
                           <i className="bi bi-trash"></i>
                         </button>
                       </td>
@@ -286,6 +227,11 @@ const ManageTrainers = () => {
               onPageChange={setPage}
             />
           )}
+          <DeleteConfirmationModal
+            show={showDeleteModal}
+            handleClose={() => setShowDeleteModal(false)}
+            handleConfirm={handleDelete}
+          />
         </div>
       </div>
     </div>

@@ -308,3 +308,110 @@ export const validateAssignChapters = (formData) => {
 
   return errors;
 };
+
+export const validateTrainerForm = (formData, isEditMode) => {
+  const errors = {};
+
+  if (!formData.trainerType) {
+    errors.trainerType = "Trainer type is required";
+  }
+  if (!formData.trainerCode) {
+    errors.trainerCode = "Trainer Code is required";
+  }
+  if (!formData.gender) {
+    errors.gender = "Gender is required";
+  }
+  if (!formData.qualificationId) {
+    errors.qualificationId = "Qualification is required";
+  }
+  if (!formData.gradeId) {
+    errors.gradeId = "Grade is required";
+  }
+  if (!formData.stateId) {
+    errors.stateId = "State is required";
+  }
+  if (!formData.districtId) {
+    errors.districtId = "District is required";
+  }
+  if (!formData.area.trim()) {
+    errors.area = "Area is required";
+  }
+  if (!isEditMode && (!formData.certificates || formData.certificates.length === 0)) {
+    errors.certificates = "At least one certificate is required";
+  }
+  if (!formData.bloodGroup) {
+    errors.bloodGroup = " Blood Group is required";
+  }
+  // Full Name validation
+  if (!formData.fullName || formData.fullName.length < 3) {
+    errors.fullName = "Full name must be at least 3 characters";
+  }
+
+  // Mobile validation (Indian 10-digit)
+  if (!formData.mobile || !/^[6-9]\d{9}$/.test(formData.mobile)) {
+    errors.mobile = "Enter valid 10-digit mobile number";
+  }
+
+
+  // Email validation
+  if (
+    !formData.email &&
+    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)
+  ) {
+    errors.email = "Enter valid email address";
+  }
+
+  // Password validation (min 6 chars)
+  if (isEditMode && formData.password && formData.password.length < 6) {
+    errors.password = "Password must be at least 6 characters";
+  }
+
+  // Aadhar validation (12 digits)
+  if (!formData.aadharNumber && !/^\d{12}$/.test(formData.aadharNumber)) {
+    errors.aadharNumber = "Aadhar must be 12 digits";
+  }
+
+  // PAN validation (ABCDE1234F format)
+  if (
+    !formData.panNumber &&
+    !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.panNumber)
+  ) {
+    errors.panNumber = "Enter valid PAN number";
+  }
+
+  // Pincode validation (6 digits)
+  if (!formData.pincode && !/^\d{6}$/.test(formData.pincode)) {
+    errors.pincode = "Enter valid 6-digit pincode";
+  }
+
+  // Date of Birth validation (must be 18+)
+  if (!formData.dob) {
+    errors.dob = "DOB is required";
+  }
+
+  // Date of Joining (cannot be future)
+  if (!formData.dateOfJoining) {
+    errors.dateOfJoining = "Date of Joining is required";
+  }
+
+  // Trainer Photo validation
+  if (!isEditMode && (!formData.trainerPhoto || formData.trainerPhoto.length === 0)) {
+    errors.trainerPhoto = "At least one photo is required";
+  }
+  if (!formData.fatherName) {
+    errors.fatherName = " Father Name is required";
+  }
+  if (!formData.motherName) {
+    errors.motherName = " Mother Name is required";
+  }
+  if (!formData.residentialAddress) {
+    errors.residentialAddress = " Residential Address is required";
+  }
+  if (!formData.permanentAddress) {
+    errors.permanentAddress = " Permanent Address is required";
+  }
+  if (formData.status === undefined || formData.status === "") {
+    errors.status = "Status is required";
+  }
+  return errors;
+};

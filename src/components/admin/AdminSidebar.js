@@ -59,28 +59,55 @@ const AdminSidebar = ({ collapsed, show, closeSidebar }) => {
             {!collapsed && <span>Dashboard</span>}
           </NavLink>
 
-          {/* Campus Dropdown */}
+        
+  {/* Trainer Dropdown */}
           <div className="nav-group">
-            <div className="nav-link" onClick={() => toggleMenu("campus")}>
+            <div className="nav-link" onClick={() => toggleMenu("trainers")}>
               <Building2 size={18} />
               {!collapsed && (
                 <>
-                  <span>Campuses</span>
+                  <span>Trainers</span>
                   <ChevronDown
                     size={16}
-                    className={`arrow ${openMenu === "campus" ? "rotate" : ""}`}
+                    className={`arrow ${openMenu === "trainers" ? "rotate" : ""}`}
                   />
                 </>
               )}
             </div>
 
-            <div className={`submenu ${openMenu === "campus" ? "open" : ""}`}>
-              <NavLink to="/admin/manage-schools" className={getNavLinkClass}>
-                School
+            <div className={`submenu ${openMenu === "trainers" ? "open" : ""}`}>
+              <NavLink to="/admin/add-trainer" className={getNavLinkClass}>
+                Add Trainer
               </NavLink>
 
-              <NavLink to="/admin/manage-skills" className={getNavLinkClass}>
-                SKill Center{" "}
+              <NavLink to="/admin/manage-trainers" className={getNavLinkClass}>
+                Manage Trainer
+              </NavLink>
+            </div>
+          </div>
+
+            {/* Student Dropdown */}
+          <div className="nav-group">
+            <div className="nav-link" onClick={() => toggleMenu("students")}>
+              <Building2 size={18} />
+              {!collapsed && (
+                <>
+                  <span>Students</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "students" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
+            </div>
+
+            <div className={`submenu ${openMenu === "students" ? "open" : ""}`}>
+              <NavLink to="/admin/add-student" className={getNavLinkClass}>
+                Add Student
+              </NavLink>
+
+              <NavLink to="/admin/manage-students" className={getNavLinkClass}>
+                Manage Students
               </NavLink>
             </div>
           </div>

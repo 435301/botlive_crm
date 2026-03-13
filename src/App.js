@@ -316,14 +316,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/superAdmin/add-trainers"
-            element={lazyLoad(AddTrainers)}
-          />
-          <Route
-            path="/superAdmin/manage-trainers"
-            element={lazyLoad(ManageTrainers)}
-          />
+
           <Route
             path="/superAdmin/add-module"
             element={
@@ -611,6 +604,9 @@ function App() {
           <Route path="/admin/report-skills" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(ManageReportSkills)}</ProtectedRoute>} />
           <Route path="/admin/skill-details" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(SkillsDetails)}</ProtectedRoute>} />
           <Route path="/admin/change-password" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(AdminChangePassword)}</ProtectedRoute>} />
+          <Route path="/admin/add-trainer" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(AddTrainers)}</ProtectedRoute>} />
+          <Route path="/admin/edit-trainer/:id" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(AddTrainers)}</ProtectedRoute>} />
+          <Route path="/admin/manage-trainers" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(ManageTrainers)}</ProtectedRoute>} />
 
           {/* SchoolSkillCenter login */}
           <Route
