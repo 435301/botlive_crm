@@ -59,8 +59,8 @@ const AdminSidebar = ({ collapsed, show, closeSidebar }) => {
             {!collapsed && <span>Dashboard</span>}
           </NavLink>
 
-        
-  {/* Trainer Dropdown */}
+
+          {/* Trainer Dropdown */}
           <div className="nav-group">
             <div className="nav-link" onClick={() => toggleMenu("trainers")}>
               <Building2 size={18} />
@@ -86,7 +86,29 @@ const AdminSidebar = ({ collapsed, show, closeSidebar }) => {
             </div>
           </div>
 
-            {/* Student Dropdown */}
+          {/* Cirriculam Dropdown */}
+          <div className="nav-group">
+            <div className="nav-link" onClick={() => toggleMenu("curriculam")}>
+              <Building2 size={18} />
+              {!collapsed && (
+                <>
+                  <span>Curriculam</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "curriculam" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
+            </div>
+
+            <div className={`submenu ${openMenu === "curriculam" ? "open" : ""}`}>
+              <NavLink to="/admin/manage-chapters" className={getNavLinkClass}>
+                Chapters
+              </NavLink>
+            </div>
+          </div>
+
+          {/* Student Dropdown */}
           <div className="nav-group">
             <div className="nav-link" onClick={() => toggleMenu("students")}>
               <Building2 size={18} />
