@@ -98,8 +98,6 @@ const ViewChapter = () => {
               {chapter.pdfs.map((pdf, index) => (
                 <iframe
                   src={`${BASE_URL_JOB}${pdf.videoPdf}`}
-                  width="120"
-                  height="150"
                   title={pdf.videoPdf.split("/").pop()}
                 />
               ))}

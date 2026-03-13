@@ -203,6 +203,9 @@ const ManageTrainers = () => {
                         <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/admin/edit-trainer/${t.id}`)}>
                           <i className="bi bi-pencil"></i>
                         </button>
+                        <button className="btn btn-outline-success btn-sm me-2" onClick={() => navigate(`/admin/view-trainer/${t.id}`)}>
+                          <i className="bi bi-eye"></i>
+                        </button>
                         <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(t.id)}>
                           <i className="bi bi-trash"></i>
                         </button>
