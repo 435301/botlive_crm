@@ -69,7 +69,8 @@ const AddStudent = () => {
     status: 1
   });
 
-  const { schools } = useSchools();
+  const { schoolsData } = useSchools();
+   const filteredCentres = formData.centreType ? schoolsData.filter((school) => school.centerType === Number(formData.centreType)) : schoolsData;
   const { grades } = useGrades();
 
   const handleChange = (e) => {
@@ -222,7 +223,7 @@ const AddStudent = () => {
                   name="schoolId"
                   value={formData.schoolId}
                   onChange={handleChange}
-                  options={schools.map((school) => ({
+                  options={filteredCentres?.map((school) => ({
                     label: school.centerName,
                     value: school.id,
                   }))}
