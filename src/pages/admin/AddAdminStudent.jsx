@@ -17,8 +17,8 @@ const AddAdminStudent = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const isEditMode = Boolean(id);
- const centreType = JSON.parse(Cookies.get("sub_admin") || "{}")?.centerType;
- console.log('centreType', centreType)
+  const centreType = JSON.parse(Cookies.get("sub_admin") || "{}")?.centerType;
+  console.log('centreType', centreType)
 
   const { useGetById, createMutation, updateMutation } = useCrud({
     entity: "student/school",
@@ -73,7 +73,7 @@ const AddAdminStudent = () => {
   });
 
   const { schoolsData } = useSchools();
-   const filteredCentres = formData.centreType ? schoolsData.filter((school) => school.centerType === Number(formData.centreType)) : schoolsData;
+  const filteredCentres = formData.centreType ? schoolsData.filter((school) => school.centerType === Number(formData.centreType)) : schoolsData;
   const { grades } = useGrades();
 
   const handleChange = (e) => {
@@ -196,7 +196,7 @@ const AddAdminStudent = () => {
           <form onSubmit={handleSubmit}>
             <div className="row g-3">
               {/* Course Type */}
-           
+
 
               {/* {formData.centreType === 2 && ( */}
               <div className="col-md-4">

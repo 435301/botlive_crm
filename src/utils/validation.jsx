@@ -209,6 +209,47 @@ export const validateSchoolStudent = (formData, isEditMode) => {
   return newErrors;
 };
 
+export const validateSkillCentreStudent = (formData, isEditMode = false) => {
+  const errors = {};
+
+  if (!formData.skillCentreId) errors.skillCentreId = "Skill centre is required";
+  if (!formData.enrollmentNumber) errors.enrollmentNumber = "Enrollment number is required";
+  if (!formData.studentName) errors.studentName = "Student name is required";
+  if (!formData.gender) errors.gender = "Gender is required";
+  if (!formData.dob) errors.dob = "Date of birth is required";
+  if (!formData.batchId) errors.batchId = "Batch is required";
+  if (!formData.aadharNumber) errors.aadharNumber = "Aadhar number is required";
+  if (!formData.mobile) errors.mobile = "Mobile number is required";
+  if (!formData.email) errors.email = "Email is required";
+
+  if (!isEditMode && !formData.password) {
+    errors.password = "Password is required";
+  }
+  if (!formData.qualificationId) errors.qualificationId = "Qualification is required";
+  if (!formData.occupationId) errors.occupationId = "Occupation is required";
+  if (!formData.categoryId) errors.categoryId = "Category is required";
+  if (!formData.stateId) errors.stateId = "State is required";
+  if (!formData.districtId) errors.districtId = "District is required";
+  if (!formData.wardVillage) errors.wardVillage = "Ward/Village is required";
+  if (!formData.pincode) errors.pincode = "Pincode is required";
+  if (!formData.maritalStatus) errors.maritalStatus = "Marital status is required";
+
+  if (!formData.fatherName) errors.fatherName = "Father name is required";
+  if (!formData.fatherAadhar) errors.fatherAadhar = "Father Aadhar is required";
+  if (!formData.motherName) errors.motherName = "Mother name is required";
+  if (!formData.fatherOccupationId) errors.fatherOccupationId = "Father occupation is required";
+
+  if (!formData.annualFamilyIncome) errors.annualFamilyIncome = "Family income is required";
+  if (!formData.noOfFamilyMembers) errors.noOfFamilyMembers = "Number of family members is required";
+
+  if (!formData.studentPhoto) errors.studentPhoto = "Student photo is required";
+  if (!formData.aadharPhoto) errors.aadharPhoto = "Aadhar photo is required";
+  if (!formData.sscCertificate) errors.sscCertificate = "SSC certificate is required";
+  if (!formData.intermediateCertificate) errors.intermediateCertificate = "Intermediate certificate is required";
+
+  return errors;
+};
+
 export const validateCategory = (formData) => {
   const errors = {};
 
