@@ -1,7 +1,7 @@
 import { useCrud } from "./useCrud";
 
 
-const useGrades = () => {
+const useGrades = (centreType) => {
   const { useList } = useCrud({
     entity: "grade",
     listUrl: "/grade/list",
@@ -11,7 +11,7 @@ const useGrades = () => {
     page: "",
     search: "",
     status: 1,
-    centerType: 2,
+    centreType,
   });
 
   return {

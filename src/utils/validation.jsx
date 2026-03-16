@@ -172,9 +172,6 @@ export const validateGrade = (formData) => {
 export const validateSchoolStudent = (formData, isEditMode) => {
   let newErrors = {};
 
-  if (!formData.centreType) newErrors.centreType = "Centre Type is required"
-  if (!formData.schoolId) newErrors.schoolId = "School is required";
-
   if (!formData.enrollmentNumber)
     newErrors.enrollmentNumber = "Enrollment number required";
 
@@ -211,8 +208,6 @@ export const validateSchoolStudent = (formData, isEditMode) => {
 
 export const validateSkillCentreStudent = (formData, isEditMode = false) => {
   const errors = {};
-
-  if (!formData.skillcentreId) errors.skillcentreId = "Skill centre is required";
   if (!formData.enrollmentNumber) errors.enrollmentNumber = "Enrollment number is required";
   if (!formData.studentName) errors.studentName = "Student name is required";
   if (!formData.gender) errors.gender = "Gender is required";

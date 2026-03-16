@@ -3,7 +3,7 @@ import { useCrud } from "../../hooks/useCrud";
 import BASE_URL_JOB from "../../config/config";
 import Styles from "../../assets/css/style.module.css";
 
-const ViewStudent = () => {
+const ViewAdminStudent = () => {
     const { id } = useParams();
 
     const { useGetById } = useCrud({
@@ -26,7 +26,7 @@ const ViewStudent = () => {
                 <h4 className="fw-bold">View Student</h4>
 
                 <Link
-                    to="/superAdmin/manage-chapters"
+                    to="/admin/manage-chapters"
                     className="btn btn-outline-primary"
                 >
                     Back
@@ -45,7 +45,7 @@ const ViewStudent = () => {
 
                         <div className="col-md-4">
                             <strong>Enrollment number:</strong>
-                            <p>{student?.enrolmentNumber || "-"}</p>
+                            <p>{student?.enrolmentNumber|| "-"}</p>
                         </div>
 
                         <div className="col-md-4">
@@ -82,7 +82,7 @@ const ViewStudent = () => {
                         </div>
                         <div className="col-md-4">
                             <strong>District:</strong>
-                            <p>{student?.districtData?.districtName || "-"}</p>
+                            <p>{student?.districtData?.districtName|| "-"}</p>
                         </div>
                         <div className="col-md-4">
                             <strong>DOB:</strong>
@@ -149,21 +149,33 @@ const ViewStudent = () => {
             <div className="card mb-4 shadow-sm">
                 <div className="card-body">
                     <h5 className="fw-bold mb-3"> Photos</h5>
-                    <img
-                        src={`${BASE_URL_JOB}${student.photo}`}
-                        width="150"
-                        height="120"
-                        style={{ objectFit: "cover", borderRadius: "8px" }}
-                        alt="activity"
-                    />
-                    <img
-                        src={`${BASE_URL_JOB}${student.aadharPhoto}`}
-                        width="150"
-                        height="120"
-                        style={{ objectFit: "cover", borderRadius: "8px" }}
-                        alt="activity"
-                    />
+                    <div className="d-flex gap-3 flex-wrap">
+                        {student?.photo ? (
+                            <img
+                                src={`${BASE_URL_JOB}${student.photo}`}
+                                width="150"
+                                height="120"
+                                className={Styles.viewStudentImg}
+                                alt="activity"
+                            />
+                        )
+                            : (
+                                <span>No photo available</span>
+                            )}
 
+                        {student?.photo ? (
+                            <img
+                                src={`${BASE_URL_JOB}${student.aadharPhoto}`}
+                                width="150"
+                                height="120"
+                                className={Styles.viewStudentImg}
+                                alt="activity"
+                            />
+                        )
+                            : (
+                                <span>No aadhar photo available</span>
+                            )}
+                    </div>
                 </div>
             </div>
 
@@ -185,7 +197,8 @@ const ViewStudent = () => {
                             <div className={`d-flex align-items-center justify-content-center border ${Styles.certificatesCard} `} >
                                 SSC Certificate Not Available
                             </div>
-                        )}
+                        )
+                        }
 
                         {student?.interCertificate ? (
                             <iframe
@@ -194,6 +207,7 @@ const ViewStudent = () => {
                                 width="300"
                                 height="200"
                             />
+
                         ) : (
                             <div className={`d-flex align-items-center justify-content-center border ${Styles.certificatesCard} `} >
                                 Inter Certificate Not Available
@@ -233,4 +247,4 @@ const ViewStudent = () => {
     );
 };
 
-export default ViewStudent;
+export default ViewAdminStudent;

@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import Pagination from "../../components/Pagination";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
 // import BASE_URL_JOB from "../../config/config";
 import useSchools from "../../hooks/useSchools";
-
+import Cookies from "js-cookie";
 
 const ManageAdminStudents = () => {
+  const navigate = useNavigate();
+  const schoolSkillCentreId = JSON.parse(Cookies.get("sub_admin") || "{}")?.id
+  const centreType = JSON.parse(Cookies.get("sub_admin") || "{}")?.centerType;
+  console.log('centreType', centreType, schoolSkillCentreId)
   const [search, setSearch] = useState("");
-  const [centreType, setCentreType] = useState("");
-  const [centreId, setCentreId] = useState("");
   const [status, setStatus] = useState("");
   const [page, setPage] = useState(1);
 
@@ -27,8 +29,8 @@ const ManageAdminStudents = () => {
     search,
     status,
     page,
-    centreType,
-    centreId,
+    centreType:centreType,
+    centreId:schoolSkillCentreId,
   });
 
   const schools = data?.data || [];
@@ -36,10 +38,9 @@ const ManageAdminStudents = () => {
   const perPage = data?.perPage || 15;
   const { schoolsData } = useSchools();
   console.log('centerName', schoolsData)
+
   const resetFilters = () => {
     setSearch("");
-    setCentreType("");
-    setCentreId("");
     setStatus("");
     setPage(1);
   };
@@ -56,9 +57,6 @@ const ManageAdminStudents = () => {
     console.log("Export Excel clicked");
     // later you can generate excel using XLSX
   };
-  const filteredCentres = centreType
-    ? schoolsData?.filter((school) => school.centerType === centreType)
-    : schoolsData;
 
   return (
     <div className="container-fluid">
@@ -125,21 +123,6 @@ const ManageAdminStudents = () => {
 
           <div className="col-lg-2 col-md-6">
             <SelectFilter
-              value={centreId}
-              placeholder="All Centre Names"
-              options={filteredCentres?.map((school) => ({
-                label: school.centerName,
-                value: school.id
-              }))}
-              onChange={(value) => {
-                setCentreId(value);
-                setPage(1);
-              }}
-            />
-          </div>
-
-          <div className="col-lg-2 col-md-6">
-            <SelectFilter
               value={status}
               placeholder="All Status"
               options={[
@@ -175,8 +158,6 @@ const ManageAdminStudents = () => {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Project Type</th>
-                  <th>Center Name</th>
                   <th>Student Name</th>
                   <th>Mobile</th>
                   <th>Email</th>
@@ -200,19 +181,6 @@ const ManageAdminStudents = () => {
                   schools.map((s, index) => (
                     <tr key={s.id}>
                       <td>{(page - 1) * perPage + index + 1}</td>
-                      <td>
-                        {s.centre.centerType === 1
-                          ? "Skill Development"
-                          : s.centre.centerType === 2
-                            ? "AI & STEM Learning"
-                            : s.centre.centerType === 3
-                              ? "Education Development"
-                              : s.centre.centerType === 4
-                                ? "Innovation & Entrepreneurs"
-                                : s.centre.centerType === 5 ?
-                                  "Community Development" : ""}
-                      </td>
-                      <td>{s?.centre?.centerName || "-"}</td>
                       <td>{s.fullName || "-"}</td>
                       <td>{s.mobile || "-"}</td>
                       <td>{s.email || "-"}</td>
@@ -241,6 +209,9 @@ const ManageAdminStudents = () => {
                       <td className="text-center">
                         <button className="btn btn-outline-primary btn-sm me-2">
                           <i className="bi bi-pencil"></i>
+                        </button>
+                        <button className="btn btn-outline-success btn-sm me-2" onClick={() => navigate(`/admin/view-student/${s.id}`)}>
+                          <i className="bi bi-eye"></i>
                         </button>
                         <button className="btn btn-outline-danger btn-sm">
                           <i className="bi bi-trash"></i>
