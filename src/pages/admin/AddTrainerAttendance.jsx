@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import useTrainers from "../../hooks/useTrainers";
 import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
-import FormActions from "../../components/FormActions";
 import { Link, useNavigate } from "react-router-dom";
 
 
@@ -35,7 +34,11 @@ const AddTrainerAttendance = () => {
             })),
         };
 
-        createMutation.mutate(payload);
+        createMutation.mutate(payload,{
+            onSuccess: ()=>{
+                navigate("/admin/manage-attendance")
+            }
+        });
     };
 
     return (

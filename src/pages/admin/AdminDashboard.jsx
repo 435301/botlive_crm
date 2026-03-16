@@ -1,44 +1,8 @@
 import React from "react";
+import { useCrud } from "../../hooks/useCrud";
 
 /* ===== UPDATED TOP STATS ===== */
-const stats = [
-  {
-    title: "Total Schools",
-    value: "25",
-    icon: "bi-building",
-    iconBg: "#e6f0fa",
-    iconColor: "#4a90e2",
-    subtitle: "Active schools",
-    subtitleColor: "primary",
-  },
-  {
-    title: "Total Skill Centers",
-    value: "12",
-    icon: "bi-building",
-    iconBg: "#e0e7ff",
-    iconColor: "#6366f1",
-    subtitle: "Running centers",
-    subtitleColor: "info",
-  },
-  {
-    title: "Total Trainers",
-    value: "86",
-    icon: "bi-person-badge",
-    iconBg: "#fff4e6",
-    iconColor: "#f39c12",
-    subtitle: "Active trainers",
-    subtitleColor: "warning",
-  },
-  {
-    title: "Total Students",
-    value: "1,280",
-    icon: "bi-mortarboard",
-    iconBg: "#e6f9f0",
-    iconColor: "#50c878",
-    subtitle: "Enrolled students",
-    subtitleColor: "success",
-  },
-];
+
 
 /* ===== Campus Data ===== */
 const campusData = [
@@ -49,11 +13,54 @@ const campusData = [
 ];
 
 const AdminDashboard = () => {
+  const { useGetAll } = useCrud({
+    entity: "dashboard",
+    getAllUrl: "/skillCenterSchoolAdmin/getDashboard",
+  });
+
+  const { data } = useGetAll();
+  const dashboard = data?.data || [];
+  console.log('dashboard', dashboard)
+
+  const stats = [
+    {
+      title: "Trainers",
+      value: dashboard.trainers?.total || 0,
+      subtitle: `${dashboard.trainers?.active || 0} Active`,
+      subtitleColor: "success",
+      subtitleInactive: `${dashboard.trainers?.inactive || 0} Inactive`,
+      subtitleInactiveColor: "danger",
+      icon: "bi-book",
+      iconBg: "#e8f0ff",
+      iconColor: "#3f51b5",
+    },
+    {
+      title: "Students",
+      value: dashboard.students?.total || 0,
+      subtitle: `${dashboard.students?.active || 0} Active`,
+      subtitleColor: "success",
+      subtitleInactive: `${dashboard.students?.inactive || 0} Inactive`,
+      subtitleInactiveColor: "danger",
+      icon: "bi-folder",
+      iconBg: "#fff0f0",
+      iconColor: "#dc3545",
+    },
+
+  ];
+
   return (
     <>
       {/* ===== PAGE CONTENT ===== */}
       <div className="container-fluid p-4">
-
+        <div className="d-flex align-items-center heading-with-icon mb-4">
+          <div className="icon-badge">
+            <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
+          </div>
+          <div>
+            <h5 className="fw-bold mb-0">Sub Admin Dashboard</h5>
+            <p className="sub-text mb-0">Welcome, Cyient Foundation</p>
+          </div>
+        </div>
         {/* ===== KPI CARDS ===== */}
         <div className="row g-3">
           {stats.map((item, i) => (
@@ -63,18 +70,30 @@ const AdminDashboard = () => {
                   <div>
                     <h6 className="mb-3">{item.title}</h6>
                     <h3 className="fw-bold">{item.value}</h3>
-                    <small className={`text-${item.subtitleColor}`}>
-                      {item.subtitle}
-                    </small>
-                  </div>
+                    <div className="d-flex align-items-center gap-2 "> {item.subtitle && (
+                      <small
+                        className={`text-${item.subtitleColor || "secondary"}`}
+                      >
+                        {item.subtitle}
+                      </small>
+                    )}
+                      {item.subtitleInactive && (
+                        <small
+                          className={`text-${item.subtitleInactiveColor || "secondary"}`}
+                        >
+                          {item.subtitleInactive}
+                        </small>
+                      )}</div>
 
+                  </div>
                   <div
                     className="d-flex align-items-center justify-content-center rounded-3"
                     style={{
                       width: "50px",
                       height: "50px",
-                      backgroundColor: item.iconBg,
-                      color: item.iconColor,
+                      backgroundColor: item.iconBg || "#e0f2ff",
+                      color: item.iconColor || "#4a90e2",
+                      fontSize: "1.2rem",
                     }}
                   >
                     <i className={`bi ${item.icon}`}></i>
