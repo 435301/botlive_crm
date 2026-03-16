@@ -104,6 +104,8 @@ const ViewAdminChapter = lazy(() => import("./pages/admin/ViewChapter"))
 const AddAdminStudent = lazy(() => import("./pages/admin/AddAdminStudent"));
 const ManageAdminStudents = lazy(() => import("./pages/admin/ManageAdminStudent"));
 const ViewAdminStudent = lazy(()=>import("./pages/admin/ViewAdminStudent") );
+const  ManageAttendance = lazy(()=> import("./pages/admin/ManageAttendance"));
+const  AddTrainerAttendance = lazy(()=> import("./pages/admin/AddTrainerAttendance"));
 
 // SchoolSkillCenter
 const SchoolSkillLogin = lazy(
@@ -619,6 +621,8 @@ function App() {
           <Route path="/admin/add-student" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(AddAdminStudent)}</ProtectedRoute>} />
           <Route path="/admin/manage-students" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(ManageAdminStudents)}</ProtectedRoute>} />
            <Route path="/admin/view-student/:id" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(ViewAdminStudent)}</ProtectedRoute>} />
+           <Route path="/admin/manage-attendance" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(ManageAttendance)}</ProtectedRoute>} />
+           <Route path="/admin/add-attendance" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(AddTrainerAttendance)}</ProtectedRoute>} />
 
           {/* SchoolSkillCenter login */}
           <Route

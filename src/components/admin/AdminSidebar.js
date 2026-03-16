@@ -150,6 +150,32 @@ const AdminSidebar = ({ collapsed, show, closeSidebar }) => {
               )}
             </div>
 
+            {/* attendance management */}
+            <div className="nav-group">
+              <div className="nav-link" onClick={() => toggleMenu("attendance")}>
+                <Building2 size={18} />
+                {!collapsed && (
+                  <>
+                    <span>Attendance</span>
+                    <ChevronDown
+                      size={16}
+                      className={`arrow ${openMenu === "attendance" ? "rotate" : ""}`}
+                    />
+                  </>
+                )}
+              </div>
+
+              <div className={`submenu ${openMenu === "attendance" ? "open" : ""}`}>
+                <NavLink to="/admin/add-attendance" className={getNavLinkClass}>
+                  Add Attendance
+                </NavLink>
+
+                <NavLink to="/admin/manage-attendance" className={getNavLinkClass}>
+                  Manage Attendance
+                </NavLink>
+              </div>
+            </div>
+
             <div className={`submenu ${openMenu === "reports" ? "open" : ""}`}>
               <NavLink to="/admin/report-students" className={getNavLinkClass}>
                 Schools
