@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Pagination from "../../components/Pagination";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
@@ -9,6 +9,7 @@ import useSchools from "../../hooks/useSchools";
 
 
 const ManageStudents = () => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [centreType, setCentreType] = useState("");
   const [centreId, setCentreId] = useState("");
@@ -260,6 +261,9 @@ const ManageStudents = () => {
                       <td className="text-center">
                         <button className="btn btn-outline-primary btn-sm me-2">
                           <i className="bi bi-pencil"></i>
+                        </button>
+                          <button className="btn btn-outline-success btn-sm me-2" onClick={()=> navigate(`/superAdmin/view-student/${s.id}`)}>
+                          <i className="bi bi-eye"></i>
                         </button>
                         <button className="btn btn-outline-danger btn-sm">
                           <i className="bi bi-trash"></i>

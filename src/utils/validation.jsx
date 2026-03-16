@@ -212,7 +212,7 @@ export const validateSchoolStudent = (formData, isEditMode) => {
 export const validateSkillCentreStudent = (formData, isEditMode = false) => {
   const errors = {};
 
-  if (!formData.skillCentreId) errors.skillCentreId = "Skill centre is required";
+  if (!formData.skillcentreId) errors.skillcentreId = "Skill centre is required";
   if (!formData.enrollmentNumber) errors.enrollmentNumber = "Enrollment number is required";
   if (!formData.studentName) errors.studentName = "Student name is required";
   if (!formData.gender) errors.gender = "Gender is required";
@@ -238,7 +238,7 @@ export const validateSkillCentreStudent = (formData, isEditMode = false) => {
   if (!formData.fatherAadhar) errors.fatherAadhar = "Father Aadhar is required";
   if (!formData.motherName) errors.motherName = "Mother name is required";
   if (!formData.fatherOccupationId) errors.fatherOccupationId = "Father occupation is required";
-
+ if (!formData.motherOccupationId) errors.motherOccupationId = "Mother occupation is required";
   if (!formData.annualFamilyIncome) errors.annualFamilyIncome = "Family income is required";
   if (!formData.noOfFamilyMembers) errors.noOfFamilyMembers = "Number of family members is required";
 

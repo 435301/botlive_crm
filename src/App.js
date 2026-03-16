@@ -66,6 +66,7 @@ const ManageAssignedChapters = lazy(
 );
 const AddStudent = lazy(() => import("./pages/superAdmin/AddStudent"));
 const ManageStudents = lazy(() => import("./pages/superAdmin/ManageStudents"));
+const ViewStudent = lazy(()=> import("./pages/superAdmin/ViewStudent"));
 const ManageScholls = lazy(() => import("./pages/superAdmin/ManageScholls"));
 const AddSchoolsSkills = lazy(
   () => import("./pages/superAdmin/AddSchoolsSkills"),
@@ -98,13 +99,13 @@ const ManageReportSkills = lazy(
 );
 
 const ManageAdminChapters = lazy(() => import("./pages/admin/AdminChapters"))
-const ViewAdminChapter = lazy(()=> import("./pages/admin/ViewChapter"))
-const AddAdminStudent = lazy(()=> import("./pages/admin/AddAdminStudent"));
-const ManageAdminStudents = lazy(()=>import("./pages/admin/ManageAdminStudent"));
+const ViewAdminChapter = lazy(() => import("./pages/admin/ViewChapter"))
+const AddAdminStudent = lazy(() => import("./pages/admin/AddAdminStudent"));
+const ManageAdminStudents = lazy(() => import("./pages/admin/ManageAdminStudent"));
 
 
 // SchoolSkillCenter
-const SchoolSkillLogin = lazy(  
+const SchoolSkillLogin = lazy(
   () => import("./pages/SchoolSkillCenter/SchoolSkillLogin"),
 );
 // Trainer Modules
@@ -411,14 +412,9 @@ function App() {
           <Route
             path="/superAdmin/manage-assigned-chapters" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageAssignedChapters)}</ProtectedRoute>} />
           <Route path="/superAdmin/edit-assigned-chapter/:id" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login"> {lazyLoad(AddAssignedChapters)}</ProtectedRoute>} />
-          <Route
-            path="/superAdmin/add-student"
-            element={lazyLoad(AddStudent)}
-          />
-          <Route
-            path="/superAdmin/manage-students"
-            element={lazyLoad(ManageStudents)}
-          />
+          <Route path="/superAdmin/add-student" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(AddStudent)}</ProtectedRoute>} />
+          <Route path="/superAdmin/manage-students" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageStudents)}</ProtectedRoute>} />
+           <Route path="/superAdmin/view-student/:id" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ViewStudent)}</ProtectedRoute>} />
           <Route
             path="/superAdmin/manage-schools"
             element={lazyLoad(ManageScholls)}
@@ -618,9 +614,9 @@ function App() {
           <Route path="/admin/view-trainer/:id" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(ViewTrainers)}</ProtectedRoute>} />
           <Route path="/admin/manage-trainers" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(ManageTrainers)}</ProtectedRoute>} />
           <Route path="/admin/manage-chapters" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(ManageAdminChapters)}</ProtectedRoute>} />
-           <Route path="/admin/view-chapter/:id" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(ViewAdminChapter)}</ProtectedRoute>} />
-           <Route path="/admin/add-student" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(AddAdminStudent)}</ProtectedRoute>} />
-            <Route path="/admin/manage-students" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(ManageAdminStudents)}</ProtectedRoute>} />
+          <Route path="/admin/view-chapter/:id" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(ViewAdminChapter)}</ProtectedRoute>} />
+          <Route path="/admin/add-student" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(AddAdminStudent)}</ProtectedRoute>} />
+          <Route path="/admin/manage-students" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(ManageAdminStudents)}</ProtectedRoute>} />
 
           {/* SchoolSkillCenter login */}
           <Route

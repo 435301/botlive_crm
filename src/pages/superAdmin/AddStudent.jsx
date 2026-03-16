@@ -16,20 +16,41 @@ import useOccupation from "../../hooks/useOccupation";
 import useStates from "../../hooks/useStates";
 import useDistricts from "../../hooks/useDistricts";
 import useCategory from "../../hooks/useCategory";
-import BASE_URL_JOB from "../../config/config";
 
 const AddStudent = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const isEditMode = Boolean(id);
 
-  const { useGetById, createMutation, updateMutation } = useCrud({
+  const { useGetById } = useCrud({
     entity: "student/school",
     listUrl: "/student/school/list",
     getUrl: (id) => `/student/school/${id}`,
     createUrl: "/student/school/add",
     updateUrl: (id) => `/student/school/update/${id}`,
     deleteUrl: (id) => `/student/school/delete/${id}`,
+  });
+
+  const {
+    createMutation: createSchoolStudent,
+    updateMutation: updateSchoolStudent
+  } = useCrud({
+    entity: "student/school",
+    listUrl: "/student/school/list",
+    getUrl: (id) => `/student/school/${id}`,
+    createUrl: "/student/school/add",
+    updateUrl: (id) => `/student/school/update/${id}`,
+  });
+
+  const {
+    createMutation: createSkillStudent,
+    updateMutation: updateSkillStudent
+  } = useCrud({
+    entity: "student/skillcenter",
+    listUrl: "/student/skillcenter/list",
+    getUrl: (id) => `/student/skillcenter/${id}`,
+    createUrl: "/student/skillcenter/add",
+    updateUrl: (id) => `/student/skillcenter/update/${id}`,
   });
 
   const { data: studentData } = useGetById(id, {
@@ -54,7 +75,7 @@ const AddStudent = () => {
         status: studentData.status
       });
       setSkillCentreFormData({
-        skillCentreId: studentData.data.skillCentreId || "",
+        skillcentreId: studentData.data.skillcentreId || "",
         enrollmentNumber: studentData.data.enrollmentNumber || "",
         studentName: studentData.data.studentName || "",
         fatherName: studentData.data.fatherName || "",
@@ -75,13 +96,11 @@ const AddStudent = () => {
         pincode: studentData.data.pincode,
         maritalStatus: studentData.data.maritalStatus,
         fatherAadhar: studentData.data.fatherAadhar,
-        fatherName: studentData.data.fatherName,
         fatherOccupationId: studentData.data.fatherOccupationId,
         motherName: studentData.data.motherName,
         motherOccupationId: studentData.data.motherOccupationId,
         annualFamilyIncome: studentData.data.annualFamilyIncome,
         noOfFamilyMembers: studentData.data.noOfFamilyMembers,
-        studentPhoto: null,
         aadharPhoto: null,
         sscCertificate: null,
         intermediateCertificate: null,
@@ -116,7 +135,7 @@ const AddStudent = () => {
 
   const [skillCentreFormData, setSkillCentreFormData] = useState({
     centreType: "",
-    skillCentreId: "",
+    skillcentreId: "",
     enrollmentNumber: "",
     studentName: "",
     gender: "",
@@ -158,7 +177,7 @@ const AddStudent = () => {
   const { occupations } = useOccupation();
   const { states } = useStates();
   const { districts } = useDistricts();
-  const filteredDistricts = formData.stateId ? districts.filter((district) => Number(district.stateId) === Number(formData.stateId)) : [];
+  const filteredDistricts = skillCentreFormData.stateId ? districts.filter((district) => Number(district.stateId) === Number(skillCentreFormData.stateId)) : [];
   const { categories } = useCategory();
 
 
@@ -199,9 +218,24 @@ const AddStudent = () => {
     const { name, value, files } = e.target;
 
     if (files) {
-      setSkillCentreFormData({ ...skillCentreFormData, [name]: files[0] });
+      setSkillCentreFormData({
+        ...skillCentreFormData,
+        [name]: files[0],
+      });
+    } else if (name === "dob") {
+      const [year, month, day] = value.split("-");
+      const formatted = `${day}-${month}-${year}`;
+
+      setSkillCentreFormData((prev) => ({
+        ...prev,
+        dob: formatted,
+      }));
     } else {
-      setSkillCentreFormData({ ...skillCentreFormData, [name]: value });
+      setSkillCentreFormData((prev) => ({
+        ...prev,
+        [name]: value,
+        ...(name === "stateId" && { districtId: "" }),
+      }));
     }
 
     setErrors((prev) => ({ ...prev, [name]: "" }));
@@ -228,12 +262,12 @@ const AddStudent = () => {
       });
 
       if (isEditMode) {
-        updateMutation.mutate(
+        updateSchoolStudent.mutate(
           { id, data: dataToSend },
           { onSuccess: () => navigate("/superAdmin/manage-students") }
         );
       } else {
-        createMutation.mutate(dataToSend, {
+        createSchoolStudent.mutate(dataToSend, {
           onSuccess: () => navigate("/superAdmin/manage-students"),
         });
       }
@@ -243,16 +277,15 @@ const AddStudent = () => {
 
     if (Number(formData.centreType) === 1) {
 
-      // const validationErrors = validateSkillCentreStudent(
-      //   skillCentreFormData,
-      //   isEditMode
-      // );
+      const validationErrors = validateSkillCentreStudent(
+        skillCentreFormData,
+        isEditMode
+      );
 
-      // if (Object.keys(validationErrors).length > 0) {
-      //   setErrors(validationErrors);
-      //   return;
-      // }
-
+      if (Object.keys(validationErrors).length > 0) {
+        setErrors(validationErrors);
+        return;
+      }
       const dataToSend = new FormData();
 
       Object.keys(skillCentreFormData).forEach((key) => {
@@ -265,12 +298,12 @@ const AddStudent = () => {
       });
 
       if (isEditMode) {
-        updateMutation.mutate(
+        updateSkillStudent.mutate(
           { id, data: dataToSend },
           { onSuccess: () => navigate("/superAdmin/manage-students") }
         );
       } else {
-        createMutation.mutate(dataToSend, {
+        createSkillStudent.mutate(dataToSend, {
           onSuccess: () => navigate("/superAdmin/manage-students"),
         });
       }
@@ -461,14 +494,14 @@ const AddStudent = () => {
       <div className="col-md-4">
         <FormSelect
           label="Skill Centre"
-          name="skillCentreId"
-          value={skillCentreFormData.skillCentreId}
+          name="skillcentreId"
+          value={skillCentreFormData.skillcentreId}
           onChange={handleSkillChange}
           options={filteredCentres?.map((school) => ({
             label: school.centerName,
             value: school.id,
           }))}
-          error={errors.skillCentreId}
+          error={errors.skillcentreId}
           mandatory
         />
       </div>
@@ -732,14 +765,18 @@ const AddStudent = () => {
       </div>
 
       <div className="col-md-4">
-        <FormInput
+        <FormSelect
           label="Marital Status"
           name="maritalStatus"
           value={skillCentreFormData.maritalStatus}
           onChange={handleSkillChange}
+          options={[
+            { label: "Married", value: 1 },
+            { label: "Unmarried", value: 2 },
+            { label: "Divorced", value: 3 },
+
+          ]}
           error={errors.maritalStatus}
-          placeholder="Enter marital status"
-          mandatory
         />
       </div>
 
@@ -855,20 +892,6 @@ const AddStudent = () => {
           accept="application/pdf"
           error={!isEditMode && errors?.sscCertificate}
         />
-        {/* {isEditMode && data?.certificates?.length > 0 && (
-                    <div className="mt-2 d-flex gap-2 flex-wrap">
-                      {data.certificates.map((cert, index) => (
-                        <a
-                          key={index}
-                          href={`${BASE_URL_JOB}${cert.certificate}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View certificates
-                        </a>
-                      ))}
-                    </div>
-                  )} */}
       </div>
 
 
@@ -884,20 +907,6 @@ const AddStudent = () => {
           accept="application/pdf"
           error={!isEditMode && errors?.intermediateCertificate}
         />
-        {/* {isEditMode && data?.certificates?.length > 0 && (
-                    <div className="mt-2 d-flex gap-2 flex-wrap">
-                      {data.certificates.map((cert, index) => (
-                        <a
-                          key={index}
-                          href={`${BASE_URL_JOB}${cert.certificate}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View certificates
-                        </a>
-                      ))}
-                    </div>
-                  )} */}
       </div>
 
 
@@ -913,20 +922,6 @@ const AddStudent = () => {
           accept="application/pdf"
           error={!isEditMode && errors?.ugCertificate}
         />
-        {/* {isEditMode && data?.certificates?.length > 0 && (
-                    <div className="mt-2 d-flex gap-2 flex-wrap">
-                      {data.certificates.map((cert, index) => (
-                        <a
-                          key={index}
-                          href={`${BASE_URL_JOB}${cert.certificate}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View certificates
-                        </a>
-                      ))}
-                    </div>
-                  )} */}
       </div>
 
       <div className="col-md-4">
@@ -941,25 +936,11 @@ const AddStudent = () => {
           accept="application/pdf"
           error={!isEditMode && errors?.pgCertificate}
         />
-        {/* {isEditMode && data?.certificates?.length > 0 && (
-                    <div className="mt-2 d-flex gap-2 flex-wrap">
-                      {data.certificates.map((cert, index) => (
-                        <a
-                          key={index}
-                          href={`${BASE_URL_JOB}${cert.certificate}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View certificates
-                        </a>
-                      ))}
-                    </div>
-                  )} */}
       </div>
 
-      {/* <div className="col-md-4">
-        <StatusSelect name="status" value={formData.status} handleChange={handleSkillChange} error={errors.status} />
-      </div> */}
+      <div className="col-md-4">
+        <StatusSelect name="status" value={skillCentreFormData.status} handleChange={handleSkillChange} error={errors.status} />
+      </div>
     </>
   );
   return (
@@ -1019,7 +1000,7 @@ const AddStudent = () => {
             <div className="mt-4 text-center">
               <FormActions
                 onCancel={() => navigate("/superAdmin/manage-students")}
-                saveText={createMutation.isPending ? "Saving..." : "Save"}
+                saveText={isEditMode ? updateSchoolStudent.isPending || updateSkillStudent.isPending ? "Saving..." : "Save" : createSchoolStudent.isPending || createSkillStudent.isPending ? "Saving..." : "Save"}
                 cancelText="Cancel"
               />
             </div>
