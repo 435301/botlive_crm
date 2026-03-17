@@ -148,6 +148,8 @@ function LayoutWrapper({
     "/trainer-module/login",
     "/admin/login",
     "/student/login",
+    "/student",
+    "/admin",
   ];
   if (noLayoutPaths.includes(location.pathname)) {
     return <>{children}</>; // no header/sidebar
@@ -608,6 +610,7 @@ function App() {
 
           {/* admin routes */}
           <Route path="/admin/login" element={<PublicRoute>{lazyLoad(AdminLogin)}</PublicRoute>} />
+          <Route path="/admin" element={<PublicRoute>{lazyLoad(AdminLogin)}</PublicRoute>} />
           <Route path="/admin/dashboard" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(AdminDashboard)}</ProtectedRoute>} />
           <Route path="/admin/add-schools-skills" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(AdminAddSchoolsSkills)}</ProtectedRoute>} />
           <Route path="/admin/add-skills" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(AdminAddSkills)}</ProtectedRoute>} />
@@ -648,6 +651,7 @@ function App() {
           {/* Student Module login */}
 
           <Route path="/student/login" element={<PublicRoute>{lazyLoad(StudentModuleLogin)}</PublicRoute>} />
+          <Route path="/student" element={<PublicRoute>{lazyLoad(StudentModuleLogin)}</PublicRoute>} />
           <Route path="/student/dashboard" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(StudentDashboard)}</ProtectedRoute>} />
           <Route path="/student/manage-chapters" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(ManageStudentChapters)}</ProtectedRoute>} />
           <Route path="/student/view-chapter/:id" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(ViewStudentChapter)}</ProtectedRoute>} />
