@@ -106,6 +106,11 @@ const ManageAdminStudents = lazy(() => import("./pages/admin/ManageAdminStudent"
 const ViewAdminStudent = lazy(() => import("./pages/admin/ViewAdminStudent"));
 const ManageAttendance = lazy(() => import("./pages/admin/ManageAttendance"));
 const AddTrainerAttendance = lazy(() => import("./pages/admin/AddTrainerAttendance"));
+const AddAdminActivity = lazy(() => import("./pages/admin/AddAdminActivity"));
+const ManageAdminActivity = lazy(() => import("./pages/admin/ManageAdminActivities"));
+const ViewAdminActivity = lazy(() => import("./pages/admin/ViewAdminActivity"));
+
+
 
 // SchoolSkillCenter
 const SchoolSkillLogin = lazy(
@@ -625,7 +630,10 @@ function App() {
           <Route path="/admin/view-student/:id" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(ViewAdminStudent)}</ProtectedRoute>} />
           <Route path="/admin/manage-attendance" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(ManageAttendance)}</ProtectedRoute>} />
           <Route path="/admin/add-attendance" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(AddTrainerAttendance)}</ProtectedRoute>} />
-
+          <Route path="/admin/manage-activities" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login"> {lazyLoad(ManageAdminActivity)}</ProtectedRoute>} />
+          <Route path="/admin/add-activity" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(AddAdminActivity)}</ProtectedRoute>} />
+          <Route path="/admin/edit-activity/:id" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(AddAdminActivity)}</ProtectedRoute>} />
+          <Route path="/admin/view-activity/:id" element={<ProtectedRoute allowedRoles={["sub_admin"]} loginPath="/admin/login">{lazyLoad(ViewAdminActivity)}</ProtectedRoute>} />
           {/* SchoolSkillCenter login */}
           <Route
             path="/school-skill-center/login"

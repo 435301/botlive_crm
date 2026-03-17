@@ -187,6 +187,33 @@ const AdminSidebar = ({ collapsed, show, closeSidebar }) => {
             </div>
           </div>
 
+          {/* Activity Management */}
+         <div className="nav-group">
+            <div className="nav-link" onClick={() => toggleMenu("activities")}>
+              <Building2 size={18} />
+              {!collapsed && (
+                <>
+                  <span>Activities</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "activities" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
+            </div>
+
+            <div className={`submenu ${openMenu === "activities" ? "open" : ""}`}>
+              <NavLink to="/admin/add-activity" className={getNavLinkClass}>
+                Add Activity
+              </NavLink>
+
+              <NavLink to="/admin/manage-activities" className={getNavLinkClass}>
+                Manage Activity
+              </NavLink>
+            </div>
+          </div>
+
+
           {/* Change Password */}
           <NavLink to="/admin/change-password" className={getNavLinkClass}>
             <KeyRound size={18} />
