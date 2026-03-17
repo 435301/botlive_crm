@@ -87,26 +87,10 @@ const AdminSidebar = ({ collapsed, show, closeSidebar }) => {
           </div>
 
           {/* Cirriculam Dropdown */}
-          <div className="nav-group">
-            <div className="nav-link" onClick={() => toggleMenu("curriculam")}>
-              <Building2 size={18} />
-              {!collapsed && (
-                <>
-                  <span>Curriculam</span>
-                  <ChevronDown
-                    size={16}
-                    className={`arrow ${openMenu === "curriculam" ? "rotate" : ""}`}
-                  />
-                </>
-              )}
-            </div>
-
-            <div className={`submenu ${openMenu === "curriculam" ? "open" : ""}`}>
-              <NavLink to="/admin/manage-chapters" className={getNavLinkClass}>
-                Chapters
-              </NavLink>
-            </div>
-          </div>
+          <NavLink to="/admin/manage-chapters" className={getNavLinkClass}>
+            <KeyRound size={18} />
+            {!collapsed && <span>Curriculam</span>}
+          </NavLink>
 
           {/* Student Dropdown */}
           <div className="nav-group">
@@ -188,7 +172,7 @@ const AdminSidebar = ({ collapsed, show, closeSidebar }) => {
           </div>
 
           {/* Activity Management */}
-         <div className="nav-group">
+          <div className="nav-group">
             <div className="nav-link" onClick={() => toggleMenu("activities")}>
               <Building2 size={18} />
               {!collapsed && (
@@ -219,6 +203,7 @@ const AdminSidebar = ({ collapsed, show, closeSidebar }) => {
             <KeyRound size={18} />
             {!collapsed && <span>Change Password</span>}
           </NavLink>
+
 
           {/* Logout */}
           <div className="nav-link cursor" onClick={handleLogout}>
