@@ -9,25 +9,27 @@ import FormInput from "../../components/FormInput";
 import StatusSelect from "../../components/StatusSelect";
 import useGrades from "../../hooks/useGrades";
 import PasswordInput from "../../components/PasswordInput";
-import { formatToInputDate } from "../../utils/formatDateInput";
 import useQualification from "../../hooks/useQualification";
 import useOccupation from "../../hooks/useOccupation";
 import useStates from "../../hooks/useStates";
 import useDistricts from "../../hooks/useDistricts";
 import useCategory from "../../hooks/useCategory";
 import Cookies from "js-cookie";
+import BASE_URL_JOB from "../../config/config";
+import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
 
 const AddAdminStudent = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const isEditMode = Boolean(id);
   const centreType = JSON.parse(Cookies.get("sub_admin") || "{}")?.centerType;
-  const schoolSkillCentreId = JSON.parse(Cookies.get("sub_admin") || "{}")?.id
+  const schoolSkillCentreId = JSON.parse(Cookies.get("sub_admin") || "{}")?.id;
+  console.log('schoolSkillCentreId', schoolSkillCentreId)
 
   const { useGetById } = useCrud({
     entity: "student/school",
     listUrl: "/student/school/list",
-    getUrl: (id) => `/student/school/${id}`,
+    getUrl: (id) => `/student/${id}`,
     createUrl: "/student/school/add",
     updateUrl: (id) => `/student/school/update/${id}`,
     deleteUrl: (id) => `/student/school/delete/${id}`,
@@ -39,7 +41,7 @@ const AddAdminStudent = () => {
   } = useCrud({
     entity: "student/school",
     listUrl: "/student/school/list",
-    getUrl: (id) => `/student/school/${id}`,
+    getUrl: (id) => `/student/${id}`,
     createUrl: "/student/school/add",
     updateUrl: (id) => `/student/school/update/${id}`,
   });
@@ -59,50 +61,51 @@ const AddAdminStudent = () => {
     enabled: isEditMode,
   });
 
+  console.log('studentData', studentData)
   useEffect(() => {
-    if (studentData?.data) {
+    if (studentData) {
       setFormData({
-        schoolId: studentData.data.schoolSkillCentreId || "",
-        enrollmentNumber: studentData.data.enrollmentNumber || "",
-        studentName: studentData.data.studentName || "",
-        fatherName: studentData.data.fatherName || "",
-        gender: studentData.data.gender || "",
-        dob: studentData.data.dob || "",
-        gradeId: studentData.data.gradeId || "",
-        aadharNumber: studentData.data.aadharNumber || "",
-        mobile: studentData.data.mobile || "",
-        email: studentData.data.email || "",
+        schoolId: studentData.centreId || "",
+        enrollmentNumber: studentData.enrolmentNumber || "",
+        studentName: studentData.fullName || "",
+        fatherName: studentData.fatherName || "",
+        gender: studentData.gender || "",
+        dob: studentData.dob || "",
+        gradeId: studentData.gradeBatchId || "",
+        aadharNumber: studentData.aadharNumber || "",
+        mobile: studentData.mobile || "",
+        email: studentData.email || "",
         password: "",
         studentPhoto: null,
         status: studentData.status
       });
       setSkillCentreFormData({
-        skillcentreId: studentData.data.schoolSkillCentreId || "",
-        enrollmentNumber: studentData.data.enrollmentNumber || "",
-        studentName: studentData.data.studentName || "",
-        fatherName: studentData.data.fatherName || "",
-        gender: studentData.data.gender || "",
-        dob: studentData.data.dob || "",
-        gradeId: studentData.data.gradeId || "",
-        aadharNumber: studentData.data.aadharNumber || "",
-        mobile: studentData.data.mobile || "",
-        email: studentData.data.email || "",
+        skillcentreId: studentData.centreId || "",
+        enrollmentNumber: studentData.enrolmentNumber || "",
+        studentName: studentData.fullName || "",
+        fatherName: studentData.fatherName || "",
+        gender: studentData.gender || "",
+        dob: studentData.dob || "",
+        batchId: studentData.gradeBatchId || "",
+        aadharNumber: studentData.aadharNumber || "",
+        mobile: studentData.mobile || "",
+        email: studentData.email || "",
         password: "",
-        alternateMobile: studentData.data.alternateMobile,
-        qualificationId: studentData.data.qualificationId,
-        occupationId: studentData.data.occupationId,
-        categoryId: studentData.data.categoryId,
-        stateId: studentData.data.stateId,
-        districtId: studentData.data.districtId,
-        wardVillage: studentData.data.wardVillage,
-        pincode: studentData.data.pincode,
-        maritalStatus: studentData.data.maritalStatus,
-        fatherAadhar: studentData.data.fatherAadhar,
-        fatherOccupationId: studentData.data.fatherOccupationId,
-        motherName: studentData.data.motherName,
-        motherOccupationId: studentData.data.motherOccupationId,
-        annualFamilyIncome: studentData.data.annualFamilyIncome,
-        noOfFamilyMembers: studentData.data.noOfFamilyMembers,
+        alternateMobile: studentData.alternateMobile,
+        qualificationId: String(studentData.qualificationId),
+        occupationId: String(studentData.occupationId),
+        categoryId: String(studentData.categoryId),
+        stateId: String(studentData.state),
+        districtId: String(studentData.district),
+        wardVillage: studentData.wardVillage,
+        pincode: studentData.pincode,
+        maritalStatus: studentData.maritalStatus,
+        fatherAadhar: studentData.fatherAadharNumber,
+        fatherOccupationId: String(studentData.fatherOccupationId),
+        motherName: studentData.motherName,
+        motherOccupationId: String(studentData.motherOccupationId),
+        annualFamilyIncome: studentData.annualFamilyIncome,
+        noOfFamilyMembers: studentData.noOfFamilyMembers,
         aadharPhoto: null,
         sscCertificate: null,
         intermediateCertificate: null,
@@ -192,14 +195,14 @@ const AddAdminStudent = () => {
           ...formData, centreType: value, gradeId: ""
         });
       }
-      if (name === "dob") {
-        const [year, month, day] = value.split("-");
-        const formatted = `${day}-${month}-${year}`;
-        setFormData({
-          ...formData,
-          [name]: formatted,
-        });
-      }
+      // if (name === "dob") {
+      //   const [year, month, day] = value.split("-");
+      //   const formatted = `${day}-${month}-${year}`;
+      //   setFormData({
+      //     ...formData,
+      //     [name]: formatted,
+      //   });
+      // }
       else {
         setFormData((prev) => ({
           ...prev,
@@ -218,15 +221,17 @@ const AddAdminStudent = () => {
         ...skillCentreFormData,
         [name]: files[0],
       });
-    } else if (name === "dob") {
-      const [year, month, day] = value.split("-");
-      const formatted = `${day}-${month}-${year}`;
+    }
+    //  else if (name === "dob") {
+    //   const [year, month, day] = value.split("-");
+    //   const formatted = `${day}-${month}-${year}`;
 
-      setSkillCentreFormData((prev) => ({
-        ...prev,
-        dob: formatted,
-      }));
-    } else {
+    //   setSkillCentreFormData((prev) => ({
+    //     ...prev,
+    //     dob: formatted,
+    //   }));
+    // } 
+    else {
       setSkillCentreFormData((prev) => ({
         ...prev,
         [name]: value,
@@ -252,7 +257,11 @@ const AddAdminStudent = () => {
 
       Object.keys(formData).forEach((key) => {
         if (formData[key] !== null && formData[key] !== "") {
-          dataToSend.append(key, formData[key]);
+          if (key === "dob") {
+            dataToSend.append("dob", formatDateToDDMMYYYY(formData.dob));
+          } else {
+            dataToSend.append(key, formData[key]);
+          }
         }
       });
 
@@ -288,7 +297,14 @@ const AddAdminStudent = () => {
           skillCentreFormData[key] !== null &&
           skillCentreFormData[key] !== ""
         ) {
-          dataToSend.append(key, skillCentreFormData[key]);
+          if (key === "dob") {
+            dataToSend.append(
+              "dob",
+              formatDateToDDMMYYYY(skillCentreFormData.dob)
+            );
+          } else {
+            dataToSend.append(key, skillCentreFormData[key]);
+          }
         }
       });
 
@@ -309,20 +325,6 @@ const AddAdminStudent = () => {
 
   const renderSchoolStudentForm = () => (
     <>
-      {/* <div className="col-md-4">
-        <FormSelect
-          label="School"
-          name="schoolId"
-          value={formData.schoolId}
-          onChange={handleChange}
-          options={filteredCentres?.map((school) => ({
-            label: school.centerName,
-            value: school.id,
-          }))}
-          error={errors.schoolId}
-          mandatory
-        />
-      </div> */}
 
       {/* Enrollment Number */}
       <div className="col-md-4">
@@ -386,7 +388,7 @@ const AddAdminStudent = () => {
           type="date"
           label="Date of Birth"
           name="dob"
-          value={formatToInputDate(formData.dob)}
+          value={formData.dob}
           onChange={handleChange}
           error={errors.dob}
           mandatory
@@ -429,8 +431,17 @@ const AddAdminStudent = () => {
           name="studentPhoto"
           accept="image/*"
           onChange={handleChange}
-          error={errors.studentPhoto}
+        // error={errors.studentPhoto}
         />
+        {errors && <div className="text-danger small">{errors.studentPhoto}</div>}
+        {studentData?.photo && (
+          <img
+            src={`${BASE_URL_JOB}${studentData?.photo}`}
+            alt="Student"
+            width="120"
+            className="mb-2"
+          />
+        )}
       </div>
 
       {/* Mobile Number */}
@@ -547,7 +558,7 @@ const AddAdminStudent = () => {
           type="date"
           label="Date of Birth"
           name="dob"
-          value={formatToInputDate(skillCentreFormData.dob)}
+          value={skillCentreFormData.dob}
           onChange={handleSkillChange}
           error={errors.dob}
           mandatory
@@ -563,7 +574,7 @@ const AddAdminStudent = () => {
           onChange={handleSkillChange}
           options={grades.map((grade) => ({
             label: grade.gradeBatch,
-            value: grade.id
+            value:String(grade.id)
           }))}
           error={errors.batchId}
         />
@@ -589,9 +600,19 @@ const AddAdminStudent = () => {
           className="form-control"
           name="studentPhoto"
           accept="image/*"
+          mandatory={!isEditMode}
           onChange={handleSkillChange}
           error={errors.studentPhoto}
         />
+        {!isEditMode && errors && <div className="text-danger small">{errors.studentPhoto}</div>}
+        {studentData?.photo && (
+          <img
+            src={`${BASE_URL_JOB}${studentData?.photo}`}
+            alt="Student"
+            width="120"
+            className="mb-2"
+          />
+        )}
       </div>
 
       {/* Mobile Number */}
@@ -849,13 +870,14 @@ const AddAdminStudent = () => {
           accept="image/*"
           error={!isEditMode && errors.aadharPhoto}
         />
-        {/* {isEditMode && data?.photo && (
-                    <img
-                      src={`${BASE_URL_JOB}${data.photo}`}
-                      width="80"
-                      alt="trainer"
-                    />
-                  )} */}
+        {studentData?.aadharPhoto && (
+          <img
+            src={`${BASE_URL_JOB}${studentData?.aadharPhoto}`}
+            alt="aadhar"
+            width="120"
+            className="mb-2"
+          />
+        )}
       </div>
 
       <div className="col-md-4">
@@ -870,6 +892,14 @@ const AddAdminStudent = () => {
           accept="application/pdf"
           error={!isEditMode && errors?.sscCertificate}
         />
+        {studentData?.sscCertificate && (
+          <iframe
+            src={`${BASE_URL_JOB}${studentData.sscCertificate}`}
+            width="120"
+            height="150"
+            title={studentData.sscCertificate.split("/").pop()}
+          />
+        )}
       </div>
 
 
@@ -885,6 +915,14 @@ const AddAdminStudent = () => {
           accept="application/pdf"
           error={!isEditMode && errors?.intermediateCertificate}
         />
+        {studentData?.interCertificate && (
+          <iframe
+            src={`${BASE_URL_JOB}${studentData.interCertificate}`}
+            width="120"
+            height="150"
+            title={studentData.interCertificate.split("/").pop()}
+          />
+        )}
       </div>
 
 
@@ -895,11 +933,19 @@ const AddAdminStudent = () => {
           type="file"
           placeholder="ugCertificate"
           onChange={handleSkillChange}
-          // mandatory={!isEditMode}
           multiple
+          mandatory={!isEditMode}
           accept="application/pdf"
           error={!isEditMode && errors?.ugCertificate}
         />
+        {studentData?.ugCertificate && (
+          <iframe
+            src={`${BASE_URL_JOB}${studentData.ugCertificate}`}
+            width="120"
+            height="150"
+            title={studentData.ugCertificate.split("/").pop()}
+          />
+        )}
       </div>
 
       <div className="col-md-4">
@@ -909,11 +955,19 @@ const AddAdminStudent = () => {
           type="file"
           placeholder="pgCertificate"
           onChange={handleSkillChange}
-          // mandatory={!isEditMode}
+          mandatory={!isEditMode}
           multiple
           accept="application/pdf"
           error={!isEditMode && errors?.pgCertificate}
         />
+        {studentData?.pgCertificate && (
+          <iframe
+            src={`${BASE_URL_JOB}${studentData.pgCertificate}`}
+            width="120"
+            height="150"
+            title={studentData.pgCertificate.split("/").pop()}
+          />
+        )}
       </div>
 
       <div className="col-md-4">

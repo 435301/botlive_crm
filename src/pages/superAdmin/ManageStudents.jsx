@@ -6,6 +6,7 @@ import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
 // import BASE_URL_JOB from "../../config/config";
 import useSchools from "../../hooks/useSchools";
+import DeleteConfirmationModal from "../../Modals/deleteModal";
 
 
 const ManageStudents = () => {
@@ -15,13 +16,15 @@ const ManageStudents = () => {
   const [centreId, setCentreId] = useState("");
   const [status, setStatus] = useState("");
   const [page, setPage] = useState(1);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
-  const { useList } = useCrud({
+  const { useList , deleteMutation} = useCrud({
     entity: "student/school",
     listUrl: "/student/list",
-    getUrl: (id) => `/student/school/${id}`,
+    getUrl: (id) => `/student/${id}`,
     updateUrl: (id) => `/student/school/update/${id}`,
-    deleteUrl: (id) => `/student/school/delete/${id}`,
+    deleteUrl: (id) => `/student/delete/${id}`,
   });
 
   const { data, isLoading } = useList({
@@ -60,6 +63,18 @@ const ManageStudents = () => {
   const filteredCentres = centreType
     ? schoolsData?.filter((school) => school.centerType === centreType)
     : schoolsData;
+
+  const handleDeleteClick = (id) => {
+    setDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+  const handleDelete = async () => {
+    setShowDeleteModal(false);
+    setDeleteId(null);
+    deleteMutation.mutate(deleteId);
+  };
+
 
   return (
     <div className="container-fluid">
@@ -259,13 +274,13 @@ const ManageStudents = () => {
                         </span>
                       </td>
                       <td className="text-center">
-                        <button className="btn btn-outline-primary btn-sm me-2">
+                        <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-student/${s.id}`)}>
                           <i className="bi bi-pencil"></i>
                         </button>
-                          <button className="btn btn-outline-success btn-sm me-2" onClick={()=> navigate(`/superAdmin/view-student/${s.id}`)}>
+                        <button className="btn btn-outline-success btn-sm me-2" onClick={() => navigate(`/superAdmin/view-student/${s.id}`)}>
                           <i className="bi bi-eye"></i>
                         </button>
-                        <button className="btn btn-outline-danger btn-sm">
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(s.id)}>
                           <i className="bi bi-trash"></i>
                         </button>
                       </td>
@@ -289,6 +304,11 @@ const ManageStudents = () => {
               onPageChange={setPage}
             />
           )}
+          <DeleteConfirmationModal
+            show={showDeleteModal}
+            handleClose={() => setShowDeleteModal(false)}
+            handleConfirm={handleDelete}
+          />
         </div>
       </div>
     </div>

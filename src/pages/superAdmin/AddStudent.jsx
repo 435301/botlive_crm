@@ -10,12 +10,13 @@ import StatusSelect from "../../components/StatusSelect";
 import useSchools from "../../hooks/useSchools";
 import useGrades from "../../hooks/useGrades";
 import PasswordInput from "../../components/PasswordInput";
-import { formatToInputDate } from "../../utils/formatDateInput";
 import useQualification from "../../hooks/useQualification";
 import useOccupation from "../../hooks/useOccupation";
 import useStates from "../../hooks/useStates";
 import useDistricts from "../../hooks/useDistricts";
 import useCategory from "../../hooks/useCategory";
+import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
+import BASE_URL_JOB from "../../config/config";
 
 const AddStudent = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const AddStudent = () => {
   const { useGetById } = useCrud({
     entity: "student/school",
     listUrl: "/student/school/list",
-    getUrl: (id) => `/student/school/${id}`,
+    getUrl: (id) => `/student/${id}`,
     createUrl: "/student/school/add",
     updateUrl: (id) => `/student/school/update/${id}`,
     deleteUrl: (id) => `/student/school/delete/${id}`,
@@ -37,7 +38,7 @@ const AddStudent = () => {
   } = useCrud({
     entity: "student/school",
     listUrl: "/student/school/list",
-    getUrl: (id) => `/student/school/${id}`,
+    getUrl: (id) => `/student/${id}`,
     createUrl: "/student/school/add",
     updateUrl: (id) => `/student/school/update/${id}`,
   });
@@ -56,51 +57,54 @@ const AddStudent = () => {
   const { data: studentData } = useGetById(id, {
     enabled: isEditMode,
   });
+  console.log('studentData', studentData)
 
   useEffect(() => {
-    if (studentData?.data) {
+    if (studentData) {
       setFormData({
-        schoolId: studentData.data.schoolId || "",
-        enrollmentNumber: studentData.data.enrollmentNumber || "",
-        studentName: studentData.data.studentName || "",
-        fatherName: studentData.data.fatherName || "",
-        gender: studentData.data.gender || "",
-        dob: studentData.data.dob || "",
-        gradeId: studentData.data.gradeId || "",
-        aadharNumber: studentData.data.aadharNumber || "",
-        mobile: studentData.data.mobile || "",
-        email: studentData.data.email || "",
+        centreType: String(studentData?.centre?.centerType || ""),
+        schoolId: String(studentData.centreId) || "",
+        enrollmentNumber: studentData.enrolmentNumber || "",
+        studentName: studentData.fullName || "",
+        fatherName: studentData.fatherName || "",
+        gender: studentData.gender || "",
+        dob: studentData.dob || "",
+        gradeId: studentData.gradeBatchId || "",
+        aadharNumber: studentData.aadharNumber || "",
+        mobile: studentData.mobile || "",
+        email: studentData.email || "",
         password: "",
         studentPhoto: null,
         status: studentData.status
       });
       setSkillCentreFormData({
-        skillcentreId: studentData.data.skillcentreId || "",
-        enrollmentNumber: studentData.data.enrollmentNumber || "",
-        studentName: studentData.data.studentName || "",
-        fatherName: studentData.data.fatherName || "",
-        gender: studentData.data.gender || "",
-        dob: studentData.data.dob || "",
-        gradeId: studentData.data.gradeId || "",
-        aadharNumber: studentData.data.aadharNumber || "",
-        mobile: studentData.data.mobile || "",
-        email: studentData.data.email || "",
+        centreType: String(studentData?.centre?.centerType || ""),
+        skillcentreId: studentData.centreId || "",
+        enrollmentNumber: studentData.enrolmentNumber || "",
+        studentName: studentData.fullName || "",
+        fatherName: studentData.fatherName || "",
+        gender: studentData.gender || "",
+        dob: studentData.dob || "",
+        batchId: String(studentData.gradeBatchId) || "",
+        aadharNumber: studentData.aadharNumber || "",
+        mobile: studentData.mobile || "",
+        email: studentData.email || "",
         password: "",
-        alternateMobile: studentData.data.alternateMobile,
-        qualificationId: studentData.data.qualificationId,
-        occupationId: studentData.data.occupationId,
-        categoryId: studentData.data.categoryId,
-        stateId: studentData.data.stateId,
-        districtId: studentData.data.districtId,
-        wardVillage: studentData.data.wardVillage,
-        pincode: studentData.data.pincode,
-        maritalStatus: studentData.data.maritalStatus,
-        fatherAadhar: studentData.data.fatherAadhar,
-        fatherOccupationId: studentData.data.fatherOccupationId,
-        motherName: studentData.data.motherName,
-        motherOccupationId: studentData.data.motherOccupationId,
-        annualFamilyIncome: studentData.data.annualFamilyIncome,
-        noOfFamilyMembers: studentData.data.noOfFamilyMembers,
+        alternateMobile: studentData.alternateMobile,
+        qualificationId: String(studentData.qualificationId),
+        occupationId: String(studentData.occupationId),
+        categoryId: String(studentData.categoryId),
+        stateId: String(studentData.state),
+        districtId: String(studentData.district),
+        wardVillage: studentData.wardVillage,
+        pincode: studentData.pincode,
+        maritalStatus: studentData.maritalStatus,
+        fatherAadhar: studentData.fatherAadharNumber,
+        fatherOccupationId: String(studentData.fatherOccupationId),
+        motherName: studentData.motherName,
+        motherOccupationId: String(studentData.motherOccupationId),
+        annualFamilyIncome: studentData.annualFamilyIncome,
+        noOfFamilyMembers: studentData.noOfFamilyMembers,
         aadharPhoto: null,
         sscCertificate: null,
         intermediateCertificate: null,
@@ -130,8 +134,6 @@ const AddStudent = () => {
     studentPhoto: null,
     status: 1,
   });
-
-  console.log('formdata', formData.centreType)
 
   const [skillCentreFormData, setSkillCentreFormData] = useState({
     centreType: "",
@@ -196,14 +198,14 @@ const AddStudent = () => {
           ...formData, centreType: value, gradeId: ""
         });
       }
-      if (name === "dob") {
-        const [year, month, day] = value.split("-");
-        const formatted = `${day}-${month}-${year}`;
-        setFormData({
-          ...formData,
-          [name]: formatted,
-        });
-      }
+      // if (name === "dob") {
+      //   const [year, month, day] = value.split("-");
+      //   const formatted = `${day}-${month}-${year}`;
+      //   setFormData({
+      //     ...formData,
+      //     [name]: formatted,
+      //   });
+      // }
       else {
         setFormData((prev) => ({
           ...prev,
@@ -222,15 +224,17 @@ const AddStudent = () => {
         ...skillCentreFormData,
         [name]: files[0],
       });
-    } else if (name === "dob") {
-      const [year, month, day] = value.split("-");
-      const formatted = `${day}-${month}-${year}`;
+    }
+    // else if (name === "dob") {
+    //   const [year, month, day] = value.split("-");
+    //   const formatted = `${day}-${month}-${year}`;
 
-      setSkillCentreFormData((prev) => ({
-        ...prev,
-        dob: formatted,
-      }));
-    } else {
+    //   setSkillCentreFormData((prev) => ({
+    //     ...prev,
+    //     dob: formatted,
+    //   }));
+    // }
+    else {
       setSkillCentreFormData((prev) => ({
         ...prev,
         [name]: value,
@@ -257,7 +261,11 @@ const AddStudent = () => {
 
       Object.keys(formData).forEach((key) => {
         if (formData[key] !== null && formData[key] !== "") {
-          dataToSend.append(key, formData[key]);
+          if (key === "dob") {
+            dataToSend.append("dob", formatDateToDDMMYYYY(formData.dob));
+          } else {
+            dataToSend.append(key, formData[key]);
+          }
         }
       });
 
@@ -293,7 +301,14 @@ const AddStudent = () => {
           skillCentreFormData[key] !== null &&
           skillCentreFormData[key] !== ""
         ) {
-          dataToSend.append(key, skillCentreFormData[key]);
+          if (key === "dob") {
+            dataToSend.append(
+              "dob",
+              formatDateToDDMMYYYY(skillCentreFormData.dob)
+            );
+          } else {
+            dataToSend.append(key, skillCentreFormData[key]);
+          }
         }
       });
 
@@ -322,7 +337,7 @@ const AddStudent = () => {
           onChange={handleChange}
           options={filteredCentres?.map((school) => ({
             label: school.centerName,
-            value: school.id,
+            value: String(school.id),
           }))}
           error={errors.schoolId}
           mandatory
@@ -391,7 +406,7 @@ const AddStudent = () => {
           type="date"
           label="Date of Birth"
           name="dob"
-          value={formatToInputDate(formData.dob)}
+          value={formData.dob}
           onChange={handleChange}
           error={errors.dob}
           mandatory
@@ -434,8 +449,17 @@ const AddStudent = () => {
           name="studentPhoto"
           accept="image/*"
           onChange={handleChange}
-          error={errors.studentPhoto}
+        // error={errors.studentPhoto}
         />
+        {errors && <div className="text-danger small">{errors.studentPhoto}</div>}
+        {studentData?.photo && (
+          <img
+            src={`${BASE_URL_JOB}${studentData?.photo}`}
+            alt="Student"
+            width="120"
+            className="mb-2"
+          />
+        )}
       </div>
 
       {/* Mobile Number */}
@@ -569,7 +593,7 @@ const AddStudent = () => {
           type="date"
           label="Date of Birth"
           name="dob"
-          value={formatToInputDate(skillCentreFormData.dob)}
+          value={skillCentreFormData.dob}
           onChange={handleSkillChange}
           error={errors.dob}
           mandatory
@@ -585,7 +609,7 @@ const AddStudent = () => {
           onChange={handleSkillChange}
           options={grades.map((grade) => ({
             label: grade.gradeBatch,
-            value: grade.id
+            value: String(grade.id)
           }))}
           error={errors.batchId}
         />
@@ -614,6 +638,15 @@ const AddStudent = () => {
           onChange={handleSkillChange}
           error={errors.studentPhoto}
         />
+        {!isEditMode && errors && <div className="text-danger small">{errors.studentPhoto}</div>}
+        {studentData?.photo && (
+          <img
+            src={`${BASE_URL_JOB}${studentData?.photo}`}
+            alt="Student"
+            width="120"
+            className="mb-2"
+          />
+        )}
       </div>
 
       {/* Mobile Number */}
@@ -871,13 +904,14 @@ const AddStudent = () => {
           accept="image/*"
           error={!isEditMode && errors.aadharPhoto}
         />
-        {/* {isEditMode && data?.photo && (
-                    <img
-                      src={`${BASE_URL_JOB}${data.photo}`}
-                      width="80"
-                      alt="trainer"
-                    />
-                  )} */}
+        {studentData?.aadharPhoto && (
+          <img
+            src={`${BASE_URL_JOB}${studentData?.aadharPhoto}`}
+            alt="aadhar"
+            width="120"
+            className="mb-2"
+          />
+        )}
       </div>
 
       <div className="col-md-4">
@@ -892,6 +926,14 @@ const AddStudent = () => {
           accept="application/pdf"
           error={!isEditMode && errors?.sscCertificate}
         />
+        {studentData?.sscCertificate && (
+          <iframe
+            src={`${BASE_URL_JOB}${studentData.sscCertificate}`}
+            width="120"
+            height="150"
+            title={studentData.sscCertificate.split("/").pop()}
+          />
+        )}
       </div>
 
 
@@ -907,6 +949,14 @@ const AddStudent = () => {
           accept="application/pdf"
           error={!isEditMode && errors?.intermediateCertificate}
         />
+        {studentData?.interCertificate && (
+          <iframe
+            src={`${BASE_URL_JOB}${studentData.interCertificate}`}
+            width="120"
+            height="150"
+            title={studentData.interCertificate.split("/").pop()}
+          />
+        )}
       </div>
 
 
@@ -917,11 +967,19 @@ const AddStudent = () => {
           type="file"
           placeholder="ugCertificate"
           onChange={handleSkillChange}
-          // mandatory={!isEditMode}
+          mandatory={!isEditMode}
           multiple
           accept="application/pdf"
           error={!isEditMode && errors?.ugCertificate}
         />
+        {studentData?.ugCertificate && (
+          <iframe
+            src={`${BASE_URL_JOB}${studentData.ugCertificate}`}
+            width="120"
+            height="150"
+            title={studentData.ugCertificate.split("/").pop()}
+          />
+        )}
       </div>
 
       <div className="col-md-4">
@@ -931,11 +989,19 @@ const AddStudent = () => {
           type="file"
           placeholder="pgCertificate"
           onChange={handleSkillChange}
-          // mandatory={!isEditMode}
+          mandatory={!isEditMode}
           multiple
           accept="application/pdf"
           error={!isEditMode && errors?.pgCertificate}
         />
+        {studentData?.pgCertificate && (
+          <iframe
+            src={`${BASE_URL_JOB}${studentData.pgCertificate}`}
+            width="120"
+            height="150"
+            title={studentData.pgCertificate.split("/").pop()}
+          />
+        )}
       </div>
 
       <div className="col-md-4">

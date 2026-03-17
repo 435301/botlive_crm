@@ -7,6 +7,7 @@ import { useCrud } from "../../hooks/useCrud";
 // import BASE_URL_JOB from "../../config/config";
 import useSchools from "../../hooks/useSchools";
 import Cookies from "js-cookie";
+import DeleteConfirmationModal from "../../Modals/deleteModal";
 
 const ManageAdminStudents = () => {
   const navigate = useNavigate();
@@ -16,21 +17,23 @@ const ManageAdminStudents = () => {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [page, setPage] = useState(1);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
-  const { useList } = useCrud({
+  const { useList , deleteMutation} = useCrud({
     entity: "student/school",
     listUrl: "/student/list",
-    getUrl: (id) => `/student/school/${id}`,
+    getUrl: (id) => `/student/${id}`,
     updateUrl: (id) => `/student/school/update/${id}`,
-    deleteUrl: (id) => `/student/school/delete/${id}`,
+    deleteUrl: (id) => `/student/delete/${id}`,
   });
 
   const { data, isLoading } = useList({
     search,
     status,
     page,
-    centreType:centreType,
-    centreId:schoolSkillCentreId,
+    centreType: centreType,
+    centreId: schoolSkillCentreId,
   });
 
   const schools = data?.data || [];
@@ -57,6 +60,18 @@ const ManageAdminStudents = () => {
     console.log("Export Excel clicked");
     // later you can generate excel using XLSX
   };
+
+  const handleDeleteClick = (id) => {
+    setDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+  const handleDelete = async () => {
+    setShowDeleteModal(false);
+    setDeleteId(null);
+    deleteMutation.mutate(deleteId);
+  };
+
 
   return (
     <div className="container-fluid">
@@ -207,13 +222,13 @@ const ManageAdminStudents = () => {
                         </span>
                       </td>
                       <td className="text-center">
-                        <button className="btn btn-outline-primary btn-sm me-2">
+                        <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/admin/edit-student/${s.id}`)}>
                           <i className="bi bi-pencil"></i>
                         </button>
                         <button className="btn btn-outline-success btn-sm me-2" onClick={() => navigate(`/admin/view-student/${s.id}`)}>
                           <i className="bi bi-eye"></i>
                         </button>
-                        <button className="btn btn-outline-danger btn-sm">
+                        <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(s.id)} >
                           <i className="bi bi-trash"></i>
                         </button>
                       </td>
@@ -237,6 +252,11 @@ const ManageAdminStudents = () => {
               onPageChange={setPage}
             />
           )}
+          <DeleteConfirmationModal
+            show={showDeleteModal}
+            handleClose={() => setShowDeleteModal(false)}
+            handleConfirm={handleDelete}
+          />
         </div>
       </div>
     </div>

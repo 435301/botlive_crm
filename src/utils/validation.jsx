@@ -233,14 +233,14 @@ export const validateSkillCentreStudent = (formData, isEditMode = false) => {
   if (!formData.fatherAadhar) errors.fatherAadhar = "Father Aadhar is required";
   if (!formData.motherName) errors.motherName = "Mother name is required";
   if (!formData.fatherOccupationId) errors.fatherOccupationId = "Father occupation is required";
- if (!formData.motherOccupationId) errors.motherOccupationId = "Mother occupation is required";
+  if (!formData.motherOccupationId) errors.motherOccupationId = "Mother occupation is required";
   if (!formData.annualFamilyIncome) errors.annualFamilyIncome = "Family income is required";
   if (!formData.noOfFamilyMembers) errors.noOfFamilyMembers = "Number of family members is required";
 
-  if (!formData.studentPhoto) errors.studentPhoto = "Student photo is required";
-  if (!formData.aadharPhoto) errors.aadharPhoto = "Aadhar photo is required";
-  if (!formData.sscCertificate) errors.sscCertificate = "SSC certificate is required";
-  if (!formData.intermediateCertificate) errors.intermediateCertificate = "Intermediate certificate is required";
+  if (!isEditMode && !formData.studentPhoto) errors.studentPhoto = "Student photo is required";
+  if (!isEditMode && !formData.aadharPhoto) errors.aadharPhoto = "Aadhar photo is required";
+  if (!isEditMode && !formData.sscCertificate) errors.sscCertificate = "SSC certificate is required";
+  if (!isEditMode && !formData.intermediateCertificate) errors.intermediateCertificate = "Intermediate certificate is required";
 
   return errors;
 };
