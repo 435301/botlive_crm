@@ -347,10 +347,6 @@ export const validateAssignChapters = (formData) => {
 
 export const validateTrainerForm = (formData, isEditMode) => {
   const errors = {};
-
-  if (!formData.trainerType) {
-    errors.trainerType = "Trainer type is required";
-  }
   if (!formData.trainerCode) {
     errors.trainerCode = "Trainer Code is required";
   }

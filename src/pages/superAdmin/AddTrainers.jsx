@@ -12,11 +12,14 @@ import { validateTrainerForm } from "../../utils/validation";
 import FormActions from "../../components/FormActions";
 import StatusSelectTrainer from "../../components/StatusSelectTrainer";
 import BASE_URL_JOB from "../../config/config";
+import Cookies from "js-cookie";
 
 const AddTrainer = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const isEditMode = Boolean(id);
+
+  const centreType = JSON.parse(Cookies.get("sub_admin") || "{}")?.centerType;
 
   const { useGetById, createMutation, updateMutation } = useCrud({
     entity: "trainer",
@@ -31,7 +34,7 @@ const AddTrainer = () => {
   const [activeTab, setActiveTab] = useState("trainer");
 
   const [formData, setFormData] = useState({
-    trainerType: "",
+    trainerType: centreType,
     trainerCode: "",
     fullName: "",
     gender: "",
@@ -164,7 +167,7 @@ const AddTrainer = () => {
 
   const { states } = useStates();
   const { districts } = useDistricts();
-  const { grades } = useGrades();
+  const { grades } = useGrades(centreType);
   const { qualifications } = useQualification();
   const filteredDistricts = formData.stateId ? districts.filter((district) => Number(district.stateId) === Number(formData.stateId)) : [];
 
@@ -223,23 +226,6 @@ const AddTrainer = () => {
             {/* ================= TRAINER DETAILS TAB ================= */}
             {activeTab === "trainer" && (
               <div className="row g-3">
-                <div className="col-md-4">
-                  <FormSelect
-                    label="Project Type"
-                    name="trainerType"
-                    value={formData.trainerType}
-                    onChange={handleChange}
-                    mandatory
-                    options={[
-                      { label: "Skill Development", value: 1 },
-                      { label: "AI & STEM Learning", value: 2 },
-                      { label: "Education Development", value: 3 },
-                      { label: "Innovation & Entrepreneurs", value: 4 },
-                      { label: "Community Development", value: 5 },
-                    ]}
-                    error={errors.trainerType}
-                  />
-                </div>
 
                 <div className="col-md-4">
                   <FormInput
@@ -601,13 +587,32 @@ const AddTrainer = () => {
 
             {/* ===== ACTIONS ===== */}
             <div className="mt-4 text-center">
-              <FormActions
-                onCancel={() => navigate("/admin/manage-trainers")}
-                saveText={isEditMode ? updateMutation.isPending ? "Saving..." : "Save" : createMutation.isPending ? "Saving..." : "Save"}
-                cancelText="Cancel"
-                disabled={isLoading}
-              />
+              {activeTab === "trainer" ? (
+                <>
+                  <button
+                    type="button"
+                    className="btn btn-primary me-2"
+                    onClick={() => setActiveTab("other")}
+                  >
+                    Next
+                  </button>
 
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary me-2y"
+                    onClick={() => navigate("/admin/manage-trainers")}
+                  >
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <FormActions
+                  onCancel={() => navigate("/admin/manage-trainers")}
+                  saveText={isEditMode ? updateMutation.isPending ? "Saving..." : "Save" : createMutation.isPending ? "Saving..." : "Save"}
+                  cancelText="Cancel"
+                  disabled={isLoading}
+                />
+              )}
             </div>
 
           </form>
