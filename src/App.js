@@ -38,6 +38,8 @@ import StudentHeader from "./components/student/StudentHeader";
 import StudentSidebar from "./components/student/studentSidebar";
 import AdminHeader from "./components/admin/AdminHeader";
 import AdminSidebar from "./components/admin/AdminSidebar";
+import TrainerHeader from "./components/trainer/TrainerHeader";
+import TrainerSidebar from "./components/trainer/TrainerSidebar";
 
 
 const Dashboard = lazy(() => import("./pages/superAdmin/Dashboard"));
@@ -150,6 +152,8 @@ function LayoutWrapper({
     "/student/login",
     "/student",
     "/admin",
+    "/trainer/login",
+    "/trainer",
   ];
   if (noLayoutPaths.includes(location.pathname)) {
     return <>{children}</>; // no header/sidebar
@@ -161,6 +165,7 @@ function LayoutWrapper({
   }
   const isStudentRoute = location.pathname.startsWith("/student");
   const isSubAdminRoute = location.pathname.startsWith("/admin");
+  const isTrainerRoute = location.pathname.startsWith("/trainer");
   //  ALL OTHER PAGES
   return (
     <>
@@ -177,6 +182,14 @@ function LayoutWrapper({
         <>
           <AdminHeader />
           <AdminSidebar />
+          <div className="content">
+            {children}
+          </div>
+        </>
+      ) : isTrainerRoute ? (
+        <>
+          <TrainerHeader />
+          <TrainerSidebar />
           <div className="content">
             {children}
           </div>
@@ -642,11 +655,12 @@ function App() {
             path="/school-skill-center/login"
             element={<SchoolSkillLogin />}
           />
-          {/* Trainer Moduke login */}
-          <Route
-            path="/trainer-module/login"
-            element={<TrainerModuleLogin />}
-          />
+
+
+          {/* Trainer Module login */}
+          <Route path="/trainer/login" element={<PublicRoute>{lazyLoad(TrainerModuleLogin)}</PublicRoute>} />
+          <Route path="/trainer" element={<PublicRoute>{lazyLoad(TrainerModuleLogin)}</PublicRoute>} />
+
 
           {/* Student Module login */}
 

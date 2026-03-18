@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 //super admin
 export const getAdminToken = () => {
@@ -7,7 +7,7 @@ export const getAdminToken = () => {
 };
 
 export const isAuthenticated = () => {
- return !!getAdminToken();
+  return !!getAdminToken();
 };
 
 
@@ -27,7 +27,7 @@ export const getStudentToken = () => {
 };
 
 export const isStudentAuthenticated = () => {
- return !!getStudentToken();
+  return !!getStudentToken();
 };
 
 export const getStudentRole = () => {
@@ -45,11 +45,30 @@ export const getSubAdminToken = () => {
 };
 
 export const isSubAdminAuthenticated = () => {
- return !!getSubAdminToken();
+  return !!getSubAdminToken();
 };
 
 export const getSubAdminRole = () => {
   const token = getSubAdminToken();
+  if (!token) return null;
+
+  const decoded = jwtDecode(token);
+  return decoded.role;
+};
+
+
+//trainer
+
+export const getTrainerToken = () => {
+  return Cookies.get("trainer-token");
+};
+
+export const isTrainerAuthenticated = () => {
+  return !!getTrainerToken();
+};
+
+export const getTrainerRole = () => {
+  const token = getTrainerToken();
   if (!token) return null;
 
   const decoded = jwtDecode(token);

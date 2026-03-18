@@ -4,6 +4,7 @@ import store from "../redux/store";
 import { logoutAdmin } from "../redux/slices/adminSlice";
 import { logoutStudent } from "../redux/slices/studentSlice";
 import { logoutSubAdmin } from "../redux/slices/subAdminSlice";
+import { logoutTrainer } from "../redux/slices/trainerSlice";
 
 const axiosInstance = axios.create({
     baseURL: "https://cyientfoundation.duckdns.org",
@@ -39,7 +40,7 @@ axiosInstance.interceptors.request.use(
             }
         }
 
-          //  check sub admin
+        //  check sub admin
         const subAdminData = Cookies.get("sub_admin");
 
         if (subAdminData) {
@@ -50,7 +51,19 @@ axiosInstance.interceptors.request.use(
                 config.headers.Authorization = `Bearer ${token}`;
             }
         }
-        
+
+        //  check trainer
+        const trainerData = Cookies.get("trainer");
+
+        if (trainerData) {
+            const parsed = JSON.parse(trainerData);
+            const token = parsed?.token;
+
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+        }
+
         if (config.data instanceof FormData) {
             delete config.headers["Content-Type"];
         }
@@ -88,10 +101,16 @@ axiosInstance.interceptors.response.use(
                 window.location.href = "/student/login";
             }
 
-             if (Cookies.get("sub_admin")) {
+            if (Cookies.get("sub_admin")) {
                 store.dispatch(logoutSubAdmin());
                 Cookies.remove("sub_admin");
                 window.location.href = "/admin/login";
+            }
+
+            if (Cookies.get("trainer")) {
+                store.dispatch(logoutTrainer());
+                Cookies.remove("trainer");
+                window.location.href = "/trainer/login";
             }
         }
 
