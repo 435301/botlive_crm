@@ -88,7 +88,7 @@ const AdminSidebar = ({ collapsed, show, closeSidebar }) => {
 
           {/* Cirriculam Dropdown */}
           <NavLink to="/admin/manage-chapters" className={getNavLinkClass}>
-            <KeyRound size={18} />
+            <Building2 size={18} />
             {!collapsed && <span>Curriculam</span>}
           </NavLink>
 

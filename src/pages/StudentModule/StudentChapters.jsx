@@ -37,7 +37,7 @@ const ManageStudentChapters = () => {
                     chapterId: chapter.chapterId,
                     chapterTitle: chapter.chapterTitle,
                     status: chapter.status,
-                    priority: chapter.priority || "-", 
+                    priority: chapter.priority || "-",
                     videoCount: chapter.videoCount,
                     pdfCount: chapter.pdfCount
                 }))
@@ -211,16 +211,20 @@ const ManageStudentChapters = () => {
                                             </span>
                                         </td>
                                         <td className="text-center">
-                                            <button className="btn btn-outline-primary btn-sm me-2"
-                                                onClick={() => startMutation.mutate(t.chapterId)}
-                                                disabled={t.status === 1}>
-                                                Start
-                                            </button>
-                                            <button className="btn btn-outline-danger btn-sm"
-                                                onClick={() => completeMutation.mutate(t.chapterId)}
-                                                disabled={t.status === 2}>
-                                                {t.status === 2 ? "Completed" : "Complete"}
-                                            </button>
+                                            {t.status === 0 && (
+                                                <button className="btn btn-outline-primary btn-sm me-2"
+                                                    onClick={() => startMutation.mutate(t.chapterId)}
+                                                    disabled={t.status === 1}>
+                                                    Start
+                                                </button>
+                                            )}
+                                            {t.status !== 0 && (
+                                                <button className="btn btn-outline-danger btn-sm"
+                                                    onClick={() => completeMutation.mutate(t.chapterId)}
+                                                    disabled={t.status === 2 || t.status === 3}>
+                                                    {t.status === 2 || t.status === 3 ? "Completed" : "Complete"}
+                                                </button>
+                                            )}
                                         </td>
                                     </tr>
                                 ))

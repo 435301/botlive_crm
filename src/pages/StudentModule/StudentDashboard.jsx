@@ -116,12 +116,12 @@ const StudentDashboard = () => {
         data:
           total === 0
             ? [
-              { name: "Present", value: 1, actual: 0, color: "#22c55e" },
-              { name: "Absent", value: 1, actual: 0, color: "#ef4444" },
+              { name: "Present", value: 1, actual: 0, color: "#019aa8" },
+              { name: "Absent", value: 1, actual: 0, color: "#facb48" },
             ]
             : [
-              { name: "Present", value: present, actual: present, color: "#22c55e" },
-              { name: "Absent", value: absent, actual: absent, color: "#ef4444" },
+              { name: "Present", value: present, actual: present, color: "#019aa8" },
+              { name: "Absent", value: absent, actual: absent, color: "#facb48" },
             ],
       },
     ];
