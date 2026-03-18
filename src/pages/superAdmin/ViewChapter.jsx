@@ -1,13 +1,18 @@
 import { useParams, Link } from "react-router-dom";
 import { useCrud } from "../../hooks/useCrud";
 import BASE_URL_JOB from "../../config/config";
+import { useState } from "react";
+import DeleteConfirmationModal from "../../Modals/deleteModal";
 
 const ViewChapter = () => {
   const { id } = useParams();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
-  const { useGetById } = useCrud({
+  const { useGetById, deleteMutation } = useCrud({
     entity: "chapter",
     getUrl: (id) => `/chapter/${id}`,
+    deleteUrl: (id) => `/chapter/delete/file/${id}`
   });
 
   const { data, isLoading } = useGetById(id);
@@ -15,6 +20,20 @@ const ViewChapter = () => {
   const chapter = data;
 
   if (isLoading) return <p className="text-center">Loading...</p>;
+
+  const handleDeleteClick = (id) => {
+    setDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+  const handleDelete = async (fileId) => {
+    deleteMutation.mutate(fileId, {
+      onSuccess: () => {
+        setShowDeleteModal(false);
+        setDeleteId(null);
+      },
+    });
+  };
 
   return (
     <div className="container-fluid">
@@ -70,18 +89,27 @@ const ViewChapter = () => {
               {chapter?.videos?.length > 0 ? (
                 <div className="d-flex flex-wrap gap-3">
                   {chapter.videos.map((video, index) => (
-                    <video
-                      key={index}
-                      width="100%"
-                      height="250"
-                      controls
-                    >
-                      <source
-                        src={`${BASE_URL_JOB}${video.videoPdf}`}
-                        type="video/mp4"
-                      />
-                    </video>
+                    <div key={index} className="position-relative">
+                      <video
+                        key={index}
+                        width="100%"
+                        height="250"
+                        controls
+                      >
+                        <source
+                          src={`${BASE_URL_JOB}${video.videoPdf}`}
+                          type="video/mp4"
+                        />
+                      </video>
+                      <button
+                        className="btn btn-sm btn-danger position-absolute top-0 end-0"
+                        onClick={() => handleDeleteClick(video.id)}
+                      >
+                        x
+                      </button>
+                    </div>
                   ))}
+
                 </div>
               ) : (
                 <p className="text-muted">No videos available</p>
@@ -93,12 +121,21 @@ const ViewChapter = () => {
               {chapter?.pdfs?.length > 0 ? (
                 <div className="d-flex flex-wrap gap-3">
                   {chapter.pdfs.map((pdf, index) => (
-                    <iframe
-                      src={`${BASE_URL_JOB}${pdf.videoPdf}`}
-                      title={pdf.videoPdf.split("/").pop()}
-                      className="viewFile"
-                    />
+                    <div key={index} className="position-relative">
+                      <iframe
+                        src={`${BASE_URL_JOB}${pdf.videoPdf}`}
+                        title={pdf.videoPdf.split("/").pop()}
+                        className="viewFile"
+                      />
+                      <button
+                        className="btn btn-sm btn-danger position-absolute top-0 end-0"
+                        onClick={() => handleDeleteClick(pdf?.id)}
+                      >
+                        x
+                      </button>
+                    </div>
                   ))}
+
                 </div>
               ) : (
                 <p className="text-muted">No pdfs available</p>
@@ -108,7 +145,11 @@ const ViewChapter = () => {
           </div>
         </div>
       </div>
-
+      <DeleteConfirmationModal
+        show={showDeleteModal}
+        handleClose={() => setShowDeleteModal(false)}
+        handleConfirm={() => handleDelete(deleteId)}
+      />
     </div>
   );
 };

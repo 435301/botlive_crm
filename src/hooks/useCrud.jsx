@@ -87,11 +87,13 @@ export const useCrud = ({
     const deleteMutation = useMutation({
         mutationFn: async (id) => {
             const res = await axiosInstance.delete(deleteUrl(id));
+            
             return res.data;
         },
         onSuccess: (data) => {
             toast.success(data.message);
             queryClient.invalidateQueries({ queryKey: [entity, "list"] });
+            queryClient.invalidateQueries({ queryKey: [entity] });
         },
         onError: (err) => {
             toast.error(err.response?.data?.message || "Delete failed");
