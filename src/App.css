@@ -1771,6 +1771,17 @@ button .filter-btn :hover {
     cursor: pointer;
 }
 
+.viewImg{
+  max-height: 250px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.viewFile{
+  min-height: 250px;
+  border-radius: 8px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .campus-main {

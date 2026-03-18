@@ -5,7 +5,7 @@ import {
   LayoutDashboard,
   ChevronDown,
   Building2,
-  UserCog,
+  // UserCog,
   BookOpen,
   Layers,
   Settings,
@@ -492,43 +492,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               </NavLink>
             </div>
           </div>
-          {/* Trainer Management */}
-          <div
-            className={`nav-group ${isParentActive([
-              "/superAdmin/add-trainers",
-              "/superAdmin/manage-trainers",
-            ])
-              ? "active"
-              : ""
-              }`}
-          >
-            <div className="nav-link" onClick={() => toggleMenu("trainer")}>
-              <UserCog size={18} />
-              {!collapsed && (
-                <>
-                  <span>Trainer Management</span>
-                  <ChevronDown
-                    size={16}
-                    className={`arrow ${openMenu === "trainer" ? "rotate" : ""}`}
-                  />
-                </>
-              )}
-            </div>
-            <div className={`submenu ${openMenu === "trainer" ? "open" : ""}`}>
-              <NavLink
-                to="/superAdmin/add-trainers"
-                className={getNavLinkClass}
-              >
-                Add Trainer
-              </NavLink>
-              <NavLink
-                to="/superAdmin/manage-trainers"
-                className={getNavLinkClass}
-              >
-                Manage Trainers
-              </NavLink>
-            </div>
-          </div>
+        
           {/* Activity Management */}
           <div
             className={`nav-group ${isParentActive([

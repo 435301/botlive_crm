@@ -41,50 +41,59 @@ const ViewAdminChapter = () => {
 
           <hr />
 
-          {/* Videos */}
-          <h6 className="fw-bold mt-3">Videos</h6>
-          {chapter?.videos?.length ? (
-            <div className="row">
-              {chapter.videos.map((video) => (
-                <div key={video.id} className="col-md-4 mb-3">
-                  <video
-                    width="100%"
-                    height="200"
-                    controls
-                    className="rounded"
-                  >
-                    <source
-                      src={`${BASE_URL_JOB}${video.videoPdf}`}
-                      type="video/mp4"
-                    />
-                    Your browser does not support video.
-                  </video>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-muted">No videos available</p>
-          )}
+          <div className="card shadow-sm">
+            <div className="card-body">
+              <div className="row">
 
-          {/* PDFs */}
-          <h6 className="fw-bold mt-4">PDFs</h6>
-          {chapter?.pdfs?.length ? (
-            <div className="row">
-              {chapter.pdfs.map((pdf) => (
-                <div key={pdf.id} className="col-md-4 mb-3">
-                  <iframe
-                    src={`${BASE_URL_JOB}${pdf.videoPdf}`}
-                    width="100%"
-                    height="250"
-                    title="PDF"
-                    className="rounded border"
-                  />
+                {/* Videos */}
+                <div className="col-md-6 border-end">
+                  <h5 className="fw-bold mt-3">Videos</h5>
+                  {chapter?.videos?.length ? (
+                    <div className="row">
+                      {chapter.videos.map((video) => (
+                        <div key={video.id} className="col-md-4 mb-3">
+                          <video
+                            controls
+                            className="rounded viewImg"
+                          >
+                            <source
+                              src={`${BASE_URL_JOB}${video.videoPdf}`}
+                              type="video/mp4"
+                            />
+                            Your browser does not support video.
+                          </video>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-muted">No videos available</p>
+                  )}
                 </div>
-              ))}
+                {/* PDFs */}
+                <div className="col-md-6 border-end">
+                  <h5 className="fw-bold mt-4">PDFs</h5>
+                  {chapter?.pdfs?.length ? (
+                    <div className="row">
+                      {chapter.pdfs.map((pdf) => (
+                        <div key={pdf.id} className="col-md-4 mb-3">
+                          <iframe
+                            src={`${BASE_URL_JOB}${pdf.videoPdf}`}
+                            
+                            title="PDF"
+                            className="rounded border viewFile"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-muted">No PDFs available</p>
+                  )}
+                </div>
+              </div>
             </div>
-          ) : (
-            <p className="text-muted">No PDFs available</p>
-          )}
+          </div>
+
+
         </div>
       </div>
     </div>

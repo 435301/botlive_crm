@@ -153,8 +153,7 @@ const ViewAdminStudent = () => {
                         {student?.photo ? (
                             <img
                                 src={`${BASE_URL_JOB}${student.photo}`}
-                                width="150"
-                                height="120"
+                             
                                 className={Styles.viewStudentImg}
                                 alt="activity"
                             />
@@ -163,11 +162,10 @@ const ViewAdminStudent = () => {
                                 <span>No photo available</span>
                             )}
 
-                        {student?.photo ? (
+                        {student?.aadharPhoto ? (
                             <img
                                 src={`${BASE_URL_JOB}${student.aadharPhoto}`}
-                                width="150"
-                                height="120"
+                                
                                 className={Styles.viewStudentImg}
                                 alt="activity"
                             />

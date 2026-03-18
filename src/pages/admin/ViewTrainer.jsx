@@ -14,6 +14,7 @@ const ViewTrainer = () => {
 
     if (isLoading) return <p className="text-center">Loading...</p>;
 
+
     return (
         <div className="container-fluid">
 
@@ -146,39 +147,46 @@ const ViewTrainer = () => {
                 </div>
             </div>
 
-            {/* PHOTOS */}
-            <div className="card mb-4 shadow-sm">
-                <div className="card-body">
-                    <h5 className="fw-bold mb-3"> Trainer Photo</h5>
-                    <div className="d-flex flex-wrap gap-3">
-                        <img
-                            src={`${BASE_URL_JOB}${data.photo}`}
-                            width="150"
-                            height="120"
-                            style={{ objectFit: "cover", borderRadius: "8px" }}
-                            alt="activity"
-                        />
-                    </div>
-                </div>
-            </div>
-
-            {/* VIDEOS */}
             <div className="card shadow-sm">
                 <div className="card-body">
-                    <h5 className="fw-bold mb-3">Certificates</h5>
+                    <div className="row">
 
-                    {data?.certificates?.length > 0 ? (
-                        <div className="d-flex flex-wrap gap-3">
-                            {data.certificates.map((pdf) => (
-                                <iframe
-                                    src={`${BASE_URL_JOB}${pdf.certificate}`}
-                                    title={pdf.certificate.split("/").pop()}
+                        {/* Photo Section */}
+                        <div className="col-md-6 border-end">
+                            <h5 className="fw-bold mb-3">Trainer Photo</h5>
+
+                            {data?.photo ? (
+                                <img
+                                    src={`${BASE_URL_JOB}${data.photo}`}
+                                    className="img-fluid rounded viewImg"
+                                    alt="trainer"
                                 />
-                            ))}
+                            ) : (
+                                <p className="text-muted">No photo available</p>
+                            )}
                         </div>
-                    ) : (
-                        <p className="text-muted">No certificates available</p>
-                    )}
+
+                        {/* Certificates Section */}
+                        <div className="col-md-6">
+                            <h5 className="fw-bold mb-3">Certificates</h5>
+
+                            {data?.certificates?.length > 0 ? (
+                                <div className="d-flex flex-wrap gap-3">
+                                    {data.certificates.map((pdf, index) => (
+                                        <iframe
+                                            key={index}
+                                            src={`${BASE_URL_JOB}${pdf.certificate}`}
+                                           className="viewFile"
+                                            title={`certificate-${index}`}
+                                        />
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="text-muted">No certificates available</p>
+                            )}
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
