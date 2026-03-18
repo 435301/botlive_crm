@@ -116,18 +116,33 @@ const StudentDashboard = () => {
         data:
           total === 0
             ? [
-              { name: "Present", value: 1, actual: 0, color: "#019aa8" },
-              { name: "Absent", value: 1, actual: 0, color: "#facb48" },
+              {
+                name: "No Attendance",
+                value: 1,   //  fake value so pie renders
+                actual: 0,
+                color: "#e9ecef",
+              },
             ]
             : [
-              { name: "Present", value: present, actual: present, color: "#019aa8" },
-              { name: "Absent", value: absent, actual: absent, color: "#facb48" },
+              {
+                name: "Present",
+                value: present,
+                actual: present,
+                color: "#019aa8",
+              },
+              {
+                name: "Absent",
+                value: absent,
+                actual: absent,
+                color: "#facb48",
+              },
             ],
       },
     ];
   }, [dashboard]);
-  const renderCustomLabel = ({ payload }) => {
-    return `${payload.actual || 0}%`;
+  const renderCustomLabel = ({ percent, payload }) => {
+    if (payload.name === "No Attendance") return "0%";
+    return `${(percent * 100).toFixed(0)}%`;
   };
 
   return (
