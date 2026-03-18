@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { isAuthenticated, getAdminRole, isStudentAuthenticated, getStudentRole, isSubAdminAuthenticated, getSubAdminRole } from "../utils/auth";
+import { isAuthenticated, getAdminRole, isStudentAuthenticated, getStudentRole, isSubAdminAuthenticated, getSubAdminRole, isTrainerAuthenticated, getTrainerRole } from "../utils/auth";
 
 const ProtectedRoute = ({ children, allowedRoles, loginPath = "/login" }) => {
   let role = null;
@@ -16,6 +16,10 @@ const ProtectedRoute = ({ children, allowedRoles, loginPath = "/login" }) => {
   // check sub admin login
   if (!role && isSubAdminAuthenticated()) {
     role = getSubAdminRole();
+  }
+  // check trainer login
+  if (!role && isTrainerAuthenticated()) {
+    role = getTrainerRole();
   }
   if (!role) {
     return <Navigate to={loginPath} replace />;

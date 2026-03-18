@@ -1,0 +1,296 @@
+import React, { useMemo, useState } from "react";
+import {
+    Tooltip, ResponsiveContainer,
+    Cell,
+    PieChart,
+    Pie
+} from "recharts";
+import { useCrud } from "../../hooks/useCrud";
+import SelectFilter from "../../components/SelectFilter";
+
+const TrainerDashboard = () => {
+    const { useList } = useCrud({
+        entity: "dashboard",
+        listUrl: "/trainerAdmin/getDashboard",
+    });
+    const [month, setMonth] = useState(new Date().getMonth() + 1);
+    const [year, setYear] = useState(new Date().getFullYear());
+    const years = [];
+    for (let y = 2025; y <= year + 40; y++) {
+        years.push({ label: y, value: y });
+    }
+    const months = [
+        { label: "January", value: 1, },
+        { label: "Febraury", value: 2, },
+        { label: "March", value: 3, },
+        { label: "April", value: 4, },
+        { label: "May", value: 5, },
+        { label: "June", value: 6 },
+        { label: "July", value: 7 },
+        { label: "August", value: 8 },
+        { label: "September", value: 9 },
+        { label: "October", value: 10 },
+        { label: "November", value: 11 },
+        { label: "December", value: 12 }
+    ];
+
+    const { data, isLoading } = useList(
+        { month, year },
+        { keepPreviousData: true }
+    );
+    const dashboard = data?.data;
+    console.log('dashboard', dashboard)
+
+    const stats = useMemo(() => {
+        return [
+            {
+                title: "New Chapters",
+                value: dashboard?.chapters?.notStarted || 0,
+                icon: "bi-journal-plus",
+                iconBg: "#e6f0fa",
+                iconColor: "#4a90e2",
+                subtitle: "Not Started",
+                subtitleColor: "primary",
+            },
+            {
+                title: "In Progress Chapters",
+                value: dashboard?.chapters?.started || 0,
+                icon: "bi-hourglass-split",
+                iconBg: "#e0e7ff",
+                iconColor: "#6366f1",
+                subtitle: "Started",
+                subtitleColor: "info",
+            },
+            {
+                title: "Completed Chapters",
+                value: dashboard?.chapters?.completed || 0,
+                icon: "bi-check-circle",
+                iconBg: "#e6fffa",
+                iconColor: "#10b981",
+                subtitle: `${dashboard?.chapters?.completedPercentage || 0}% Completed`,
+                subtitleColor: "success",
+            },
+            {
+                title: "Total Chapters",
+                value: dashboard?.chapters?.total || 0,
+                icon: "bi-journal-bookmark",
+                iconBg: "#fff4e6",
+                iconColor: "#f59e0b",
+                subtitle: "All Chapters",
+                subtitleColor: "warning",
+            },
+        ];
+    }, [dashboard]);
+
+    const studentStats = [
+        {
+            title: "Students",
+            value: dashboard?.students?.total || 0,
+            subtitle: `${dashboard?.students?.active || 0} Active`,
+            subtitleColor: "success",
+            subtitleInactive: `${dashboard?.students?.inactive || 0} Inactive`,
+            subtitleInactiveColor: "danger",
+            present: `${dashboard?.students?.todayPresent || 0}`,
+            absent: `${dashboard?.students?.todayAbsent || 0}`,
+            icon: "bi-folder",
+            iconBg: "#fff0f0",
+            iconColor: "#dc3545",
+        },
+
+    ];
+
+  const attendanceData = useMemo(() => {
+    const present = Number(dashboard?.attendance?.presentPercentage) || 0;
+    const absent = Number(dashboard?.attendance?.absentPercentage) || 0;
+
+    const total = present + absent;
+
+    return [
+        {
+            title: "Attendance Overview",
+            data:
+                total === 0
+                    ? [
+                          {
+                              name: "No Attendance",
+                              value: 1,   //  fake value so pie renders
+                              actual: 0,
+                              color: "#e9ecef",
+                          },
+                      ]
+                    : [
+                          {
+                              name: "Present",
+                              value: present,
+                              actual: present,
+                              color: "#019aa8",
+                          },
+                          {
+                              name: "Absent",
+                              value: absent,
+                              actual: absent,
+                              color: "#facb48",
+                          },
+                      ],
+        },
+    ];
+}, [dashboard]);
+
+const renderCustomLabel = ({ percent, payload }) => {
+    if (payload.name === "No Attendance") return "0%";
+    return `${(percent * 100).toFixed(0)}%`;
+};
+    return (
+        <>
+            {/* ===== PAGE CONTENT ===== */}
+            <div className="container-fluid p-4">
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                    {/* Modern heading with skill icon */}
+                    <div className="d-flex align-items-center heading-with-icon">
+                        <div className="icon-badge">
+                            <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
+                        </div>
+                        <div>
+                            <h5 className="fw-bold mb-0">Trainer's Dashboard</h5>
+                            <p className="sub-text mb-0">Welcome , Cyient Foundation</p>
+                        </div>
+                    </div>
+
+                </div>
+                {/* ===== KPI CARDS ===== */}
+                <div className="row g-3">
+                    {stats.map((item, i) => (
+                        <div className="col-12 col-sm-6 col-lg-3" key={i}>
+                            <div className="card rounded-3 p-3 shadow-sm h-100">
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 className="mb-3">{item.title}</h6>
+                                        <h3 className="fw-bold">{item.value}</h3>
+                                        <small className={`text-${item.subtitleColor}`}>
+                                            {item.subtitle}
+                                        </small>
+                                    </div>
+
+                                    <div
+                                        className="d-flex align-items-center justify-content-center rounded-3"
+                                        style={{
+                                            width: "50px",
+                                            height: "50px",
+                                            backgroundColor: item.iconBg,
+                                            color: item.iconColor,
+                                        }}
+                                    >
+                                        <i className={`bi ${item.icon}`}></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="mt-4">
+                    <h5 className="fw-bold mb-3">Students Overview</h5>
+                    <div className="row g-3">
+
+                        {studentStats
+                            .map((item, i) => (
+                                <div className="col-12 col-sm-6 col-lg-3" key={i}>
+                                    <div className="card rounded-3 p-3 shadow-sm h-100">
+                                        <div className="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 className="mb-3">{item.title}</h6>
+                                                <h3 className="fw-bold">{item.value}</h3>
+                                                <div className="d-flex align-items-center gap-2 "> {item.subtitle && (
+                                                    <small
+                                                        className={`text-${item.subtitleColor || "secondary"}`}
+                                                    >
+                                                        {item.subtitle}
+                                                    </small>
+                                                )}
+                                                    {item.subtitleInactive && (
+                                                        <small
+                                                            className={`text-${item.subtitleInactiveColor || "secondary"}`}
+                                                        >
+                                                            {item.subtitleInactive}
+                                                        </small>
+                                                    )}</div>
+                                                <div className="campus-flex">
+                                                    <div className="present me-4">
+                                                        <small>Present :</small>
+                                                        <strong> {item.present}</strong>
+                                                    </div>
+                                                    <div className="absent">
+                                                        <small>Absent :</small>
+                                                        <strong> {item.absent}</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                className="d-flex align-items-center justify-content-center rounded-3"
+                                                style={{
+                                                    width: "50px",
+                                                    height: "50px",
+                                                    backgroundColor: item.iconBg || "#e0f2ff",
+                                                    color: item.iconColor || "#4a90e2",
+                                                    fontSize: "1.2rem",
+                                                }}
+                                            >
+                                                <i className={`bi ${item.icon}`}></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                    </div>
+                </div>
+
+                <div className="row g-4 mt-4">
+                    <h5 className="fw-bold mb-3"> Attendance Performance </h5>
+
+                    <div className="row">
+                        <div className="mb-3" style={{ maxWidth: "200px" }}>
+                            <SelectFilter
+                                value={month}
+                                placeholder="Select month"
+                                options={months}
+                                onChange={setMonth}
+                            />
+                        </div>
+                        <div className="mb-3" style={{ maxWidth: "200px" }}>
+                            <SelectFilter
+                                value={year}
+                                placeholder="Select year"
+                                options={years}
+                                onChange={setYear}
+                            />
+                        </div>
+                    </div>
+                    {isLoading && (
+                        <div className="text-center mt-4">
+                            <div className="spinner-border text-primary" />
+                        </div>
+                    )}
+                    {attendanceData.map((item, index) => (<div className="col-12 col-md-6 col-lg-3" key={index} >
+                        <div className="card p-1 shadow-sm h-100">
+                            <h6 className="text-center mb-2 fw-semibold">{item.title}</h6>
+                            <ResponsiveContainer width="100%" height={235}>
+                                <PieChart>
+                                    <Pie data={item.data} dataKey="value" cx="50%" cy="50%" innerRadius={55} outerRadius={80} paddingAngle={3} labelLine label={renderCustomLabel} > {item.data.map((entry, i) => (<Cell key={i} fill={entry.color} />))} </Pie> <Tooltip formatter={(value) => `${value}%`} />
+                                </PieChart>
+                            </ResponsiveContainer>
+                            <div className="text-center mt-2 small">
+                                Working Days:{dashboard?.attendance?.totalWorkingDays || 0}
+                            </div>
+                        </div>
+                    </div>
+                    ))}
+                </div>
+
+
+            </div></>
+
+
+    );
+};
+
+export default TrainerDashboard;

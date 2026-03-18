@@ -41,7 +41,6 @@ import AdminSidebar from "./components/admin/AdminSidebar";
 import TrainerHeader from "./components/trainer/TrainerHeader";
 import TrainerSidebar from "./components/trainer/TrainerSidebar";
 
-
 const Dashboard = lazy(() => import("./pages/superAdmin/Dashboard"));
 const Login = lazy(() => import("./pages/superAdmin/Login"));
 const Manage = lazy(() => import("./pages/superAdmin/Manage"));
@@ -119,9 +118,9 @@ const SchoolSkillLogin = lazy(
   () => import("./pages/SchoolSkillCenter/SchoolSkillLogin"),
 );
 // Trainer Modules
-const TrainerModuleLogin = lazy(
-  () => import("./pages/TrainerModule/TrainerModuleLogin"),
-);
+const TrainerModuleLogin = lazy( () => import("./pages/TrainerModule/TrainerModuleLogin"),);
+const  TrainerDashboard = lazy(()=> import("./pages/TrainerModule/TrainerDashboard"));
+
 // Student Module
 
 const StudentModuleLogin = lazy(
@@ -660,6 +659,7 @@ function App() {
           {/* Trainer Module login */}
           <Route path="/trainer/login" element={<PublicRoute>{lazyLoad(TrainerModuleLogin)}</PublicRoute>} />
           <Route path="/trainer" element={<PublicRoute>{lazyLoad(TrainerModuleLogin)}</PublicRoute>} />
+          <Route path="/trainer/dashboard" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(TrainerDashboard)}</ProtectedRoute>} />
 
 
           {/* Student Module login */}
