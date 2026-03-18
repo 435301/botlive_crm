@@ -24,3 +24,14 @@
     width: 300;
     height: 200;
 }
+.status-present {
+  background-color: #d4edda ;
+  color: #155724 ;
+  font-weight: 600;
+}
+
+.status-absent {
+  background-color: #f8d7da ;
+  color: #721c24 ;
+  font-weight: 600;
+}

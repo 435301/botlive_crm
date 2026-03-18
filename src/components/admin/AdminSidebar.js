@@ -151,11 +151,11 @@ const AdminSidebar = ({ collapsed, show, closeSidebar }) => {
 
               <div className={`submenu ${openMenu === "attendance" ? "open" : ""}`}>
                 <NavLink to="/admin/add-attendance" className={getNavLinkClass}>
-                  Add Attendance
+                  Add Trainer Attendance
                 </NavLink>
 
                 <NavLink to="/admin/manage-attendance" className={getNavLinkClass}>
-                  Manage Attendance
+                  Manage Trainer Attendance
                 </NavLink>
               </div>
             </div>

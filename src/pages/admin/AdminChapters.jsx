@@ -69,8 +69,8 @@ const ManageAdminChapters = () => {
                         <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
                     </div>
                     <div>
-                        <h5 className="fw-bold mb-0">Admin Chapters Management</h5>
-                        <p className="sub-text mb-0">View, edit and manage all chapters</p>
+                        <h5 className="fw-bold mb-0">Admin Curriculam Management</h5>
+                        <p className="sub-text mb-0">View, edit and manage all curriculam</p>
                     </div>
                 </div>
 

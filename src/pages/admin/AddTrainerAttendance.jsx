@@ -34,8 +34,8 @@ const AddTrainerAttendance = () => {
             })),
         };
 
-        createMutation.mutate(payload,{
-            onSuccess: ()=>{
+        createMutation.mutate(payload, {
+            onSuccess: () => {
                 navigate("/admin/manage-attendance")
             }
         });
@@ -63,11 +63,12 @@ const AddTrainerAttendance = () => {
                             type="date"
                             className="form-control"
                             value={attendanceDate}
+                             max={new Date().toISOString().split("T")[0]}
                             onChange={(e) => {
                                 setAttendanceDate(e.target.value);
                             }}
                         />
-                    </div>
+                    </div>  
 
                 </div>
             </div>
@@ -104,7 +105,6 @@ const AddTrainerAttendance = () => {
                                                 value={attendanceData[t.id] || ""}
                                                 onChange={(e) => handleStatusChange(t.id, e.target.value)}
                                             >
-                                                <option value="">Select</option>
                                                 <option value="1">Present</option>
                                                 <option value="2">Absent</option>
                                             </select>
