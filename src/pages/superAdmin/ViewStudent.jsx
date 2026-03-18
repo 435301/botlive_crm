@@ -149,21 +149,25 @@ const ViewStudent = () => {
             <div className="card mb-4 shadow-sm">
                 <div className="card-body">
                     <h5 className="fw-bold mb-3"> Photos</h5>
-                    <img
-                        src={`${BASE_URL_JOB}${student.photo}`}
-                        width="150"
-                        height="120"
-                        style={{ objectFit: "cover", borderRadius: "8px" }}
-                        alt="activity"
-                    />
-                    <img
-                        src={`${BASE_URL_JOB}${student.aadharPhoto}`}
-                        width="150"
-                        height="120"
-                        style={{ objectFit: "cover", borderRadius: "8px" }}
-                        alt="activity"
-                    />
-
+                    {student?.photo ? (
+                        <img
+                            src={`${BASE_URL_JOB}${student.photo}`}
+                            className="viewImg me-4"
+                            alt="activity"
+                        />
+                    ) : (
+                        <span>No photo available</span>
+                    )}
+                    {student?.photo ? (
+                        <img
+                            src={`${BASE_URL_JOB}${student.aadharPhoto}`}
+                            className="viewImg"
+                            alt="activity"
+                        />
+                    ) : (
+                        <span>No Aadhar photo available</span>
+                    )
+                    }
                 </div>
             </div>
 

@@ -63,58 +63,62 @@ const ViewActivity = () => {
       {/* PHOTOS */}
       <div className="card mb-4 shadow-sm">
         <div className="card-body">
-          <h5 className="fw-bold mb-3">Photos</h5>
-
-          {activity?.photos?.length > 0 ? (
-            <div className="d-flex flex-wrap gap-3">
-              {activity.photos.map((photo, index) => (
-                <a
-                  key={index}
-                  href={`${BASE_URL_JOB}${photo.videoPhoto}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <img
-                    src={`${BASE_URL_JOB}${photo.videoPhoto}`}
-                    width="150"
-                    height="120"
-                    style={{ objectFit: "cover", borderRadius: "8px" }}
-                    alt="activity"
-                  />
-                </a>
-              ))}
+          <div className="row">
+            <div className="col-md-6 border-end">
+              <h5 className="fw-bold mb-3">Photos</h5>
+              {activity?.photos?.length > 0 ? (
+                <div className="d-flex flex-wrap gap-3">
+                  {activity.photos.map((photo, index) => (
+                    <a
+                      key={index}
+                      href={`${BASE_URL_JOB}${photo.videoPhoto}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img
+                        src={`${BASE_URL_JOB}${photo.videoPhoto}`}
+                        className="viewImg"
+                        alt="activity"
+                      />
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted">No photos available</p>
+              )}
             </div>
-          ) : (
-            <p className="text-muted">No photos available</p>
-          )}
+
+            <div className="col-md-6 border-end">
+              <h5 className="fw-bold mb-3">Videos</h5>
+
+              {activity?.videos?.length > 0 ? (
+                <div className="d-flex flex-wrap gap-3">
+                  {activity.videos.map((video, index) => (
+                    <video
+                      key={index}
+                      controls
+                      width="100%"
+                      height="250px"
+                    >
+                      <source
+                        src={`${BASE_URL_JOB}${video.videoPhoto}`}
+                        type="video/mp4"
+                      />
+                    </video>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted">No videos available</p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
       {/* VIDEOS */}
       <div className="card shadow-sm">
         <div className="card-body">
-          <h5 className="fw-bold mb-3">Videos</h5>
 
-          {activity?.videos?.length > 0 ? (
-            <div className="d-flex flex-wrap gap-3">
-              {activity.videos.map((video, index) => (
-                <video
-                  key={index}
-                  width="250"
-                  height="160"
-                  controls
-                  style={{ borderRadius: "8px" }}
-                >
-                  <source
-                    src={`${BASE_URL_JOB}${video.videoPhoto}`}
-                    type="video/mp4"
-                  />
-                </video>
-              ))}
-            </div>
-          ) : (
-            <p className="text-muted">No videos available</p>
-          )}
         </div>
       </div>
     </div>

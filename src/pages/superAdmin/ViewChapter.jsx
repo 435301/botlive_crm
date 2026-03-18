@@ -63,50 +63,52 @@ const ViewChapter = () => {
       {/* PHOTOS */}
       <div className="card mb-4 shadow-sm">
         <div className="card-body">
-          <h5 className="fw-bold mb-3">Videos</h5>
+          <div className="row">
+            <div className="col-md-6 border-end">
+              <h5 className="fw-bold mb-3">Videos</h5>
 
-          {chapter?.videos?.length > 0 ? (
-            <div className="d-flex flex-wrap gap-3">
-              {chapter.videos.map((video, index) => (
-                <video
-                  key={index}
-                  width="250"
-                  height="180"
-                  controls
-                  style={{ borderRadius: "8px" }}
-                >
-                  <source
-                    src={`${BASE_URL_JOB}${video.videoPdf}`}
-                    type="video/mp4"
-                  />
-                </video>
-              ))}
+              {chapter?.videos?.length > 0 ? (
+                <div className="d-flex flex-wrap gap-3">
+                  {chapter.videos.map((video, index) => (
+                    <video
+                      key={index}
+                      width="100%"
+                      height="250"
+                      controls
+                    >
+                      <source
+                        src={`${BASE_URL_JOB}${video.videoPdf}`}
+                        type="video/mp4"
+                      />
+                    </video>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted">No videos available</p>
+              )}
             </div>
-          ) : (
-            <p className="text-muted">No videos available</p>
-          )}
+            <div className="col-md-6 border-end">
+              <h5 className="fw-bold mb-3">Pdfs</h5>
+
+              {chapter?.pdfs?.length > 0 ? (
+                <div className="d-flex flex-wrap gap-3">
+                  {chapter.pdfs.map((pdf, index) => (
+                    <iframe
+                      src={`${BASE_URL_JOB}${pdf.videoPdf}`}
+                      title={pdf.videoPdf.split("/").pop()}
+                      className="viewFile"
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted">No pdfs available</p>
+              )}
+            </div>
+
+          </div>
         </div>
       </div>
 
-      {/* VIDEOS */}
-      <div className="card shadow-sm">
-        <div className="card-body">
-          <h5 className="fw-bold mb-3">Pdfs</h5>
-
-          {chapter?.pdfs?.length > 0 ? (
-            <div className="d-flex flex-wrap gap-3">
-              {chapter.pdfs.map((pdf, index) => (
-                <iframe
-                  src={`${BASE_URL_JOB}${pdf.videoPdf}`}
-                  title={pdf.videoPdf.split("/").pop()}
-                />
-              ))}
-            </div>
-          ) : (
-            <p className="text-muted">No pdfs available</p>
-          )}
-        </div>
-      </div>
     </div>
   );
 };
