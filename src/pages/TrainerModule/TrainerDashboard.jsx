@@ -99,47 +99,47 @@ const TrainerDashboard = () => {
 
     ];
 
-  const attendanceData = useMemo(() => {
-    const present = Number(dashboard?.attendance?.presentPercentage) || 0;
-    const absent = Number(dashboard?.attendance?.absentPercentage) || 0;
+    const attendanceData = useMemo(() => {
+        const present = Number(dashboard?.attendance?.presentPercentage) || 0;
+        const absent = Number(dashboard?.attendance?.absentPercentage) || 0;
 
-    const total = present + absent;
+        const total = present + absent;
 
-    return [
-        {
-            title: "Attendance Overview",
-            data:
-                total === 0
-                    ? [
-                          {
-                              name: "No Attendance",
-                              value: 1,   //  fake value so pie renders
-                              actual: 0,
-                              color: "#e9ecef",
-                          },
-                      ]
-                    : [
-                          {
-                              name: "Present",
-                              value: present,
-                              actual: present,
-                              color: "#019aa8",
-                          },
-                          {
-                              name: "Absent",
-                              value: absent,
-                              actual: absent,
-                              color: "#facb48",
-                          },
-                      ],
-        },
-    ];
-}, [dashboard]);
+        return [
+            {
+                title: "Attendance Overview",
+                data:
+                    total === 0
+                        ? [
+                            {
+                                name: "No Attendance",
+                                value: 1,   //  fake value so pie renders
+                                actual: 0,
+                                color: "#e9ecef",
+                            },
+                        ]
+                        : [
+                            {
+                                name: "Present",
+                                value: present,
+                                actual: present,
+                                color: "#019aa8",
+                            },
+                            {
+                                name: "Absent",
+                                value: absent,
+                                actual: absent,
+                                color: "#facb48",
+                            },
+                        ],
+            },
+        ];
+    }, [dashboard]);
 
-const renderCustomLabel = ({ percent, payload }) => {
-    if (payload.name === "No Attendance") return "0%";
-    return `${(percent * 100).toFixed(0)}%`;
-};
+    const renderCustomLabel = ({ percent, payload }) => {
+        if (payload.name === "No Attendance") return "0%";
+        return `${(percent * 100).toFixed(0)}%`;
+    };
     return (
         <>
             {/* ===== PAGE CONTENT ===== */}
