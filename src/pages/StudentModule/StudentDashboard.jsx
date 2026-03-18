@@ -1,46 +1,135 @@
-import React from "react";
-
-/* ===== UPDATED TOP STATS ===== */
-const stats = [
-  {
-    title: "New Chapters",
-    value: "25",
-    icon: "bi-building",
-    iconBg: "#e6f0fa",
-    iconColor: "#4a90e2",
-    subtitle: "Active schools",
-    subtitleColor: "primary",
-  },
-  {
-    title: "In Progress Chapters",
-    value: "12",
-    icon: "bi-building",
-    iconBg: "#e0e7ff",
-    iconColor: "#6366f1",
-    subtitle: "Running centers",
-    subtitleColor: "info",
-  },
-  {
-    title: "Completed Chapters",
-    value: "86",
-    icon: "bi-person-badge",
-    iconBg: "#fff4e6",
-    iconColor: "#f39c12",
-    subtitle: "Active trainers",
-    subtitleColor: "warning",
-  },
-
-];
-
-/* ===== Campus Data ===== */
-// const campusData = [
-//   { name: "Vizag Campus", staff: 25, students: 420, absent: 3, present: 22 },
-//   { name: "Nagaland Campus", staff: 18, students: 300, absent: 2, present: 16 },
-//   { name: "Hospet Campus", staff: 20, students: 360, absent: 4, present: 16 },
-//   { name: "Pmlanka Campus", staff: 15, students: 280, absent: 1, present: 14 },
-// ];
+import React, { useMemo, useState } from "react";
+import {
+  Tooltip, ResponsiveContainer,
+  Cell,
+  PieChart,
+  Pie
+} from "recharts";
+import { useCrud } from "../../hooks/useCrud";
+import SelectFilter from "../../components/SelectFilter";
 
 const StudentDashboard = () => {
+  const { useList } = useCrud({
+    entity: "dashboard",
+    listUrl: "/student/getDashboard",
+  });
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [year, setYear] = useState(new Date().getFullYear());
+  const years = [];
+  for (let y = 2025; y <= year + 40; y++) {
+    years.push({ label: y, value: y });
+  }
+  const months = [
+    { label: "January", value: 1, },
+    { label: "Febraury", value: 2, },
+    { label: "March", value: 3, },
+    { label: "April", value: 4, },
+    { label: "May", value: 5, },
+    { label: "June", value: 6 },
+    { label: "July", value: 7 },
+    { label: "August", value: 8 },
+    { label: "September", value: 9 },
+    { label: "October", value: 10 },
+    { label: "November", value: 11 },
+    { label: "December", value: 12 }
+  ];
+
+  const { data, isLoading } = useList(
+    { month, year },
+    { keepPreviousData: true }
+  );
+  const dashboard = data?.data;
+  console.log('dashboard', dashboard)
+
+  const stats = useMemo(() => {
+    return [
+      {
+        title: "New Chapters",
+        value: dashboard?.chapters?.notStartedChapters || 0,
+        icon: "bi-journal-plus",
+        iconBg: "#e6f0fa",
+        iconColor: "#4a90e2",
+        subtitle: "Not Started",
+        subtitleColor: "primary",
+      },
+      {
+        title: "In Progress Chapters",
+        value: dashboard?.chapters?.totalStartedChapters || 0,
+        icon: "bi-hourglass-split",
+        iconBg: "#e0e7ff",
+        iconColor: "#6366f1",
+        subtitle: "Started",
+        subtitleColor: "info",
+      },
+      {
+        title: "Completed Chapters",
+        value: dashboard?.chapters?.totalCompletedChapters || 0,
+        icon: "bi-check-circle",
+        iconBg: "#e6fffa",
+        iconColor: "#10b981",
+        subtitle: `${dashboard?.chapters?.completedPercentage || 0}% Completed`,
+        subtitleColor: "success",
+      },
+      {
+        title: "Total Chapters",
+        value: dashboard?.chapters?.totalChapters || 0,
+        icon: "bi-journal-bookmark",
+        iconBg: "#fff4e6",
+        iconColor: "#f59e0b",
+        subtitle: "All Chapters",
+        subtitleColor: "warning",
+      },
+    ];
+  }, [dashboard]);
+
+  // const attendanceData = useMemo(() => {
+  //   return [
+  //     {
+  //       title: "Attendance Overview",
+  //       data: [
+  //         {
+  //           name: "Present",
+  //           value: Number(dashboard?.attendance?.presentPercentage) || 0,
+  //           color: "#22c55e",
+  //         },
+  //         {
+  //           name: "Absent",
+  //           value: Number(dashboard?.attendance?.absentPercentage) || 0,
+  //           color: "#ef4444",
+  //         },
+  //       ],
+  //     },
+  //   ];
+  // }, [dashboard]);
+
+  // const renderCustomLabel = ({ percent }) =>
+  //   `${(percent * 100).toFixed(0)}%`;
+  const attendanceData = useMemo(() => {
+    const present = Number(dashboard?.attendance?.presentPercentage) || 0;
+    const absent = Number(dashboard?.attendance?.absentPercentage) || 0;
+
+    const total = present + absent;
+
+    return [
+      {
+        title: "Attendance Overview",
+        data:
+          total === 0
+            ? [
+              { name: "Present", value: 1, actual: 0, color: "#22c55e" },
+              { name: "Absent", value: 1, actual: 0, color: "#ef4444" },
+            ]
+            : [
+              { name: "Present", value: present, actual: present, color: "#22c55e" },
+              { name: "Absent", value: absent, actual: absent, color: "#ef4444" },
+            ],
+      },
+    ];
+  }, [dashboard]);
+  const renderCustomLabel = ({ payload }) => {
+    return `${payload.actual || 0}%`;
+  };
+
   return (
     <>
       {/* ===== PAGE CONTENT ===== */}
@@ -89,73 +178,48 @@ const StudentDashboard = () => {
           ))}
         </div>
 
-        {/* ===== STAFF OVERVIEW ===== */}
-        {/* <div className="mt-4">
-          <h5 className="fw-bold mb-3">Campus Staff Overview</h5>
+        <div className="row g-4 mt-4">
+          <h5 className="fw-bold mb-3"> Attendance Performance </h5>
 
-          <div className="row g-3">
-            {campusData.map((campus, index) => (
-              <div className="col-md-6 col-lg-3" key={index}>
-                <div className="campus-card">
-                  <div className="campus-header">
-                    <h6>{campus.name}</h6>
-                    <div className="campus-icon">
-                      <i className="bi bi-people"></i>
-                    </div>
-                  </div>
-
-                  <h3 className="campus-main">{campus.staff}</h3>
-                  <small className="campus-label">Total Staff</small>
-
-                  <div className="campus-flex">
-                    <div className="present">
-                      <small>Present :</small>
-                      <strong>{campus.present}</strong>
-                    </div>
-                    <div className="absent">
-                      <small>Absent :</small>
-                      <strong>{campus.absent}</strong>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="row">
+            <div className="mb-3" style={{ maxWidth: "200px" }}>
+              <SelectFilter
+                value={month}
+                placeholder="Select month"
+                options={months}
+                onChange={setMonth}
+              />
+            </div>
+            <div className="mb-3" style={{ maxWidth: "200px" }}>
+              <SelectFilter
+                value={year}
+                placeholder="Select year"
+                options={years}
+                onChange={setYear}
+              />
+            </div>
           </div>
-        </div> */}
-
-        {/* ===== STUDENT OVERVIEW ===== */}
-        {/* <div className="mt-5">
-          <h5 className="fw-bold mb-3">Student Overview</h5>
-
-          <div className="row g-3">
-            {campusData.map((campus, index) => (
-              <div className="col-md-6 col-lg-3" key={index}>
-                <div className="campus-card student">
-                  <div className="campus-header">
-                    <h6>{campus.name}</h6>
-                    <div className="campus-icon student">
-                      <i className="bi bi-mortarboard"></i>
-                    </div>
-                  </div>
-
-                  <h3 className="campus-main">{campus.students}</h3>
-                  <small className="campus-label">Total Students</small>
-
-                  <div className="campus-flex">
-                    <div className="present">
-                      <small>Present :</small>
-                      <strong>{campus.present}</strong>
-                    </div>
-                    <div className="absent">
-                      <small>Absent :</small>
-                      <strong>{campus.absent}</strong>
-                    </div>
-                  </div>
-                </div>
+          {isLoading && (
+            <div className="text-center mt-4">
+              <div className="spinner-border text-primary" />
+            </div>
+          )}
+          {attendanceData.map((item, index) => (<div className="col-12 col-md-6 col-lg-3" key={index} >
+            <div className="card p-1 shadow-sm h-100">
+              <h6 className="text-center mb-2 fw-semibold">{item.title}</h6>
+              <ResponsiveContainer width="100%" height={235}>
+                <PieChart>
+                  <Pie data={item.data} dataKey="value" cx="50%" cy="50%" innerRadius={55} outerRadius={80} paddingAngle={3} labelLine label={renderCustomLabel} > {item.data.map((entry, i) => (<Cell key={i} fill={entry.color} />))} </Pie> <Tooltip formatter={(value) => `${value}%`} />
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="text-center mt-2 small">
+                Working Days:{dashboard?.attendance?.totalWorkingDays || 0}
               </div>
-            ))}
+            </div>
           </div>
-        </div> */}
+          ))}
+        </div>
+
 
       </div></>
 

@@ -20,3 +20,76 @@ const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
 
 
 {locationPieData.map((item, index) => ( <div className="col-12 col-md-6 col-lg-3" key={index}> <div className="card p-3 shadow-sm h-100"> <h6 className="text-center mb-2 fw-semibold">{item.title}</h6> <ResponsiveContainer width="100%" height={220}> <PieChart> <Pie data={item.data} instead of this give a coloum chart dataKey="value" cx="50%" cy="50%" innerRadius={55} outerRadius={80} paddingAngle={3} labelLine label={renderCustomLabel} > {item.data.map((entry, i) => ( <Cell key={i} fill={entry.color} /> ))} </Pie> <Tooltip /> </PieChart> </ResponsiveContainer> </div> </div> ))}
+
+
+
+
+//student dashboard 
+
+        {/* ===== STAFF OVERVIEW ===== */}
+        {/* <div className="mt-4">
+          <h5 className="fw-bold mb-3">Campus Staff Overview</h5>
+
+          <div className="row g-3">
+            {campusData.map((campus, index) => (
+              <div className="col-md-6 col-lg-3" key={index}>
+                <div className="campus-card">
+                  <div className="campus-header">
+                    <h6>{campus.name}</h6>
+                    <div className="campus-icon">
+                      <i className="bi bi-people"></i>
+                    </div>
+                  </div>
+
+                  <h3 className="campus-main">{campus.staff}</h3>
+                  <small className="campus-label">Total Staff</small>
+
+                  <div className="campus-flex">
+                    <div className="present">
+                      <small>Present :</small>
+                      <strong>{campus.present}</strong>
+                    </div>
+                    <div className="absent">
+                      <small>Absent :</small>
+                      <strong>{campus.absent}</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div> */}
+
+        {/* ===== STUDENT OVERVIEW ===== */}
+        {/* <div className="mt-5">
+          <h5 className="fw-bold mb-3">Student Overview</h5>
+
+          <div className="row g-3">
+            {campusData.map((campus, index) => (
+              <div className="col-md-6 col-lg-3" key={index}>
+                <div className="campus-card student">
+                  <div className="campus-header">
+                    <h6>{campus.name}</h6>
+                    <div className="campus-icon student">
+                      <i className="bi bi-mortarboard"></i>
+                    </div>
+                  </div>
+
+                  <h3 className="campus-main">{campus.students}</h3>
+                  <small className="campus-label">Total Students</small>
+
+                  <div className="campus-flex">
+                    <div className="present">
+                      <small>Present :</small>
+                      <strong>{campus.present}</strong>
+                    </div>
+                    <div className="absent">
+                      <small>Absent :</small>
+                      <strong>{campus.absent}</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div> */}
