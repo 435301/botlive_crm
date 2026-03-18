@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Pagination from "../../components/Pagination";
 import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
 import SearchInput from "../../components/SearchInput";
@@ -10,10 +9,10 @@ const ManageAttendance = () => {
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
     const [status, setStatus] = useState("");
-    const getToday = () => { return new Date().toISOString().split("T")[0];};
+    const getToday = () => { return new Date().toISOString().split("T")[0]; };
     const [attendanceDate, setAttendanceDate] = useState(getToday());
 
-    
+
     const { useList } = useCrud({
         entity: "trainer",
         listUrl: "/trainer/attendance/list",
@@ -27,7 +26,6 @@ const ManageAttendance = () => {
 
 
     const trainers = data?.data || [];
-    const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
     const perPage = data?.perPage || 15;
 
     const resetFilters = () => {
@@ -138,7 +136,16 @@ const ManageAttendance = () => {
                                         <td>{t.trainer?.fullName}</td>
                                         <td>{t.trainer?.trainerCode}</td>
                                         <td>{t.attendanceDate}</td>
-                                        <td>{t.attendanceStatus === 1 ? "Present" : "Absent"}</td>
+                                        <td>
+                                            <span
+                                                className={`badge ${t.attendanceStatus === 1
+                                                        ? "bg-success"
+                                                        : "bg-danger"
+                                                    }`}
+                                            >
+                                                {t.attendanceStatus === 1 ? "Present" : "Absent"}
+                                            </span>
+                                        </td>
                                     </tr>
                                 ))
                             ) : (
@@ -152,14 +159,6 @@ const ManageAttendance = () => {
                     </table>
                 </div>
 
-                {/* ===== PAGINATION ===== */}
-                {totalPages > 1 && (
-                    <Pagination
-                        currentPage={page}
-                        totalPages={totalPages}
-                        onPageChange={setPage}
-                    />
-                )}
             </div>
         </div>
     );
