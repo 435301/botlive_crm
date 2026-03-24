@@ -967,7 +967,7 @@ const AddStudent = () => {
           type="file"
           placeholder="ugCertificate"
           onChange={handleSkillChange}
-          mandatory={!isEditMode}
+          // mandatory={!isEditMode}
           multiple
           accept="application/pdf"
           error={!isEditMode && errors?.ugCertificate}
@@ -989,7 +989,7 @@ const AddStudent = () => {
           type="file"
           placeholder="pgCertificate"
           onChange={handleSkillChange}
-          mandatory={!isEditMode}
+          // mandatory={!isEditMode}
           multiple
           accept="application/pdf"
           error={!isEditMode && errors?.pgCertificate}

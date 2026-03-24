@@ -168,7 +168,7 @@ const AddAdminStudent = () => {
     intermediateCertificate: null,
     ugCertificate: null,
     pgCertificate: null,
-    // status: 1,
+    status: 1,
   })
 
   const { grades } = useGrades(centreType);
