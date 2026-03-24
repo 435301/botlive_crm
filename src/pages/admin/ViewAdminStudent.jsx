@@ -26,7 +26,7 @@ const ViewAdminStudent = () => {
                 <h4 className="fw-bold">View Student</h4>
 
                 <Link
-                    to="/admin/manage-chapters"
+                    to="/admin/manage-students"
                     className="btn btn-outline-primary"
                 >
                     Back
