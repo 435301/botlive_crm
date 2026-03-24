@@ -887,7 +887,6 @@ const AddAdminStudent = () => {
           type="file"
           placeholder="sscCertificate"
           onChange={handleSkillChange}
-          mandatory={!isEditMode}
           multiple
           accept="application/pdf"
           error={!isEditMode && errors?.sscCertificate}
@@ -910,7 +909,6 @@ const AddAdminStudent = () => {
           type="file"
           placeholder="intermediateCertificate"
           onChange={handleSkillChange}
-          mandatory={!isEditMode}
           multiple
           accept="application/pdf"
           error={!isEditMode && errors?.intermediateCertificate}
@@ -934,7 +932,6 @@ const AddAdminStudent = () => {
           placeholder="ugCertificate"
           onChange={handleSkillChange}
           multiple
-          mandatory={!isEditMode}
           accept="application/pdf"
           error={!isEditMode && errors?.ugCertificate}
         />
@@ -955,7 +952,6 @@ const AddAdminStudent = () => {
           type="file"
           placeholder="pgCertificate"
           onChange={handleSkillChange}
-          mandatory={!isEditMode}
           multiple
           accept="application/pdf"
           error={!isEditMode && errors?.pgCertificate}

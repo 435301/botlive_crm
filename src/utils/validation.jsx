@@ -239,8 +239,6 @@ export const validateSkillCentreStudent = (formData, isEditMode = false) => {
 
   if (!isEditMode && !formData.studentPhoto) errors.studentPhoto = "Student photo is required";
   if (!isEditMode && !formData.aadharPhoto) errors.aadharPhoto = "Aadhar photo is required";
-  if (!isEditMode && !formData.sscCertificate) errors.sscCertificate = "SSC certificate is required";
-  if (!isEditMode && !formData.intermediateCertificate) errors.intermediateCertificate = "Intermediate certificate is required";
 
   return errors;
 };

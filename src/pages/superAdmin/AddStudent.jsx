@@ -921,7 +921,6 @@ const AddStudent = () => {
           type="file"
           placeholder="sscCertificate"
           onChange={handleSkillChange}
-          mandatory={!isEditMode}
           multiple
           accept="application/pdf"
           error={!isEditMode && errors?.sscCertificate}
@@ -944,7 +943,6 @@ const AddStudent = () => {
           type="file"
           placeholder="intermediateCertificate"
           onChange={handleSkillChange}
-          mandatory={!isEditMode}
           multiple
           accept="application/pdf"
           error={!isEditMode && errors?.intermediateCertificate}
@@ -967,7 +965,6 @@ const AddStudent = () => {
           type="file"
           placeholder="ugCertificate"
           onChange={handleSkillChange}
-          // mandatory={!isEditMode}
           multiple
           accept="application/pdf"
           error={!isEditMode && errors?.ugCertificate}
@@ -989,7 +986,6 @@ const AddStudent = () => {
           type="file"
           placeholder="pgCertificate"
           onChange={handleSkillChange}
-          // mandatory={!isEditMode}
           multiple
           accept="application/pdf"
           error={!isEditMode && errors?.pgCertificate}
