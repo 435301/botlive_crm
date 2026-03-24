@@ -73,6 +73,7 @@ const AddSkillCenter = () => {
         area: data.area,
         status: data.status,
         founderId: data.founderId,
+        udiseCode: data.udiseCode,
       });
     }
   }, [data]);
@@ -185,9 +186,9 @@ const AddSkillCenter = () => {
                   options={[
                     { label: "Skill Development", value: 1 },
                     { label: "AI & STEM Learning", value: 2 },
-                    {label: "Education Development", value: 3},
-                    {label: "Innovation & Entrepreneurs", value: 4},
-                    {label: "Community Development", value: 5},
+                    { label: "Education Development", value: 3 },
+                    { label: "Innovation & Entrepreneurs", value: 4 },
+                    { label: "Community Development", value: 5 },
                   ]}
                 />
               </div>
