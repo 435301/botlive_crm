@@ -19,7 +19,7 @@ const ManageStudents = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
-  const { useList , deleteMutation} = useCrud({
+  const { useList, deleteMutation } = useCrud({
     entity: "student/school",
     listUrl: "/student/list",
     getUrl: (id) => `/student/${id}`,
@@ -36,6 +36,7 @@ const ManageStudents = () => {
   });
 
   const schools = data?.data || [];
+  console.log('schools', schools)
   const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
   const perPage = data?.perPage || 15;
   const { schoolsData } = useSchools();
@@ -251,7 +252,7 @@ const ManageStudents = () => {
                       <td>{s.fullName || "-"}</td>
                       <td>{s.mobile || "-"}</td>
                       <td>{s.email || "-"}</td>
-                      <td>{s.gender === 1 ? "Male" : 2 ? "Female" : 3 ? "Other" : "-"}</td>
+                      <td>{s.gender === 1 ? "Male" : s.gender === 2 ? "Female" : s.gender === 3 ? "Other" : "-"}</td>
                       <td>{s.dob || "-"}</td>
                       <td>{s?.gradeBatch?.gradeBatch}</td>
                       <td>{s.enrolmentNumber || "-"}</td>
