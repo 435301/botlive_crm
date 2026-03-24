@@ -135,7 +135,7 @@ const AddAdminActivity = () => {
             {/* FORM */}
             <div className="card shadow-sm">
                 <div className="card-body">
-                    <h5 className="fw-bold mb-4">Create Activitiy</h5>
+                    <h5 className="fw-bold mb-4">{isEditMode ? "Edit Activitiy" : "Create Activitiy"}</h5>
 
                     <form onSubmit={handleSubmit}>
                         <div className="row g-3">

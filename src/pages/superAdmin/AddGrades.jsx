@@ -97,7 +97,7 @@ const AddGrades = () => {
       {/* ===== FORM ===== */}
       <div className="card shadow-sm p-1">
         <div className="card-body">
-          <h5 className="fw-bold mb-4">Create Grades </h5>
+          <h5 className="fw-bold mb-4">{isEditMode ? "Edit Grades" : "Create Grades"}</h5>
 
           <form onSubmit={handleSubmit}>
             <div className="row g-3">

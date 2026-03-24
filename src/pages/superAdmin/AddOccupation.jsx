@@ -95,7 +95,7 @@ const AddOccupation = () => {
             {/* ===== FORM ===== */}
             <div className="card shadow-sm p-1">
                 <div className="card-body">
-                    <h5 className="fw-bold mb-4">Create Occupation </h5>
+                    <h5 className="fw-bold mb-4">{isEditMode ? "Edit Occupation" : "Create Occupation"}</h5>
 
                     <form onSubmit={handleSubmit}>
                         <div className="row g-3">

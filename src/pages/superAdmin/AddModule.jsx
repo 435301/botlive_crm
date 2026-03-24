@@ -87,7 +87,7 @@ const AddSkillCenter = () => {
       {/* FORM */}
       <div className="card shadow-sm">
         <div className="card-body">
-          <h5 className="fw-bold mb-4">Create Module</h5>
+          <h5 className="fw-bold mb-4">{isEditMode ? "Edit Module" : "Create Module"}</h5>
 
           <form onSubmit={handleSubmit}>
             <div className="row g-3">

@@ -198,7 +198,7 @@ const AddChapters = () => {
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
           <h5 className="fw-bold mb-0">Chapters Management</h5>
-          <p className="mb-0">Create Multiple Chapters</p>
+          <p className="mb-0">{isEditMode ? "Edit Multiple Chapters" : "Create Multiple Chapters"}</p>
         </div>
 
         <Link to="/superAdmin/manage-chapters" className="btn btn-outline-primary">

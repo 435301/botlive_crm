@@ -1003,7 +1003,7 @@ const AddAdminStudent = () => {
       {/* ===== FORM ===== */}
       <div className="card shadow-sm p-1">
         <div className="card-body">
-          <h5 className="fw-bold mb-4">Create Student </h5>
+          <h5 className="fw-bold mb-4">{isEditMode ? "Edit Student" : "Create Student"}</h5>
 
           <form onSubmit={handleSubmit}>
             <div className="row g-3">
