@@ -179,6 +179,7 @@ const ViewTrainer = () => {
                                            className="viewFile"
                                             title={`certificate-${index}`}
                                         />
+                                        
                                     ))}
                                 </div>
                             ) : (

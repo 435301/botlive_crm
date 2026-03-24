@@ -78,10 +78,21 @@ const ViewAdminChapter = () => {
                         <div key={pdf.id} className="col-md-4 mb-3">
                           <iframe
                             src={`${BASE_URL_JOB}${pdf.videoPdf}`}
-                            
+
                             title="PDF"
                             className="rounded border viewFile"
                           />
+
+                          <div className="text-center mt-2">
+                            <a
+                              href={`${BASE_URL_JOB}${pdf.videoPdf}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="btn btn-sm btn-primary"
+                            >
+                              View PDF
+                            </a>
+                          </div>
                         </div>
                       ))}
                     </div>
