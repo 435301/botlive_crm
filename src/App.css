@@ -1775,11 +1775,13 @@ button .filter-btn :hover {
   max-height: 250px;
   border-radius: 8px;
   object-fit: cover;
+  width: 100%;
 }
 
 .viewFile{
   min-height: 240px;
   border-radius: 8px;
+  width: 100%;
 }
 
 /* Responsive */

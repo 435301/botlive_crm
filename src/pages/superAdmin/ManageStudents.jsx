@@ -251,7 +251,7 @@ const ManageStudents = () => {
                       <td>{s.fullName || "-"}</td>
                       <td>{s.mobile || "-"}</td>
                       <td>{s.email || "-"}</td>
-                      <td>{s.gender === 1 ? "Male" : 2 ? "Female" : 3 ? "Other" : ""}</td>
+                      <td>{s.gender === 1 ? "Male" : 2 ? "Female" : 3 ? "Other" : "-"}</td>
                       <td>{s.dob || "-"}</td>
                       <td>{s?.gradeBatch?.gradeBatch}</td>
                       <td>{s.enrolmentNumber || "-"}</td>
