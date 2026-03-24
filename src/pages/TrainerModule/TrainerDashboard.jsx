@@ -200,7 +200,7 @@ const TrainerDashboard = () => {
                                             <div>
                                                 <h6 className="mb-3">{item.title}</h6>
                                                 <h3 className="fw-bold">{item.value}</h3>
-                                                <div className="d-flex align-items-center gap-2 "> {item.subtitle && (
+                                                {/* <div className="d-flex align-items-center gap-2 "> {item.subtitle && (
                                                     <small
                                                         className={`text-${item.subtitleColor || "secondary"}`}
                                                     >
@@ -213,7 +213,7 @@ const TrainerDashboard = () => {
                                                         >
                                                             {item.subtitleInactive}
                                                         </small>
-                                                    )}</div>
+                                                    )}</div> */}
                                                 <div className="campus-flex">
                                                     <div className="present me-4">
                                                         <small>Present :</small>
