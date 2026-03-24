@@ -56,8 +56,8 @@ const ManageStudentChapters = () => {
     };
 
     const statusMap = {
-        0: { label: "In Progress", class: "bg-secondary" },
-        1: { label: "Started", class: "bg-primary" },
+        0: { label: "New", class: "bg-secondary" },
+        1: { label: "In Progress", class: "bg-primary" },
         2: { label: "Completed", class: "bg-success" },
     };
     const queryClient = useQueryClient();
