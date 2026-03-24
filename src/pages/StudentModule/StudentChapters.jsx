@@ -76,7 +76,7 @@ const ManageStudentChapters = () => {
 
     const completeMutation = useMutation({
         mutationFn: (chapterId) =>
-            axiosInstance.post("/student/updateStatusCompleted", { chapterId }),
+            axiosInstance.patch("/student/updateStatusCompleted", { chapterId }),
 
         onSuccess: () => {
             queryClient.invalidateQueries(["student"]); // refresh list
