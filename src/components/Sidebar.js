@@ -358,7 +358,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               <Layers size={18} />
               {!collapsed && (
                 <>
-                  <span>Grades/Batches Management</span>
+                  <span>Grades/Skill Management</span>
                   <ChevronDown
                     size={16}
                     className={`arrow ${openMenu === "grades" ? "rotate" : ""}`}
