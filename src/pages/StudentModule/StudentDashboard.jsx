@@ -7,8 +7,13 @@ import {
 } from "recharts";
 import { useCrud } from "../../hooks/useCrud";
 import SelectFilter from "../../components/SelectFilter";
+import Cookies from "js-cookie";
 
 const StudentDashboard = () => {
+
+  const name = JSON.parse(Cookies.get("student" || "{}"))?.fullName;
+  const enrollment = JSON.parse(Cookies.get("student" || "{}"))?.enrolmentNumber;
+
   const { useList } = useCrud({
     entity: "dashboard",
     listUrl: "/student/getDashboard",
@@ -157,7 +162,7 @@ const StudentDashboard = () => {
             </div>
             <div>
               <h5 className="fw-bold mb-0">Students Dashboard</h5>
-              <p className="sub-text mb-0">Welcome , Cyient Foundation</p>
+              <p className="sub-text mb-0">Welcome  {name} - {enrollment}</p>
             </div>
           </div>
 
