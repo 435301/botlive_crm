@@ -66,6 +66,31 @@ const TrainerSidebar = ({ collapsed, show, closeSidebar }) => {
                         {!collapsed && <span>Curriculam</span>}
                     </NavLink>
 
+                    {/* Student Dropdown */}
+                    <div className="nav-group">
+                        <div className="nav-link" onClick={() => toggleMenu("students")}>
+                            <Building2 size={18} />
+                            {!collapsed && (
+                                <>
+                                    <span>Students</span>
+                                    <ChevronDown
+                                        size={16}
+                                        className={`arrow ${openMenu === "students" ? "rotate" : ""}`}
+                                    />
+                                </>
+                            )}
+                        </div>
+
+                        <div className={`submenu ${openMenu === "students" ? "open" : ""}`}>
+                            <NavLink to="/trainer/add-student" className={getNavLinkClass}>
+                                Add Student
+                            </NavLink>
+
+                            <NavLink to="/trainer/manage-students" className={getNavLinkClass}>
+                                Manage Students
+                            </NavLink>
+                        </div>
+                    </div>
 
                     {/* Reports Dropdown */}
                     <div className="nav-group">

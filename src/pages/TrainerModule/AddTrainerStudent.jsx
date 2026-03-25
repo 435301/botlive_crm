@@ -18,13 +18,13 @@ import Cookies from "js-cookie";
 import BASE_URL_JOB from "../../config/config";
 import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
 
-const AddAdminStudent = () => {
+const AddTrainerStudent = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const isEditMode = Boolean(id);
-  const centreType = JSON.parse(Cookies.get("sub_admin") || "{}")?.centerType;
-  const schoolSkillCentreId = JSON.parse(Cookies.get("sub_admin") || "{}")?.id;
-  console.log('schoolSkillCentreId', schoolSkillCentreId)
+  const centreType = JSON.parse(Cookies.get("trainer") || "{}")?.trainerType;
+  const schoolSkillCentreId = JSON.parse(Cookies.get("trainer") || "{}")?.centreId;
+  console.log('schoolSkillCentreId', schoolSkillCentreId, centreType)
 
   const { useGetById } = useCrud({
     entity: "student/school",
@@ -40,7 +40,6 @@ const AddAdminStudent = () => {
     updateMutation: updateSchoolStudent
   } = useCrud({
     entity: "student/school",
-    listUrl: "/student/school/list",
     getUrl: (id) => `/student/${id}`,
     createUrl: "/student/school/add",
     updateUrl: (id) => `/student/school/update/${id}`,
@@ -51,8 +50,7 @@ const AddAdminStudent = () => {
     updateMutation: updateSkillStudent
   } = useCrud({
     entity: "student/skillcenter",
-    listUrl: "/student/skillcenter/list",
-    getUrl: (id) => `/student/skillcenter/${id}`,
+    getUrl: (id) => `/student/${id}`,
     createUrl: "/student/skillcenter/add",
     updateUrl: (id) => `/student/skillcenter/update/${id}`,
   });
@@ -86,7 +84,7 @@ const AddAdminStudent = () => {
         fatherName: studentData.fatherName || "",
         gender: studentData.gender || "",
         dob: studentData.dob || "",
-        batchId: studentData.gradeBatchId || "",
+        batchId: String(studentData.gradeBatchId )|| "",
         aadharNumber: studentData.aadharNumber || "",
         mobile: studentData.mobile || "",
         email: studentData.email || "",
@@ -268,11 +266,11 @@ const AddAdminStudent = () => {
       if (isEditMode) {
         updateSchoolStudent.mutate(
           { id, data: dataToSend },
-          { onSuccess: () => navigate("/admin/manage-students") }
+          { onSuccess: () => navigate("/trainer/manage-students") }
         );
       } else {
         createSchoolStudent.mutate(dataToSend, {
-          onSuccess: () => navigate("/admin/manage-students"),
+          onSuccess: () => navigate("/trainer/manage-students"),
         });
       }
 
@@ -311,11 +309,11 @@ const AddAdminStudent = () => {
       if (isEditMode) {
         updateSkillStudent.mutate(
           { id, data: dataToSend },
-          { onSuccess: () => navigate("/admin/manage-students") }
+          { onSuccess: () => navigate("/trainer/manage-students") }
         );
       } else {
         createSkillStudent.mutate(dataToSend, {
-          onSuccess: () => navigate("/admin/manage-students"),
+          onSuccess: () => navigate("/trainer/manage-students"),
         });
       }
 
@@ -988,7 +986,7 @@ const AddAdminStudent = () => {
 
         {/* Right: Manage Skills Button */}
         <Link
-          to="/admin/manage-students"
+          to="/trainer/manage-students"
           className="btn manage-skills-btn d-flex align-items-center"
         >
           <i className="ti ti-certificate me-2"></i>
@@ -1010,7 +1008,7 @@ const AddAdminStudent = () => {
             {/* ===== ACTION BUTTONS ===== */}
             <div className="mt-4 text-center">
               <FormActions
-                onCancel={() => navigate("/admin/manage-students")}
+                onCancel={() => navigate("/trainer/manage-students")}
                 saveText={isEditMode ? updateSchoolStudent.isPending || updateSkillStudent.isPending ? "Saving..." : "Save" : createSchoolStudent.isPending || createSkillStudent.isPending ? "Saving..." : "Save"}
                 cancelText="Cancel"
               />
@@ -1022,4 +1020,4 @@ const AddAdminStudent = () => {
   );
 };
 
-export default AddAdminStudent;
+export default AddTrainerStudent;
