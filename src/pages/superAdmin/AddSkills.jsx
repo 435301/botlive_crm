@@ -212,7 +212,7 @@ const AddSkillCenter = () => {
               {/* Contact Person */}
               <div className="col-md-4">
                 <FormInput
-                  label="School/Skill Center Contact Person Name"
+                  label="School/Skill Center Person Name"
                   name="contactPerson"
                   value={formData.contactPerson}
                   onChange={handleChange}
@@ -226,7 +226,7 @@ const AddSkillCenter = () => {
               <div className="col-md-4">
                 <FormInput
                   type="tel"
-                  label="School/Skill Center Contact Person Mobile"
+                  label="School/Skill Center Person Mobile"
                   name="mobile"
                   value={formData.mobile}
                   onChange={handleChange}
