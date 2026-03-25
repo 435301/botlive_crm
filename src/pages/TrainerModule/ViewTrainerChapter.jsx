@@ -30,8 +30,8 @@ const ViewTrainerChapter = () => {
     };
 
     return (
-        <div className="container py-4">
-              <div className="d-flex justify-content-between mb-4">
+        <div className="container-fluid">
+            <div className="d-flex justify-content-between mb-4">
                 <h4 className="fw-bold">View Curriculam</h4>
 
                 <Link

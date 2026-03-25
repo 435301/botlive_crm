@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import BASE_URL_JOB from "../../config/config";
 import { useCrud } from "../../hooks/useCrud";
 
@@ -24,7 +24,17 @@ const ViewAdminChapter = () => {
   const chapter = data;
 
   return (
-    <div className="container py-4">
+    <div className="container-fluid">
+      <div className="d-flex justify-content-between mb-4">
+        <h4 className="fw-bold">View Curriculam</h4>
+
+        <Link
+          to="/admin/manage-chapters"
+          className="btn btn-outline-primary"
+        >
+          Back
+        </Link>
+      </div>
       <div className="card shadow-sm">
         <div className="card-header bg-light">
           <h5 className="mb-0">{chapter?.chapterTitle}</h5>
