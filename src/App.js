@@ -120,6 +120,8 @@ const SchoolSkillLogin = lazy(
 // Trainer Modules
 const TrainerModuleLogin = lazy( () => import("./pages/TrainerModule/TrainerModuleLogin"),);
 const  TrainerDashboard = lazy(()=> import("./pages/TrainerModule/TrainerDashboard"));
+const ManageTrainerChapters = lazy(()=> import("./pages/TrainerModule/TrainerChapters"));
+const ViewTrainerChapter = lazy(()=> import("./pages/TrainerModule/ViewTrainerChapter"));
 
 // Student Module
 
@@ -660,7 +662,8 @@ function App() {
           <Route path="/trainer/login" element={<PublicRoute>{lazyLoad(TrainerModuleLogin)}</PublicRoute>} />
           <Route path="/trainer" element={<PublicRoute>{lazyLoad(TrainerModuleLogin)}</PublicRoute>} />
           <Route path="/trainer/dashboard" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(TrainerDashboard)}</ProtectedRoute>} />
-
+          <Route path="/trainer/manage-chapters" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(ManageTrainerChapters)}</ProtectedRoute>} />
+          <Route path="/trainer/view-chapter/:id" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(ViewTrainerChapter)}</ProtectedRoute>} />
 
           {/* Student Module login */}
 
