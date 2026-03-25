@@ -108,6 +108,35 @@ const TrainerSidebar = ({ collapsed, show, closeSidebar }) => {
                             )}
                         </div>
 
+                        {/* attendance management */}
+                        <div className="nav-group">
+                            <div className="nav-link" onClick={() => toggleMenu("attendance")}>
+                                <Building2 size={18} />
+                                {!collapsed && (
+                                    <>
+                                        <span>Attendance</span>
+                                        <ChevronDown
+                                            size={16}
+                                            className={`arrow ${openMenu === "attendance" ? "rotate" : ""}`}
+                                        />
+                                    </>
+                                )}
+                            </div>
+
+                            <div className={`submenu ${openMenu === "attendance" ? "open" : ""}`}>
+                                <NavLink to="/trainer/add-attendance" className={getNavLinkClass}>
+                                    Add Student Attendance
+                                </NavLink>
+
+                                <NavLink to="/trainer/manage-attendance" className={getNavLinkClass}>
+                                    Manage Student Attendance
+                                </NavLink>
+                                <NavLink to="/trainer/manage-monthly-attendance" className={getNavLinkClass}>
+                                    Manage Student Monthly Attendance
+                                </NavLink>
+                            </div>
+                        </div>
+
                         <div className={`submenu ${openMenu === "reports" ? "open" : ""}`}>
                             <NavLink to="/trainer/report-students" className={getNavLinkClass}>
                                 Schools
