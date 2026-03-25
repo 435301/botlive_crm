@@ -3,7 +3,10 @@ import { jwtDecode } from "jwt-decode";
 
 //super admin
 export const getAdminToken = () => {
-  return Cookies.get("super-admin-token");
+  const adminData = Cookies.get("super-admin");
+  if (!adminData) return null;
+  const parsed = JSON.parse(adminData);
+  return parsed?.token;
 };
 
 export const isAuthenticated = () => {
@@ -23,7 +26,11 @@ export const getAdminRole = () => {
 //student
 
 export const getStudentToken = () => {
-  return Cookies.get("student-token");
+  const adminData = Cookies.get("student");
+  if (!adminData) return null;
+
+  const parsed = JSON.parse(adminData);
+  return parsed?.token;
 };
 
 export const isStudentAuthenticated = () => {
@@ -41,7 +48,11 @@ export const getStudentRole = () => {
 //sub admin
 
 export const getSubAdminToken = () => {
-  return Cookies.get("sub-admin-token");
+  const adminData = Cookies.get("sub_admin");
+  if (!adminData) return null;
+
+  const parsed = JSON.parse(adminData);
+  return parsed?.token;
 };
 
 export const isSubAdminAuthenticated = () => {
@@ -60,7 +71,11 @@ export const getSubAdminRole = () => {
 //trainer
 
 export const getTrainerToken = () => {
-  return Cookies.get("trainer-token");
+  const adminData = Cookies.get("trainer");
+  if (!adminData) return null;
+
+  const parsed = JSON.parse(adminData);
+  return parsed?.token;
 };
 
 export const isTrainerAuthenticated = () => {
