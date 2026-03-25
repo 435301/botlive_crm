@@ -7,8 +7,13 @@ import {
 } from "recharts";
 import { useCrud } from "../../hooks/useCrud";
 import SelectFilter from "../../components/SelectFilter";
+import Cookies from "js-cookie";
 
 const TrainerDashboard = () => {
+
+    const name = JSON.parse(Cookies.get("trainer" || "{}"))?.fullName;
+    const trainerCode = JSON.parse(Cookies.get("trainer" || "{}"))?.trainerCode;
+
     const { useList } = useCrud({
         entity: "dashboard",
         listUrl: "/trainerAdmin/getDashboard",
@@ -152,7 +157,7 @@ const TrainerDashboard = () => {
                         </div>
                         <div>
                             <h5 className="fw-bold mb-0">Trainer's Dashboard</h5>
-                            <p className="sub-text mb-0">Welcome , Cyient Foundation</p>
+                            <p className="sub-text mb-0">Welcome , {name} - {trainerCode}</p>
                         </div>
                     </div>
 

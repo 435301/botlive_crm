@@ -162,7 +162,7 @@ const StudentDashboard = () => {
             </div>
             <div>
               <h5 className="fw-bold mb-0">Students Dashboard</h5>
-              <p className="sub-text mb-0">Welcome  {name} - {enrollment}</p>
+              <p className="sub-text mb-0">Welcome , {name} - {enrollment}</p>
             </div>
           </div>
 
