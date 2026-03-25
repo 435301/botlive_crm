@@ -157,6 +157,9 @@ const AdminSidebar = ({ collapsed, show, closeSidebar }) => {
                 <NavLink to="/admin/manage-attendance" className={getNavLinkClass}>
                   Manage Trainer Attendance
                 </NavLink>
+                <NavLink to="/admin/manage-trainer-monthly-attendance" className={getNavLinkClass}>
+                  Manage Student Monthly Attendance
+                </NavLink>
               </div>
             </div>
 
