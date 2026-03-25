@@ -90,26 +90,26 @@ axiosInstance.interceptors.response.use(
 
             //  Check which user is logged in
             if (Cookies.get("super-admin")) {
-                store.dispatch(logoutAdmin());
                 Cookies.remove("super-admin");
+                store.dispatch(logoutAdmin());
                 window.location.href = "/login";
             }
 
             if (Cookies.get("student")) {
+                 Cookies.remove("student");
                 store.dispatch(logoutStudent());
-                Cookies.remove("student");
                 window.location.href = "/student/login";
             }
 
             if (Cookies.get("sub_admin")) {
-                store.dispatch(logoutSubAdmin());
                 Cookies.remove("sub_admin");
+                store.dispatch(logoutSubAdmin());
                 window.location.href = "/admin/login";
             }
 
             if (Cookies.get("trainer")) {
-                store.dispatch(logoutTrainer());
                 Cookies.remove("trainer");
+                store.dispatch(logoutTrainer());
                 window.location.href = "/trainer/login";
             }
         }
