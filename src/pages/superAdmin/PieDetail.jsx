@@ -69,6 +69,7 @@ const PieDetail = () => {
     const highest = data?.data?.highestAttendance;
     const lowest = data?.data?.lowestAttendance;
     const totalCentres = data?.data?.totalCentres
+    console.log('totalCentres', totalCentres)
 
     if (!chartData) return <div>No data available</div>;
     if (!districtId) return <div>District not found</div>;
@@ -106,26 +107,30 @@ const PieDetail = () => {
                     {/* Highest & Lowest Cards */}
                     <div className="row mb-4">
                         <p className="fw-500">Total Centres: {totalCentres}</p>
+                        {totalCentres > 1 && (
+                            <>
+                                {highest && (
+                                    <div className="col-md-6">
+                                        <div className="card border-success shadow-sm p-3">
+                                            <h6 className="text-success">Highest Attendance</h6>
+                                            <p className="mb-1"><strong>Area:</strong> {highest.area.trim()}</p>
+                                            <p className="mb-1"><strong>Percentage:</strong> {Math.round(highest.percentage)}%</p>
+                                        </div>
+                                    </div>
+                                )}
 
-                        {highest && (
-                            <div className="col-md-6">
-                                <div className="card border-success shadow-sm p-3">
-                                    <h6 className="text-success">Highest Attendance</h6>
-                                    <p className="mb-1"><strong>Area:</strong> {highest.area.trim()}</p>
-                                    <p className="mb-1"><strong>Percentage:</strong> {Math.round(highest.percentage)}%</p>
-                                </div>
-                            </div>
+                                {lowest && (
+                                    <div className="col-md-6">
+                                        <div className="card border-danger shadow-sm p-3">
+                                            <h6 className="text-danger">Lowest Attendance</h6>
+                                            <p className="mb-1"><strong>Area:</strong> {lowest.area.trim()}</p>
+                                            <p className="mb-1"><strong>Percentage:</strong> {Math.round(lowest.percentage)}%</p>
+                                        </div>
+                                    </div>
+                                )}
+                            </>
                         )}
 
-                        {lowest && (
-                            <div className="col-md-6">
-                                <div className="card border-danger shadow-sm p-3">
-                                    <h6 className="text-danger">Lowest Attendance</h6>
-                                    <p className="mb-1"><strong>Area:</strong> {lowest.area.trim()}</p>
-                                    <p className="mb-1"><strong>Percentage:</strong> {Math.round(lowest.percentage)}%</p>
-                                </div>
-                            </div>
-                        )}
                     </div>
 
                     {/* Centres Pie Charts */}
