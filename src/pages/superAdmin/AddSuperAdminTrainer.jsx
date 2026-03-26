@@ -8,7 +8,7 @@ import useStates from "../../hooks/useStates";
 import useDistricts from "../../hooks/useDistricts";
 import useGrades from "../../hooks/useGrades";
 import useQualification from "../../hooks/useQualification";
-import { validateTrainerForm } from "../../utils/validation";
+import { validateSuperAdminTrainerForm } from "../../utils/validation";
 import FormActions from "../../components/FormActions";
 import StatusSelectTrainer from "../../components/StatusSelectTrainer";
 import BASE_URL_JOB from "../../config/config";
@@ -127,7 +127,7 @@ const AddSuperAdminTrainer = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const validationErrors = validateTrainerForm(formData, isEditMode);
+        const validationErrors = validateSuperAdminTrainerForm(formData, isEditMode);
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;
