@@ -8,9 +8,10 @@ import {
 import { useCrud } from "../../hooks/useCrud";
 import SelectFilter from "../../components/SelectFilter";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const StudentDashboard = () => {
-
+  const navigate = useNavigate();
   const name = JSON.parse(Cookies.get("student" || "{}"))?.fullName;
   const enrollment = JSON.parse(Cookies.get("student" || "{}"))?.enrolmentNumber;
 
@@ -56,6 +57,7 @@ const StudentDashboard = () => {
         iconColor: "#4a90e2",
         subtitle: "Not Started",
         subtitleColor: "primary",
+        onClick: () => navigate("/student/manage-chapters"),
       },
       {
         title: "In Progress Chapters",
@@ -65,6 +67,7 @@ const StudentDashboard = () => {
         iconColor: "#6366f1",
         subtitle: "Started",
         subtitleColor: "info",
+        onClick: () => navigate("/student/manage-chapters"),
       },
       {
         title: "Completed Chapters",
@@ -74,6 +77,7 @@ const StudentDashboard = () => {
         iconColor: "#10b981",
         subtitle: `${dashboard?.chapters?.completedPercentage || 0}% Completed`,
         subtitleColor: "success",
+        onClick: () => navigate("/student/manage-chapters"),
       },
       {
         title: "Total Chapters",
@@ -83,9 +87,10 @@ const StudentDashboard = () => {
         iconColor: "#f59e0b",
         subtitle: "All Chapters",
         subtitleColor: "warning",
+        onClick: () => navigate("/student/manage-chapters"),
       },
     ];
-  }, [dashboard]);
+  }, [dashboard, navigate]);
 
   // const attendanceData = useMemo(() => {
   //   return [
@@ -171,7 +176,7 @@ const StudentDashboard = () => {
         <div className="row g-3">
           {stats.map((item, i) => (
             <div className="col-12 col-sm-6 col-lg-3" key={i}>
-              <div className="card rounded-3 p-3 shadow-sm h-100">
+              <div className="card rounded-3 p-3 shadow-sm h-100" onClick={item.onClick}>
                 <div className="d-flex justify-content-between align-items-center">
                   <div>
                     <h6 className="mb-3">{item.title}</h6>

@@ -8,9 +8,10 @@ import {
 import { useCrud } from "../../hooks/useCrud";
 import SelectFilter from "../../components/SelectFilter";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const TrainerDashboard = () => {
-
+    const navigate = useNavigate();
     const name = JSON.parse(Cookies.get("trainer" || "{}"))?.fullName;
     const trainerCode = JSON.parse(Cookies.get("trainer" || "{}"))?.trainerCode;
 
@@ -56,6 +57,7 @@ const TrainerDashboard = () => {
                 iconColor: "#4a90e2",
                 subtitle: "Not Started",
                 subtitleColor: "primary",
+                onClick: () => navigate("/trainer/manage-chapters"),
             },
             {
                 title: "In Progress Chapters",
@@ -65,6 +67,7 @@ const TrainerDashboard = () => {
                 iconColor: "#6366f1",
                 subtitle: "Started",
                 subtitleColor: "info",
+                onClick: () => navigate("/trainer/manage-chapters"),
             },
             {
                 title: "Completed Chapters",
@@ -74,6 +77,7 @@ const TrainerDashboard = () => {
                 iconColor: "#10b981",
                 subtitle: `${dashboard?.chapters?.completedPercentage || 0}% Completed`,
                 subtitleColor: "success",
+                onClick: () => navigate("/trainer/manage-chapters"),
             },
             {
                 title: "Total Chapters",
@@ -83,9 +87,10 @@ const TrainerDashboard = () => {
                 iconColor: "#f59e0b",
                 subtitle: "All Chapters",
                 subtitleColor: "warning",
+                onClick: () => navigate("/trainer/manage-chapters"),
             },
         ];
-    }, [dashboard]);
+    }, [dashboard, navigate]);
 
     const studentStats = [
         {
@@ -100,6 +105,7 @@ const TrainerDashboard = () => {
             icon: "bi-folder",
             iconBg: "#fff0f0",
             iconColor: "#dc3545",
+            onClick: () => navigate("/trainer/manage-students"),
         },
 
     ];
@@ -166,7 +172,7 @@ const TrainerDashboard = () => {
                 <div className="row g-3">
                     {stats.map((item, i) => (
                         <div className="col-12 col-sm-6 col-lg-3" key={i}>
-                            <div className="card rounded-3 p-3 shadow-sm h-100">
+                            <div className="card rounded-3 p-3 shadow-sm h-100" onClick={item.onClick}>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <div>
                                         <h6 className="mb-3">{item.title}</h6>
@@ -200,7 +206,7 @@ const TrainerDashboard = () => {
                         {studentStats
                             .map((item, i) => (
                                 <div className="col-12 col-sm-6 col-lg-3" key={i}>
-                                    <div className="card rounded-3 p-3 shadow-sm h-100">
+                                    <div className="card rounded-3 p-3 shadow-sm h-100" onClick={item.onClick}>
                                         <div className="d-flex justify-content-between align-items-center">
                                             <div>
                                                 <h6 className="mb-3">{item.title}</h6>

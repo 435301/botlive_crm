@@ -1,5 +1,6 @@
 import React from "react";
 import { useCrud } from "../../hooks/useCrud";
+import { useNavigate } from "react-router-dom";
 
 /* ===== UPDATED TOP STATS ===== */
 
@@ -13,6 +14,7 @@ const campusData = [
 ];
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   const { useGetAll } = useCrud({
     entity: "dashboard",
     getAllUrl: "/skillCenterSchoolAdmin/getDashboard",
@@ -33,6 +35,7 @@ const AdminDashboard = () => {
       icon: "bi-book",
       iconBg: "#e8f0ff",
       iconColor: "#3f51b5",
+      onClick: () => navigate("/admin/manage-trainers"),
     },
     {
       title: "Students",
@@ -44,6 +47,7 @@ const AdminDashboard = () => {
       icon: "bi-folder",
       iconBg: "#fff0f0",
       iconColor: "#dc3545",
+      onClick: () => navigate("/admin/manage-students"),
     },
 
   ];
@@ -65,7 +69,7 @@ const AdminDashboard = () => {
         <div className="row g-3">
           {stats.map((item, i) => (
             <div className="col-12 col-sm-6 col-lg-3" key={i}>
-              <div className="card rounded-3 p-3 shadow-sm h-100">
+              <div className="card rounded-3 p-3 shadow-sm h-100" onClick={item.onClick}>
                 <div className="d-flex justify-content-between align-items-center">
                   <div>
                     <h6 className="mb-3">{item.title}</h6>
