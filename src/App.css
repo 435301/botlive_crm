@@ -1877,6 +1877,11 @@ button .filter-btn :hover {
   min-height: 240px;
   border-radius: 8px;
 }
+.dashboardActivityImg{
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
 
 /* Responsive */
 @media (max-width: 768px) {

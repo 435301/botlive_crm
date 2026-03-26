@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   Tooltip, ResponsiveContainer,
@@ -8,6 +8,7 @@ import {
   Pie
 } from "recharts";
 import { useCrud } from "../../hooks/useCrud";
+import BASE_URL_JOB from "../../config/config";
 
 const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
   const RADIAN = Math.PI / 180;
@@ -31,11 +32,19 @@ const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { useGetAll } = useCrud({
+  const { useGetAll, useList } = useCrud({
     entity: "dashboard",
     getAllUrl: "/admin/getDashboard",
+    listUrl: "/activity/dashboardlist",
   });
 
+  const { data: activityData, isLoading } = useList({
+    centreId: ""
+  });
+
+  const activityRawData = activityData?.data
+  console.log("Full activity response:", activityData);
+  console.log('activityData', activityRawData)
   const { useGetAll: useGetAttendance } = useCrud({
     entity: "attendance",
     getAllUrl: "/admin/attendancePercentage",
@@ -70,7 +79,7 @@ const Dashboard = () => {
       icon: "bi-building",
       iconBg: "#e8f5ff",
       iconColor: "#0d6efd",
-      onClick: ()=>navigate("/superAdmin/manage-skill-centres"),
+      onClick: () => navigate("/superAdmin/manage-skill-centres"),
     },
     {
       title: "AI And Stem Learning Centres",
@@ -82,7 +91,7 @@ const Dashboard = () => {
       icon: "bi-mortarboard",
       iconBg: "#fff4e5",
       iconColor: "#ff9800",
-      onClick: ()=>navigate("/superAdmin/manage-skill-centres"),
+      onClick: () => navigate("/superAdmin/manage-skill-centres"),
     },
     {
       title: "Education Development Centres",
@@ -94,7 +103,7 @@ const Dashboard = () => {
       icon: "bi-people",
       iconBg: "#e8ffe8",
       iconColor: "#28a745",
-      onClick: ()=>navigate("/superAdmin/manage-skill-centres"),
+      onClick: () => navigate("/superAdmin/manage-skill-centres"),
     },
     {
       title: "Innovation And Entrepreneurs Centres",
@@ -106,7 +115,7 @@ const Dashboard = () => {
       icon: "bi-person-badge",
       iconBg: "#f3e8ff",
       iconColor: "#6f42c1",
-      onClick: ()=>navigate("/superAdmin/manage-skill-centres"),
+      onClick: () => navigate("/superAdmin/manage-skill-centres"),
     },
     {
       title: "Community Development Centres",
@@ -118,7 +127,7 @@ const Dashboard = () => {
       icon: "bi-book",
       iconBg: "#e8f0ff",
       iconColor: "#3f51b5",
-      onClick:()=> navigate("/superAdmin/manage-skill-centres"),
+      onClick: () => navigate("/superAdmin/manage-skill-centres"),
     },
     {
       title: "Students",
@@ -130,7 +139,7 @@ const Dashboard = () => {
       icon: "bi-folder",
       iconBg: "#fff0f0",
       iconColor: "#dc3545",
-      onClick:()=> navigate("/superAdmin/manage-students"),
+      onClick: () => navigate("/superAdmin/manage-students"),
     },
     {
       title: "Trainers",
@@ -147,7 +156,7 @@ const Dashboard = () => {
       icon: "bi-journal-text",
       iconBg: "#e6f9ff",
       iconColor: "#20c997",
-      onClick: ()=>navigate("/superAdmin/manage-trainers"),
+      onClick: () => navigate("/superAdmin/manage-trainers"),
     },
     {
       title: "Courses",
@@ -159,7 +168,7 @@ const Dashboard = () => {
       icon: "bi-journal-text",
       iconBg: "#e6f9ff",
       iconColor: "#20c997",
-      onClick: ()=>navigate("/superAdmin/manage-course"),
+      onClick: () => navigate("/superAdmin/manage-course"),
     },
     {
       title: "Modules",
@@ -171,7 +180,7 @@ const Dashboard = () => {
       icon: "bi-journal-text",
       iconBg: "#e6f9ff",
       iconColor: "#20c997",
-      onClick: ()=>navigate("/superAdmin/manage-module"),
+      onClick: () => navigate("/superAdmin/manage-module"),
     },
     {
       title: "Chapters",
@@ -183,7 +192,7 @@ const Dashboard = () => {
       icon: "bi-journal-text",
       iconBg: "#e6f9ff",
       iconColor: "#20c997",
-      onClick: ()=>navigate("/superAdmin/manage-chapters"),
+      onClick: () => navigate("/superAdmin/manage-chapters"),
     },
   ];
 
@@ -248,19 +257,69 @@ const Dashboard = () => {
           </div>
         ))}
         {/* ===== LOCATION DONUT PIE CHARTS ===== */}
-        <div className="row g-4 mt-4">
-          <h5 className="fw-bold mb-3"> Attendance Performance </h5>
-          {attendanceData.map((item, index) => (<div className="col-12 col-md-6 col-lg-3" key={index} onClick={() => handleChartClick(item)} style={{ cursor: "pointer" }}>
-            <div className="card p-1 shadow-sm h-100">
-              <h6 className="text-center mb-2 fw-semibold">{item.title}</h6>
-              <ResponsiveContainer width="100%" height={220}>
-                <PieChart>
-                  <Pie data={item.data} dataKey="value" cx="50%" cy="50%" innerRadius={55} outerRadius={80} paddingAngle={3} labelLine label={renderCustomLabel} > {item.data.map((entry, i) => (<Cell key={i} fill={entry.color} />))} </Pie> <Tooltip formatter={(value) => `${value}%`} />
-                </PieChart>
-              </ResponsiveContainer>
+        <div className="container mt-4">
+          <h5 className="fw-bold mt-3"> Attendance Performance </h5>
+
+          <div className="row g-4 mt-2">
+            <div className="col-md-8">
+
+              <div className="row">
+                {attendanceData.map((item, index) => (<div className="col-12 col-md-6 col-lg-4 mb-3" key={index} onClick={() => handleChartClick(item)} style={{ cursor: "pointer" }}>
+                  <div className="card p-4 shadow-sm h-100">
+                    <h6 className="text-center mb-2 fw-semibold">{item.title}</h6>
+                    <ResponsiveContainer width="100%" height={220}>
+                      <PieChart>
+                        <Pie data={item.data} dataKey="value" cx="50%" cy="50%" innerRadius={55} outerRadius={80} paddingAngle={3} labelLine label={renderCustomLabel} > {item.data.map((entry, i) => (<Cell key={i} fill={entry.color} />))} </Pie> <Tooltip formatter={(value) => `${value}%`} />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+                ))}
+              </div>
             </div>
+
+            <div className="col-md-4">
+
+              {/* Card 1 */}
+              <div>
+                {isLoading ? (
+                  <p className="text-center p-3">Loading...</p>
+                ) : activityRawData?.length ? (
+                  activityRawData.map((activity) => (
+                    <div
+                      key={activity.id}
+                      className="d-flex align-items-center flex-row mb-3 card p-3 shadow-sm gap-2 cursor"
+                    >
+                      <div>
+                        <img
+                          src={`${BASE_URL_JOB}${activity.image}`}
+                          alt={activity.title}
+                          className="rounded dashboardActivityImg"
+                        />
+                      </div>
+
+                      <div className="ms-3 flex-grow-1">
+                        <h6 className="mb-1">{activity.title}</h6>
+                        <p className="mb-1 small text-muted">
+                          {activity.description.length > 50
+                            ? activity.description.substring(0, 50) + "..."
+                            : activity.description}
+                        </p>
+                      </div>
+
+                      <Link to={`/superAdmin/view-activity/${activity.id}`}>
+                        <i className="bi bi-arrow-right-circle-fill text-primary fs-4"></i></Link>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-center p-3">No Activities Found</p>
+                )}
+              </div>
+
+            </div>
+
+
           </div>
-          ))}
         </div>
 
         {/* <div className="col-12 col-sm-12 col-lg-12">

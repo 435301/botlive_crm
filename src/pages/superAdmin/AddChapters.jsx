@@ -319,7 +319,7 @@ const AddChapters = () => {
                   </div>
 
                   <div className="col-md-4">
-                    <label className="form-label">PDF Files</label>
+                    <label className="form-label">PDF Files<span className="text-danger"> *</span></label>
                     <input
                       type="file"
                       className="form-control"
