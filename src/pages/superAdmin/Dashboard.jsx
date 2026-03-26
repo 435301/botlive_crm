@@ -35,7 +35,7 @@ const Dashboard = () => {
   const { useGetAll, useList } = useCrud({
     entity: "dashboard",
     getAllUrl: "/admin/getDashboard",
-    listUrl: "/activity/dashboardlist",
+    listUrl: "/activity/dashboard/list",
   });
 
   const { data: activityData, isLoading } = useList({
@@ -194,6 +194,26 @@ const Dashboard = () => {
       iconColor: "#20c997",
       onClick: () => navigate("/superAdmin/manage-chapters"),
     },
+    {
+      title: "Activties",
+      value: dashboard.activities?.total || 0,
+      subtitle: `${dashboard.activities?.active || 0} Active`,
+      subtitleColor: "success",
+      subtitleInactive: `${dashboard.activities?.inactive || 0} Inactive`,
+      subtitleInactiveColor: "danger",
+      icon: "bi-journal-text",
+      iconBg: "#e6f9ff",
+      iconColor: "#20c997",
+      onClick: () => navigate("/superAdmin/manage-activities"),
+    },
+    {
+      title: "Activity Photos",
+      value: dashboard.activities?.active || 0,
+      icon: "bi-journal-text",
+      iconBg: "#e6f9ff",
+      iconColor: "#20c997",
+      onClick: () => navigate("/superAdmin/manage-activities"),
+    },
   ];
 
 
@@ -299,6 +319,7 @@ const Dashboard = () => {
                       </div>
 
                       <div className="ms-3 flex-grow-1">
+                         <p style={{fontSize:"14px"}}>{activity.centreName}</p>
                         <h6 className="mb-1">{activity.title}</h6>
                         <p className="mb-1 small text-muted">
                           {activity.description.length > 50

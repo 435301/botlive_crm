@@ -218,7 +218,7 @@ const ManageStudents = () => {
                   <th>Email</th>
                   <th>Gender</th>
                   <th>DOB</th>
-                  <th>Grade/Batch</th>
+                  <th>Grade/Skill</th>
                   <th>Enrollment Number</th>
                   <th>Aadhar Number</th>
                   {/* <th>Photo</th> */}

@@ -65,26 +65,34 @@ const ViewStudentChapter = () => {
 
           <hr />
 
-          <div className="card shadow-sm">
+          <div className="card ">   
             <div className="card-body">
               <div className="row">
-                {/* Videos */}
+
+                {/* Videos Section */}
                 <div className="col-md-6 border-end">
-                  <h5 className="fw-bold mt-3">Videos</h5>
+                  <h5 className="fw-bold mb-3">Videos</h5>
+
                   {chapter?.videos?.length ? (
-                    <div className="row">
+                    <div >
                       {chapter.videos.map((video) => (
-                        <div key={video.id} className="col-md-4 mb-3">
-                          <video
-                            controls
-                            className="rounded viewImg"
-                          >
-                            <source
-                              src={`${BASE_URL_JOB}${video.videoPdf}`}
-                              type="video/mp4"
-                            />
-                            Your browser does not support video.
-                          </video>
+                        <div key={video.id} >
+                          <div className="card h-100 shadow-sm">
+                            <video
+                              controls
+                              className="w-100 rounded-top"
+                              style={{ height: "235px", objectFit: "cover" }}
+                            >
+                              <source
+                                src={`${BASE_URL_JOB}${video.videoPdf}`}
+                                type="video/mp4"
+                              />
+                              Your browser does not support video.
+                            </video>
+                            <div className="card-body p-2 text-center">
+                              <small className="text-muted">Video File</small>
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -92,18 +100,33 @@ const ViewStudentChapter = () => {
                     <p className="text-muted">No videos available</p>
                   )}
                 </div>
-                <div className="col-md-6 border-end">
-                  {/* PDFs */}
-                  <h5 className="fw-bold mt-4">PDFs</h5>
+
+                {/* PDFs Section */}
+                <div className="col-md-6">
+                  <h5 className="fw-bold mb-3">PDFs</h5>
+
                   {chapter?.pdfs?.length ? (
-                    <div className="row">
+                    <div >
                       {chapter.pdfs.map((pdf) => (
-                        <div key={pdf.id} className="col-md-4 mb-3">
-                          <iframe
-                            src={`${BASE_URL_JOB}${pdf.videoPdf}`}
-                            title="PDF"
-                            className="rounded border viewFile"
-                          />
+                        <div key={pdf.id} >
+                          <div className="card h-100 shadow-sm">
+                            <iframe
+                              src={`${BASE_URL_JOB}${pdf.videoPdf}`}
+                              title="PDF"
+                              className="w-100 rounded-top border-0"
+                              style={{ height: "220px" }}
+                            />
+                            <div className="card-body p-2 text-center">
+                              <a
+                                href={`${BASE_URL_JOB}${pdf.videoPdf}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn btn-sm btn-primary "
+                              >
+                                View PDF
+                              </a>
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -111,6 +134,7 @@ const ViewStudentChapter = () => {
                     <p className="text-muted">No PDFs available</p>
                   )}
                 </div>
+
               </div>
             </div>
           </div>

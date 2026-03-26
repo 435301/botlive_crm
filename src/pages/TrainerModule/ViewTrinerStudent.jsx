@@ -59,7 +59,7 @@ const ViewTrainerStudent = () => {
                         </div>
 
                         <div className="col-md-4">
-                            <strong>Grade/Bath:</strong>
+                            <strong>Grade/Skill:</strong>
                             <p>{student?.gradeBatch?.gradeBatch || "-"}</p>
                         </div>
 

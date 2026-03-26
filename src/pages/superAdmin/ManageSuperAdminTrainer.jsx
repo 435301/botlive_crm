@@ -167,7 +167,7 @@ const ManageSuperAdminTrainers = () => {
                   <th>Email</th>
                   <th>Qualification</th>
                   <th>Joining Date</th>
-                  <th>Grade/Batch</th>
+                  <th>Grade/Skill</th>
                   <th>Status</th>
                   <th className="text-center">Actions</th>
                 </tr>

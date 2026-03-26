@@ -38,6 +38,7 @@ const ManageActivities = () => {
     const activities = data?.data || [];
     const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
     const perPage = data?.perPage || 15;
+    const summary = data?.summary
 
     const { schoolsData } = useSchools();
 
@@ -199,6 +200,86 @@ const ManageActivities = () => {
                             </button>
                         </div>
                     </div>
+
+
+                </div>
+            </div>
+
+            <div className="container my-3">
+                <div className="row g-3">
+
+                    {/* Total Activities */}
+                    <div className="col-12 col-md-4">
+                        <div className="card shadow-sm border-0 rounded-3">
+                            <div className="card-body d-flex align-items-center py-2 px-3">
+                                <div
+                                    className="rounded-circle d-flex align-items-center justify-content-center me-2"
+                                    style={{
+                                        width: "45px",
+                                        height: "45px",
+                                        backgroundColor: "#e8f5e9"
+                                    }}
+                                >
+                                    <i className="bi bi-activity fs-6 text-success"></i>
+                                </div>
+                                <div>
+                                    <small className="text-muted d-block">Total Activities</small>
+                                    <h6 className="fw-bold mb-0">
+                                        {summary?.totalActivities || 0}
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Total Photos */}
+                    <div className="col-12 col-md-4">
+                        <div className="card shadow-sm border-0 rounded-3">
+                            <div className="card-body d-flex align-items-center py-2 px-3">
+                                <div
+                                    className="rounded-circle d-flex align-items-center justify-content-center me-2"
+                                    style={{
+                                        width: "45px",
+                                        height: "45px",
+                                        backgroundColor: "#fdecea"
+                                    }}
+                                >
+                                    <i className="bi bi-image fs-6 text-danger"></i>
+                                </div>
+                                <div>
+                                    <small className="text-muted d-block">Total Photos</small>
+                                    <h6 className="fw-bold mb-0">
+                                        {summary?.totalPhotos || 0}
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Total Videos */}
+                    <div className="col-12 col-md-4">
+                        <div className="card shadow-sm border-0 rounded-3">
+                            <div className="card-body d-flex align-items-center py-2 px-3">
+                                <div
+                                    className="rounded-circle d-flex align-items-center justify-content-center me-2"
+                                    style={{
+                                        width: "45px",
+                                        height: "45px",
+                                        backgroundColor: "#e3f2fd"
+                                    }}
+                                >
+                                    <i className="bi bi-camera-video fs-6 text-primary"></i>
+                                </div>
+                                <div>
+                                    <small className="text-muted d-block">Total Videos</small>
+                                    <h6 className="fw-bold mb-0">
+                                        {summary?.totalVideos || 0}
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -244,7 +325,7 @@ const ManageActivities = () => {
                                             <Link to={`/superAdmin/view-activity/${activity.id}`} className="text-primary text-decoration-underline">
                                                 {activity.videoCount}
                                             </Link>
-                                        </td> 
+                                        </td>
                                         <td>
                                             <span
                                                 className={`badge ${activity.status === 1 ? "bg-success" : "bg-secondary"

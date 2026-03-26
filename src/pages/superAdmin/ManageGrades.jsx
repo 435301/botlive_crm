@@ -77,9 +77,9 @@ const ManageGrades = () => {
                         <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
                     </div>
                     <div>
-                        <h5 className="fw-bold mb-0">Grades/Batches Management</h5>
+                        <h5 className="fw-bold mb-0">Grades/Skill Management</h5>
                         <p className="sub-text mb-0">
-                            View, edit and manage all grades/batches
+                            View, edit and manage all grades/skills
                         </p>
                     </div>
                     {/* Right: Action Buttons */}
@@ -112,7 +112,7 @@ const ManageGrades = () => {
                         className="btn add-skill-btn d-flex align-items-center"
                     >
                         <i className="ti ti-graduation-cap me-2"></i>
-                        Add Grade/Batch
+                        Add Grade/Skill
                     </Link>
                 </div>
             </div>
@@ -140,7 +140,7 @@ const ManageGrades = () => {
                     <div className="col-lg-3 col-md-6">
                         <SearchInput
                             value={search}
-                            placeholder="Search by grade or batch"
+                            placeholder="Search by grade or skill"
                             onChange={(value) => {
                                 setSearch(value);
                                 setPage(1);
@@ -186,7 +186,7 @@ const ManageGrades = () => {
                                 <tr>
                                     <th>#</th>
                                     <th>Project Type</th>
-                                    <th>Grade / Batch</th>
+                                    <th>Grade / Skill</th>
                                     <th>Status</th>
                                     <th className="text-center">Actions</th>
                                 </tr>

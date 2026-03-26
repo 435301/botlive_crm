@@ -74,7 +74,7 @@ const ViewTrainerChapter = () => {
                                     {chapter?.videos?.length ? (
                                         <div className="row">
                                             {chapter.videos.map((video) => (
-                                                <div key={video.id} className="col-md-4 mb-3">
+                                                <div key={video.id} >
                                                     <video
                                                         controls
                                                         className="rounded viewImg"
@@ -93,12 +93,12 @@ const ViewTrainerChapter = () => {
                                     )}
                                 </div>
                                 <div className="col-md-6 border-end">
-                                    {/* PDFs */}
+                                    {/* PDFs */}    
                                     <h5 className="fw-bold mt-4">PDFs</h5>
                                     {chapter?.pdfs?.length ? (
-                                        <div className="row">
+                                        <div >
                                             {chapter.pdfs.map((pdf) => (
-                                                <div key={pdf.id} className="col-md-4 mb-3">
+                                                <div key={pdf.id} >
                                                     <iframe
                                                         src={`${BASE_URL_JOB}${pdf.videoPdf}`}
                                                         title="PDF"

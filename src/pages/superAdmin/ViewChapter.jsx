@@ -127,14 +127,15 @@ const ViewChapter = () => {
                         title={pdf.videoPdf.split("/").pop()}
                         className="viewFile"
                       />
-                      <a
-                        href={`${BASE_URL_JOB}${pdf.videoPdf}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn btn-sm btn-primary"
-                      >
-                        View PDF
-                      </a>
+                      <br />
+                       <a
+                              href={`${BASE_URL_JOB}${pdf.videoPdf}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="btn btn-sm btn-primary"
+                            >
+                              View PDF
+                            </a>
                       <button
                         className="btn btn-sm btn-danger position-absolute top-0 end-0"
                         onClick={() => handleDeleteClick(pdf?.id)}

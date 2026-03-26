@@ -159,7 +159,7 @@ export const validateGrade = (formData) => {
   }
 
   if (!formData.gradeBatch?.trim()) {
-    errors.gradeBatch = "Grade/Batch is required";
+    errors.gradeBatch = "Grade/Skill is required";
   }
 
   if (formData.status === undefined || formData.status === "") {
@@ -212,7 +212,7 @@ export const validateSkillCentreStudent = (formData, isEditMode = false) => {
   if (!formData.studentName) errors.studentName = "Student name is required";
   if (!formData.gender) errors.gender = "Gender is required";
   if (!formData.dob) errors.dob = "Date of birth is required";
-  if (!formData.batchId) errors.batchId = "Batch is required";
+  if (!formData.batchId) errors.batchId = "Skill is required";
   if (!formData.aadharNumber) errors.aadharNumber = "Aadhar number is required";
   if (!formData.mobile) errors.mobile = "Mobile number is required";
   if (!formData.email) errors.email = "Email is required";
@@ -325,7 +325,7 @@ export const validateAssignChapters = (formData) => {
   }
 
   if (!formData.gradeBatchId) {
-    errors.gradeBatchId = "Grade/Batch is required";
+    errors.gradeBatchId = "Grade/Skill is required";
   }
 
   if (!formData.moduleId) {

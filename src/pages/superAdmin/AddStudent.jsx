@@ -603,7 +603,7 @@ const AddStudent = () => {
       {/* Adhar Number */}
       <div className="col-md-4">
         <FormSelect
-          label="Batch"
+          label="Skill"
           name="batchId"
           value={skillCentreFormData.batchId}
           onChange={handleSkillChange}

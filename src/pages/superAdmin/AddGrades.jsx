@@ -77,9 +77,9 @@ const AddGrades = () => {
             <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
           </div>
           <div>
-            <h5 className="fw-bold mb-0">Grades/Batches Management</h5>
+            <h5 className="fw-bold mb-0">Grades/Skill Management</h5>
             <p className="sub-text mb-0">
-              View, edit and manage all grades/batches
+              View, edit and manage all grades/skill
             </p>
           </div>
         </div>
@@ -124,11 +124,11 @@ const AddGrades = () => {
               {/* Course / Grade */}
               <div className="col-md-4">
                 <FormInput
-                  label={isSchool ? "Grade " : "Batch"}
+                  label={isSchool ? "Grade " : "skill"}
                   name="gradeBatch"
                   value={formData.gradeBatch}
                   onChange={handleChange}
-                  placeholder={`Enter ${isSchool ? "Grade" : "Batch"} Name`}
+                  placeholder={`Enter ${isSchool ? "Grade" : "Skill"} Name`}
                   mandatory
                   error={errors.gradeBatch}
                 />
