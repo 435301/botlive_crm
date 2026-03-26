@@ -70,6 +70,7 @@ const Dashboard = () => {
       icon: "bi-building",
       iconBg: "#e8f5ff",
       iconColor: "#0d6efd",
+      onClick: ()=>navigate("/superAdmin/manage-skill-centres"),
     },
     {
       title: "AI And Stem Learning Centres",
@@ -81,6 +82,7 @@ const Dashboard = () => {
       icon: "bi-mortarboard",
       iconBg: "#fff4e5",
       iconColor: "#ff9800",
+      onClick: ()=>navigate("/superAdmin/manage-skill-centres"),
     },
     {
       title: "Education Development Centres",
@@ -92,6 +94,7 @@ const Dashboard = () => {
       icon: "bi-people",
       iconBg: "#e8ffe8",
       iconColor: "#28a745",
+      onClick: ()=>navigate("/superAdmin/manage-skill-centres"),
     },
     {
       title: "Innovation And Entrepreneurs Centres",
@@ -103,6 +106,7 @@ const Dashboard = () => {
       icon: "bi-person-badge",
       iconBg: "#f3e8ff",
       iconColor: "#6f42c1",
+      onClick: ()=>navigate("/superAdmin/manage-skill-centres"),
     },
     {
       title: "Community Development Centres",
@@ -114,6 +118,7 @@ const Dashboard = () => {
       icon: "bi-book",
       iconBg: "#e8f0ff",
       iconColor: "#3f51b5",
+      onClick:()=> navigate("/superAdmin/manage-skill-centres"),
     },
     {
       title: "Students",
@@ -125,6 +130,7 @@ const Dashboard = () => {
       icon: "bi-folder",
       iconBg: "#fff0f0",
       iconColor: "#dc3545",
+      onClick:()=> navigate("/superAdmin/manage-students"),
     },
     {
       title: "Trainers",
@@ -141,6 +147,7 @@ const Dashboard = () => {
       icon: "bi-journal-text",
       iconBg: "#e6f9ff",
       iconColor: "#20c997",
+      onClick: ()=>navigate("/superAdmin/manage-trainers"),
     },
     {
       title: "Courses",
@@ -152,6 +159,7 @@ const Dashboard = () => {
       icon: "bi-journal-text",
       iconBg: "#e6f9ff",
       iconColor: "#20c997",
+      onClick: ()=>navigate("/superAdmin/manage-course"),
     },
     {
       title: "Modules",
@@ -163,6 +171,7 @@ const Dashboard = () => {
       icon: "bi-journal-text",
       iconBg: "#e6f9ff",
       iconColor: "#20c997",
+      onClick: ()=>navigate("/superAdmin/manage-module"),
     },
     {
       title: "Chapters",
@@ -174,6 +183,7 @@ const Dashboard = () => {
       icon: "bi-journal-text",
       iconBg: "#e6f9ff",
       iconColor: "#20c997",
+      onClick: ()=>navigate("/superAdmin/manage-chapters"),
     },
   ];
 
@@ -198,6 +208,7 @@ const Dashboard = () => {
             <div
               className="card rounded-3 p-3 shadow-sm h-100"
               style={{ backgroundColor: "#fff" }}
+              onClick={item.onClick}
             >
               <div className="d-flex justify-content-between align-items-center">
                 <div>

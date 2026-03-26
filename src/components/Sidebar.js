@@ -492,7 +492,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               </NavLink>
             </div>
           </div>
-        
+
           {/* Activity Management */}
           <div
             className={`nav-group ${isParentActive([
@@ -524,6 +524,31 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
                 className={getNavLinkClass}
               >
                 Manage Activities
+              </NavLink>
+            </div>
+          </div>
+          {/* Trainer Dropdown */}
+          <div className="nav-group">
+            <div className="nav-link" onClick={() => toggleMenu("trainers")}>
+              <Building2 size={18} />
+              {!collapsed && (
+                <>
+                  <span>Trainer Management</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "trainers" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
+            </div>
+
+            <div className={`submenu ${openMenu === "trainers" ? "open" : ""}`}>
+              <NavLink to="/superAdmin/add-trainer" className={getNavLinkClass}>
+                Add Trainer
+              </NavLink>
+
+              <NavLink to="/superAdmin/manage-trainers" className={getNavLinkClass}>
+                Manage Trainer
               </NavLink>
             </div>
           </div>
