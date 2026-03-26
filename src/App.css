@@ -1409,7 +1409,7 @@ button .filter-btn :hover {
     linear-gradient(rgba(0, 0, 0, 0.56),
       /* overlay color */
       rgba(0, 0, 0, 0.56)),
-    url("../src/assets/images/page-title.jpg");
+    url("../src/assets/images/banner.jpeg");
   /* your image path */
 
   background-size: cover;
