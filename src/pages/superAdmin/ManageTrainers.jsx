@@ -188,7 +188,7 @@ const ManageTrainers = () => {
                       <td>{t.email}</td>
                       <td>{t?.qualification?.qualification}</td>
                       <td>{t.dateOfJoining}</td>
-                      <td>{t?.gradeBatch?.gradeBatch}</td>
+                     <td>{t?.trainerGrades.map((grade)=> grade?.gradeBatch?.gradeBatch)?.join(" , ")}</td>
                       <td>
                         <span
                           className={`badge ${t.status === 1

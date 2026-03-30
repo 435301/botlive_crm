@@ -4,6 +4,8 @@ import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
 import { Link, useNavigate } from "react-router-dom";
 import useTrainerStudents from "../../hooks/useTrainerStudents";
 import Cookies from "js-cookie";
+import useGradesByTrainerId from "../../hooks/UseGradesByTrainerId";
+import SelectFilter from "../../components/SelectFilter";
 
 
 const AddStudentAttendance = () => {
@@ -11,16 +13,19 @@ const AddStudentAttendance = () => {
     const getToday = () => { return new Date().toISOString().split("T")[0]; };
     const [attendanceDate, setAttendanceDate] = useState(getToday());
     const [attendanceData, setAttendanceData] = useState({});
+    const [gradeBatchId, setGradeBatchId] = useState("");
 
     const schoolSkillCentreId = JSON.parse(Cookies.get("trainer") || "{}")?.centreId;
-    const gradeBatchId = JSON.parse(Cookies.get("trainer") || "{}")?.gradeBatchId;
+    const id = JSON.parse(Cookies.get("trainer") || "{}")?.id;
 
     const { createMutation } = useCrud({
         entity: "trainer",
         createUrl: "/trainerAdmin/attendance/add",
     });
 
-    const { trainerStudents, isLoading } = useTrainerStudents();
+    const { trainerStudents, isLoading } = useTrainerStudents(gradeBatchId);
+
+    const { gradesByTrainerId } = useGradesByTrainerId(id);
 
     useEffect(() => {
         if (trainerStudents.length) {
@@ -31,6 +36,12 @@ const AddStudentAttendance = () => {
             setAttendanceData(defaultAttendance);
         }
     }, [trainerStudents]);
+
+    useEffect(() => {
+        if (gradesByTrainerId?.length > 0 && !gradeBatchId) {
+            setGradeBatchId(String(gradesByTrainerId[0].gradeBatchId));
+        }
+    }, [gradesByTrainerId, gradeBatchId]);
 
     const handleStatusChange = (trainerId, status) => {
         setAttendanceData((prev) => ({
@@ -44,10 +55,10 @@ const AddStudentAttendance = () => {
             attendanceDate: formatDateToDDMMYYYY(attendanceDate),
             attendance: Object.keys(attendanceData).map((studentId) => ({
                 studentId: Number(studentId),
-                attendanceStatus: attendanceData[studentId] ,
+                attendanceStatus: attendanceData[studentId],
             })),
             centreId: schoolSkillCentreId,
-            gradeBatchId: gradeBatchId
+            gradeBatchId
         };
 
         createMutation.mutate(payload, {
@@ -57,6 +68,9 @@ const AddStudentAttendance = () => {
         });
     };
 
+    const resetFilters = () => {
+        setGradeBatchId("");
+    }
     return (
         <div className="container-fluid">
             {/* ===== HEADER ===== */}
@@ -74,6 +88,21 @@ const AddStudentAttendance = () => {
             <div className="filter-wrapper mb-3">
                 <div className="row g-2">
 
+
+                    <div className="col-md-4">
+                        <SelectFilter
+                            value={gradeBatchId}
+                            name="gradeBatchId"
+                            placeholder="All Grades"
+                            options={gradesByTrainerId.map((grade) => ({
+                                label: grade.gradeName,
+                                value: String(grade.gradeBatchId)
+                            }))}
+                            onChange={(value) => {
+                                setGradeBatchId(value);
+                            }}
+                        />
+                    </div>
                     <div className="col-lg-3">
                         <input
                             type="date"
@@ -85,6 +114,16 @@ const AddStudentAttendance = () => {
                             }}
                         />
                     </div>
+                    <div className="col-lg-3">
+                        <button
+                            className="btn reset-btn"
+                            onClick={resetFilters}
+                            title="Reset"
+                        >
+                            <i className="bi bi-arrow-clockwise"></i>
+                        </button>
+                    </div>
+
 
                 </div>
             </div>

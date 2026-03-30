@@ -1,9 +1,8 @@
 import { useCrud } from "./useCrud";
 import Cookies from "js-cookie";
 
-const useTrainerStudents = () => {
+const useTrainerStudents = (gradeBatchId) => {
     const schoolSkillCentreId = JSON.parse(Cookies.get("trainer") || "{}")?.centreId;
-    const gradeBatchId = JSON.parse(Cookies.get("trainer") || "{}")?.gradeBatchId;
     const { useList } = useCrud({
         entity: "trainer",
         listUrl: "/trainerAdmin/student/list",

@@ -13,6 +13,7 @@ import FormActions from "../../components/FormActions";
 import StatusSelectTrainer from "../../components/StatusSelectTrainer";
 import BASE_URL_JOB from "../../config/config";
 import Cookies from "js-cookie";
+import MultiSelectWithCheckbox from "../../components/MultiSelectWithCheckbox";
 
 const AddTrainer = () => {
   const navigate = useNavigate();
@@ -52,7 +53,7 @@ const AddTrainer = () => {
     dateOfJoining: "",
     bloodGroup: "",
     certificates: [],
-    gradeId: "",
+    gradeBatchIds: [],
     trainerPhoto: null,
     fatherName: "",
     motherName: "",
@@ -83,7 +84,7 @@ const AddTrainer = () => {
         dateOfJoining: String(data.dateOfJoining),
         bloodGroup: data.bloodGroup,
         certificates: [],
-        gradeId: data.gradeBatchId,
+        gradeBatchIds: String(data.trainerGrades?.map(g => g.gradeBatchId) || []),
         trainerPhoto: [],
         fatherName: data.fatherName,
         motherName: data.motherName,
@@ -133,16 +134,22 @@ const AddTrainer = () => {
       if (key === "dob" || key === "dateOfJoining") {
         form.append(key, convertDate(value));
       }
+      else if (key === "gradeBatchIds") {
+        const ids = Array.isArray(value)
+          ? value
+          : typeof value === "string"
+            ? value.split(",")
+            : [];
+
+        ids.forEach((id) => {
+          form.append("gradeBatchIds[]", id);
+        });
+      }
       else if (key === "certificates" && value) {
         Array.from(value).forEach((file) => {
           form.append("certificates", file);
         });
       }
-      // else if (key === "trainerPhoto" && value) {
-      //   Array.from(value).forEach((file) => {
-      //     form.append("trainerPhoto", file);
-      //   });
-      // }
       else if (key === "trainerPhoto" && value instanceof FileList) {
         form.append("trainerPhoto", value[0]);
       }
@@ -359,16 +366,17 @@ const AddTrainer = () => {
                 </div>
 
                 <div className="col-md-4">
-                  <FormSelect
+                  <MultiSelectWithCheckbox
                     label="Grade"
-                    name="gradeId"
-                    value={formData.gradeId}
+                    name="gradeBatchIds"
+                    value={formData.gradeBatchIds}
                     onChange={handleChange}
                     options={grades.map((grade) => ({
                       label: grade.gradeBatch,
                       value: grade.id
                     }))}
-                    error={errors.gradeId}
+                    error={errors.gradeBatchIds}
+                    required
                   />
                 </div>
 

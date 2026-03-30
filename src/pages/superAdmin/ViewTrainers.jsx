@@ -74,7 +74,7 @@ const ViewTrainer = () => {
 
                         <div className="col-md-4">
                             <strong>Grade:</strong>
-                            <p>{data?.gradeBatch?.gradeBatch || "-"}</p>
+                           <td>{data?.trainerGrades.map((grade)=> grade?.gradeBatch?.gradeBatch)?.join(" , ")}</td>
                         </div>
 
                         <div className="col-md-4">

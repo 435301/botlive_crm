@@ -354,8 +354,8 @@ export const validateTrainerForm = (formData, isEditMode) => {
   if (!formData.qualificationId) {
     errors.qualificationId = "Qualification is required";
   }
-  if (!formData.gradeId) {
-    errors.gradeId = "Grade is required";
+  if (!formData.gradeBatchIds) {
+    errors.gradeBatchIds = "Grade is required";
   }
   if (!formData.stateId) {
     errors.stateId = "State is required";
@@ -464,8 +464,8 @@ export const validateSuperAdminTrainerForm = (formData, isEditMode) => {
   if (!formData.qualificationId) {
     errors.qualificationId = "Qualification is required";
   }
-  if (!formData.gradeId) {
-    errors.gradeId = "Grade is required";
+  if (!formData.gradeBatchIds) {
+    errors.gradeBatchIds = "Grade is required";
   }
   if (!formData.stateId) {
     errors.stateId = "State is required";

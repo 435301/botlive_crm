@@ -1,20 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
 import SearchInput from "../../components/SearchInput";
 import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
 import Cookies from "js-cookie";
+import useGradesByTrainerId from "../../hooks/UseGradesByTrainerId";
 
 
 const ManageStudentAttendance = () => {
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
     const [status, setStatus] = useState(1);
+    const [gradeBatchId, setGradeBatchId] = useState("");
     const getToday = () => { return new Date().toISOString().split("T")[0]; };
     const [attendanceDate, setAttendanceDate] = useState(getToday());
 
     const schoolSkillCentreId = JSON.parse(Cookies.get("trainer") || "{}")?.centreId;
-    const gradeBatchId = JSON.parse(Cookies.get("trainer") || "{}")?.gradeBatchId;
+    const id = JSON.parse(Cookies.get("trainer") || "{}")?.id;
 
     const { useList } = useCrud({
         entity: "trainer",
@@ -33,13 +35,22 @@ const ManageStudentAttendance = () => {
     const students = data?.data || [];
     const perPage = data?.perPage || 100;
 
+    const { gradesByTrainerId } = useGradesByTrainerId(id);
+
     const resetFilters = () => {
         setPage(1);
         setAttendanceDate(new Date());
         setStatus("");
         setSearch("");
+        setGradeBatchId("");
     };
 
+
+    useEffect(() => {
+        if (gradesByTrainerId?.length > 0 && !gradeBatchId) {
+            setGradeBatchId(String(gradesByTrainerId[0].gradeBatchId));
+        }
+    }, [gradesByTrainerId, gradeBatchId]);
 
     return (
         <div className="container-fluid">
@@ -71,6 +82,20 @@ const ManageStudentAttendance = () => {
                             }}
                         />
                     </div>
+                    <div className="col-md-2">
+                        <SelectFilter
+                            value={gradeBatchId}
+                            name="gradeBatchId"
+                            placeholder="All Grades"
+                            options={gradesByTrainerId.map((grade) => ({
+                                label: grade.gradeName,
+                                value: String(grade.gradeBatchId)
+                            }))}
+                            onChange={(value) => {
+                                setGradeBatchId(value);
+                            }}
+                        />
+                    </div>
 
                     <div className="col-lg-3">
                         <input
@@ -84,7 +109,7 @@ const ManageStudentAttendance = () => {
                         />
                     </div>
 
-                    <div className="col-lg-3 col-md-6">
+                    <div className="col-lg-2">
                         <SelectFilter
                             value={status}
                             placeholder="All Status"
@@ -99,7 +124,7 @@ const ManageStudentAttendance = () => {
                         />
                     </div>
 
-                    <div className="col-lg-3 col-md-12">
+                    <div className="col-lg-2">
                         <div className="d-flex gap-2">
                             <button
                                 className="btn reset-btn"
