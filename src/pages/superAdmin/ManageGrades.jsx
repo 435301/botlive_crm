@@ -186,6 +186,7 @@ const ManageGrades = () => {
                                 <tr>
                                     <th>#</th>
                                     <th>Project Type</th>
+                                    <th>Grade Id</th>
                                     <th>Grade / Skill</th>
                                     <th>Status</th>
                                     <th className="text-center">Actions</th>
@@ -205,6 +206,7 @@ const ManageGrades = () => {
                                             <tr key={item.id}>
                                                 <td>{(page - 1) * perPage + index + 1}</td>
                                                 <td>{item.centreType === 1 ? "Skill Centre" : "School"}</td>
+                                                <td>{item.id}</td>
                                                 <td>{item.gradeBatch}</td>
                                                 <td>
                                                     <span
