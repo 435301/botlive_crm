@@ -1,13 +1,13 @@
 import { useCrud } from "./useCrud";
 
 
-const useTrainerCourses = () => {
-  const { useGetAll } = useCrud({
+const useTrainerCourses = (id) => {
+  const { useGetById } = useCrud({
     entity: "trainerAdmin",
-    getAllUrl: "/trainerAdmin/getCourses",
+    getUrl:(id)=> `/trainerAdmin/getCourses/${id}`,
   });
 
-  const query = useGetAll();
+  const query = useGetById(id);
 
   return {
     trainerCourses: query.data?.courses || [],

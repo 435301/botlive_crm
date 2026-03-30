@@ -1,13 +1,18 @@
 import { useCrud } from "./useCrud";
 
 
-const useTrainerModules = (courseId) => {
+const useTrainerModules = (gradeBatchId, courseId) => {
     const { useGetById } = useCrud({
         entity: "trainerAdmin",
-        getUrl: (id) => `/trainerAdmin/getModules/${id}`,
+        getUrl: ([gradeBatchId, courseId]) => `/trainerAdmin/getModules/${gradeBatchId}/${courseId}`,
     });
 
-  const query = useGetById(courseId)
+  const query = useGetById(
+        [gradeBatchId, courseId],
+        {
+            enabled: !!gradeBatchId && !!courseId,
+        }
+    );
 
     return {
         trainerModules: query.data?.modules || [],

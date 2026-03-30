@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Pagination from "../../components/Pagination";
 import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
@@ -8,14 +8,18 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import useTrainerCourses from "../../hooks/useTrainerCourses";
 import useTrainerModules from "../../hooks/useTrainerModules";
+import useGradesByTrainerId from "../../hooks/UseGradesByTrainerId";
+import Cookies from "js-cookie";
 
 
 const ManageTrainerChapters = () => {
     // const navigate = useNavigate();
     const [courseId, setCourseId] = useState("");
     const [moduleId, setModuleId] = useState("");
-    // const [status, setStatus] = useState("");
+    const [gradeBatchId, setGradeBatchId] = useState("");
     const [page, setPage] = useState(1);
+
+    const id = JSON.parse(Cookies.get("trainer") || "{}")?.id;
 
     console.log('courseId', courseId)
     const { useList } = useCrud({
@@ -25,7 +29,8 @@ const ManageTrainerChapters = () => {
 
     const { data, isLoading } = useList({
         courseId: "",
-        moduleId: ""
+        moduleId: "",
+        gardeBatchId: "",
     });
 
     const flattenedChapters =
@@ -46,12 +51,15 @@ const ManageTrainerChapters = () => {
     const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
     const perPage = data?.perPage || 15;
 
-    const { trainerCourses } = useTrainerCourses();
-    const { trainerModules } = useTrainerModules(courseId);
+    const { gradesByTrainerId } = useGradesByTrainerId(id);
+    const { trainerCourses } = useTrainerCourses(gradeBatchId);
+    const { trainerModules } = useTrainerModules(gradeBatchId, courseId);
+
 
     const resetFilters = () => {
         setCourseId("");
         setModuleId("");
+        setGradeBatchId("");
         setPage(1);
     };
 
@@ -67,7 +75,7 @@ const ManageTrainerChapters = () => {
             axiosInstance.post("/trainerAdmin/updateStatusStarted", { chapterId }),
 
         onSuccess: () => {
-            queryClient.invalidateQueries(["trainer"]); 
+            queryClient.invalidateQueries(["trainer"]);
         },
         onError: (err) => {
             toast.error(err.response?.data?.message || "");
@@ -79,12 +87,19 @@ const ManageTrainerChapters = () => {
             axiosInstance.patch("/trainerAdmin/updateStatusCompleted", { chapterId }),
 
         onSuccess: () => {
-            queryClient.invalidateQueries(["trainer"]); 
+            queryClient.invalidateQueries(["trainer"]);
         },
         onError: (err) => {
             toast.error(err.response?.data?.message || "");
         },
     });
+
+
+    useEffect(() => {
+        if (gradesByTrainerId?.length > 0 && !gradeBatchId) {
+            setGradeBatchId(String(gradesByTrainerId[0].gradeBatchId));
+        }
+    }, [gradesByTrainerId, gradeBatchId]);
 
     return (
         <div className="container-fluid">
@@ -107,8 +122,23 @@ const ManageTrainerChapters = () => {
             <div className="filter-wrapper mb-3">
                 <div className="row g-2">
 
+                    <div className="col-md-3">
+                        <SelectFilter
+                            value={gradeBatchId}
+                            name="gradeBatchId"
+                            placeholder="All Grades"
+                            options={gradesByTrainerId.map((grade) => ({
+                                label: grade.gradeName,
+                                value: String(grade.gradeBatchId)
+                            }))}
+                            onChange={(value) => {
+                                setGradeBatchId(value);
+                            }}
+                        />
+                    </div>
 
-                    <div className="col-md-4">
+
+                    <div className="col-md-3">
                         <SelectFilter
                             value={courseId}
                             name="courseId"
@@ -125,7 +155,7 @@ const ManageTrainerChapters = () => {
                         />
                     </div>
 
-                    <div className="col-md-4">
+                    <div className="col-md-3">
                         <SelectFilter
                             value={moduleId}
                             name="moduleId"
@@ -156,7 +186,7 @@ const ManageTrainerChapters = () => {
                         />
                     </div> */}
 
-                    <div className="col-lg-3 col-md-12">
+                    <div className="col-lg-2">
                         <div className="d-flex gap-2">
                             <button
                                 className="btn reset-btn"
