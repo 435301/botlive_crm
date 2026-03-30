@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
 import SearchInput from "../../components/SearchInput";
 import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
 import Cookies from "js-cookie";
-import useGradesByTrainerId from "../../hooks/UseGradesByTrainerId";
+import useGrades from "../../hooks/useGrades";
 
 
 const ManageSubAdminStudentAttendance = () => {
@@ -15,8 +15,8 @@ const ManageSubAdminStudentAttendance = () => {
     const getToday = () => { return new Date().toISOString().split("T")[0]; };
     const [attendanceDate, setAttendanceDate] = useState(getToday());
 
-    const schoolSkillCentreId = JSON.parse(Cookies.get("trainer") || "{}")?.centreId;
-    const id = JSON.parse(Cookies.get("trainer") || "{}")?.id;
+    const schoolSkillCentreId = JSON.parse(Cookies.get("sub_admin") || "{}")?.id;
+    const centreType = JSON.parse(Cookies.get("sub_admin") || "{}")?.centerType;
 
     const { useList } = useCrud({
         entity: "admin",
@@ -35,7 +35,7 @@ const ManageSubAdminStudentAttendance = () => {
     const students = data?.data || [];
     const perPage = data?.perPage || 100;
 
-    const { gradesByTrainerId } = useGradesByTrainerId(id);
+    const { grades } = useGrades(centreType);
 
     const resetFilters = () => {
         setPage(1);
@@ -45,12 +45,6 @@ const ManageSubAdminStudentAttendance = () => {
         setGradeBatchId("");
     };
 
-
-    useEffect(() => {
-        if (gradesByTrainerId?.length > 0 && !gradeBatchId) {
-            setGradeBatchId(String(gradesByTrainerId[0].gradeBatchId));
-        }
-    }, [gradesByTrainerId, gradeBatchId]);
 
     return (
         <div className="container-fluid">
@@ -87,9 +81,9 @@ const ManageSubAdminStudentAttendance = () => {
                             value={gradeBatchId}
                             name="gradeBatchId"
                             placeholder="All Grades"
-                            options={gradesByTrainerId.map((grade) => ({
-                                label: grade.gradeName,
-                                value: String(grade.gradeBatchId)
+                            options={grades.map((grade) => ({
+                                label: grade.gradeBatch,
+                                value: String(grade.id)
                             }))}
                             onChange={(value) => {
                                 setGradeBatchId(value);
@@ -147,6 +141,7 @@ const ManageSubAdminStudentAttendance = () => {
                                 <th>#</th>
                                 <th>Student Name</th>
                                 <th>Student Enrollment Number</th>
+                                <th>Grade</th>
                                 <th>Date</th>
                                 <th>Status</th>
                             </tr>
@@ -165,6 +160,7 @@ const ManageSubAdminStudentAttendance = () => {
                                         <td>{(page - 1) * perPage + i + 1}</td>
                                         <td>{t.student?.fullName}</td>
                                         <td>{t.student?.enrolmentNumber}</td>
+                                        <td>{t?.student?.gradeBatch?.gradeBatch}</td>
                                         <td>{t.attendanceDate}</td>
                                         <td>
                                             <span

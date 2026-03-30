@@ -317,15 +317,15 @@ export const validateActivity = (formData, isEditMode) => {
   return errors;
 };
 
-export const validateAssignChapters = (formData) => {
+export const validateAssignChapters = (formData, isEditMode) => {
   const errors = {};
 
   if (!formData.courseId) {
     errors.courseId = "course is required";
   }
 
-  if (!formData.gradeBatchId) {
-    errors.gradeBatchId = "Grade/Skill is required";
+  if (!isEditMode &&!formData.gradeBatchIds) {
+    errors.gradeBatchIds = "Grade/Skill is required";
   }
 
   if (!formData.moduleId) {

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
 import SearchInput from "../../components/SearchInput";
 import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
 import Cookies from "js-cookie";
-import useGradesByTrainerId from "../../hooks/UseGradesByTrainerId";
+import useGrades from "../../hooks/useGrades";
+import useSchools from "../../hooks/useSchools";
 
 
 const ManageSuperAdminStudentAttendance = () => {
@@ -12,11 +13,12 @@ const ManageSuperAdminStudentAttendance = () => {
     const [search, setSearch] = useState("");
     const [status, setStatus] = useState(1);
     const [gradeBatchId, setGradeBatchId] = useState("");
+    const [centreType, setCentreType] = useState("");
+    const [centreId, setCentreId] = useState("");
     const getToday = () => { return new Date().toISOString().split("T")[0]; };
     const [attendanceDate, setAttendanceDate] = useState(getToday());
 
     const schoolSkillCentreId = JSON.parse(Cookies.get("trainer") || "{}")?.centreId;
-    const id = JSON.parse(Cookies.get("trainer") || "{}")?.id;
 
     const { useList } = useCrud({
         entity: "admin",
@@ -31,11 +33,17 @@ const ManageSuperAdminStudentAttendance = () => {
         centreId: schoolSkillCentreId
     });
 
-
     const students = data?.data || [];
+      console.log('students', students)
     const perPage = data?.perPage || 100;
 
-    const { gradesByTrainerId } = useGradesByTrainerId(id);
+    const { grades } = useGrades(centreType);
+
+    const { schoolsData } = useSchools();
+
+    const filteredCentres = centreType
+        ? schoolsData?.filter((school) => school.centerType === centreType)
+        : schoolsData;
 
     const resetFilters = () => {
         setPage(1);
@@ -43,14 +51,9 @@ const ManageSuperAdminStudentAttendance = () => {
         setStatus("");
         setSearch("");
         setGradeBatchId("");
+        setCentreId("");
+        setCentreType("");
     };
-
-
-    useEffect(() => {
-        if (gradesByTrainerId?.length > 0 && !gradeBatchId) {
-            setGradeBatchId(String(gradesByTrainerId[0].gradeBatchId));
-        }
-    }, [gradesByTrainerId, gradeBatchId]);
 
     return (
         <div className="container-fluid">
@@ -72,7 +75,7 @@ const ManageSuperAdminStudentAttendance = () => {
             {/* ===== FILTERS ===== */}
             <div className="filter-wrapper mb-3">
                 <div className="row g-2">
-                    <div className="col-lg-3">
+                    <div className="col-lg-2">
                         <SearchInput
                             value={search}
                             placeholder="Search by student name"
@@ -82,14 +85,47 @@ const ManageSuperAdminStudentAttendance = () => {
                             }}
                         />
                     </div>
+                    <div className="col-lg-2 col-md-6">
+                        <SelectFilter
+                            value={centreType}
+                            placeholder="All Centre Types"
+                            options={[
+                                { label: "Skill Development", value: 1 },
+                                { label: "AI & STEM Learning", value: 2 },
+                                { label: "Education Development", value: 3 },
+                                { label: "Innovation & Entrepreneurs", value: 4 },
+                                { label: "Community Development", value: 5 },
+                            ]}
+                            onChange={(value) => {
+                                setCentreType(value);
+                                setCentreId(null);
+                                setPage(1);
+                            }}
+                        />
+                    </div>
+
+                    <div className="col-lg-2 col-md-6">
+                        <SelectFilter
+                            value={centreId}
+                            placeholder="All Centre Names"
+                            options={filteredCentres?.map((school) => ({
+                                label: school.centerName,
+                                value: school.id
+                            }))}
+                            onChange={(value) => {
+                                setCentreId(value);
+                                setPage(1);
+                            }}
+                        />
+                    </div>
                     <div className="col-md-2">
                         <SelectFilter
                             value={gradeBatchId}
                             name="gradeBatchId"
                             placeholder="All Grades"
-                            options={gradesByTrainerId.map((grade) => ({
-                                label: grade.gradeName,
-                                value: String(grade.gradeBatchId)
+                            options={grades.map((grade) => ({
+                                label: grade.gradeBatch,
+                                value: String(grade.id)
                             }))}
                             onChange={(value) => {
                                 setGradeBatchId(value);
@@ -97,7 +133,7 @@ const ManageSuperAdminStudentAttendance = () => {
                         />
                     </div>
 
-                    <div className="col-lg-3">
+                    <div className="col-lg-2">
                         <input
                             type="date"
                             className="form-control"
@@ -124,7 +160,7 @@ const ManageSuperAdminStudentAttendance = () => {
                         />
                     </div>
 
-                    <div className="col-lg-2">
+                    <div className="col-lg-1">
                         <div className="d-flex gap-2">
                             <button
                                 className="btn reset-btn"
@@ -147,6 +183,8 @@ const ManageSuperAdminStudentAttendance = () => {
                                 <th>#</th>
                                 <th>Student Name</th>
                                 <th>Student Enrollment Number</th>
+                                <th>Centre Name</th>
+                                <th>Grade</th>
                                 <th>Date</th>
                                 <th>Status</th>
                             </tr>
@@ -165,6 +203,8 @@ const ManageSuperAdminStudentAttendance = () => {
                                         <td>{(page - 1) * perPage + i + 1}</td>
                                         <td>{t.student?.fullName}</td>
                                         <td>{t.student?.enrolmentNumber}</td>
+                                        <td>{t?.student?.centre?.centerName || "-"}</td>
+                                        <td>{t?.student?.gradeBatch?.gradeBatch || "-"}</td>
                                         <td>{t.attendanceDate}</td>
                                         <td>
                                             <span

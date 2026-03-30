@@ -1883,6 +1883,14 @@ button .filter-btn :hover {
   height: 80px;
   object-fit: cover;
 }
+.activityTitle{
+  font-size: 14px;
+  font-weight: 600;
+  color: #019aa8;
+}
+.statsTitle{
+  color: #019aa8 !important;
+}
 
 /* Responsive */
 @media (max-width: 768px) {

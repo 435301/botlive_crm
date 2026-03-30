@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import SearchInput from "../../components/SearchInput";
 import Cookies from "js-cookie";
-import useGradesByTrainerId from "../../hooks/UseGradesByTrainerId";
 import SelectFilter from "../../components/SelectFilter";
+import useGrades from "../../hooks/useGrades";
+import useSchools from "../../hooks/useSchools";
 
 
 const ManageSuperAdminMonthlyAttendance = () => {
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
     const [gradeBatchId, setGradeBatchId] = useState("");
+    const [centreType, setCentreType] = useState("");
+    const [centreId, setCentreId] = useState("");
     const currentDate = new Date();
 
     const [month, setMonth] = useState(currentDate.getMonth() + 1);
     const [year, setYear] = useState(currentDate.getFullYear());
 
     const schoolSkillCentreId = JSON.parse(Cookies.get("trainer") || "{}")?.centreId;
-    const id = JSON.parse(Cookies.get("trainer") || "{}")?.id;
 
     const { useList } = useCrud({
         entity: "admin",
@@ -31,11 +33,19 @@ const ManageSuperAdminMonthlyAttendance = () => {
         centreId: schoolSkillCentreId
     });
 
-    const { gradesByTrainerId } = useGradesByTrainerId(id);
+    const { grades } = useGrades(centreType);
+    const { schoolsData } = useSchools();
+
+    const filteredCentres = centreType
+        ? schoolsData?.filter((school) => school.centerType === centreType)
+        : schoolsData;
+
 
     const students = data?.data || [];
+    console.log('students', students)
     const dates = data?.dates || [];
     const perPage = data?.perPage || 100;
+
 
     const resetFilters = () => {
         setPage(1);
@@ -44,12 +54,6 @@ const ManageSuperAdminMonthlyAttendance = () => {
         setSearch("");
         setGradeBatchId("");
     };
-
-    useEffect(() => {
-        if (gradesByTrainerId?.length > 0 && !gradeBatchId) {
-            setGradeBatchId(String(gradesByTrainerId[0].gradeBatchId));
-        }
-    }, [gradesByTrainerId, gradeBatchId]);
 
     return (
         <div className="container-fluid">
@@ -71,7 +75,7 @@ const ManageSuperAdminMonthlyAttendance = () => {
             {/* ===== FILTERS ===== */}
             <div className="filter-wrapper mb-3">
                 <div className="row g-2">
-                    <div className="col-lg-3">
+                    <div className="col-lg-2">
                         <SearchInput
                             value={search}
                             placeholder="Search by student name"
@@ -119,15 +123,48 @@ const ManageSuperAdminMonthlyAttendance = () => {
                                 ))}
                         </select>
                     </div>
+                    <div className="col-lg-2 col-md-6">
+                        <SelectFilter
+                            value={centreType}
+                            placeholder="All Centre Types"
+                            options={[
+                                { label: "Skill Development", value: 1 },
+                                { label: "AI & STEM Learning", value: 2 },
+                                { label: "Education Development", value: 3 },
+                                { label: "Innovation & Entrepreneurs", value: 4 },
+                                { label: "Community Development", value: 5 },
+                            ]}
+                            onChange={(value) => {
+                                setCentreType(value);
+                                setCentreId(null);
+                                setPage(1);
+                            }}
+                        />
+                    </div>
+
+                    <div className="col-lg-2 col-md-6">
+                        <SelectFilter
+                            value={centreId}
+                            placeholder="All Centre Names"
+                            options={filteredCentres?.map((school) => ({
+                                label: school.centerName,
+                                value: school.id
+                            }))}
+                            onChange={(value) => {
+                                setCentreId(value);
+                                setPage(1);
+                            }}
+                        />
+                    </div>
 
                     <div className="col-md-2">
                         <SelectFilter
                             value={gradeBatchId}
                             name="gradeBatchId"
                             placeholder="All Grades"
-                            options={gradesByTrainerId.map((grade) => ({
-                                label: grade.gradeName,
-                                value: String(grade.gradeBatchId)
+                            options={grades.map((grade) => ({
+                                label: grade.gradeBatch,
+                                value: String(grade.id)
                             }))}
                             onChange={(value) => {
                                 setGradeBatchId(value);
@@ -136,7 +173,7 @@ const ManageSuperAdminMonthlyAttendance = () => {
                     </div>
 
 
-                    <div className="col-lg-3 col-md-12">
+                    <div className="col-lg-1 col-md-12">
                         <div className="d-flex gap-2">
                             <button
                                 className="btn reset-btn"
@@ -159,6 +196,8 @@ const ManageSuperAdminMonthlyAttendance = () => {
                                 <th>#</th>
                                 <th> Name</th>
                                 <th> Enrollment </th>
+                                <th> Center Name </th>
+                                <th> Grade </th>
                                 {dates.map((date) => (
                                     <th key={date}>{date.split("-")[0]}</th>
                                 ))}
@@ -182,6 +221,8 @@ const ManageSuperAdminMonthlyAttendance = () => {
                                         <td>{(page - 1) * perPage + i + 1}</td>
                                         <td>{t?.name}</td>
                                         <td>{t?.enrolmentNumber}</td>
+                                        <td>{t?.centreName || "-"}</td>
+                                        <td>{t?.gradeName || "-"}</td>
                                         {dates.map((date) => (
                                             <td key={date}>
                                                 {t.attendance[date] === "P" ? (

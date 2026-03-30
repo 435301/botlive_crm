@@ -27,7 +27,8 @@ const AddAssignedChapter = () => {
 
     const { data, isLoading } = useGetById(id);
     const [formData, setFormData] = useState({
-        gradeBatchId: "",
+         gradeBatchId: "",
+        gradeBatchIds: [],
         chapterIds: [],
         courseId: "",
         moduleId: "",
@@ -46,12 +47,12 @@ const AddAssignedChapter = () => {
     useEffect(() => {
         if (data) {
             setFormData({
-                gradeBatchId: data.gradeBatchId,
+                gradeBatchId: data.gradeBatchId ,
                 courseId: data.courseId,
                 moduleId: data.moduleId,
-                chapterIds:data.assignedChapters?.map(
-                        (item) => item.chapterId
-                    ) || [],
+                chapterIds: data.assignedChapters?.map(
+                    (item) => item.chapterId
+                ) || [],
                 status: data.status,
             });
         }
@@ -89,7 +90,7 @@ const AddAssignedChapter = () => {
     // FINAL SAVE
     const handleSubmit = (e) => {
         e.preventDefault();
-        const validationErrors = validateAssignChapters(formData);
+        const validationErrors = validateAssignChapters(formData, isEditMode);
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;
@@ -129,20 +130,36 @@ const AddAssignedChapter = () => {
 
                     <form onSubmit={handleSubmit}>
                         <div className="row g-3">
-
                             <div className="col-md-4">
-                                <FormSelect
-                                    label="Grade"
-                                    name="gradeBatchId"
-                                    value={formData.gradeBatchId}
-                                    onChange={handleChange}
-                                    mandatory
-                                    options={grades.map((grade) => ({
-                                        label: grade.gradeBatch,
-                                        value: grade.id
-                                    }))}
-                                    error={errors.gradeBatchId}
-                                />
+                                {isEditMode ? (
+
+                                    <FormSelect
+                                        label="Grade"
+                                        name="gradeBatchId"
+                                        value={formData.gradeBatchId}
+                                        onChange={handleChange}
+                                        mandatory
+                                        options={grades.map((grade) => ({
+                                            label: grade.gradeBatch,
+                                            value: grade.id
+                                        }))}
+                                        error={errors.gradeBatchId}
+                                    />
+
+                                ) : (
+                                    <MultiSelectWithCheckbox
+                                        label="Grade"
+                                        name="gradeBatchIds"
+                                        value={formData.gradeBatchIds}
+                                        onChange={handleChange}
+                                        required
+                                        options={grades.map((grade) => ({
+                                            label: grade.gradeBatch,
+                                            value: grade.id
+                                        }))}
+                                        error={errors.gradeBatchIds}
+                                    />
+                                )}
                             </div>
 
                             <div className="col-md-4">

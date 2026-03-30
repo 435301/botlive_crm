@@ -241,8 +241,8 @@ const Dashboard = () => {
             >
               <div className="d-flex justify-content-between align-items-center">
                 <div>
-                  <h6 className="mb-3">{item.title}</h6>
-                  <h3 className="fw-bold">{item.value}</h3>
+                  <h6 className="mb-3 statsTitle">{item.title}</h6>
+                  <h3 className="fw-bold" >{item.value}</h3>
                   {/* <div className="d-flex align-items-center gap-2 "> {item.subtitle && (
                     <small
                       className={`text-${item.subtitleColor || "secondary"}`}
@@ -319,7 +319,7 @@ const Dashboard = () => {
                       </div>
 
                       <div className="ms-3 flex-grow-1">
-                         <p style={{fontSize:"14px"}}>{activity.centreName}</p>
+                         <p className="activityTitle">{activity.centreName}</p>
                         <h6 className="mb-1">{activity.title}</h6>
                         <p className="mb-1 small text-muted">
                           {activity.description.length > 50
