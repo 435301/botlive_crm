@@ -81,6 +81,10 @@ const ManageSuperAdminTrainers = lazy(() => import("./pages/superAdmin/ManageSup
 const ViewTrainer = lazy(() => import("./pages/superAdmin/ViewTrainers"));
 const ManageTrainerAttendance = lazy(() => import("./pages/superAdmin/ManageAttendance"));
 const ManageSuperAdminTrainerMonthlyAttendance = lazy(() => import("./pages/superAdmin/ManageTrainerMonthlyAttendance"));
+const ManageSuperAdminStudentAttendance = lazy(() => import("./pages/superAdmin/ManageStudentAttendance"));
+const ManageSuperAdminStudentMonthlyAttendance = lazy(() => import("./pages/superAdmin/ManageMonthlyAttendance"));
+
+
 // Admin
 
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
@@ -638,6 +642,8 @@ function App() {
           <Route path="/superAdmin/manage-trainers" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSuperAdminTrainers)}</ProtectedRoute>} />
           <Route path="/superAdmin/manage-attendance" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageTrainerAttendance)}</ProtectedRoute>} />
           <Route path="/superAdmin/manage-trainer-monthly-attendance" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSuperAdminTrainerMonthlyAttendance)}</ProtectedRoute>} />
+          <Route path="/superAdmin/manage-student-attendance" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSuperAdminStudentAttendance)}</ProtectedRoute>} />
+          <Route path="/superAdmin/manage-student-monthly-attendance" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSuperAdminStudentMonthlyAttendance)}</ProtectedRoute>} />
 
           {/* admin routes */}
           <Route path="/admin/login" element={<PublicRoute>{lazyLoad(AdminLogin)}</PublicRoute>} />

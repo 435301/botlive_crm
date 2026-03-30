@@ -553,31 +553,37 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
             </div>
           </div>
 
-{/* attendance management */}
-            <div className="nav-group">
-              <div className="nav-link" onClick={() => toggleMenu("attendance")}>
-                <Building2 size={18} />
-                {!collapsed && (
-                  <>
-                    <span>Attendance</span>
-                    <ChevronDown
-                      size={16}
-                      className={`arrow ${openMenu === "attendance" ? "rotate" : ""}`}
-                    />
-                  </>
-                )}
-              </div>
-
-              <div className={`submenu ${openMenu === "attendance" ? "open" : ""}`}>
-
-                <NavLink to="/superAdmin/manage-attendance" className={getNavLinkClass}>
-                  Manage Trainer Attendance
-                </NavLink>
-                <NavLink to="/superAdmin/manage-trainer-monthly-attendance" className={getNavLinkClass}>
-                  Manage Trainer Monthly Attendance
-                </NavLink>
-              </div>
+          {/* attendance management */}
+          <div className="nav-group">
+            <div className="nav-link" onClick={() => toggleMenu("attendance")}>
+              <Building2 size={18} />
+              {!collapsed && (
+                <>
+                  <span>Attendance</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "attendance" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
             </div>
+
+            <div className={`submenu ${openMenu === "attendance" ? "open" : ""}`}>
+
+              <NavLink to="/superAdmin/manage-attendance" className={getNavLinkClass}>
+                Manage Trainer Attendance
+              </NavLink>
+              <NavLink to="/superAdmin/manage-trainer-monthly-attendance" className={getNavLinkClass}>
+                Manage Trainer Monthly Attendance
+              </NavLink>
+              <NavLink to="/superAdmin/manage-student-attendance" className={getNavLinkClass}>
+                Manage Student Attendance
+              </NavLink>
+              <NavLink to="/superAdmin/manage-student-monthly-attendance" className={getNavLinkClass}>
+                Manage Student Monthly Attendance
+              </NavLink>
+            </div>
+          </div>
 
           {/* Settings */}
           <NavLink to="/superAdmin/settings" className={getNavLinkClass}>
