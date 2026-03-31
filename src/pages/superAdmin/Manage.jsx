@@ -173,7 +173,7 @@ const ManageSkillCenters = () => {
           <div className="col-lg-2 col-md-6">
             <SelectFilter
               value={type}
-              placeholder="All Types"
+              placeholder="All Centre Types"
               options={[
                 { label: "Skill Development", value: 1 },
                 { label: "AI & STEM Learning", value: 2 },

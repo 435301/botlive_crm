@@ -1,14 +1,15 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 import {
-  Tooltip, ResponsiveContainer,
+  Tooltip,
+  ResponsiveContainer,
   Cell,
   PieChart,
-  Pie
+  Pie,
+  Legend
 } from "recharts";
 import { useCrud } from "../../hooks/useCrud";
-import BASE_URL_JOB from "../../config/config";
 
 const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
   const RADIAN = Math.PI / 180;
@@ -38,7 +39,7 @@ const Dashboard = () => {
     listUrl: "/activity/dashboard/list",
   });
 
-  const { data: activityData, isLoading } = useList({
+  const { data: activityData } = useList({
     centreId: ""
   });
 
@@ -79,7 +80,7 @@ const Dashboard = () => {
       icon: "bi-building",
       iconBg: "#e8f5ff",
       iconColor: "#0d6efd",
-      onClick: () => navigate("/superAdmin/manage-skill-centres"),
+      // onClick: () => navigate(`/superAdmin/manage-skill-centres/${type}`),
     },
     {
       title: "AI And Stem Learning Centres",
@@ -217,6 +218,8 @@ const Dashboard = () => {
   ];
 
 
+
+
   return (
     <div className="container-fluid">
       {/* ===== TOP KPI CARDS ===== */}
@@ -281,10 +284,10 @@ const Dashboard = () => {
           <h5 className="fw-bold mt-3"> Attendance Performance </h5>
 
           <div className="row g-4 mt-2">
-            <div className="col-md-8">
+            <div className="col-md-12">
 
               <div className="row">
-                {attendanceData.map((item, index) => (<div className="col-12 col-md-6 col-lg-4 mb-3" key={index} onClick={() => handleChartClick(item)} style={{ cursor: "pointer" }}>
+                {attendanceData.map((item, index) => (<div className="col-12 col-md-6 col-lg-3 mb-3" key={index} onClick={() => handleChartClick(item)} style={{ cursor: "pointer" }}>
                   <div className="card p-4 shadow-sm h-100">
                     <h6 className="text-center mb-2 fw-semibold">{item.title}</h6>
                     <ResponsiveContainer width="100%" height={220}>
@@ -295,12 +298,35 @@ const Dashboard = () => {
                   </div>
                 </div>
                 ))}
+
+                <div className="col-lg-6">
+                  <video
+                    width="100%"
+                    controls
+                    autoPlay={false}
+                    muted
+                    loop
+                    style={{
+                      borderRadius: "12px",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                      objectFit: "cover",
+                      height: "100%",
+                      maxHeight: "290px",
+                      backgroundColor: "#000"
+                    }}
+                  >
+                    <source
+                      src="https://www.cyientfoundation.org/wp-content/uploads/2025/11/CYFINTROvid.mp4"
+                      type="video/mp4"
+                    />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
               </div>
             </div>
 
-            <div className="col-md-4">
+            {/* <div className="col-md-4">
 
-              {/* Card 1 */}
               <div>
                 {isLoading ? (
                   <p className="text-center p-3">Loading...</p>
@@ -337,11 +363,159 @@ const Dashboard = () => {
                 )}
               </div>
 
-            </div>
+            </div> */}
 
 
           </div>
         </div>
+
+        <div className="container-fluid mt-5">
+          <h4 className="fw-bold mb-4">Skill Development Centres</h4>
+
+          <div className="row g-4">
+
+            {/* Gender */}
+            <div className="col-12 col-sm-6 col-md-4 col-lg">
+              <div className="card shadow-sm h-100 p-3">
+                <h6 className="text-center fw-semibold mb-3">Gender</h6>
+                <ResponsiveContainer width="100%" height={230}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: "Male", value: 60 },
+                        { name: "Female", value: 40 }
+                      ]}
+                      dataKey="value"
+                      innerRadius={50}
+                      outerRadius={80}
+                      paddingAngle={3}
+                    >
+                      <Cell fill="#4e73df" />
+                      <Cell fill="#e83e8c" />
+                    </Pie>
+                    <Tooltip />
+                    <Legend verticalAlign="bottom" height={36} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Social Status */}
+            <div className="col-12 col-sm-6 col-md-4 col-lg">
+              <div className="card shadow-sm h-100 p-3">
+                <h6 className="text-center fw-semibold mb-3">Social Status</h6>
+                <ResponsiveContainer width="100%" height={230}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: "SC", value: 20 },
+                        { name: "ST", value: 15 },
+                        { name: "BC", value: 25 },
+                        { name: "G", value: 30 },
+                        { name: "EWS", value: 10 }
+                      ]}
+                      dataKey="value"
+                      innerRadius={50}
+                      outerRadius={80}
+                      paddingAngle={3}
+                    >
+                      <Cell fill="#1cc88a" />
+                      <Cell fill="#36b9cc" />
+                      <Cell fill="#f6c23e" />
+                      <Cell fill="#fd7e14" />
+                      <Cell fill="#6f42c1" />
+                    </Pie>
+                    <Tooltip />
+                    <Legend verticalAlign="bottom" height={36} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Performance */}
+            <div className="col-12 col-sm-6 col-md-4 col-lg">
+              <div className="card shadow-sm h-100 p-3">
+                <h6 className="text-center fw-semibold mb-3">Performance</h6>
+                <ResponsiveContainer width="100%" height={230}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: "A", value: 35 },
+                        { name: "B", value: 40 },
+                        { name: "C", value: 25 }
+                      ]}
+                      dataKey="value"
+                      innerRadius={50}
+                      outerRadius={80}
+                      paddingAngle={3}
+                    >
+                      <Cell fill="#28a745" />
+                      <Cell fill="#ffc107" />
+                      <Cell fill="#dc3545" />
+                    </Pie>
+                    <Tooltip />
+                    <Legend verticalAlign="bottom" height={36} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Login Report */}
+            <div className="col-12 col-sm-6 col-md-4 col-lg">
+              <div className="card shadow-sm h-100 p-3">
+                <h6 className="text-center fw-semibold mb-3">Login Report</h6>
+                <ResponsiveContainer width="100%" height={230}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: "Logged In", value: 70 },
+                        { name: "Remaining", value: 30 }
+                      ]}
+                      dataKey="value"
+                      innerRadius={50}
+                      outerRadius={80}
+                      paddingAngle={3}
+                    >
+                      <Cell fill="#17a2b8" />
+                      <Cell fill="#6c757d" />
+                    </Pie>
+                    <Tooltip />
+                    <Legend verticalAlign="bottom" height={36} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Empty Chart */}
+            <div className="col-12 col-sm-6 col-md-4 col-lg">
+              <div className="card shadow-sm h-100 p-3">
+                <h6 className="text-center fw-semibold mb-3">Empty Chart</h6>
+                <ResponsiveContainer width="100%" height={230}>
+                  <PieChart>
+                    <Pie
+                      data={[{ name: "No Data", value: 100 }]}
+                      dataKey="value"
+                      innerRadius={50}
+                      outerRadius={80}
+                    >
+                      <Cell fill="#e9ecef" />
+                    </Pie>
+                    <Tooltip />
+                    <Legend verticalAlign="bottom" height={36} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+
+
+
+
+
 
         {/* <div className="col-12 col-sm-12 col-lg-12">
           {" "}
