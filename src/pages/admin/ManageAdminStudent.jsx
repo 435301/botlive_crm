@@ -8,6 +8,8 @@ import { useCrud } from "../../hooks/useCrud";
 import useSchools from "../../hooks/useSchools";
 import Cookies from "js-cookie";
 import DeleteConfirmationModal from "../../Modals/deleteModal";
+import FormSelect from "../../components/FormSelect";
+import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
 
 const ManageAdminStudents = () => {
   const navigate = useNavigate();
@@ -19,6 +21,13 @@ const ManageAdminStudents = () => {
   const [page, setPage] = useState(1);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const [showPerformanceModal, setShowPerformanceModal] = useState(false);
+  const [selectedStudentId, setSelectedStudentId] = useState(null);
+  const [performanceData, setPerformanceData] = useState({
+    performanceTitle: "",
+    fromDate: "",
+    toDate: ""
+  });
 
   const { useList, deleteMutation } = useCrud({
     entity: "student/school",
@@ -36,6 +45,40 @@ const ManageAdminStudents = () => {
     centreId: schoolSkillCentreId,
   });
 
+  const { useGetAll, createMutation } = useCrud({
+    entity: "performance",
+    getAllUrl: "/student/get/performances",
+    createUrl: "/student/updatePerformance",
+  });
+
+  const { data: performanceResponse } = useGetAll();
+  const performances = performanceResponse?.data || [];
+
+  const handlePerformanceSubmit = async () => {
+    try {
+      const payload = {
+        studentId: selectedStudentId,
+        performanceTitle: performanceData.performanceTitle,
+        fromDate: performanceData.fromDate,
+        toDate: performanceData.toDate,
+      };
+      createMutation.mutate(payload, {
+        onSuccess: () => {
+          setShowPerformanceModal(false);
+          setSelectedStudentId(null);
+          setPerformanceData({
+            performanceTitle: "",
+            fromDate: "",
+            toDate: ""
+          });
+        }
+      });
+
+    } catch (error) {
+
+    }
+  };
+  
   const schools = data?.data || [];
   const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
   const perPage = data?.perPage || 15;
@@ -71,6 +114,12 @@ const ManageAdminStudents = () => {
     setDeleteId(null);
     deleteMutation.mutate(deleteId);
   };
+
+  const handlePerformanceClick = (id) => {
+    setSelectedStudentId(id);
+    setShowPerformanceModal(true);
+  };
+
 
 
   return (
@@ -222,6 +271,11 @@ const ManageAdminStudents = () => {
                         </span>
                       </td>
                       <td className="text-center">
+                        <button
+                          className="btn btn-outline-warning btn-sm me-2" onClick={() => handlePerformanceClick(s.id)} title="Update Performance"
+                        >
+                          <i className="bi bi-graph-up"></i>
+                        </button>
                         <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/admin/edit-student/${s.id}`)}>
                           <i className="bi bi-pencil"></i>
                         </button>
@@ -257,6 +311,84 @@ const ManageAdminStudents = () => {
             handleClose={() => setShowDeleteModal(false)}
             handleConfirm={handleDelete}
           />
+          {showPerformanceModal && (
+            <div className="modal show fade d-block">
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title">Update Performance</h5>
+                    <button
+                      className="btn-close"
+                      onClick={() => setShowPerformanceModal(false)}
+                    ></button>
+                  </div>
+
+                  <div className="modal-body">
+                    <div className="mb-3">
+                      <FormSelect
+                        label="Performance Title"
+                        name="performanceTitle"
+                        value={performanceData.performanceTitle}
+                        onChange={(e) =>
+                          setPerformanceData({
+                            ...performanceData,
+                            performanceTitle: e.target.value
+                          })
+                        }
+                        options={performances?.map((performance) => ({
+                          label: performance.title,
+                          value: String(performance.id)
+                        }))}
+                      />
+                    </div>
+
+                    <div className="mb-3">
+                      <label>From Date</label>
+                      <input
+                        type="date"
+                        className="form-control"
+                        onChange={(e) =>
+                          setPerformanceData({
+                            ...performanceData,
+                            fromDate: formatDateToDDMMYYYY(e.target.value)
+                          })
+                        }
+                      />
+                    </div>
+
+                    <div className="mb-3">
+                      <label>To Date</label>
+                      <input
+                        type="date"
+                        className="form-control"
+                        onChange={(e) =>
+                          setPerformanceData({
+                            ...performanceData,
+                            toDate: formatDateToDDMMYYYY(e.target.value)
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  <div className="modal-footer">
+                    <button
+                      className="btn btn-secondary"
+                      onClick={() => setShowPerformanceModal(false)}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="btn btn-primary"
+                      onClick={handlePerformanceSubmit}
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
