@@ -17,6 +17,7 @@ import useCategory from "../../hooks/useCategory";
 import Cookies from "js-cookie";
 import BASE_URL_JOB from "../../config/config";
 import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
+import SelectFilter from "../../components/SelectFilter";
 
 const AddAdminStudent = () => {
   const navigate = useNavigate();
@@ -77,7 +78,8 @@ const AddAdminStudent = () => {
         email: studentData.email || "",
         password: "",
         studentPhoto: null,
-        status: studentData.status
+        status: studentData.status,
+        enrolled: studentData.enrolled
       });
       setSkillCentreFormData({
         skillcentreId: studentData.centreId || "",
@@ -86,12 +88,12 @@ const AddAdminStudent = () => {
         fatherName: studentData.fatherName || "",
         gender: studentData.gender || "",
         dob: studentData.dob || "",
-        batchId: studentData.gradeBatchId || "",
+        batchId: String(studentData.gradeBatchId || ""),
         aadharNumber: studentData.aadharNumber || "",
         mobile: studentData.mobile || "",
         email: studentData.email || "",
         password: "",
-        alternateMobile: studentData.alternateMobile,
+        alternateMobile: studentData.alternateMobile ,
         qualificationId: String(studentData.qualificationId),
         occupationId: String(studentData.occupationId),
         categoryId: String(studentData.categoryId),
@@ -112,7 +114,8 @@ const AddAdminStudent = () => {
         ugCertificate: null,
         pgCertificate: null,
         studentPhoto: null,
-        status: studentData.status
+        status: studentData.status,
+        enrolled: studentData.enrolled
       });
     }
   }, [studentData]);
@@ -127,12 +130,13 @@ const AddAdminStudent = () => {
     dob: "",
     gradeId: "",
     aadharNumber: "",
-    mobile: "",
+    mobile: null,
     email: "",
     password: "",
     fatherName: "",
     studentPhoto: null,
     status: 1,
+    enrolled: 1
   });
 
   const [skillCentreFormData, setSkillCentreFormData] = useState({
@@ -143,7 +147,7 @@ const AddAdminStudent = () => {
     dob: "",
     batchId: "",
     aadharNumber: "",
-    mobile: "",
+    mobile: null,
     email: "",
     password: "",
     alternateMobile: "",
@@ -169,6 +173,7 @@ const AddAdminStudent = () => {
     ugCertificate: null,
     pgCertificate: null,
     status: 1,
+    enrolled: 1
   })
 
   const { grades } = useGrades(centreType);
@@ -453,7 +458,7 @@ const AddAdminStudent = () => {
           onChange={handleChange}
           error={errors.mobile}
           placeholder="Enter mobile number"
-          mandatory
+
         />
       </div>
 
@@ -467,7 +472,6 @@ const AddAdminStudent = () => {
           onChange={handleChange}
           error={errors.email}
           placeholder="Enter email address"
-          mandatory
         />
       </div>
       <div className="col-md-4">
@@ -489,6 +493,26 @@ const AddAdminStudent = () => {
       {/* Status */}
       <div className="col-md-4">
         <StatusSelect name="status" value={formData.status} handleChange={handleChange} error={errors.status} />
+      </div>
+
+      <div className="col-md-4">
+        <label className="form-label">Enrollment Status<span className="text-danger"> *</span></label>
+        <SelectFilter
+          value={formData.enrolled}
+          name="enrolled"
+          placeholder="Enrollment Status"
+          options={[
+            { label: "Enrolled", value: 1 },
+            { label: "Not Enrolled", value: 0 }
+          ]}
+          onChange={(value) =>
+            setFormData((prev) => ({
+              ...prev,
+              enrolled: value,
+            }))
+          }
+        />
+        {errors.enrolled && <div className="text-danger d-flex">{errors.enrolled}</div>}
       </div>
     </>
   );
@@ -574,7 +598,7 @@ const AddAdminStudent = () => {
           onChange={handleSkillChange}
           options={grades.map((grade) => ({
             label: grade.gradeBatch,
-            value:String(grade.id)
+            value: String(grade.id)
           }))}
           error={errors.batchId}
         />
@@ -624,7 +648,7 @@ const AddAdminStudent = () => {
           onChange={handleSkillChange}
           error={errors.mobile}
           placeholder="Enter mobile number"
-          mandatory
+          
         />
       </div>
 
@@ -638,7 +662,7 @@ const AddAdminStudent = () => {
           onChange={handleSkillChange}
           error={errors.email}
           placeholder="Enter email address"
-          mandatory
+          
         />
       </div>
       <div className="col-md-4">
@@ -654,17 +678,6 @@ const AddAdminStudent = () => {
           }
           error={errors.password}
           mandatory={!isEditMode}
-        />
-      </div>
-
-      <div className="col-md-4">
-        <FormInput
-          label="Alternate Mobile"
-          name="alternateMobile"
-          value={skillCentreFormData.alternateMobile}
-          onChange={handleSkillChange}
-          error={errors.alternateMobile}
-          placeholder="Enter mobile number"
         />
       </div>
 
@@ -968,6 +981,26 @@ const AddAdminStudent = () => {
 
       <div className="col-md-4">
         <StatusSelect name="status" value={skillCentreFormData.status} handleChange={handleSkillChange} error={errors.status} />
+      </div>
+
+      <div className="col-md-4">
+        <label className="form-label">Enrollment Status<span className="text-danger"> *</span></label>
+        <SelectFilter
+          value={formData.enrolled}
+          name="enrolled"
+          placeholder="Enrollment Status"
+          options={[
+            { label: "Enrolled", value: 1 },
+            { label: "Not Enrolled", value: 0 }
+          ]}
+          onChange={(value) =>
+            setFormData((prev) => ({
+              ...prev,
+              enrolled: value,
+            }))
+          }
+        />
+        {errors.enrolled && <div className="text-danger d-flex">{errors.enrolled}</div>}
       </div>
     </>
   );
