@@ -130,6 +130,7 @@ const ManageState = () => {
               <thead>
                 <tr>
                   <th>#</th>
+                  <th>State Id</th>
                   <th>State Name</th>
                   <th>Status</th>
                   <th className="text-center">Actions</th>
@@ -148,6 +149,7 @@ const ManageState = () => {
                     states.map((item, index) => (
                       <tr key={item.id}>
                         <td>{index + 1}</td>
+                        <td>{item.id}</td>
                         <td>{item.stateName}</td>
                         <td>
                           <span

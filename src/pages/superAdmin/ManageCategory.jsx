@@ -163,6 +163,7 @@ const ManageCategory= () => {
               <thead>
                 <tr>
                   <th>#</th>
+                  <th>Social Status Id</th>
                   <th>Social Status</th>
                   <th>Status</th>
                   <th className="text-center">Actions</th>
@@ -180,6 +181,7 @@ const ManageCategory= () => {
                   category.map((item, index) => (
                     <tr key={item.id}>
                       <td>{index + 1}</td>
+                      <td>{item.id}</td>
                       <td>{item.category}</td>
                       <td>
                         <span

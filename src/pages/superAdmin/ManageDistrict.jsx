@@ -156,6 +156,7 @@ const ManageDistrict = () => {
                 <tr>
                   <th>#</th>
                   <th>State Name</th>
+                  <th>Disctrict Id</th>
                   <th>District Name</th>
                   <th>Status</th>
                   <th className="text-center">Actions</th>
@@ -174,6 +175,7 @@ const ManageDistrict = () => {
                     <tr key={item?.id}>
                      <td>{(page - 1) * perPage + index + 1}</td>
                       <td>{item?.state?.stateName}</td>
+                      <td>{item?.id}</td>
                       <td>{item?.districtName}</td>
                       <td>
                         <span
