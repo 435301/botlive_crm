@@ -122,16 +122,16 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               </NavLink>
 
               <NavLink
-                to="/superAdmin/add-category"
+                to="/superAdmin/add-social-status"
                 className={getNavLinkClass}
               >
-                Add Category
+                Add Social Status
               </NavLink>
               <NavLink
-                to="/superAdmin/manage-category"
+                to="/superAdmin/manage-social-status"
                 className={getNavLinkClass}
               >
-                Manage Category
+                Manage Social Status
               </NavLink>
 
               <NavLink

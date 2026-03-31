@@ -75,38 +75,38 @@ const AddCategories = () => {
                         <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
                     </div>
                     <div>
-                        <h5 className="fw-bold mb-0">Category Management</h5>
+                        <h5 className="fw-bold mb-0">Social Status Management</h5>
                         <p className="sub-text mb-0">
-                            View, edit and manage all categories
+                            View, edit and manage all social statuses in the system
                         </p>
                     </div>
                 </div>
 
                 {/* Right: Manage Skills Button */}
                 <Link
-                    to="/superAdmin/manage-category"
+                    to="/superAdmin/manage-social-status"
                     className="btn manage-skills-btn d-flex align-items-center"
                 >
                     <i className="ti ti-certificate me-2"></i>
-                    Manage Category
+                    Manage Social Status
                 </Link>
             </div>
 
             {/* ===== FORM ===== */}
             <div className="card shadow-sm p-1">
                 <div className="card-body">
-                    <h5 className="fw-bold mb-4">Create Category </h5>
+                    <h5 className="fw-bold mb-4">Create Social Status </h5>
 
                     <form onSubmit={handleSubmit}>
                         <div className="row g-3">
                             {/* Course / Grade */}
                             <div className="col-md-4">
                                 <FormInput
-                                    label="Category"
+                                    label="Social Status"
                                     name="category"
                                     value={formData.category}
                                     onChange={handleChange}
-                                    placeholder="Enter Category"
+                                    placeholder="Enter Social Status"
                                     mandatory
                                     error={errors.category}
                                 />
@@ -121,7 +121,7 @@ const AddCategories = () => {
                         {/* ===== ACTION BUTTONS ===== */}
                         <div className="mt-4 text-center">
                             <FormActions
-                                onCancel={() => navigate("/superAdmin/manage-category")}
+                                onCancel={() => navigate("/superAdmin/manage-social-status")}
                                 saveText={createMutation.isPending ? "Saving..." : "Save"}
                                 cancelText="Cancel"
                                 disabled={isLoading}

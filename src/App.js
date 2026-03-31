@@ -544,7 +544,7 @@ function App() {
           />
 
           <Route
-            path="/superAdmin/manage-category"
+            path="/superAdmin/manage-social-status"
             element={
               <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
@@ -553,7 +553,7 @@ function App() {
             }
           />
           <Route
-            path="/superAdmin/add-category"
+            path="/superAdmin/add-social-status"
             element={
               <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {" "}
@@ -562,7 +562,7 @@ function App() {
             }
           />
           <Route
-            path="/superAdmin/edit-category/:id"
+            path="/superAdmin/edit-social-status/:id"
             element={
               <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(AddCategories)}

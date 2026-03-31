@@ -73,9 +73,9 @@ const ManageCategory= () => {
             <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
           </div>
           <div>
-            <h5 className="fw-bold mb-0">Category Management</h5>
+            <h5 className="fw-bold mb-0">Social Status Management</h5>
             <p className="sub-text mb-0">
-              View, edit and manage all category
+              View, edit and manage all social statuses in the system
             </p>
           </div>
           {/* Right: Action Buttons */}
@@ -104,11 +104,11 @@ const ManageCategory= () => {
             Export Excel
           </button>
           <Link
-            to="/superAdmin/add-category"
+            to="/superAdmin/add-social-status"
             className="btn add-skill-btn d-flex align-items-center"
           >
             <i className="ti ti-graduation-cap me-2"></i>
-            Add Category
+            Add Social Status
           </Link>
         </div>
       </div>
@@ -118,7 +118,7 @@ const ManageCategory= () => {
           <div className="col-lg-4 col-md-6">
             <SearchInput
               value={search}
-              placeholder="Search by category"
+              placeholder="Search by social status"
               onChange={(value) => {
                 setSearch(value);
                 setPage(1);
@@ -163,7 +163,7 @@ const ManageCategory= () => {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Category</th>
+                  <th>Social Status</th>
                   <th>Status</th>
                   <th className="text-center">Actions</th>
                 </tr>
@@ -192,7 +192,7 @@ const ManageCategory= () => {
                         </span>
                       </td>
                       <td className="text-center">
-                        <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-category/${item?.id}`)}>
+                        <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-social-status/${item?.id}`)}>
                           <i className="bi bi-pencil"></i>
                         </button>
                         <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(item?.id)}>
