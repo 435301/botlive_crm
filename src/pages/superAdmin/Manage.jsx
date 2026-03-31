@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Pagination from "../../components/Pagination";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
@@ -19,6 +19,15 @@ const ManageSkillCenters = () => {
   const [page, setPage] = useState(1);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const centreType = searchParams.get("centreType");
+    if (centreType) {
+      setType(centreType);
+    }
+  }, [searchParams]);
 
   const { useList, deleteMutation } = useCrud({
     entity: "skillCenter",

@@ -214,7 +214,6 @@ const ManageStudents = () => {
                   <th>Project Type</th>
                   <th>Center Name</th>
                   <th>Student Name</th>
-                  <th>Mobile</th>
                   <th>Email</th>
                   <th>Gender</th>
                   <th>DOB</th>
@@ -250,7 +249,6 @@ const ManageStudents = () => {
                       </td>
                       <td>{s?.centre?.centerName || "-"}</td>
                       <td>{s.fullName || "-"}</td>
-                      <td>{s.mobile || "-"}</td>
                       <td>{s.email || "-"}</td>
                       <td>{s.gender === 1 ? "Male" : s.gender === 2 ? "Female" : s.gender === 3 ? "Other" : "-"}</td>
                       <td>{s.dob || "-"}</td>

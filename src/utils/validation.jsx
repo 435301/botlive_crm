@@ -182,12 +182,6 @@ export const validateSchoolStudent = (formData, isEditMode) => {
 
   if (!formData.gradeId) newErrors.gradeId = "Grade required";
 
-  if (!formData.mobile || formData.mobile.length !== 10)
-    newErrors.mobile = "Valid mobile number required";
-
-  if (!formData.email)
-    newErrors.email = "Email required";
-
   if (!formData.dob)
     newErrors.dob = "DOB required";
 
@@ -203,6 +197,9 @@ export const validateSchoolStudent = (formData, isEditMode) => {
   if (!isEditMode && !formData.studentPhoto)
     newErrors.studentPhoto = "Student photo required";
 
+  if (!isEditMode && !formData.enrolled)
+    newErrors.enrolled = "Enrollment status required";
+
   return newErrors;
 };
 
@@ -214,8 +211,6 @@ export const validateSkillCentreStudent = (formData, isEditMode = false) => {
   if (!formData.dob) errors.dob = "Date of birth is required";
   if (!formData.batchId) errors.batchId = "Skill is required";
   if (!formData.aadharNumber) errors.aadharNumber = "Aadhar number is required";
-  if (!formData.mobile) errors.mobile = "Mobile number is required";
-  if (!formData.email) errors.email = "Email is required";
 
   if (!isEditMode && !formData.password) {
     errors.password = "Password is required";
@@ -240,6 +235,7 @@ export const validateSkillCentreStudent = (formData, isEditMode = false) => {
   if (!isEditMode && !formData.studentPhoto) errors.studentPhoto = "Student photo is required";
   if (!isEditMode && !formData.aadharPhoto) errors.aadharPhoto = "Aadhar photo is required";
 
+  if (!formData.enrolled) errors.enrolled = "Enrollment status required";
   return errors;
 };
 
@@ -324,7 +320,7 @@ export const validateAssignChapters = (formData, isEditMode) => {
     errors.courseId = "course is required";
   }
 
-  if (!isEditMode &&!formData.gradeBatchIds) {
+  if (!isEditMode && !formData.gradeBatchIds) {
     errors.gradeBatchIds = "Grade/Skill is required";
   }
 
@@ -449,10 +445,10 @@ export const validateTrainerForm = (formData, isEditMode) => {
 
 export const validateSuperAdminTrainerForm = (formData, isEditMode) => {
   const errors = {};
-   if (!formData.centreId) {
+  if (!formData.centreId) {
     errors.centreId = "Centre is required";
   }
-   if (!formData.trainerType) {
+  if (!formData.trainerType) {
     errors.trainerType = "Trainer Type is required";
   }
   if (!formData.trainerCode) {

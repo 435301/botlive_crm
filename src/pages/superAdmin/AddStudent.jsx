@@ -17,6 +17,7 @@ import useDistricts from "../../hooks/useDistricts";
 import useCategory from "../../hooks/useCategory";
 import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
 import BASE_URL_JOB from "../../config/config";
+import SelectFilter from "../../components/SelectFilter";
 
 const AddStudent = () => {
   const navigate = useNavigate();
@@ -71,11 +72,12 @@ const AddStudent = () => {
         dob: studentData.dob || "",
         gradeId: studentData.gradeBatchId || "",
         aadharNumber: studentData.aadharNumber || "",
-        mobile: studentData.mobile || "",
+        mobile: studentData.mobile || null,
         email: studentData.email || "",
         password: "",
         studentPhoto: null,
-        status: studentData.status
+        status: studentData.status,
+        enrolled: studentData.enrolled || "-"
       });
       setSkillCentreFormData({
         centreType: String(studentData?.centre?.centerType || ""),
@@ -87,7 +89,7 @@ const AddStudent = () => {
         dob: studentData.dob || "",
         batchId: String(studentData.gradeBatchId) || "",
         aadharNumber: studentData.aadharNumber || "",
-        mobile: studentData.mobile || "",
+        mobile: studentData.mobile || null,
         email: studentData.email || "",
         password: "",
         alternateMobile: studentData.alternateMobile,
@@ -111,7 +113,8 @@ const AddStudent = () => {
         ugCertificate: null,
         pgCertificate: null,
         studentPhoto: null,
-        status: studentData.status
+        status: studentData.status,
+        enrolled: studentData.enrolled || "-"
       });
     }
   }, [studentData]);
@@ -127,12 +130,13 @@ const AddStudent = () => {
     dob: "",
     gradeId: "",
     aadharNumber: "",
-    mobile: "",
+    mobile: null,
     email: "",
     password: "",
     fatherName: "",
     studentPhoto: null,
     status: 1,
+    enrolled: 1
   });
 
   const [skillCentreFormData, setSkillCentreFormData] = useState({
@@ -144,7 +148,7 @@ const AddStudent = () => {
     dob: "",
     batchId: "",
     aadharNumber: "",
-    mobile: "",
+    mobile: null,
     email: "",
     password: "",
     alternateMobile: "",
@@ -169,7 +173,8 @@ const AddStudent = () => {
     intermediateCertificate: null,
     ugCertificate: null,
     pgCertificate: null,
-    // status: 1,
+    status: 1,
+    enrolled: 1
   })
 
   const { schoolsData } = useSchools();
@@ -471,7 +476,7 @@ const AddStudent = () => {
           onChange={handleChange}
           error={errors.mobile}
           placeholder="Enter mobile number"
-          mandatory
+
         />
       </div>
 
@@ -485,7 +490,6 @@ const AddStudent = () => {
           onChange={handleChange}
           error={errors.email}
           placeholder="Enter email address"
-          mandatory
         />
       </div>
       <div className="col-md-4">
@@ -507,6 +511,26 @@ const AddStudent = () => {
       {/* Status */}
       <div className="col-md-4">
         <StatusSelect name="status" value={formData.status} handleChange={handleChange} error={errors.status} />
+      </div>
+
+      <div className="col-md-4">
+        <label className="form-label">Enrollment Status<span className="text-danger"> *</span></label>
+        <SelectFilter
+          value={formData.enrolled}
+          name="enrolled"
+          placeholder="Enrollment Status"
+          options={[
+            { label: "Enrolled", value: 1 },
+            { label: "Not Enrolled", value: 0 }
+          ]}
+          onChange={(value) =>
+            setFormData((prev) => ({
+              ...prev,
+              enrolled: value,
+            }))
+          }
+        />
+        {errors.enrolled && <div className="text-danger d-flex">{errors.enrolled}</div>}
       </div>
     </>
   );
@@ -658,7 +682,6 @@ const AddStudent = () => {
           onChange={handleSkillChange}
           error={errors.mobile}
           placeholder="Enter mobile number"
-          mandatory
         />
       </div>
 
@@ -672,7 +695,6 @@ const AddStudent = () => {
           onChange={handleSkillChange}
           error={errors.email}
           placeholder="Enter email address"
-          mandatory
         />
       </div>
       <div className="col-md-4">
@@ -688,17 +710,6 @@ const AddStudent = () => {
           }
           error={errors.password}
           mandatory={!isEditMode}
-        />
-      </div>
-
-      <div className="col-md-4">
-        <FormInput
-          label="Alternate Mobile"
-          name="alternateMobile"
-          value={skillCentreFormData.alternateMobile}
-          onChange={handleSkillChange}
-          error={errors.alternateMobile}
-          placeholder="Enter mobile number"
         />
       </div>
 
@@ -1003,8 +1014,29 @@ const AddStudent = () => {
       <div className="col-md-4">
         <StatusSelect name="status" value={skillCentreFormData.status} handleChange={handleSkillChange} error={errors.status} />
       </div>
+
+      <div className="col-md-4">
+        <label className="form-label">Enrollment Status<span className="text-danger"> *</span></label>
+        <SelectFilter
+          value={formData.enrolled}
+          name="enrolled"
+          placeholder="Enrollment Status"
+          options={[
+            { label: "Enrolled", value: 1 },
+            { label: "Not Enrolled", value: 0 }
+          ]}
+          onChange={(value) =>
+            setFormData((prev) => ({
+              ...prev,
+              enrolled: value,
+            }))
+          }
+        />
+        {errors.enrolled && <div className="text-danger d-flex">{errors.enrolled}</div>}
+      </div>
     </>
   );
+
   return (
     <div className="container-fluid">
       {/* ===== HEADER ===== */}

@@ -1,5 +1,5 @@
 import React from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   Tooltip,
@@ -80,7 +80,7 @@ const Dashboard = () => {
       icon: "bi-building",
       iconBg: "#e8f5ff",
       iconColor: "#0d6efd",
-      // onClick: () => navigate(`/superAdmin/manage-skill-centres/${type}`),
+      onClick: () => navigate(`/superAdmin/manage-skill-centres?centreType=1`),
     },
     {
       title: "AI And Stem Learning Centres",
@@ -92,7 +92,7 @@ const Dashboard = () => {
       icon: "bi-mortarboard",
       iconBg: "#fff4e5",
       iconColor: "#ff9800",
-      onClick: () => navigate("/superAdmin/manage-skill-centres"),
+      onClick: () => navigate("/superAdmin/manage-skill-centres?centreType=2"),
     },
     {
       title: "Education Development Centres",
@@ -104,7 +104,7 @@ const Dashboard = () => {
       icon: "bi-people",
       iconBg: "#e8ffe8",
       iconColor: "#28a745",
-      onClick: () => navigate("/superAdmin/manage-skill-centres"),
+      onClick: () => navigate("/superAdmin/manage-skill-centres?centreType=3"),
     },
     {
       title: "Innovation And Entrepreneurs Centres",
@@ -116,7 +116,7 @@ const Dashboard = () => {
       icon: "bi-person-badge",
       iconBg: "#f3e8ff",
       iconColor: "#6f42c1",
-      onClick: () => navigate("/superAdmin/manage-skill-centres"),
+      onClick: () => navigate("/superAdmin/manage-skill-centres?centreType=4"),
     },
     {
       title: "Community Development Centres",
@@ -128,7 +128,7 @@ const Dashboard = () => {
       icon: "bi-book",
       iconBg: "#e8f0ff",
       iconColor: "#3f51b5",
-      onClick: () => navigate("/superAdmin/manage-skill-centres"),
+      onClick: () => navigate("/superAdmin/manage-skill-centres?centreType=5"),
     },
     {
       title: "Students",
@@ -238,8 +238,8 @@ const Dashboard = () => {
         {stats.map((item, i) => (
           <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={i}>
             <div
-              className="card rounded-3 p-3 shadow-sm h-100"
-              style={{ backgroundColor: "#fff" }}
+              className="card rounded-3 p-3 shadow-sm h-100 cursor"
+              style={{ backgroundColor: "#fff",  }}
               onClick={item.onClick}
             >
               <div className="d-flex justify-content-between align-items-center">
