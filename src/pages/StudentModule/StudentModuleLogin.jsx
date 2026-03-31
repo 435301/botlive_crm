@@ -80,7 +80,7 @@ const StudentLogin = () => {
               <Form.Group className="mb-3">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
-                  type="email"
+                  type="text"
                   placeholder="Enter email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
