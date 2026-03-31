@@ -73,7 +73,7 @@ const ViewTrainerStudent = () => {
                             <p>{student?.occupation?.occupation || "-"}</p>
                         </div>
                         <div className="col-md-4">
-                            <strong>Category :</strong>
+                            <strong>Social Status :</strong>
                             <p>{student?.category?.category || "-"}</p>
                         </div>
                         <div className="col-md-4">

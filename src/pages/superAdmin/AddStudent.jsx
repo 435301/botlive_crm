@@ -743,7 +743,7 @@ const AddStudent = () => {
 
       <div className="col-md-4">
         <FormSelect
-          label="Category"
+          label="Social Status"
           name="categoryId"
           value={skillCentreFormData.categoryId}
           onChange={handleSkillChange}
