@@ -584,6 +584,38 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               </NavLink>
             </div>
           </div>
+          
+          {/* Bulk upload */}
+          <div className="nav-group">
+            <div className="nav-link" onClick={() => toggleMenu("bulkupload")}>
+              <Building2 size={18} />
+              {!collapsed && (
+                <>
+                  <span>Bulk Upload</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "bulkupload" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
+            </div>
+
+            <div className={`submenu ${openMenu === "bulkupload" ? "open" : ""}`}>
+
+              <NavLink to="/superAdmin/bulk-upload-students" className={getNavLinkClass}>
+                Students
+              </NavLink>
+               <NavLink to="/superAdmin/bulk-upload-trainers" className={getNavLinkClass}>
+                Trainers
+              </NavLink>
+              <NavLink to="/superAdmin/bulk-upload-schools" className={getNavLinkClass}>
+                Schools
+              </NavLink>
+               <NavLink to="/superAdmin/bulk-upload-skill-centers" className={getNavLinkClass}>
+                Skill Centers
+              </NavLink>
+            </div>
+          </div>
 
           {/* Settings */}
           <NavLink to="/superAdmin/settings" className={getNavLinkClass}>
