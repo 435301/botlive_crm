@@ -84,8 +84,8 @@ const ManageSuperAdminTrainerMonthlyAttendance = lazy(() => import("./pages/supe
 const ManageSuperAdminStudentAttendance = lazy(() => import("./pages/superAdmin/ManageStudentAttendance"));
 const ManageSuperAdminStudentMonthlyAttendance = lazy(() => import("./pages/superAdmin/ManageMonthlyAttendance"));
 const ManageSchoolSkillUpload = lazy(() => import("./pages/superAdmin/BulkUpload"));
-const ManageSkillCentresBulkUpload  = lazy(()=> import("./pages/superAdmin/SkillCentreBulkUpload"));
-
+const ManageSkillCentresBulkUpload  = lazy(()=> import("./pages/superAdmin/BulkUploadSkillCentre"));
+const ManagePerformanceGradeBulkUpload = lazy(()=>import("./pages/superAdmin/BulkUploadPerformanceGrade"));
 
 
 
@@ -651,6 +651,7 @@ function App() {
           <Route path="/superAdmin/manage-student-monthly-attendance" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSuperAdminStudentMonthlyAttendance)}</ProtectedRoute>} />
           <Route path="/superAdmin/bulk-upload-school-students" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSchoolSkillUpload)}</ProtectedRoute>} />
           <Route path="/superAdmin/bulk-upload-skill-centre-students" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSkillCentresBulkUpload)}</ProtectedRoute>} />
+          <Route path="/superAdmin/bulk-upload-performance-grade" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManagePerformanceGradeBulkUpload)}</ProtectedRoute>} />
 
 
           {/* admin routes */}

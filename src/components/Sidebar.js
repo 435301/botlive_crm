@@ -611,8 +611,8 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
                <NavLink to="/superAdmin/bulk-upload-trainers" className={getNavLinkClass}>
                 Trainers
               </NavLink>
-              <NavLink to="/superAdmin/bulk-upload-schools" className={getNavLinkClass}>
-                Schools
+              <NavLink to="/superAdmin/bulk-upload-performance-grade" className={getNavLinkClass}>
+                Performance Grades
               </NavLink>
                <NavLink to="/superAdmin/bulk-upload-skill-centers" className={getNavLinkClass}>
                 Skill Centers
