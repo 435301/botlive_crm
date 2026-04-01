@@ -83,7 +83,7 @@ const ManageStudents = () => {
   const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
   const perPage = data?.perPage || 15;
 
-  const statistics = data.statistics || [];
+  const statistics = data?.statistics || [];
   console.log('statistics', statistics)
 
   const { schoolsData } = useSchools();

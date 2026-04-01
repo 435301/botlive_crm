@@ -10,6 +10,7 @@ import {
   Legend
 } from "recharts";
 import { useCrud } from "../../hooks/useCrud";
+import { getCentreTypeName } from "../../utils/getCentreType";
 
 const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
   const RADIAN = Math.PI / 180;
@@ -69,6 +70,8 @@ const Dashboard = () => {
 
   const { data } = useGetAll();
   const dashboard = data?.data || [];
+  const centreTypeWise = dashboard?.centreTypeWise || [];
+  console.log('centreTypeWise', centreTypeWise)
   const stats = [
     {
       title: "Skill Development Centres",
@@ -239,7 +242,7 @@ const Dashboard = () => {
           <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={i}>
             <div
               className="card rounded-3 p-3 shadow-sm h-100 cursor"
-              style={{ backgroundColor: "#fff",  }}
+              style={{ backgroundColor: "#fff", }}
               onClick={item.onClick}
             >
               <div className="d-flex justify-content-between align-items-center">
@@ -370,151 +373,128 @@ const Dashboard = () => {
         </div>
 
         <div className="container-fluid mt-5">
-          <h4 className="fw-bold mb-4">Skill Development Centres</h4>
+          <div className="row">
+            {centreTypeWise.map((centre, index) => (
+              <div key={index} className="mb-5">
 
-          <div className="row g-4">
+                {/* Dynamic Heading */}
+                <h4 className="fw-bold mb-4">
+                  {getCentreTypeName(centre.centreType)}
+                </h4>
 
-            {/* Gender */}
-            <div className="col-12 col-sm-6 col-md-4 col-lg">
-              <div className="card shadow-sm h-100 p-3">
-                <h6 className="text-center fw-semibold mb-3">Gender</h6>
-                <ResponsiveContainer width="100%" height={230}>
-                  <PieChart>
-                    <Pie
-                      data={[
-                        { name: "Male", value: 60 },
-                        { name: "Female", value: 40 }
-                      ]}
-                      dataKey="value"
-                      innerRadius={50}
-                      outerRadius={80}
-                      paddingAngle={3}
-                    >
-                      <Cell fill="#4e73df" />
-                      <Cell fill="#e83e8c" />
-                    </Pie>
-                    <Tooltip />
-                    <Legend verticalAlign="bottom" height={36} />
-                  </PieChart>
-                </ResponsiveContainer>
+                <div className="row g-4">
+
+                  {/* Gender */}
+                  <div className="col-12 col-sm-6 col-md-4 col-lg">
+                    <div className="card shadow-sm h-100 p-3">
+                      <h6 className="text-center fw-semibold mb-3">Gender</h6>
+                      <ResponsiveContainer width="100%" height={230}>
+                        <PieChart>
+                          <Pie
+                            data={[
+                              { name: "Male", value: centre?.gender?.male || 0 },
+                              { name: "Female", value: centre?.gender?.female || 0 }
+                            ]}
+                            dataKey="value"
+                            innerRadius={50}
+                            outerRadius={80}
+                            paddingAngle={3}
+                          >
+                            <Cell fill="#4e73df" />
+                            <Cell fill="#e83e8c" />
+                          </Pie>
+                          <Tooltip />
+                          <Legend verticalAlign="bottom" height={36} />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  {/* Social Status */}
+                  <div className="col-12 col-sm-6 col-md-4 col-lg">
+                    <div className="card shadow-sm h-100 p-3">
+                      <h6 className="text-center fw-semibold mb-3">Social Status</h6>
+                      <ResponsiveContainer width="100%" height={230}>
+                        <PieChart>
+                          <Pie
+                            data={centre?.socialStatus?.map(item => ({
+                              name: item.categoryName,
+                              value: item.count
+                            })) || []}
+                            dataKey="value"
+                            innerRadius={50}
+                            outerRadius={80}
+                            paddingAngle={3}
+                          >
+                            {centre?.socialStatus?.map((_, i) => (
+                              <Cell key={i} fill={`hsl(${i * 60},70%,60%)`} />
+                            ))}
+                          </Pie>
+                          <Tooltip />
+                          <Legend verticalAlign="bottom" height={36} />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  {/* Performance */}
+                  <div className="col-12 col-sm-6 col-md-4 col-lg">
+                    <div className="card shadow-sm h-100 p-3">
+                      <h6 className="text-center fw-semibold mb-3">Performance</h6>
+                      <ResponsiveContainer width="100%" height={230}>
+                        <PieChart>
+                          <Pie
+                            data={centre?.performance?.map(item => ({
+                              name: item.performanceName,
+                              value: item.percentage
+                            })) || []}
+                            dataKey="value"
+                            innerRadius={50}
+                            outerRadius={80}
+                            paddingAngle={3}
+                          >
+                            <Cell fill="#28a745" />
+                            <Cell fill="#ffc107" />
+                            <Cell fill="#dc3545" />
+                          </Pie>
+                          <Tooltip />
+                          <Legend verticalAlign="bottom" height={36} />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  {/* Login Report */}
+                  <div className="col-12 col-sm-6 col-md-4 col-lg">
+                    <div className="card shadow-sm h-100 p-3">
+                      <h6 className="text-center fw-semibold mb-3">Login Report</h6>
+                      <ResponsiveContainer width="100%" height={230}>
+                        <PieChart>
+                          <Pie
+                            data={[
+                              { name: "Logged In", value: centre?.loginReport?.loggedIn || 0 },
+                              { name: "Remaining", value: centre?.loginReport?.notLoggedIn || 0 }
+                            ]}
+                            dataKey="value"
+                            innerRadius={50}
+                            outerRadius={80}
+                            paddingAngle={3}
+                          >
+                            <Cell fill="#17a2b8" />
+                            <Cell fill="#6c757d" />
+                          </Pie>
+                          <Tooltip />
+                          <Legend verticalAlign="bottom" height={36} />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                </div>
               </div>
-            </div>
-
-            {/* Social Status */}
-            <div className="col-12 col-sm-6 col-md-4 col-lg">
-              <div className="card shadow-sm h-100 p-3">
-                <h6 className="text-center fw-semibold mb-3">Social Status</h6>
-                <ResponsiveContainer width="100%" height={230}>
-                  <PieChart>
-                    <Pie
-                      data={[
-                        { name: "SC", value: 20 },
-                        { name: "ST", value: 15 },
-                        { name: "BC", value: 25 },
-                        { name: "G", value: 30 },
-                        { name: "EWS", value: 10 }
-                      ]}
-                      dataKey="value"
-                      innerRadius={50}
-                      outerRadius={80}
-                      paddingAngle={3}
-                    >
-                      <Cell fill="#1cc88a" />
-                      <Cell fill="#36b9cc" />
-                      <Cell fill="#f6c23e" />
-                      <Cell fill="#fd7e14" />
-                      <Cell fill="#6f42c1" />
-                    </Pie>
-                    <Tooltip />
-                    <Legend verticalAlign="bottom" height={36} />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            {/* Performance */}
-            <div className="col-12 col-sm-6 col-md-4 col-lg">
-              <div className="card shadow-sm h-100 p-3">
-                <h6 className="text-center fw-semibold mb-3">Performance</h6>
-                <ResponsiveContainer width="100%" height={230}>
-                  <PieChart>
-                    <Pie
-                      data={[
-                        { name: "A", value: 35 },
-                        { name: "B", value: 40 },
-                        { name: "C", value: 25 }
-                      ]}
-                      dataKey="value"
-                      innerRadius={50}
-                      outerRadius={80}
-                      paddingAngle={3}
-                    >
-                      <Cell fill="#28a745" />
-                      <Cell fill="#ffc107" />
-                      <Cell fill="#dc3545" />
-                    </Pie>
-                    <Tooltip />
-                    <Legend verticalAlign="bottom" height={36} />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            {/* Login Report */}
-            <div className="col-12 col-sm-6 col-md-4 col-lg">
-              <div className="card shadow-sm h-100 p-3">
-                <h6 className="text-center fw-semibold mb-3">Login Report</h6>
-                <ResponsiveContainer width="100%" height={230}>
-                  <PieChart>
-                    <Pie
-                      data={[
-                        { name: "Logged In", value: 70 },
-                        { name: "Remaining", value: 30 }
-                      ]}
-                      dataKey="value"
-                      innerRadius={50}
-                      outerRadius={80}
-                      paddingAngle={3}
-                    >
-                      <Cell fill="#17a2b8" />
-                      <Cell fill="#6c757d" />
-                    </Pie>
-                    <Tooltip />
-                    <Legend verticalAlign="bottom" height={36} />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            {/* Empty Chart */}
-            <div className="col-12 col-sm-6 col-md-4 col-lg">
-              <div className="card shadow-sm h-100 p-3">
-                <h6 className="text-center fw-semibold mb-3">Empty Chart</h6>
-                <ResponsiveContainer width="100%" height={230}>
-                  <PieChart>
-                    <Pie
-                      data={[{ name: "No Data", value: 100 }]}
-                      dataKey="value"
-                      innerRadius={50}
-                      outerRadius={80}
-                    >
-                      <Cell fill="#e9ecef" />
-                    </Pie>
-                    <Tooltip />
-                    <Legend verticalAlign="bottom" height={36} />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
+            ))}
           </div>
         </div>
-
-
-
-
-
-
 
 
         {/* <div className="col-12 col-sm-12 col-lg-12">
