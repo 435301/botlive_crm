@@ -602,8 +602,11 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
             <div className={`submenu ${openMenu === "bulkupload" ? "open" : ""}`}>
 
-              <NavLink to="/superAdmin/bulk-upload-students" className={getNavLinkClass}>
-                Students
+              <NavLink to="/superAdmin/bulk-upload-school-students" className={getNavLinkClass}>
+                School Students
+              </NavLink>
+                <NavLink to="/superAdmin/bulk-upload-skill-centre-students" className={getNavLinkClass}>
+                Skill Centre Students
               </NavLink>
                <NavLink to="/superAdmin/bulk-upload-trainers" className={getNavLinkClass}>
                 Trainers

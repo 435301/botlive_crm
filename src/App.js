@@ -42,7 +42,6 @@ import TrainerHeader from "./components/trainer/TrainerHeader";
 import TrainerSidebar from "./components/trainer/TrainerSidebar";
 
 
-
 const Dashboard = lazy(() => import("./pages/superAdmin/Dashboard"));
 const Login = lazy(() => import("./pages/superAdmin/Login"));
 const Manage = lazy(() => import("./pages/superAdmin/Manage"));
@@ -85,6 +84,10 @@ const ManageSuperAdminTrainerMonthlyAttendance = lazy(() => import("./pages/supe
 const ManageSuperAdminStudentAttendance = lazy(() => import("./pages/superAdmin/ManageStudentAttendance"));
 const ManageSuperAdminStudentMonthlyAttendance = lazy(() => import("./pages/superAdmin/ManageMonthlyAttendance"));
 const ManageSchoolSkillUpload = lazy(() => import("./pages/superAdmin/BulkUpload"));
+const ManageSkillCentresBulkUpload  = lazy(()=> import("./pages/superAdmin/SkillCentreBulkUpload"));
+
+
+
 
 // Admin
 
@@ -646,7 +649,8 @@ function App() {
           <Route path="/superAdmin/manage-trainer-monthly-attendance" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSuperAdminTrainerMonthlyAttendance)}</ProtectedRoute>} />
           <Route path="/superAdmin/manage-student-attendance" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSuperAdminStudentAttendance)}</ProtectedRoute>} />
           <Route path="/superAdmin/manage-student-monthly-attendance" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSuperAdminStudentMonthlyAttendance)}</ProtectedRoute>} />
-          <Route path="/superAdmin/bulk-upload-students" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSchoolSkillUpload)}</ProtectedRoute>} />
+          <Route path="/superAdmin/bulk-upload-school-students" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSchoolSkillUpload)}</ProtectedRoute>} />
+          <Route path="/superAdmin/bulk-upload-skill-centre-students" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSkillCentresBulkUpload)}</ProtectedRoute>} />
 
 
           {/* admin routes */}

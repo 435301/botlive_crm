@@ -5,8 +5,8 @@ import SelectFilter from "../../components/SelectFilter";
 import toast from "react-hot-toast";
 import { useCrud } from "../../hooks/useCrud";
 
-const ManageSchoolSkillUpload = () => {
-    const centreType = 1;
+const ManageSkillCentresBulkUpload = () => {
+    const centreType = 2;
     const { schoolsData } = useSchools();
 
     const [centreId, setCentreId] = useState("");
@@ -21,7 +21,7 @@ const ManageSchoolSkillUpload = () => {
 
     const { createMutation } = useCrud({
         entity: "bulkUpload",
-        createUrl: "/student/school/bulkUpload",
+        createUrl: "/student/skillCentre/bulkUpload",
     })
 
 
@@ -62,8 +62,8 @@ const ManageSchoolSkillUpload = () => {
 
     const handleDownloadSample = () => {
         const link = document.createElement("a");
-        link.href = "/Sample_student.csv"; // place sample file in public folder
-        link.download = "Sample_student.csv";
+        link.href = "/Sample_skillcentre_student.csv"; // placed sample file in public folder
+        link.download = "Sample_skillcentre_student.csv";
         link.click();
     };
 
@@ -76,7 +76,7 @@ const ManageSchoolSkillUpload = () => {
                         <i className="ti ti-certificate fs-16"></i>
                     </div>
                     <div>
-                        <h5 className="fw-bold mb-0">Bulk Upload for Schools Students</h5>
+                        <h5 className="fw-bold mb-0">Bulk Upload for Skill Centre Students</h5>
                         <p className="text-muted mb-0">
                             Manage all bulk uploads for school students
                         </p>
@@ -145,39 +145,10 @@ const ManageSchoolSkillUpload = () => {
 
                     </div>
                 </div>
-                 {uploadResult && (
+                 {uploadResult?.failedRows?.length > 0 && (
                 <div className="card mt-4 border-0 shadow-sm">
                     <div className="card-body">
                         <h6 className="fw-bold mb-3">Upload Summary</h6>
-
-                        {/* <div className="row text-center">
-                            <div className="col-md-4 mb-2">
-                                <div className="p-3 bg-success-subtle rounded">
-                                    <h4 className="mb-0 text-success">
-                                        {uploadResult.inserted}
-                                    </h4>
-                                    <small>Inserted</small>
-                                </div>
-                            </div>
-
-                            <div className="col-md-4 mb-2">
-                                <div className="p-3 bg-warning-subtle rounded">
-                                    <h4 className="mb-0 text-warning">
-                                        {uploadResult.skippedDuplicates}
-                                    </h4>
-                                    <small>Duplicates</small>
-                                </div>
-                            </div>
-
-                            <div className="col-md-4 mb-2">
-                                <div className="p-3 bg-danger-subtle rounded">
-                                    <h4 className="mb-0 text-danger">
-                                        {uploadResult.failedCount}
-                                    </h4>
-                                    <small>Failed</small>
-                                </div>
-                            </div>
-                        </div> */}
 
                         {uploadResult?.failedRows?.length > 0 && (
                             <div className="mt-3">
@@ -200,4 +171,4 @@ const ManageSchoolSkillUpload = () => {
     );
 };
 
-export default ManageSchoolSkillUpload;
+export default ManageSkillCentresBulkUpload;
