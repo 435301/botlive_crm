@@ -1892,6 +1892,21 @@ button .filter-btn :hover {
   color: #019aa8 !important;
 }
 
+.manageCardsIcon{
+  width: 28px;
+  height: 28px;
+  background-color: #ffffff;
+}
+
+.manageCardsTitle{
+  font-size: 12px;
+}
+.manageCardsHeading{
+  font-size: 12px;
+}
+.cardMainDiv{
+  padding: 10px;
+}
 /* Responsive */
 @media (max-width: 768px) {
   .campus-main {
