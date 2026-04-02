@@ -5,8 +5,9 @@ import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
 import DeleteConfirmationModal from "../../Modals/deleteModal";
+import TableWrapper from "../../components/TableWrapper";
 
-const ManageCategory= () => {
+const ManageCategory = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
@@ -30,7 +31,7 @@ const ManageCategory= () => {
   });
 
   const category = data?.data || [];
- const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
+  const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
 
   const handleImportExcel = (e) => {
     const file = e.target.files[0];
@@ -159,59 +160,62 @@ const ManageCategory= () => {
       <div className="card shadow-sm rounded-3 p-2">
         <div className="card-body p-1">
           <div className="table-responsive">
-            <table className="table table-bordered table-striped align-middle student-modern-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Social Status Id</th>
-                  <th>Social Status</th>
-                  <th>Status</th>
-                  <th className="text-center">Actions</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {isLoading ? (
+            <TableWrapper>
+              <table className="table table-bordered table-striped align-middle student-modern-table">
+                <thead>
                   <tr>
-                    <td colSpan="4" className="text-centre py-4">
-                      Loading...
-                    </td>
+                    <th>#</th>
+                    <th>Social Status Id</th>
+                    <th>Social Status</th>
+                    <th>Status</th>
+                    <th className="text-center">Actions</th>
                   </tr>
-                ) : category.length > 0 ? (
-                  category.map((item, index) => (
-                    <tr key={item.id}>
-                      <td>{index + 1}</td>
-                      <td>{item.id}</td>
-                      <td>{item.category}</td>
-                      <td>
-                        <span
-                          className={`badge ${item.status === 1
-                            ? "bg-success"
-                            : "bg-secondary"
-                            }`}
-                        >
-                          {item.status === 1 ? "Active" : "Inactive"}
-                        </span>
-                      </td>
-                      <td className="text-center">
-                        <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-social-status/${item?.id}`)}>
-                          <i className="bi bi-pencil"></i>
-                        </button>
-                        <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(item?.id)}>
-                          <i className="bi bi-trash"></i>
-                        </button>
+                </thead>
+
+                <tbody>
+                  {isLoading ? (
+                    <tr>
+                      <td colSpan="4" className="text-centre py-4">
+                        Loading...
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="7" className="text-center text-muted py-4">
-                      No records found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                  ) : category.length > 0 ? (
+                    category.map((item, index) => (
+                      <tr key={item.id}>
+                        <td>{index + 1}</td>
+                        <td>{item.id}</td>
+                        <td>{item.category}</td>
+                        <td>
+                          <span
+                            className={`badge ${item.status === 1
+                              ? "bg-success"
+                              : "bg-secondary"
+                              }`}
+                          >
+                            {item.status === 1 ? "Active" : "Inactive"}
+                          </span>
+                        </td>
+                        <td className="text-center">
+                          <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-social-status/${item?.id}`)}>
+                            <i className="bi bi-pencil"></i>
+                          </button>
+                          <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(item?.id)}>
+                            <i className="bi bi-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="7" className="text-center text-muted py-4">
+                        No records found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </TableWrapper>
+
           </div>
 
           {/* ===== PAGINATION ===== */}

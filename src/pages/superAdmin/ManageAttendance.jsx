@@ -3,6 +3,7 @@ import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
 import SearchInput from "../../components/SearchInput";
 import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
+import TableWrapper from "../../components/TableWrapper";
 
 
 const ManageTrainerAttendance = () => {
@@ -111,52 +112,55 @@ const ManageTrainerAttendance = () => {
             {/* ===== TABLE ===== */}
             <div className="card shadow-sm">
                 <div className="table-responsive">
-                    <table className="table table-bordered table-striped align-middle student-modern-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Trainer Name</th>
-                                <th>Trainer Code</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {isLoading ? (
+                    <TableWrapper>
+                        <table className="table table-bordered table-striped align-middle student-modern-table">
+                            <thead>
                                 <tr>
-                                    <td colSpan="4" className="text-center py-4">
-                                        Loading...
-                                    </td>
+                                    <th>#</th>
+                                    <th>Trainer Name</th>
+                                    <th>Trainer Code</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
                                 </tr>
-                            ) : trainers.length ? (
-                                trainers.map((t, i) => (
-                                    <tr key={t.id}>
-                                        <td>{(page - 1) * perPage + i + 1}</td>
-                                        <td>{t.trainer?.fullName}</td>
-                                        <td>{t.trainer?.trainerCode}</td>
-                                        <td>{t.attendanceDate}</td>
-                                        <td>
-                                            <span
-                                                className={`badge ${t.attendanceStatus === 1
-                                                        ? "bg-success"
-                                                        : "bg-danger"
-                                                    }`}
-                                            >
-                                                {t.attendanceStatus === 1 ? "Present" : "Absent"}
-                                            </span>
+                            </thead>
+
+                            <tbody>
+                                {isLoading ? (
+                                    <tr>
+                                        <td colSpan="4" className="text-center py-4">
+                                            Loading...
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="7" className="text-center text-muted py-4">
-                                        No records found
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                                ) : trainers.length ? (
+                                    trainers.map((t, i) => (
+                                        <tr key={t.id}>
+                                            <td>{(page - 1) * perPage + i + 1}</td>
+                                            <td>{t.trainer?.fullName}</td>
+                                            <td>{t.trainer?.trainerCode}</td>
+                                            <td>{t.attendanceDate}</td>
+                                            <td>
+                                                <span
+                                                    className={`badge ${t.attendanceStatus === 1
+                                                        ? "bg-success"
+                                                        : "bg-danger"
+                                                        }`}
+                                                >
+                                                    {t.attendanceStatus === 1 ? "Present" : "Absent"}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="7" className="text-center text-muted py-4">
+                                            No records found
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </TableWrapper>
+
                 </div>
 
             </div>

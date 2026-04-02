@@ -5,6 +5,7 @@ import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
 import DeleteConfirmationModal from "../../Modals/deleteModal";
+import TableWrapper from "../../components/TableWrapper";
 
 
 
@@ -130,7 +131,7 @@ const ManageTrainers = () => {
               placeholder="All Status"
               options={[
                 { label: "Working", value: 1 },
-                { label: "Resigned", value: 0},
+                { label: "Resigned", value: 0 },
               ]}
               onChange={(value) => {
                 setStatus(value);
@@ -157,70 +158,74 @@ const ManageTrainers = () => {
       <div className="card shadow-sm rounded-3 p-2">
         <div className="card-body p-1">
           <div className="table-responsive">
-            <table className="table table-bordered table-striped align-middle student-modern-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Trainer Code</th>
-                  <th>Trainer Name</th>
-                  <th>Mobile</th>
-                  <th>Email</th>
-                  <th>Qualification</th>
-                  <th>Joining Date</th>
-                  <th>Grade/Skill</th>
-                  <th>Status</th>
-                  <th className="text-center">Actions</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {isLoading ? (
+            <TableWrapper>
+              <table className="table table-bordered table-striped align-middle student-modern-table">
+                <thead>
                   <tr>
-                    <td colSpan="4" className="text-center py-5">Loading...</td>
+                    <th>#</th>
+                    <th>Trainer Code</th>
+                    <th>Trainer Name</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Qualification</th>
+                    <th>Joining Date</th>
+                    <th>Grade/Skill</th>
+                    <th>Status</th>
+                    <th className="text-center">Actions</th>
                   </tr>
-                ) : trainers.length > 0 ? (
-                  trainers.map((t, index) => (
-                    <tr key={t.trainerCode}>
-                      <td>{(page - 1) * perPage + index + 1}</td>
-                      <td>{t.trainerCode}</td>
-                      <td>{t.fullName}</td>
-                      <td>{t.mobile}</td>
-                      <td>{t.email}</td>
-                      <td>{t?.qualification?.qualification}</td>
-                      <td>{t.dateOfJoining}</td>
-                     <td>{t?.trainerGrades.map((grade)=> grade?.gradeBatch?.gradeBatch)?.join(" , ")}</td>
-                      <td>
-                        <span
-                          className={`badge ${t.status === 1
-                            ? "bg-success"
-                            : "bg-secondary"
-                            }`}
-                        >
-                          {t.status === 1 ? "Working" : "Resigned"}
-                        </span>
-                      </td>
-                      <td className="text-center">
-                        <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/admin/edit-trainer/${t.id}`)}>
-                          <i className="bi bi-pencil"></i>
-                        </button>
-                        <button className="btn btn-outline-success btn-sm me-2" onClick={() => navigate(`/admin/view-trainer/${t.id}`)}>
-                          <i className="bi bi-eye"></i>
-                        </button>
-                        <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(t.id)}>
-                          <i className="bi bi-trash"></i>
-                        </button>
+                </thead>
+
+                <tbody>
+                  {isLoading ? (
+                    <tr>
+                      <td colSpan="4" className="text-center py-5">Loading...</td>
+                    </tr>
+                  ) : trainers.length > 0 ? (
+                    trainers.map((t, index) => (
+                      <tr key={t.trainerCode}>
+                        <td>{(page - 1) * perPage + index + 1}</td>
+                        <td>{t.trainerCode}</td>
+                        <td>{t.fullName}</td>
+                        <td>{t.mobile}</td>
+                        <td>{t.email}</td>
+                        <td>{t?.qualification?.qualification}</td>
+                        <td>{t.dateOfJoining}</td>
+                        <td>{t?.trainerGrades.map((grade) => grade?.gradeBatch?.gradeBatch)?.join(" , ")}</td>
+                        <td>
+                          <span
+                            className={`badge ${t.status === 1
+                              ? "bg-success"
+                              : "bg-secondary"
+                              }`}
+                          >
+                            {t.status === 1 ? "Working" : "Resigned"}
+                          </span>
+                        </td>
+                        <td className="text-center">
+                          <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/admin/edit-trainer/${t.id}`)}>
+                            <i className="bi bi-pencil"></i>
+                          </button>
+                          <button className="btn btn-outline-success btn-sm me-2" onClick={() => navigate(`/admin/view-trainer/${t.id}`)}>
+                            <i className="bi bi-eye"></i>
+                          </button>
+                          <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(t.id)}>
+                            <i className="bi bi-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="11" className="text-center text-muted py-4">
+                        No records found
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="11" className="text-center text-muted py-4">
-                      No records found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                  )}
+                </tbody>
+              </table>
+
+            </TableWrapper>
+
           </div>
 
           {totalPages > 1 && (

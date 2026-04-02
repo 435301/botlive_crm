@@ -8,6 +8,7 @@ import useModules from "../../hooks/useModule";
 import useChapters from "../../hooks/useChapters";
 import { useCrud } from "../../hooks/useCrud";
 import DeleteConfirmationModal from "../../Modals/deleteModal";
+import TableWrapper from "../../components/TableWrapper";
 
 
 const ManageAssignedChapters = () => {
@@ -228,71 +229,74 @@ const ManageAssignedChapters = () => {
             {/* ===== TABLE ===== */}
             <div className="card shadow-sm">
                 <div className="table-responsive">
-                    <table className="table table-bordered table-striped align-middle student-modern-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Grade</th>
-                                <th>Course Name</th>
-                                <th>Module Name</th>
-                                <th>Chapter Name</th>
-                                <th>Status</th>
-                                <th className="text-center">Actions</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {isLoading ? (
+                    <TableWrapper>
+                        <table className="table table-bordered table-striped align-middle student-modern-table">
+                            <thead>
                                 <tr>
-                                    <td colSpan="8" className="text-center py-5">Loading...</td>
+                                    <th>#</th>
+                                    <th>Grade</th>
+                                    <th>Course Name</th>
+                                    <th>Module Name</th>
+                                    <th>Chapter Name</th>
+                                    <th>Status</th>
+                                    <th className="text-center">Actions</th>
                                 </tr>
-                            ) : assignedChapters.length ? (
-                                assignedChapters.map((t, i) => (
-                                    <tr key={t.id}>
-                                        <td>{(page - 1) * perPage + i + 1}</td>
-                                        <td>{t.gradeBatch.gradeBatch}</td>
-                                        <td>{t.course.courseTitle}</td>
-                                        <td>{t.module.moduleTitle}</td>
-                                        <td> <details>
-                                            <summary>
-                                                {t.assignedChapters?.length} Chapters
-                                            </summary>
-                                            <ul className="mt-2 ps-3">
-                                                {t.assignedChapters?.map((item) => (
-                                                    <li key={item.id}>
-                                                        {item.chapter?.chapterTitle}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </details></td>
-                                        <td>
-                                            <span
-                                                className={`badge ${t.status === 1 ? "bg-success" : "bg-secondary"
-                                                    }`}
-                                            >
-                                                {t.status === 1 ? "Active" : "Inactive"}
-                                            </span>
-                                        </td>
+                            </thead>
 
-                                        <td className="text-center">
-                                            <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-assigned-chapter/${t.id}`)}>
-                                                <i className="bi bi-pencil"></i>
-                                            </button>
-                                            <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(t.id)}>
-                                                <i className="bi bi-trash"></i>
-                                            </button>
+                            <tbody>
+                                {isLoading ? (
+                                    <tr>
+                                        <td colSpan="8" className="text-center py-5">Loading...</td>
+                                    </tr>
+                                ) : assignedChapters.length ? (
+                                    assignedChapters.map((t, i) => (
+                                        <tr key={t.id}>
+                                            <td>{(page - 1) * perPage + i + 1}</td>
+                                            <td>{t.gradeBatch.gradeBatch}</td>
+                                            <td>{t.course.courseTitle}</td>
+                                            <td>{t.module.moduleTitle}</td>
+                                            <td> <details>
+                                                <summary>
+                                                    {t.assignedChapters?.length} Chapters
+                                                </summary>
+                                                <ul className="mt-2 ps-3">
+                                                    {t.assignedChapters?.map((item) => (
+                                                        <li key={item.id}>
+                                                            {item.chapter?.chapterTitle}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </details></td>
+                                            <td>
+                                                <span
+                                                    className={`badge ${t.status === 1 ? "bg-success" : "bg-secondary"
+                                                        }`}
+                                                >
+                                                    {t.status === 1 ? "Active" : "Inactive"}
+                                                </span>
+                                            </td>
+
+                                            <td className="text-center">
+                                                <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-assigned-chapter/${t.id}`)}>
+                                                    <i className="bi bi-pencil"></i>
+                                                </button>
+                                                <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(t.id)}>
+                                                    <i className="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="9" className="text-center text-muted py-4">
+                                            No records found
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="9" className="text-center text-muted py-4">
-                                        No records found
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                                )}
+                            </tbody>
+                        </table>
+                    </TableWrapper>
+
                 </div>
 
                 {/* ===== PAGINATION ===== */}

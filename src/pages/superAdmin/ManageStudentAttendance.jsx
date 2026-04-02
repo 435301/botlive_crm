@@ -6,6 +6,7 @@ import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
 import Cookies from "js-cookie";
 import useGrades from "../../hooks/useGrades";
 import useSchools from "../../hooks/useSchools";
+import TableWrapper from "../../components/TableWrapper";
 
 
 const ManageSuperAdminStudentAttendance = () => {
@@ -34,7 +35,7 @@ const ManageSuperAdminStudentAttendance = () => {
     });
 
     const students = data?.data || [];
-      console.log('students', students)
+    console.log('students', students)
     const perPage = data?.perPage || 100;
 
     const { grades } = useGrades(centreType);
@@ -177,56 +178,59 @@ const ManageSuperAdminStudentAttendance = () => {
             {/* ===== TABLE ===== */}
             <div className="card shadow-sm">
                 <div className="table-responsive">
-                    <table className="table table-bordered table-striped align-middle student-modern-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Student Name</th>
-                                <th>Student Enrollment Number</th>
-                                <th>Centre Name</th>
-                                <th>Grade</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {isLoading ? (
+                    <TableWrapper>
+                        <table className="table table-bordered table-striped align-middle student-modern-table">
+                            <thead>
                                 <tr>
-                                    <td colSpan="4" className="text-center py-4">
-                                        Loading...
-                                    </td>
+                                    <th>#</th>
+                                    <th>Student Name</th>
+                                    <th>Student Enrollment Number</th>
+                                    <th>Centre Name</th>
+                                    <th>Grade</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
                                 </tr>
-                            ) : students.length ? (
-                                students.map((t, i) => (
-                                    <tr key={t.id}>
-                                        <td>{(page - 1) * perPage + i + 1}</td>
-                                        <td>{t.student?.fullName}</td>
-                                        <td>{t.student?.enrolmentNumber}</td>
-                                        <td>{t?.student?.centre?.centerName || "-"}</td>
-                                        <td>{t?.student?.gradeBatch?.gradeBatch || "-"}</td>
-                                        <td>{t.attendanceDate}</td>
-                                        <td>
-                                            <span
-                                                className={`badge ${t.attendanceStatus === 1
-                                                    ? "bg-success"
-                                                    : "bg-danger"
-                                                    }`}
-                                            >
-                                                {t.attendanceStatus === 1 ? "Present" : "Absent"}
-                                            </span>
+                            </thead>
+
+                            <tbody>
+                                {isLoading ? (
+                                    <tr>
+                                        <td colSpan="4" className="text-center py-4">
+                                            Loading...
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="7" className="text-center text-muted py-4">
-                                        No records found
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                                ) : students.length ? (
+                                    students.map((t, i) => (
+                                        <tr key={t.id}>
+                                            <td>{(page - 1) * perPage + i + 1}</td>
+                                            <td>{t.student?.fullName}</td>
+                                            <td>{t.student?.enrolmentNumber}</td>
+                                            <td>{t?.student?.centre?.centerName || "-"}</td>
+                                            <td>{t?.student?.gradeBatch?.gradeBatch || "-"}</td>
+                                            <td>{t.attendanceDate}</td>
+                                            <td>
+                                                <span
+                                                    className={`badge ${t.attendanceStatus === 1
+                                                        ? "bg-success"
+                                                        : "bg-danger"
+                                                        }`}
+                                                >
+                                                    {t.attendanceStatus === 1 ? "Present" : "Absent"}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="7" className="text-center text-muted py-4">
+                                            No records found
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </TableWrapper>
+
                 </div>
 
             </div>

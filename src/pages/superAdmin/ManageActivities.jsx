@@ -6,6 +6,7 @@ import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
 import DeleteConfirmationModal from "../../Modals/deleteModal";
 import useSchools from "../../hooks/useSchools";
+import TableWrapper from "../../components/TableWrapper";
 
 
 const ManageActivities = () => {
@@ -286,76 +287,79 @@ const ManageActivities = () => {
             {/* ===== TABLE ===== */}
             <div className="card shadow-sm">
                 <div className="table-responsive">
-                    <table className="table table-bordered table-striped align-middle student-modern-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Centre Type</th>
-                                <th>Centre Name</th>
-                                <th>Activity Title</th>
-                                <th>Description</th>
-                                <th>Images</th>
-                                <th>Videos</th>
-                                <th>Status</th>
-                                <th className="text-center">Actions</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {isLoading ? (
+                    <TableWrapper>
+                        <table className="table table-bordered table-striped align-middle student-modern-table">
+                            <thead>
                                 <tr>
-                                    <td colSpan="4" className="text-center py-4">
-                                        Loading...
-                                    </td>
+                                    <th>#</th>
+                                    <th>Centre Type</th>
+                                    <th>Centre Name</th>
+                                    <th>Activity Title</th>
+                                    <th>Description</th>
+                                    <th>Images</th>
+                                    <th>Videos</th>
+                                    <th>Status</th>
+                                    <th className="text-center">Actions</th>
                                 </tr>
-                            ) : activities.length ? (
-                                activities.map((activity, i) => (
-                                    <tr key={activity.id}>
-                                        <td>{(page - 1) * perPage + i + 1}</td>
-                                        <td> {activity.centreType === 1 ? "Skill Development" : activity.centreType === 2 ? "AI & STEM Learning" : activity.centreType === 3 ? "Education Development" : activity.centreType === 4 ? "Innovation & Entrepreneurship" : activity.centreType === 5 ? "Community Development" : ""}</td>
-                                        <td>{activity.centre.centerName}</td>
-                                        <td>{activity.activityTitle}</td>
-                                        <td title={activity.description}>{activity.description.slice(0, 50)}...</td>
-                                        <td>
-                                            <Link to={`/superAdmin/view-activity/${activity.id}`} className="text-primary text-decoration-underline">
-                                                {activity.photoCount}
-                                            </Link>
-                                        </td>
-                                        <td>
-                                            <Link to={`/superAdmin/view-activity/${activity.id}`} className="text-primary text-decoration-underline">
-                                                {activity.videoCount}
-                                            </Link>
-                                        </td>
-                                        <td>
-                                            <span
-                                                className={`badge ${activity.status === 1 ? "bg-success" : "bg-secondary"
-                                                    }`}
-                                            >
-                                                {activity.status === 1 ? "Active" : "Inactive"}
-                                            </span>
-                                        </td>
-                                        <td className="text-center">
-                                            <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-activity/${activity.id}`)}>
-                                                <i className="bi bi-pencil"></i>
-                                            </button>
-                                            <button className="btn btn-outline-success btn-sm me-2" onClick={() => navigate(`/superAdmin/view-activity/${activity.id}`)}>
-                                                <i className="bi bi-eye"></i>
-                                            </button>
-                                            <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(activity.id)}>
-                                                <i className="bi bi-trash"></i>
-                                            </button>
+                            </thead>
+
+                            <tbody>
+                                {isLoading ? (
+                                    <tr>
+                                        <td colSpan="4" className="text-center py-4">
+                                            Loading...
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="9" className="text-center text-muted py-4">
-                                        No records found
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                                ) : activities.length ? (
+                                    activities.map((activity, i) => (
+                                        <tr key={activity.id}>
+                                            <td>{(page - 1) * perPage + i + 1}</td>
+                                            <td> {activity.centreType === 1 ? "Skill Development" : activity.centreType === 2 ? "AI & STEM Learning" : activity.centreType === 3 ? "Education Development" : activity.centreType === 4 ? "Innovation & Entrepreneurship" : activity.centreType === 5 ? "Community Development" : ""}</td>
+                                            <td>{activity.centre.centerName}</td>
+                                            <td>{activity.activityTitle}</td>
+                                            <td title={activity.description}>{activity.description.slice(0, 50)}...</td>
+                                            <td>
+                                                <Link to={`/superAdmin/view-activity/${activity.id}`} className="text-primary text-decoration-underline">
+                                                    {activity.photoCount}
+                                                </Link>
+                                            </td>
+                                            <td>
+                                                <Link to={`/superAdmin/view-activity/${activity.id}`} className="text-primary text-decoration-underline">
+                                                    {activity.videoCount}
+                                                </Link>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    className={`badge ${activity.status === 1 ? "bg-success" : "bg-secondary"
+                                                        }`}
+                                                >
+                                                    {activity.status === 1 ? "Active" : "Inactive"}
+                                                </span>
+                                            </td>
+                                            <td className="text-center">
+                                                <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-activity/${activity.id}`)}>
+                                                    <i className="bi bi-pencil"></i>
+                                                </button>
+                                                <button className="btn btn-outline-success btn-sm me-2" onClick={() => navigate(`/superAdmin/view-activity/${activity.id}`)}>
+                                                    <i className="bi bi-eye"></i>
+                                                </button>
+                                                <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(activity.id)}>
+                                                    <i className="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="9" className="text-center text-muted py-4">
+                                            No records found
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </TableWrapper>
+
                 </div>
 
                 {/* ===== PAGINATION ===== */}

@@ -9,6 +9,7 @@ import DeleteConfirmationModal from "../../Modals/deleteModal";
 import useGradesByTrainerId from "../../hooks/UseGradesByTrainerId";
 import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
 import FormSelect from "../../components/FormSelect";
+import TableWrapper from "../../components/TableWrapper";
 
 const ManageTrainerStudents = () => {
   const navigate = useNavigate();
@@ -239,85 +240,88 @@ const ManageTrainerStudents = () => {
       <div className="card shadow-sm rounded-3 p-2">
         <div className="card-body p-1">
           <div className="table-responsive">
-            <table className="table table-bordered table-striped align-middle student-modern-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Student Name</th>
-                  <th>Mobile</th>
-                  <th>Email</th>
-                  <th>Gender</th>
-                  <th>DOB</th>
-                  <th>Grade/Skill</th>
-                  <th>Enrollment Number</th>
-                  <th>Aadhar Number</th>
-                  {/* <th>Photo</th> */}
-                  <th>Status</th>
-                  <th className="text-center">Actions</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {isLoading ? (
+            <TableWrapper>
+              <table className="table table-bordered table-striped align-middle student-modern-table">
+                <thead>
                   <tr>
-                    <td colSpan="12" className="text-center py-5">Loading...</td>
+                    <th>#</th>
+                    <th>Student Name</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>DOB</th>
+                    <th>Grade/Skill</th>
+                    <th>Enrollment Number</th>
+                    <th>Aadhar Number</th>
+                    {/* <th>Photo</th> */}
+                    <th>Status</th>
+                    <th className="text-center">Actions</th>
                   </tr>
-                ) : schools.length > 0 ? (
-                  schools.map((s, index) => (
-                    <tr key={s.id}>
-                      <td>{(page - 1) * perPage + index + 1}</td>
-                      <td>{s.fullName || "-"}</td>
-                      <td>{s.mobile || "-"}</td>
-                      <td>{s.email || "-"}</td>
-                      <td>{s.gender === 1 ? "Male" : s.gender === 2 ? "Female" : s.gender === 3 ? "Other" : "-"}</td>
-                      <td>{s.dob || "-"}</td>
-                      <td>{s?.gradeBatch?.gradeBatch}</td>
-                      <td>{s.enrolmentNumber || "-"}</td>
-                      <td>{s.aadharNumber || "-"}</td>
-                      {/* <td>
+                </thead>
+
+                <tbody>
+                  {isLoading ? (
+                    <tr>
+                      <td colSpan="12" className="text-center py-5">Loading...</td>
+                    </tr>
+                  ) : schools.length > 0 ? (
+                    schools.map((s, index) => (
+                      <tr key={s.id}>
+                        <td>{(page - 1) * perPage + index + 1}</td>
+                        <td>{s.fullName || "-"}</td>
+                        <td>{s.mobile || "-"}</td>
+                        <td>{s.email || "-"}</td>
+                        <td>{s.gender === 1 ? "Male" : s.gender === 2 ? "Female" : s.gender === 3 ? "Other" : "-"}</td>
+                        <td>{s.dob || "-"}</td>
+                        <td>{s?.gradeBatch?.gradeBatch}</td>
+                        <td>{s.enrolmentNumber || "-"}</td>
+                        <td>{s.aadharNumber || "-"}</td>
+                        {/* <td>
                         <img
                           src={`${BASE_URL_JOB}${s.studentPhoto}`}
                           alt={s.studentName}
                           style={{ width: "50px", borderRadius: "50%" }}
                         />
                       </td> */}
-                      <td>
-                        <span
-                          className={`badge ${s.status === 1
-                            ? "bg-success"
-                            : "bg-secondary"
-                            }`}
-                        >
-                          {s.status === 1 ? "Active" : "Inactive"}
-                        </span>
-                      </td>
-                      <td className="text-center">
-                        <button
-                          className="btn btn-outline-warning btn-sm me-2" onClick={() => handlePerformanceClick(s.id)} title="Update Performance"
-                        >
-                          <i className="bi bi-graph-up"></i>
-                        </button>
-                        <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/trainer/edit-student/${s.id}`)}>
-                          <i className="bi bi-pencil"></i>
-                        </button>
-                        <button className="btn btn-outline-success btn-sm me-2" onClick={() => navigate(`/trainer/view-student/${s.id}`)}>
-                          <i className="bi bi-eye"></i>
-                        </button>
-                        <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(s.id)} >
-                          <i className="bi bi-trash"></i>
-                        </button>
+                        <td>
+                          <span
+                            className={`badge ${s.status === 1
+                              ? "bg-success"
+                              : "bg-secondary"
+                              }`}
+                          >
+                            {s.status === 1 ? "Active" : "Inactive"}
+                          </span>
+                        </td>
+                        <td className="text-center">
+                          <button
+                            className="btn btn-outline-warning btn-sm me-2" onClick={() => handlePerformanceClick(s.id)} title="Update Performance"
+                          >
+                            <i className="bi bi-graph-up"></i>
+                          </button>
+                          <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/trainer/edit-student/${s.id}`)}>
+                            <i className="bi bi-pencil"></i>
+                          </button>
+                          <button className="btn btn-outline-success btn-sm me-2" onClick={() => navigate(`/trainer/view-student/${s.id}`)}>
+                            <i className="bi bi-eye"></i>
+                          </button>
+                          <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(s.id)} >
+                            <i className="bi bi-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="15" className="text-center text-muted py-4">
+                        No records found
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="15" className="text-center text-muted py-4">
-                      No records found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                  )}
+                </tbody>
+              </table>
+            </TableWrapper>
+
           </div>
 
           {totalPages > 1 && (

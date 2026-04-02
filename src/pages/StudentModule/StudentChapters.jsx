@@ -8,6 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "../../utils/axiosInstance";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import TableWrapper from "../../components/TableWrapper";
 
 
 const ManageStudentChapters = () => {
@@ -173,70 +174,73 @@ const ManageStudentChapters = () => {
             {/* ===== TABLE ===== */}
             <div className="card shadow-sm">
                 <div className="table-responsive">
-                    <table className="table table-bordered table-striped align-middle student-modern-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Course Name</th>
-                                <th>Module Name</th>
-                                <th>Chapter Name</th>
-                                {/* <th>Priority</th> */}
-                                <th>Videos</th>
-                                <th>Pdfs</th>
-                                <th>Status</th>
-                                <th className="text-center">Actions</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {isLoading ? (
+                    <TableWrapper>
+                        <table className="table table-bordered table-striped align-middle student-modern-table">
+                            <thead>
                                 <tr>
-                                    <td colSpan="7" className="text-center py-4">
-                                        Loading...
-                                    </td>
+                                    <th>#</th>
+                                    <th>Course Name</th>
+                                    <th>Module Name</th>
+                                    <th>Chapter Name</th>
+                                    {/* <th>Priority</th> */}
+                                    <th>Videos</th>
+                                    <th>Pdfs</th>
+                                    <th>Status</th>
+                                    <th className="text-center">Actions</th>
                                 </tr>
-                            ) : flattenedChapters.length ? (
-                                flattenedChapters.map((t, i) => (
-                                    <tr key={t.chapterId}>
-                                        <td>{(page - 1) * perPage + i + 1}</td>
-                                        <td>{t.courseTitle}</td>
-                                        <td>{t.moduleTitle}</td>
-                                        <td>{t.chapterTitle}</td>
-                                        {/* <td>{t.priority}</td> */}
-                                        <td><Link to={`/student/view-chapter/${t.chapterId}`} className="text-primary text-decoration-underline">{t.videoCount}</Link></td>
-                                        <td><Link to={`/student/view-chapter/${t.chapterId}`} className="text-primary text-decoration-underline">{t.pdfCount}</Link></td>
-                                        <td>
-                                            <span className={`badge ${statusMap[t.status]?.class || ""}`}>
-                                                {statusMap[t.status]?.label || ""}
-                                            </span>
-                                        </td>
-                                        <td className="text-center">
-                                            {t.status === 0 && (
-                                                <button className="btn btn-outline-primary btn-sm me-2"
-                                                    onClick={() => startMutation.mutate(t.chapterId)}
-                                                    disabled={t.status === 1}>
-                                                    Start
-                                                </button>
-                                            )}
-                                            {t.status !== 0 && (
-                                                <button className="btn btn-outline-danger btn-sm"
-                                                    onClick={() => completeMutation.mutate(t.chapterId)}
-                                                    disabled={t.status === 2 || t.status === 3}>
-                                                    {t.status === 2 || t.status === 3 ? "Completed" : "Complete"}
-                                                </button>
-                                            )}
+                            </thead>
+
+                            <tbody>
+                                {isLoading ? (
+                                    <tr>
+                                        <td colSpan="7" className="text-center py-4">
+                                            Loading...
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="7" className="text-center text-muted py-4">
-                                        No records found
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                                ) : flattenedChapters.length ? (
+                                    flattenedChapters.map((t, i) => (
+                                        <tr key={t.chapterId}>
+                                            <td>{(page - 1) * perPage + i + 1}</td>
+                                            <td>{t.courseTitle}</td>
+                                            <td>{t.moduleTitle}</td>
+                                            <td>{t.chapterTitle}</td>
+                                            {/* <td>{t.priority}</td> */}
+                                            <td><Link to={`/student/view-chapter/${t.chapterId}`} className="text-primary text-decoration-underline">{t.videoCount}</Link></td>
+                                            <td><Link to={`/student/view-chapter/${t.chapterId}`} className="text-primary text-decoration-underline">{t.pdfCount}</Link></td>
+                                            <td>
+                                                <span className={`badge ${statusMap[t.status]?.class || ""}`}>
+                                                    {statusMap[t.status]?.label || ""}
+                                                </span>
+                                            </td>
+                                            <td className="text-center">
+                                                {t.status === 0 && (
+                                                    <button className="btn btn-outline-primary btn-sm me-2"
+                                                        onClick={() => startMutation.mutate(t.chapterId)}
+                                                        disabled={t.status === 1}>
+                                                        Start
+                                                    </button>
+                                                )}
+                                                {t.status !== 0 && (
+                                                    <button className="btn btn-outline-danger btn-sm"
+                                                        onClick={() => completeMutation.mutate(t.chapterId)}
+                                                        disabled={t.status === 2 || t.status === 3}>
+                                                        {t.status === 2 || t.status === 3 ? "Completed" : "Complete"}
+                                                    </button>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="7" className="text-center text-muted py-4">
+                                            No records found
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </TableWrapper>
+
                 </div>
 
                 {/* ===== PAGINATION ===== */}

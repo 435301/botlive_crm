@@ -7,6 +7,7 @@ import DeleteConfirmationModal from "../../Modals/deleteModal";
 import AdminSidebar from "../../components/admin/AdminSidebar";
 import AdminHeader from "../../components/admin/AdminHeader";
 import { Link } from "react-router-dom";
+import TableWrapper from "../../components/TableWrapper";
 
 const ManageSkillCenters = () => {
   const [search, setSearch] = useState("");
@@ -112,44 +113,47 @@ const ManageSkillCenters = () => {
           <div className="card shadow-sm rounded-3">
             <div className="card-body">
               <div className="table-responsive">
-                <table className="table table-bordered table-striped align-middle">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "80px" }}>Sl No</th>
-                      <th>Batch Name</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {isLoading ? (
+                <TableWrapper>
+                  <table className="table table-bordered table-striped align-middle">
+                    <thead>
                       <tr>
-                        <td colSpan="2" className="text-center py-4">
-                          Loading...
-                        </td>
+                        <th style={{ width: "80px" }}>Sl No</th>
+                        <th>Batch Name</th>
                       </tr>
-                    ) : skills.length > 0 ? (
-                      skills.map((center, index) => (
-                        <tr key={center.id}>
-                          <td>{(page - 1) * 10 + index + 1}</td>
-                          <td>
-                            <Link
-                              to={`/admin/skill-details`}
-                              className="text-primary text-decoration-none fw-semibold"
-                            >
-                              {center.centerName}
-                            </Link>
+                    </thead>
+
+                    <tbody>
+                      {isLoading ? (
+                        <tr>
+                          <td colSpan="2" className="text-center py-4">
+                            Loading...
                           </td>
                         </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan="2" className="text-center text-muted py-4">
-                          No records found
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
+                      ) : skills.length > 0 ? (
+                        skills.map((center, index) => (
+                          <tr key={center.id}>
+                            <td>{(page - 1) * 10 + index + 1}</td>
+                            <td>
+                              <Link
+                                to={`/admin/skill-details`}
+                                className="text-primary text-decoration-none fw-semibold"
+                              >
+                                {center.centerName}
+                              </Link>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="2" className="text-center text-muted py-4">
+                            No records found
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </TableWrapper>
+
               </div>
 
               {/* PAGINATION */}

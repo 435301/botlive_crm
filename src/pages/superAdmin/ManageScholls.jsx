@@ -3,6 +3,7 @@ import Pagination from "../../components/Pagination";
 import { Link } from "react-router-dom";
 import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
+import TableWrapper from "../../components/TableWrapper";
 
 const skillCenters = [
   {
@@ -207,7 +208,7 @@ const ManageSkillCenters = () => {
           </div>
 
           <div className="col-lg-3 col-md-6">
-           <SelectFilter
+            <SelectFilter
               value={status}
               placeholder="All Status"
               options={[
@@ -243,65 +244,68 @@ const ManageSkillCenters = () => {
       <div className="card shadow-sm rounded-3 p-2">
         <div className="card-body p-1">
           <div className="table-responsive">
-            <table className="table table-bordered table-striped align-middle student-modern-table">
-              <thead className="">
-                <tr>
-                  <th>#</th>
-                  <th>Center Code</th>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th>Address</th>
-                  <th>Contact</th>
-                  <th>Mobile</th>
-                  <th>Email</th>
-                  <th>Password</th>
-                  <th>Status</th>
-                  <th className="text-center">Actions</th>
-                </tr>
-              </thead>
+            <TableWrapper>
+              <table className="table table-bordered table-striped align-middle student-modern-table">
+                <thead className="">
+                  <tr>
+                    <th>#</th>
+                    <th>Center Code</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Address</th>
+                    <th>Contact</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>Status</th>
+                    <th className="text-center">Actions</th>
+                  </tr>
+                </thead>
 
-              <tbody>
-                {paginatedCenters.length > 0 ? (
-                  paginatedCenters.map((center, index) => (
-                    <tr key={center.centerCode}>
-                      <td>{startIndex + index + 1}</td>
-                      <td className="">{center.centerCode}</td>
-                      <td>{center.name}</td>
-                      <td>{center.centerType}</td>
-                      <td>{center.address}</td>
-                      <td>{center.contactPerson}</td>
-                      <td>{center.mobile}</td>
-                      <td>{center.email}</td>
-                      <td>{center.password}</td>
-                      <td>
-                        <span
-                          className={`badge ${center.status === "Active"
+                <tbody>
+                  {paginatedCenters.length > 0 ? (
+                    paginatedCenters.map((center, index) => (
+                      <tr key={center.centerCode}>
+                        <td>{startIndex + index + 1}</td>
+                        <td className="">{center.centerCode}</td>
+                        <td>{center.name}</td>
+                        <td>{center.centerType}</td>
+                        <td>{center.address}</td>
+                        <td>{center.contactPerson}</td>
+                        <td>{center.mobile}</td>
+                        <td>{center.email}</td>
+                        <td>{center.password}</td>
+                        <td>
+                          <span
+                            className={`badge ${center.status === "Active"
                               ? "bg-success"
                               : "bg-secondary"
-                            }`}
-                        >
-                          {center.status}
-                        </span>
-                      </td>
-                      <td className="text-center">
-                        <button className="btn btn-outline-primary btn-sm me-2">
-                          <i className="bi bi-pencil"></i>
-                        </button>
-                        <button className="btn btn-outline-danger btn-sm">
-                          <i className="bi bi-trash"></i>
-                        </button>
+                              }`}
+                          >
+                            {center.status}
+                          </span>
+                        </td>
+                        <td className="text-center">
+                          <button className="btn btn-outline-primary btn-sm me-2">
+                            <i className="bi bi-pencil"></i>
+                          </button>
+                          <button className="btn btn-outline-danger btn-sm">
+                            <i className="bi bi-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="11" className="text-center text-muted py-4">
+                        No records found
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="11" className="text-center text-muted py-4">
-                      No records found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                  )}
+                </tbody>
+              </table>
+            </TableWrapper>
+
           </div>
 
           {/* ===== PAGINATION ===== */}

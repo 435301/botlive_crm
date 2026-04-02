@@ -6,6 +6,7 @@ import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
 import DeleteConfirmationModal from "../../Modals/deleteModal";
 import Cookies from "js-cookie";
+import TableWrapper from "../../components/TableWrapper";
 
 const ManageAdminActivities = () => {
     const navigate = useNavigate();
@@ -164,72 +165,75 @@ const ManageAdminActivities = () => {
             {/* ===== TABLE ===== */}
             <div className="card shadow-sm">
                 <div className="table-responsive">
-                    <table className="table table-bordered table-striped align-middle student-modern-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Activity Title</th>
-                                <th>Description</th>
-                                <th>Images</th>
-                                <th>Videos</th>
-                                <th>Status</th>
-                                <th className="text-center">Actions</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {isLoading ? (
+                    <TableWrapper>
+                        <table className="table table-bordered table-striped align-middle student-modern-table">
+                            <thead>
                                 <tr>
-                                    <td colSpan="4" className="text-center py-4">
-                                        Loading...
-                                    </td>
+                                    <th>#</th>
+                                    <th>Activity Title</th>
+                                    <th>Description</th>
+                                    <th>Images</th>
+                                    <th>Videos</th>
+                                    <th>Status</th>
+                                    <th className="text-center">Actions</th>
                                 </tr>
-                            ) : activities.length ? (
-                                activities.map((activity, i) => (
-                                    <tr key={activity.id}>
-                                        <td>{(page - 1) * perPage + i + 1}</td>
-                                        <td>{activity.activityTitle}</td>
-                                        <td title={activity.description}>{activity.description.slice(0, 50)}...</td>
-                                        <td>
-                                            <Link to={`/admin/view-activity/${activity.id}`} className="text-primary text-decoration-underline">
-                                                {activity.photoCount}
-                                            </Link>
-                                        </td>
-                                        <td>
-                                            <Link to={`/admin/view-activity/${activity.id}`} className="text-primary text-decoration-underline">
-                                                {activity.videoCount}
-                                            </Link>
-                                        </td>
-                                        <td>
-                                            <span
-                                                className={`badge ${activity.status === 1 ? "bg-success" : "bg-secondary"
-                                                    }`}
-                                            >
-                                                {activity.status === 1 ? "Active" : "Inactive"}
-                                            </span>
-                                        </td>
-                                        <td className="text-center">
-                                            <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/admin/edit-activity/${activity.id}`)}>
-                                                <i className="bi bi-pencil"></i>
-                                            </button>
-                                            <button className="btn btn-outline-success btn-sm me-2" onClick={() => navigate(`/admin/view-activity/${activity.id}`)}>
-                                                <i className="bi bi-eye"></i>
-                                            </button>
-                                            <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(activity.id)}>
-                                                <i className="bi bi-trash"></i>
-                                            </button>
+                            </thead>
+
+                            <tbody>
+                                {isLoading ? (
+                                    <tr>
+                                        <td colSpan="4" className="text-center py-4">
+                                            Loading...
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="9" className="text-center text-muted py-4">
-                                        No records found
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                                ) : activities.length ? (
+                                    activities.map((activity, i) => (
+                                        <tr key={activity.id}>
+                                            <td>{(page - 1) * perPage + i + 1}</td>
+                                            <td>{activity.activityTitle}</td>
+                                            <td title={activity.description}>{activity.description.slice(0, 50)}...</td>
+                                            <td>
+                                                <Link to={`/admin/view-activity/${activity.id}`} className="text-primary text-decoration-underline">
+                                                    {activity.photoCount}
+                                                </Link>
+                                            </td>
+                                            <td>
+                                                <Link to={`/admin/view-activity/${activity.id}`} className="text-primary text-decoration-underline">
+                                                    {activity.videoCount}
+                                                </Link>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    className={`badge ${activity.status === 1 ? "bg-success" : "bg-secondary"
+                                                        }`}
+                                                >
+                                                    {activity.status === 1 ? "Active" : "Inactive"}
+                                                </span>
+                                            </td>
+                                            <td className="text-center">
+                                                <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/admin/edit-activity/${activity.id}`)}>
+                                                    <i className="bi bi-pencil"></i>
+                                                </button>
+                                                <button className="btn btn-outline-success btn-sm me-2" onClick={() => navigate(`/admin/view-activity/${activity.id}`)}>
+                                                    <i className="bi bi-eye"></i>
+                                                </button>
+                                                <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(activity.id)}>
+                                                    <i className="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="9" className="text-center text-muted py-4">
+                                            No records found
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </TableWrapper>
+
                 </div>
 
                 {/* ===== PAGINATION ===== */}

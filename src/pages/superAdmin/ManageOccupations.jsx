@@ -5,8 +5,9 @@ import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
 import DeleteConfirmationModal from "../../Modals/deleteModal";
+import TableWrapper from "../../components/TableWrapper";
 
-const ManageOccupations= () => {
+const ManageOccupations = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
@@ -159,57 +160,59 @@ const ManageOccupations= () => {
       <div className="card shadow-sm rounded-3 p-2">
         <div className="card-body p-1">
           <div className="table-responsive">
-            <table className="table table-bordered table-striped align-middle student-modern-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Occupation</th>
-                  <th>Status</th>
-                  <th className="text-center">Actions</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {isLoading ? (
+            <TableWrapper>
+              <table className="table table-bordered table-striped align-middle student-modern-table">
+                <thead>
                   <tr>
-                    <td colSpan="4" className="text-centre py-4">
-                      Loading...
-                    </td>
+                    <th>#</th>
+                    <th>Occupation</th>
+                    <th>Status</th>
+                    <th className="text-center">Actions</th>
                   </tr>
-                ) : occupation.length > 0 ? (
-                  occupation.map((item, index) => (
-                    <tr key={item.id}>
-                      <td>{(page - 1) * perPage + index + 1}</td>
-                      <td>{item.occupation}</td>
-                      <td>
-                        <span
-                          className={`badge ${item.status === 1
-                            ? "bg-success"
-                            : "bg-secondary"
-                            }`}
-                        >
-                          {item.status === 1 ? "Active" : "Inactive"}
-                        </span>
-                      </td>
-                      <td className="text-center">
-                        <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-occupation/${item?.id}`)}>
-                          <i className="bi bi-pencil"></i>
-                        </button>
-                        <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(item?.id)}>
-                          <i className="bi bi-trash"></i>
-                        </button>
+                </thead>
+
+                <tbody>
+                  {isLoading ? (
+                    <tr>
+                      <td colSpan="4" className="text-centre py-4">
+                        Loading...
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="7" className="text-center text-muted py-4">
-                      No records found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                  ) : occupation.length > 0 ? (
+                    occupation.map((item, index) => (
+                      <tr key={item.id}>
+                        <td>{(page - 1) * perPage + index + 1}</td>
+                        <td>{item.occupation}</td>
+                        <td>
+                          <span
+                            className={`badge ${item.status === 1
+                              ? "bg-success"
+                              : "bg-secondary"
+                              }`}
+                          >
+                            {item.status === 1 ? "Active" : "Inactive"}
+                          </span>
+                        </td>
+                        <td className="text-center">
+                          <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-occupation/${item?.id}`)}>
+                            <i className="bi bi-pencil"></i>
+                          </button>
+                          <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(item?.id)}>
+                            <i className="bi bi-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="7" className="text-center text-muted py-4">
+                        No records found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </TableWrapper>
           </div>
 
           {/* ===== PAGINATION ===== */}

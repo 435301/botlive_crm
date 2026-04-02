@@ -7,6 +7,7 @@ import { useCrud } from "../../hooks/useCrud";
 import useCourses from "../../hooks/useCourses";
 import useModules from "../../hooks/useModule";
 import DeleteConfirmationModal from "../../Modals/deleteModal";
+import TableWrapper from "../../components/TableWrapper";
 
 
 const ManageChaptersModule = () => {
@@ -197,7 +198,8 @@ const ManageChaptersModule = () => {
             {/* ===== TABLE ===== */}
             <div className="card shadow-sm">
                 <div className="table-responsive">
-                    <table className="table table-bordered table-striped align-middle student-modern-table">
+                    <TableWrapper>
+                         <table className="table table-bordered table-striped align-middle student-modern-table">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -267,6 +269,8 @@ const ManageChaptersModule = () => {
                             )}
                         </tbody>
                     </table>
+                    </TableWrapper>
+                   
                 </div>
 
                 {/* ===== PAGINATION ===== */}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import SearchInput from "../../components/SearchInput";
+import TableWrapper from "../../components/TableWrapper";
 
 const ManageTrainerMonthlyAttendance = () => {
     const [page, setPage] = useState(1);
@@ -121,61 +122,65 @@ const ManageTrainerMonthlyAttendance = () => {
             {/* ===== TABLE ===== */}
             <div className="card shadow-sm">
                 <div className="table-responsive">
-                    <table className="table table-bordered table-striped align-middle student-modern-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Trainer Name</th>
-                                <th>Trainer Code </th>
-                                {dates.map((date) => (
-                                    <th key={date}>{date.split("-")[0]}</th>
-                                ))}
-
-                                <th>Present</th>
-                                <th>Absent</th>
-                                <th>Working</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {isLoading ? (
+                    <TableWrapper>
+                        <table className="table table-bordered table-striped align-middle student-modern-table">
+                            <thead>
                                 <tr>
-                                    <td colSpan="4" className="text-center py-4">
-                                        Loading...
-                                    </td>
-                                </tr>
-                            ) : trainers.length ? (
-                                trainers.map((t, i) => (
-                                    <tr key={t.trainerId}>
-                                        <td>{(page - 1) * perPage + i + 1}</td>
-                                        <td>{t?.name}</td>
-                                        <td>{t?.trainerCode}</td>
-                                        {dates.map((date) => (
-                                            <td key={date}>
-                                                {t.attendance[date] === "P" ? (
-                                                    <span className="text-success fw-bold">P</span>
-                                                ) : t.attendance[date] === "A" ? (
-                                                    <span className="text-danger fw-bold">A</span>
-                                                ) : (
-                                                    "-"
-                                                )}
-                                            </td>
-                                        ))}
+                                    <th>#</th>
+                                    <th>Trainer Name</th>
+                                    <th>Trainer Code </th>
+                                    {dates.map((date) => (
+                                        <th key={date}>{date.split("-")[0]}</th>
+                                    ))}
 
-                                        <td className="text-success fw-bold">{t.presentDays}</td>
-                                        <td className="text-danger fw-bold">{t.absentDays}</td>
-                                        <td>{t.workingDays}</td>
+                                    <th>Present</th>
+                                    <th>Absent</th>
+                                    <th>Working</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {isLoading ? (
+                                    <tr>
+                                        <td colSpan="4" className="text-center py-4">
+                                            Loading...
+                                        </td>
                                     </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="7" className="text-center text-muted py-4">
-                                        No records found
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                                ) : trainers.length ? (
+                                    trainers.map((t, i) => (
+                                        <tr key={t.trainerId}>
+                                            <td>{(page - 1) * perPage + i + 1}</td>
+                                            <td>{t?.name}</td>
+                                            <td>{t?.trainerCode}</td>
+                                            {dates.map((date) => (
+                                                <td key={date}>
+                                                    {t.attendance[date] === "P" ? (
+                                                        <span className="text-success fw-bold">P</span>
+                                                    ) : t.attendance[date] === "A" ? (
+                                                        <span className="text-danger fw-bold">A</span>
+                                                    ) : (
+                                                        "-"
+                                                    )}
+                                                </td>
+                                            ))}
+
+                                            <td className="text-success fw-bold">{t.presentDays}</td>
+                                            <td className="text-danger fw-bold">{t.absentDays}</td>
+                                            <td>{t.workingDays}</td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="7" className="text-center text-muted py-4">
+                                            No records found
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </TableWrapper>
+
+
                 </div>
 
             </div>

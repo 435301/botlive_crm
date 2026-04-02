@@ -5,6 +5,7 @@ import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
 import DeleteConfirmationModal from "../../Modals/deleteModal";
 import { useCrud } from "../../hooks/useCrud";
+import TableWrapper from "../../components/TableWrapper";
 
 
 const ManageFounders = () => {
@@ -160,63 +161,67 @@ const ManageFounders = () => {
             <div className="card shadow-sm rounded-3 p-2">
                 <div className="card-body p-1">
                     <div className="table-responsive">
-                        <table className="table table-bordered table-striped align-middle student-modern-table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Administrator Name</th>
-                                    <th>Email</th>
-                                    <th>Mobile</th>
-                                    {/* <th>Password</th> */}
-                                    <th>Status</th>
-                                    <th className="text-center">Actions</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {isLoading ? (
+                        <TableWrapper>
+                            <table className="table table-bordered table-striped align-middle student-modern-table">
+                                <thead>
                                     <tr>
-                                        <td colSpan="4" className="text-center py-4">
-                                            Loading...
-                                        </td>
+                                        <th>#</th>
+                                        <th>Administrator Name</th>
+                                        <th>Email</th>
+                                        <th>Mobile</th>
+                                        {/* <th>Password</th> */}
+                                        <th>Status</th>
+                                        <th className="text-center">Actions</th>
                                     </tr>
-                                ) : founders?.length > 0 ? (
-                                    founders.map((item, index) => (
-                                        <tr key={item.id}>
-                                            <td>{(page - 1) * perPage + index + 1}</td>
-                                            <td>{item.name}</td>
-                                            <td>{item.email}</td>
-                                            <td>{item.mobile}</td>
-                                            {/* <td>{item.password}</td> */}
-                                            <td>
-                                                <span
-                                                    className={`badge ${item.status === 1
-                                                        ? "bg-success"
-                                                        : "bg-secondary"
-                                                        }`}
-                                                >
-                                                    {item.status === 1 ? "Active" : "Inactive"}
-                                                </span>
-                                            </td>
-                                            <td className="text-center">
-                                                <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-administrator/${item?.id}`)}>
-                                                    <i className="bi bi-pencil"></i>
-                                                </button>
-                                                <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(item?.id)}>
-                                                    <i className="bi bi-trash"></i>
-                                                </button>
+                                </thead>
+
+                                <tbody>
+                                    {isLoading ? (
+                                        <tr>
+                                            <td colSpan="4" className="text-center py-4">
+                                                Loading...
                                             </td>
                                         </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="7" className="text-center text-muted py-4">
-                                            No records found
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
+                                    ) : founders?.length > 0 ? (
+                                        founders.map((item, index) => (
+                                            <tr key={item.id}>
+                                                <td>{(page - 1) * perPage + index + 1}</td>
+                                                <td>{item.name}</td>
+                                                <td>{item.email}</td>
+                                                <td>{item.mobile}</td>
+                                                {/* <td>{item.password}</td> */}
+                                                <td>
+                                                    <span
+                                                        className={`badge ${item.status === 1
+                                                            ? "bg-success"
+                                                            : "bg-secondary"
+                                                            }`}
+                                                    >
+                                                        {item.status === 1 ? "Active" : "Inactive"}
+                                                    </span>
+                                                </td>
+                                                <td className="text-center">
+                                                    <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-administrator/${item?.id}`)}>
+                                                        <i className="bi bi-pencil"></i>
+                                                    </button>
+                                                    <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(item?.id)}>
+                                                        <i className="bi bi-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="7" className="text-center text-muted py-4">
+                                                No records found
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </TableWrapper>
+
+
                     </div>
 
                     {/* ===== PAGINATION ===== */}
