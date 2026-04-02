@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { useCrud } from "../../hooks/useCrud";
 
 const ManageSchoolSkillUpload = () => {
-    const centreType = 1;
+    const centreType = 2;
     const { schoolsData } = useSchools();
 
     const [centreId, setCentreId] = useState("");

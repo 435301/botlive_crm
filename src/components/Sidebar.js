@@ -584,7 +584,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               </NavLink>
             </div>
           </div>
-          
+
           {/* Bulk upload */}
           <div className="nav-group">
             <div className="nav-link" onClick={() => toggleMenu("bulkupload")}>
@@ -605,20 +605,26 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               <NavLink to="/superAdmin/bulk-upload-school-students" className={getNavLinkClass}>
                 School Students
               </NavLink>
-                <NavLink to="/superAdmin/bulk-upload-skill-centre-students" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/bulk-upload-skill-centre-students" className={getNavLinkClass}>
                 Skill Centre Students
               </NavLink>
-               <NavLink to="/superAdmin/bulk-upload-trainers" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/bulk-upload-trainers" className={getNavLinkClass}>
                 Trainers
               </NavLink>
               <NavLink to="/superAdmin/bulk-upload-performance-grade" className={getNavLinkClass}>
                 Performance Grades
               </NavLink>
-               <NavLink to="/superAdmin/bulk-upload-skill-centers" className={getNavLinkClass}>
+              <NavLink to="/superAdmin/bulk-upload-skill-centers" className={getNavLinkClass}>
                 Skill Centers
               </NavLink>
             </div>
           </div>
+
+          {/* upload video */}
+          <NavLink to="/superAdmin/upload-video" className={getNavLinkClass}>
+            <Settings size={18} />
+            {!collapsed && <span>Upload Video</span>}
+          </NavLink>
 
           {/* Settings */}
           <NavLink to="/superAdmin/settings" className={getNavLinkClass}>
