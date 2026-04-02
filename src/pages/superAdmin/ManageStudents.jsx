@@ -157,7 +157,7 @@ const ManageStudents = () => {
 
     },
     {
-      title: "Innovation and Entrepreneurs Centres",
+      title: "Innovation and Entrepreneurship Centres",
       icon: "bi-lightbulb",
       iconColor: "text-info",
       total: statistics[3]?.totalStudents || 0,
@@ -244,7 +244,7 @@ const ManageStudents = () => {
                 { label: "Skill Development", value: 1 },
                 { label: "AI & STEM Learning", value: 2 },
                 { label: "Education Development", value: 3 },
-                { label: "Innovation & Entrepreneurs", value: 4 },
+                { label: "Innovation & Entrepreneurship", value: 4 },
                 { label: "Community Development", value: 5 },
               ]}
               onChange={(value) => {
@@ -392,7 +392,7 @@ const ManageStudents = () => {
                             : s.centre.centerType === 3
                               ? "Education Development"
                               : s.centre.centerType === 4
-                                ? "Innovation & Entrepreneurs"
+                                ? "Innovation & Entrepreneurship"
                                 : s.centre.centerType === 5 ?
                                   "Community Development" : ""}
                       </td>

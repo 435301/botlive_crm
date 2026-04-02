@@ -114,7 +114,7 @@ const AddGrades = () => {
                     { label: "Skill Development", value: 1 },
                     { label: "AI & STEM Learning", value: 2 },
                     { label: "Education Development", value: 3 },
-                    { label: "Innovation & Entrepreneurs", value: 4 },
+                    { label: "Innovation & Entrepreneurship", value: 4 },
                     { label: "Community Development", value: 5 },
                   ]}
                   error={errors.centreType}
@@ -124,11 +124,11 @@ const AddGrades = () => {
               {/* Course / Grade */}
               <div className="col-md-4">
                 <FormInput
-                  label={isSchool ? "Grade " : "skill"}
+                  label={isSchool ? "Skill " : "Grade"}
                   name="gradeBatch"
                   value={formData.gradeBatch}
                   onChange={handleChange}
-                  placeholder={`Enter ${isSchool ? "Grade" : "Skill"} Name`}
+                  placeholder={`Enter ${isSchool ? "Skill" : "Grade"} Name`}
                   mandatory
                   error={errors.gradeBatch}
                 />

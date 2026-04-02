@@ -147,7 +147,7 @@ const ManageActivities = () => {
                                 { label: "Skill Development", value: 1 },
                                 { label: "AI & STEM Learning", value: 2 },
                                 { label: "Education Development", value: 3 },
-                                { label: "Innovation & Entrepreneurs", value: 4 },
+                                { label: "Innovation & Entrepreneurship", value: 4 },
                                 { label: "Community Development", value: 5 },
                             ]}
                             onChange={(value) => {
@@ -312,7 +312,7 @@ const ManageActivities = () => {
                                 activities.map((activity, i) => (
                                     <tr key={activity.id}>
                                         <td>{(page - 1) * perPage + i + 1}</td>
-                                        <td> {activity.centreType === 1 ? "Skill Development" : activity.centreType === 2 ? "AI & STEM Learning" : activity.centreType === 3 ? "Education Development" : activity.centreType === 4 ? "Innovation & Entrepreneurs" : activity.centreType === 5 ? "Community Development" : ""}</td>
+                                        <td> {activity.centreType === 1 ? "Skill Development" : activity.centreType === 2 ? "AI & STEM Learning" : activity.centreType === 3 ? "Education Development" : activity.centreType === 4 ? "Innovation & Entrepreneurship" : activity.centreType === 5 ? "Community Development" : ""}</td>
                                         <td>{activity.centre.centerName}</td>
                                         <td>{activity.activityTitle}</td>
                                         <td title={activity.description}>{activity.description.slice(0, 50)}...</td>

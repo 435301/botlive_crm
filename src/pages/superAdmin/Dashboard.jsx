@@ -110,7 +110,7 @@ const Dashboard = () => {
       onClick: () => navigate("/superAdmin/manage-skill-centres?centreType=3"),
     },
     {
-      title: "Innovation And Entrepreneurs Centres",
+      title: "Innovation And Entrepreneurship Centres",
       value: dashboard.innovationAndEntrepreneursCentres?.total || 0,
       subtitle: `${dashboard.innovationAndEntrepreneursCentres?.active || 0} Active`,
       subtitleColor: "success",
@@ -436,13 +436,13 @@ const Dashboard = () => {
                         <div className="card shadow-sm h-100 p-1">
                           <h6 className="text-center fw-semibold mb-3">Performance</h6>
 
-                          {centre?.performance?.length ? (
+                          {centre?.performance? (
                             <ResponsiveContainer width="100%" height={230}>
                               <PieChart>
                                 <Pie
                                   data={centre.performance.map(item => ({
                                     name: item.performanceName,
-                                    value: item.percentage
+                                    value: Number(item.percentage)
                                   }))}
                                   dataKey="value"
                                   innerRadius={50}

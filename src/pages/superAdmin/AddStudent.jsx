@@ -1080,7 +1080,7 @@ const AddStudent = () => {
                     { label: "Skill Development", value: 1 },
                     { label: "AI & STEM Learning", value: 2 },
                     { label: "Education Development", value: 3 },
-                    { label: "Innovation & Entrepreneurs", value: 4 },
+                    { label: "Innovation & Entrepreneurship", value: 4 },
                     { label: "Community Development", value: 5 },
                   ]}
                   error={errors.centreType}
