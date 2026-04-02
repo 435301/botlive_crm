@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { useCrud } from "../../hooks/useCrud";
 import { getCentreTypeName } from "../../utils/getCentreType";
-import BASE_URL_JOB from "../../config/config";
+// import BASE_URL_JOB from "../../config/config";
 
 const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
   const RADIAN = Math.PI / 180;
@@ -65,13 +65,13 @@ const Dashboard = () => {
   })) || [];
 
 
-  const { useGetAll: useGetPromoVideo } = useCrud({
-    entity: "promoVideo",
-    getAllUrl: "/activity/get/PromoVideo",
-  });
+  // const { useGetAll: useGetPromoVideo } = useCrud({
+  //   entity: "promoVideo",
+  //   getAllUrl: "/activity/get/PromoVideo",
+  // });
 
-  const { data: promoVideoData } = useGetPromoVideo();
-  const promoVideo = promoVideoData?.data || {};
+  // const { data: promoVideoData } = useGetPromoVideo();
+  // const promoVideo = promoVideoData?.data || {};
 
   const handleChartClick = (item) => {
     navigate("/superAdmin/pie-detail", { state: { chartData: { title: item.title, data: item.data.slice(0, 2) } } });
