@@ -14,6 +14,8 @@ import StatusSelectTrainer from "../../components/StatusSelectTrainer";
 import BASE_URL_JOB from "../../config/config";
 import useSchools from "../../hooks/useSchools";
 import MultiSelectWithCheckbox from "../../components/MultiSelectWithCheckbox";
+import { useQuery } from "@tanstack/react-query";
+import axiosInstance from "../../utils/axiosInstance";
 
 const AddSuperAdminTrainer = () => {
     const navigate = useNavigate();
@@ -29,6 +31,15 @@ const AddSuperAdminTrainer = () => {
         updateUrl: (id) => `/trainerInCampass/update/${id}`,
         deleteUrl: (id) => `/trainerInCampass/delete/${id}`,
     });
+
+    const { data: nextCodeData } = useQuery({
+        queryKey: ["nextCode", 1],
+        queryFn: async () => {
+            const res = await axiosInstance.get("/setting/getNextCode/3");
+            return res.data.data;
+        },
+    });
+
 
     const { data, isLoading } = useGetById(id);
     const [activeTab, setActiveTab] = useState("trainer");
@@ -99,6 +110,16 @@ const AddSuperAdminTrainer = () => {
             });
         }
     }, [data]);
+
+    useEffect(() => {
+        if (!isEditMode && nextCodeData?.code) {
+            setFormData(prev => ({
+                ...prev,
+                trainerCode: nextCodeData.code
+            }));
+        }
+    }, [nextCodeData, isEditMode]);
+
 
     const [errors, setErrors] = useState({});
 
@@ -280,10 +301,11 @@ const AddSuperAdminTrainer = () => {
                                         label="Trainer Code"
                                         name="trainerCode"
                                         placeholder="TRN-001"
-                                        value={formData.trainerCode}
+                                        value={ formData.trainerCode}
                                         onChange={handleChange}
                                         mandatory
                                         error={errors.trainerCode}
+                                        disabled
                                     />
 
                                 </div>
@@ -603,7 +625,7 @@ const AddSuperAdminTrainer = () => {
                                 </div>
 
                                 <div className="col-md-6">
-                                    <label className="form-label">Residential Address<span className="text-danger"> *</span></label>
+                                    <label className="form-label">Residential Address</label>
                                     <textarea
                                         className="form-control"
                                         rows="2"
@@ -616,7 +638,7 @@ const AddSuperAdminTrainer = () => {
                                 </div>
 
                                 <div className="col-md-6">
-                                    <label className="form-label">Permanent Address<span className="text-danger"> *</span></label>
+                                    <label className="form-label">Permanent Address</label>
                                     <textarea
                                         className="form-control"
                                         rows="2"

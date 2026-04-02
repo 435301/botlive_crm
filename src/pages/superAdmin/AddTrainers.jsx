@@ -14,6 +14,8 @@ import StatusSelectTrainer from "../../components/StatusSelectTrainer";
 import BASE_URL_JOB from "../../config/config";
 import Cookies from "js-cookie";
 import MultiSelectWithCheckbox from "../../components/MultiSelectWithCheckbox";
+import { useQuery } from "@tanstack/react-query";
+import axiosInstance from "../../utils/axiosInstance";
 
 const AddTrainer = () => {
   const navigate = useNavigate();
@@ -30,6 +32,15 @@ const AddTrainer = () => {
     updateUrl: (id) => `/trainer/update/${id}`,
     deleteUrl: (id) => `/trainer/delete/${id}`,
   });
+
+      const { data: nextCodeData } = useQuery({
+        queryKey: ["nextCode", 1],
+        queryFn: async () => {
+            const res = await axiosInstance.get("/setting/getNextCode/3");
+            return res.data.data;
+        },
+    });
+
 
   const { data, isLoading } = useGetById(id);
   const [activeTab, setActiveTab] = useState("trainer");
@@ -95,6 +106,15 @@ const AddTrainer = () => {
       });
     }
   }, [data]);
+      useEffect(() => {
+          if (!isEditMode && nextCodeData?.code) {
+              setFormData(prev => ({
+                  ...prev,
+                  trainerCode: nextCodeData.code
+              }));
+          }
+      }, [nextCodeData, isEditMode]);
+  
 
   const [errors, setErrors] = useState({});
 

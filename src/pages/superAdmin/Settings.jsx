@@ -21,20 +21,22 @@ const Settings = () => {
     getAllUrl: "/setting/getSettings",
   });
 
-  const { data: settingsCode = [] } = useGetAll();
+  const { data } = useGetAll();
+
 
   useEffect(() => {
-    if (settingsCode.length > 0) {
-      const formatted = {};
-      settingsCode.forEach((item) => {
-        formatted[item.userType] = {
-          prefix: item.prefix,
-          startNumber: item.startNumber,
-        };
-      });
-      setSettings(formatted);
-    }
-  }, [settingsCode]);
+    if (!data?.data?.length) return;
+
+    const formatted = data?.data?.reduce((acc, item) => {
+      acc[item.userType] = {
+        prefix: item.prefix,
+        startNumber: item.startNumber,
+      };
+      return acc;
+    }, {});
+
+    setSettings(formatted);
+  }, [data]);
 
   const handleChange = (userType, field, value) => {
     setSettings((prev) => ({
