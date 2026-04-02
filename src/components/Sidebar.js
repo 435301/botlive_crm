@@ -12,6 +12,7 @@ import {
   GraduationCap,
   KeyRound,
   LogOut,
+  FileText,
 } from "lucide-react";
 import logo from "../assets/images/logo.png";
 import { logoutAdmin } from "../redux/slices/adminSlice";
@@ -402,7 +403,8 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
                     className={`arrow ${openMenu === "add-assigned-chapter" ? "rotate" : ""}`}
                   />
                 </>
-              )}
+              )}0nj
+
             </div>
             <div
               className={`submenu ${openMenu === "add-assigned-chapter" ? "open" : ""}`}
@@ -617,6 +619,23 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               <NavLink to="/superAdmin/bulk-upload-skill-centers" className={getNavLinkClass}>
                 Skill Centers
               </NavLink>
+            </div>
+          </div>
+
+          {/* Reports Dropdown */}
+          <div className="nav-group">
+            <div className="nav-link" onClick={() => toggleMenu("reports")}>
+              <FileText size={18} />
+              {!collapsed && (
+                <>
+                  <span>Reports</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "reports" ? "rotate" : ""
+                      }`}
+                  />
+                </>
+              )}
             </div>
           </div>
 

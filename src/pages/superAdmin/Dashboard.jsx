@@ -316,9 +316,28 @@ const Dashboard = () => {
                   </div>
                 </div>
                 ))}
-
+                <div className="col-lg-3"></div>
+                <div className="col-lg-6">
+                  <video
+                    key={promoVideo?.url}
+                    width="100%"
+                    controls
+                    autoPlay={false}
+                    muted
+                    loop
+                    className="promoVideo"
+                  >
+                    <source
+                      src={promoVideo?.url || promoVideo?.video}
+                      // src="https://www.cyientfoundation.org/wp-content/uploads/2025/11/CYFINTROvid.mp4"
+                      type="video/mp4"
+                    />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
               </div>
             </div>
+
 
             {/* <div className="col-md-4">
 
@@ -526,24 +545,7 @@ const Dashboard = () => {
         </div>
 
 
-        <div className="col-lg-6">
-          <video
-            key={promoVideo?.url}
-            width="100%"
-            controls
-            autoPlay={false}
-            muted
-            loop
-            className="promoVideo"
-          >
-            <source
-              src={promoVideo?.url || promoVideo?.video}
-              // src="https://www.cyientfoundation.org/wp-content/uploads/2025/11/CYFINTROvid.mp4"
-              type="video/mp4"
-            />
-            Your browser does not support the video tag.
-          </video>
-        </div>
+
         {/* <div className="col-12 col-sm-12 col-lg-12">
           {" "}
           <StudentTable />
