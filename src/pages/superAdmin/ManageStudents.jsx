@@ -133,7 +133,7 @@ const ManageStudents = () => {
 
   const centreStats = [
     {
-      title: "Skill Development Centres",
+      title: "Skill Development",
       icon: "bi-building",
       iconColor: "text-success",
       total: statistics[0]?.totalStudents || 0,
@@ -158,7 +158,7 @@ const ManageStudents = () => {
 
     },
     {
-      title: "Innovation and Entrepreneurship Centres",
+      title: "Innovation and Entrepreneurship",
       icon: "bi-lightbulb",
       iconColor: "text-info",
       total: statistics[3]?.totalStudents || 0,
@@ -166,7 +166,7 @@ const ManageStudents = () => {
       female: statistics[3]?.totalFemale || 0,
     },
     {
-      title: "Community Development Centres",
+      title: "Community Development",
       icon: "bi-people",
       iconColor: "text-secondary",
       total: statistics[4]?.totalStudents || 0,

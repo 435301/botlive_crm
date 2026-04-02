@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import { useCrud } from "../../hooks/useCrud";
 import { getCentreTypeName } from "../../utils/getCentreType";
+import BASE_URL_JOB from "../../config/config";
 
 const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
   const RADIAN = Math.PI / 180;
@@ -44,9 +45,9 @@ const Dashboard = () => {
     centreId: ""
   });
 
-  const activityRawData = activityData?.data
-  console.log("Full activity response:", activityData);
-  console.log('activityData', activityRawData)
+  const activityRawData = activityData?.data;
+  console.log('activityRawData', activityRawData)
+
   const { useGetAll: useGetAttendance } = useCrud({
     entity: "attendance",
     getAllUrl: "/admin/attendancePercentage",
@@ -64,6 +65,14 @@ const Dashboard = () => {
   })) || [];
 
 
+  const { useGetAll: useGetPromoVideo } = useCrud({
+    entity: "promoVideo",
+    getAllUrl: "/activity/get/PromoVideo",
+  });
+
+  const { data: promoVideoData } = useGetPromoVideo();
+  const promoVideo = promoVideoData?.data || {};
+
   const handleChartClick = (item) => {
     navigate("/superAdmin/pie-detail", { state: { chartData: { title: item.title, data: item.data.slice(0, 2) } } });
   };
@@ -74,7 +83,7 @@ const Dashboard = () => {
   console.log('centreTypeWise', centreTypeWise)
   const stats = [
     {
-      title: "Skill Development Centres",
+      title: "Skill Development",
       value: dashboard.skillDevelopmentCentres?.total || 0,
       subtitle: `${dashboard.skillDevelopmentCentres?.active || 0} Active`,
       subtitleInactive: `${dashboard.skillDevelopmentCentres?.inactive || 0} Inactive`,
@@ -86,7 +95,7 @@ const Dashboard = () => {
       onClick: () => navigate(`/superAdmin/manage-skill-centres?centreType=1`),
     },
     {
-      title: "AI And Stem Learning Centres",
+      title: "AI And Stem Learning",
       value: dashboard.aiAndStemLearningCentres?.total || 0,
       subtitle: `${dashboard.aiAndStemLearningCentres?.active || 0} Active`,
       subtitleColor: "success",
@@ -98,7 +107,7 @@ const Dashboard = () => {
       onClick: () => navigate("/superAdmin/manage-skill-centres?centreType=2"),
     },
     {
-      title: "Education Development Centres",
+      title: "Education Development",
       value: dashboard.educationDevelopmentCentres?.total || 0,
       subtitle: `${dashboard.educationDevelopmentCentres?.active || 0} Active`,
       subtitleColor: "success",
@@ -110,7 +119,7 @@ const Dashboard = () => {
       onClick: () => navigate("/superAdmin/manage-skill-centres?centreType=3"),
     },
     {
-      title: "Innovation And Entrepreneurship Centres",
+      title: "Innovation And Entrepreneurship",
       value: dashboard.innovationAndEntrepreneursCentres?.total || 0,
       subtitle: `${dashboard.innovationAndEntrepreneursCentres?.active || 0} Active`,
       subtitleColor: "success",
@@ -122,7 +131,7 @@ const Dashboard = () => {
       onClick: () => navigate("/superAdmin/manage-skill-centres?centreType=4"),
     },
     {
-      title: "Community Development Centres",
+      title: "Community Development",
       value: dashboard.communityDevelopmentCentres?.total || 0,
       subtitle: `${dashboard.communityDevelopmentCentres?.active || 0} Active`,
       subtitleColor: "success",
@@ -147,7 +156,7 @@ const Dashboard = () => {
     },
     {
       title: "Trainers",
-      value:dashboard?.trainers?.total || 0 ,
+      value: dashboard?.trainers?.total || 0,
       subtitle: `${dashboard.trainers?.active || 0} Active`,
       subtitleColor: "success",
       subtitleInactive: `${dashboard.trainers?.inactive || 0} Inactive`,
@@ -308,7 +317,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 ))}
-               
+
               </div>
             </div>
 
@@ -408,7 +417,7 @@ const Dashboard = () => {
                         <div className="card shadow-sm h-100 p-1">
                           <h6 className="text-center fw-semibold mb-3">Performance</h6>
 
-                          {centre?.performance? (
+                          {centre?.performance ? (
                             <ResponsiveContainer width="100%" height={230}>
                               <PieChart>
                                 <Pie
@@ -518,29 +527,32 @@ const Dashboard = () => {
         </div>
 
 
- <div className="col-lg-6">
-                  <video
-                    width="100%"
-                    controls
-                    autoPlay={false}
-                    muted
-                    loop
-                    style={{
-                      borderRadius: "12px",
-                      boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                      objectFit: "cover",
-                      height: "100%",
-                      maxHeight: "290px",
-                      backgroundColor: "#000"
-                    }}
-                  >
-                    <source
-                      src="https://www.cyientfoundation.org/wp-content/uploads/2025/11/CYFINTROvid.mp4"
-                      type="video/mp4"
-                    />
-                    Your browser does not support the video tag.
-                  </video>
-                </div>
+        <div className="col-lg-6">
+          <video
+            width="100%"
+            controls
+            autoPlay={false}
+            muted
+            loop
+            style={{
+              borderRadius: "12px",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+              objectFit: "cover",
+              height: "100%",
+              minHeight: "300px",
+              backgroundColor: "#000"
+            }}
+          >
+            <source
+              // src={promoVideo?.video?.startsWith("http")
+              //   ? promoVideo.video
+              //   : `${BASE_URL_JOB}${promoVideo?.video || promoVideo?.url}`}
+              src="https://www.cyientfoundation.org/wp-content/uploads/2025/11/CYFINTROvid.mp4"
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+        </div>
         {/* <div className="col-12 col-sm-12 col-lg-12">
           {" "}
           <StudentTable />

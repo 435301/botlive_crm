@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 import { useCrud } from "../../hooks/useCrud";
 
 const VideoUpload = () => {
@@ -14,11 +14,6 @@ const VideoUpload = () => {
     })
 
     const handleSubmit = () => {
-
-        if (!file) {
-            toast.warn("Please upload file");
-            return;
-        }
         const formData = new FormData();
         formData.append("videos", file);
         formData.append("url", url)
@@ -57,7 +52,7 @@ const VideoUpload = () => {
                         {/* File Upload */}
                         <div className="col-md-4">
                             <label className="form-label fw-semibold">
-                                Upload Video File <span className="text-danger">*</span>
+                                Upload Video File
                             </label>
                             <input
                                 type="file"
@@ -65,14 +60,11 @@ const VideoUpload = () => {
                                 className="form-control"
                                 onChange={(e) => setFile(e.target.files[0])}
                             />
-                            <small className="text-muted">
-                                Accepted formats: .mp4, .avi, .mov
-                            </small>
                         </div>
 
                         <div className="col-md-4">
                             <label className="form-label fw-semibold">
-                                Video URL <span className="text-danger">*</span>
+                                Video URL
                             </label>
                             <input
                                 type="text"
