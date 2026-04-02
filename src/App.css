@@ -173,6 +173,8 @@ body {
   padding: 5px;
   /* box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06) !important; */
   border: none;
+  display: flex;
+  min-height: 100px;
 }
 /* ===== MOBILE ===== */
 @media (max-width: 991px) {

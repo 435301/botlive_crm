@@ -308,30 +308,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 ))}
-                <div className="col-lg-3"></div>
-                <div className="col-lg-6">
-                  <video
-                    width="100%"
-                    controls
-                    autoPlay={false}
-                    muted
-                    loop
-                    style={{
-                      borderRadius: "12px",
-                      boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                      objectFit: "cover",
-                      height: "100%",
-                      maxHeight: "290px",
-                      backgroundColor: "#000"
-                    }}
-                  >
-                    <source
-                      src="https://www.cyientfoundation.org/wp-content/uploads/2025/11/CYFINTROvid.mp4"
-                      type="video/mp4"
-                    />
-                    Your browser does not support the video tag.
-                  </video>
-                </div>
+               
               </div>
             </div>
 
@@ -541,6 +518,29 @@ const Dashboard = () => {
         </div>
 
 
+ <div className="col-lg-6">
+                  <video
+                    width="100%"
+                    controls
+                    autoPlay={false}
+                    muted
+                    loop
+                    style={{
+                      borderRadius: "12px",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                      objectFit: "cover",
+                      height: "100%",
+                      maxHeight: "290px",
+                      backgroundColor: "#000"
+                    }}
+                  >
+                    <source
+                      src="https://www.cyientfoundation.org/wp-content/uploads/2025/11/CYFINTROvid.mp4"
+                      type="video/mp4"
+                    />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
         {/* <div className="col-12 col-sm-12 col-lg-12">
           {" "}
           <StudentTable />
