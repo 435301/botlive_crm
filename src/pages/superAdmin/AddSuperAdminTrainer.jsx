@@ -204,7 +204,8 @@ const AddSuperAdminTrainer = () => {
 
     const { states } = useStates();
     const { districts } = useDistricts();
-    const { grades } = useGrades(formData.centreType);
+    const { grades } = useGrades(formData.trainerType);
+    console.log('grades', grades);
     const { qualifications } = useQualification();
     const filteredDistricts = formData.stateId ? districts.filter((district) => Number(district.stateId) === Number(formData.stateId)) : [];
 
