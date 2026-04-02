@@ -388,7 +388,7 @@ const AddTrainer = () => {
 
                 <div className="col-md-4">
                   <MultiSelectWithCheckbox
-                    label="Grade"
+                    label={centreType === 1 ? "Skill" : "Grade"}
                     name="gradeBatchIds"
                     value={formData.gradeBatchIds}
                     onChange={handleChange}

@@ -400,10 +400,9 @@ const AddAdminStudent = () => {
         />
       </div>
 
-      {/* Adhar Number */}
       <div className="col-md-4">
         <FormSelect
-          label="Grade"
+           label={centreType === 1 ? "Skill" : "Grade"}
           name="gradeId"
           value={formData.gradeId}
           onChange={handleChange}
