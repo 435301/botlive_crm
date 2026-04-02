@@ -147,7 +147,7 @@ const Dashboard = () => {
     },
     {
       title: "Trainers",
-      value:dashboard?.trainers?.total || 0,
+      value:dashboard?.trainers?.total || 0 ,
       subtitle: `${dashboard.trainers?.active || 0} Active`,
       subtitleColor: "success",
       subtitleInactive: `${dashboard.trainers?.inactive || 0} Inactive`,
