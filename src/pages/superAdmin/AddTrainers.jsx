@@ -263,6 +263,7 @@ const AddTrainer = () => {
                     onChange={handleChange}
                     mandatory
                     error={errors.trainerCode}
+                    disabled
                   />
 
                 </div>
