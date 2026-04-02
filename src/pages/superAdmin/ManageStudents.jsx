@@ -304,8 +304,8 @@ const ManageStudents = () => {
           {/* Cards */}
           {centreStats.map((item, index) => (
             <div className="col-12 col-md-4" key={index}>
-              <div className="card shadow-sm border-0 rounded-3">
-                <div className="card-body d-flex align-items-center py-2 px-3">
+              <div className="card1 shadow-sm border-0 rounded-3">
+                <div className="card-body d-flex align-items-center ">
 
                   {/* Icon */}
                   <div
