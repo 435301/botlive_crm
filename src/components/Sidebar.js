@@ -403,7 +403,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
                     className={`arrow ${openMenu === "add-assigned-chapter" ? "rotate" : ""}`}
                   />
                 </>
-              )}0nj
+              )}
 
             </div>
             <div
