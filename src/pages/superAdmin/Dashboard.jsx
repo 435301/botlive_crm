@@ -11,7 +11,6 @@ import {
 } from "recharts";
 import { useCrud } from "../../hooks/useCrud";
 import { getCentreTypeName } from "../../utils/getCentreType";
-// import BASE_URL_JOB from "../../config/config";
 
 const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
   const RADIAN = Math.PI / 180;
@@ -65,13 +64,13 @@ const Dashboard = () => {
   })) || [];
 
 
-  // const { useGetAll: useGetPromoVideo } = useCrud({
-  //   entity: "promoVideo",
-  //   getAllUrl: "/activity/get/PromoVideo",
-  // });
+  const { useGetAll: useGetPromoVideo } = useCrud({
+    entity: "promoVideo",
+    getAllUrl: "/activity/get/PromoVideo",
+  });
 
-  // const { data: promoVideoData } = useGetPromoVideo();
-  // const promoVideo = promoVideoData?.data || {};
+  const { data: promoVideoData } = useGetPromoVideo();
+  const promoVideo = promoVideoData?.data || {};
 
   const handleChartClick = (item) => {
     navigate("/superAdmin/pie-detail", { state: { chartData: { title: item.title, data: item.data.slice(0, 2) } } });
@@ -529,25 +528,17 @@ const Dashboard = () => {
 
         <div className="col-lg-6">
           <video
+            key={promoVideo?.url}
             width="100%"
             controls
             autoPlay={false}
             muted
             loop
-            style={{
-              borderRadius: "12px",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-              objectFit: "cover",
-              height: "100%",
-              minHeight: "300px",
-              backgroundColor: "#000"
-            }}
+            className="promoVideo"
           >
             <source
-              // src={promoVideo?.video?.startsWith("http")
-              //   ? promoVideo.video
-              //   : `${BASE_URL_JOB}${promoVideo?.video || promoVideo?.url}`}
-              src="https://www.cyientfoundation.org/wp-content/uploads/2025/11/CYFINTROvid.mp4"
+              src={promoVideo?.url || promoVideo?.video}
+              // src="https://www.cyientfoundation.org/wp-content/uploads/2025/11/CYFINTROvid.mp4"
               type="video/mp4"
             />
             Your browser does not support the video tag.
@@ -558,10 +549,6 @@ const Dashboard = () => {
           <StudentTable />
         </div> */}
       </div>
-
-      {/* ===== CHARTS ===== */}
-
-      {/* student information */}
     </div>
   );
 };

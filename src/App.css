@@ -176,6 +176,15 @@ body {
   display: flex;
   min-height: 100px;
 }
+
+.promoVideo{
+  border-radius:12px ;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  object-fit: cover;
+  height: 100%;
+  min-height: 100px;
+  background-color: #000;
+}
 /* ===== MOBILE ===== */
 @media (max-width: 991px) {
 
