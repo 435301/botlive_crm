@@ -178,8 +178,10 @@ const AddStudent = () => {
   })
 
   const { schoolsData } = useSchools();
-  const filteredCentres = formData.centreType ? schoolsData.filter((school) => school.centerType === Number(formData.centreType)) : schoolsData;
-  const { grades } = useGrades();
+  const filteredCentres = formData.centreType ? schoolsData.filter((school) => school.centerType === Number(formData.centreType)) 
+  : schoolsData;
+  const studentType = formData.centreType === 1 ? 1 : 2;
+  const { grades } = useGrades(studentType);
   const { qualifications } = useQualification();
   const { occupations } = useOccupation();
   const { states } = useStates();
