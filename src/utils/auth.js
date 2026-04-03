@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
+import { isTokenExpired } from "./tokenExpiry";
 
 //super admin
 export const getAdminToken = () => {
@@ -10,7 +11,15 @@ export const getAdminToken = () => {
 };
 
 export const isAuthenticated = () => {
-  return !!getAdminToken();
+  const token = getAdminToken();
+  if (!token) return false;
+
+  if (isTokenExpired(token)) {
+    Cookies.remove("super-admin");
+    return false;
+  }
+
+  return true;
 };
 
 
@@ -34,7 +43,15 @@ export const getStudentToken = () => {
 };
 
 export const isStudentAuthenticated = () => {
-  return !!getStudentToken();
+  const token = getStudentToken();
+  if (!token) return false;
+
+  if (isTokenExpired(token)) {
+    Cookies.remove("student");
+    return false;
+  }
+
+  return true;
 };
 
 export const getStudentRole = () => {
@@ -56,7 +73,15 @@ export const getSubAdminToken = () => {
 };
 
 export const isSubAdminAuthenticated = () => {
-  return !!getSubAdminToken();
+  const token = getSubAdminToken();
+  if (!token) return false;
+
+  if (isTokenExpired(token)) {
+    Cookies.remove("sub_admin");
+    return false;
+  }
+
+  return true;
 };
 
 export const getSubAdminRole = () => {
@@ -79,7 +104,15 @@ export const getTrainerToken = () => {
 };
 
 export const isTrainerAuthenticated = () => {
-  return !!getTrainerToken();
+  const token = getTrainerToken();
+  if (!token) return false;
+
+  if (isTokenExpired(token)) {
+    Cookies.remove("trainer");
+    return false;
+  }
+
+  return true;
 };
 
 export const getTrainerRole = () => {
