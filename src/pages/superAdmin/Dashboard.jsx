@@ -330,16 +330,16 @@ const Dashboard = () => {
   ];
 
   const SOCIAL_STATUS_COLORS = [
-    "#4e73df", // blue
-    "#1cc88a", // green
-    "#36b9cc", // cyan
-    "#f6c23e", // yellow
+    "#009CA6", // blue
+    "#93C90E", // green
+    "#00A5DF", // cyan
+    "#FFA300", // yellow
     "#e74a3b", // red
-    "#858796", // gray
+    "#75787B", // gray
     "#fd7e14", // orange
-    "#6f42c1", // purple
+    "#7F35B2", // purple
     "#20c997", // teal
-    "#ff6384", // pink
+    "#F8485E", // pink
     "#6610f2", // violet
   ];
 
@@ -421,28 +421,28 @@ const Dashboard = () => {
                           <div className="col-6 col-md-3 mb-3">
                             <div className="p-3 h-100">
                               <h6 className="text-secondary">Total Students</h6>
-                              <CountUp value={statCard.totalStudents} duration={800}  />
+                              <CountUp value={statCard.totalStudents} duration={800} />
                             </div>
                           </div>
 
                           <div className="col-6 col-md-3 mb-3">
                             <div className="p-3 h-100">
                               <h6 className="text-secondary">Enrolled</h6>
-                              <CountUp value={statCard.enrolledStudents} duration={800}  />
+                              <CountUp value={statCard.enrolledStudents} duration={800} />
                             </div>
                           </div>
 
                           <div className="col-6 col-md-3 mb-3">
                             <div className="p-3 h-100">
                               <h6 className="text-secondary">Male</h6>
-                              <CountUp value={statCard.maleStudents} duration={800}  />
+                              <CountUp value={statCard.maleStudents} duration={800} />
                             </div>
                           </div>
 
                           <div className="col-6 col-md-3 mb-3">
                             <div className="p-3 h-100">
                               <h6 className="text-secondary">Female</h6>
-                              <CountUp value={statCard.femaleStudents} duration={800}  />
+                              <CountUp value={statCard.femaleStudents} duration={800} />
                             </div>
                           </div>
 
@@ -489,8 +489,8 @@ const Dashboard = () => {
                                     outerRadius={80}
                                     paddingAngle={3}
                                   >
-                                    <Cell fill="#4e73df" />
-                                    <Cell fill="#e83e8c" />
+                                    <Cell fill="#00A5DF" />
+                                    <Cell fill="#F8485E" />
                                   </Pie>
                                   <Tooltip />
                                   <Legend verticalAlign="bottom" height={36} />
@@ -523,7 +523,7 @@ const Dashboard = () => {
                                     paddingAngle={3}
                                   >
                                     <Cell fill="#17a2b8" />
-                                    <Cell fill="#6c757d" />
+                                    <Cell fill="#75787B" />
                                   </Pie>
                                   <Tooltip />
                                   <Legend verticalAlign="bottom" height={36} />
@@ -556,8 +556,8 @@ const Dashboard = () => {
                                     outerRadius={80}
                                     paddingAngle={3}
                                   >
-                                    <Cell fill="#28a745" />
-                                    <Cell fill="#ffc107" />
+                                    <Cell fill="#93C90E" />
+                                    <Cell fill="#FFA300" />
                                     <Cell fill="#dc3545" />
                                   </Pie>
                                   <Tooltip />
