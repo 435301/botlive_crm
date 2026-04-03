@@ -116,7 +116,7 @@ const Dashboard = () => {
       femaleStudents: dashboard?.aiAndStemLearningCentres?.totalFemale || 0,
     },
     {
-      title: "School Education Development",
+      title: "School Education",
       value: dashboard.educationDevelopmentCentres?.total || 0,
       subtitle: `${dashboard.educationDevelopmentCentres?.active || 0} Active`,
       subtitleColor: "success",
@@ -504,40 +504,6 @@ const Dashboard = () => {
                           </div>
                         </div>
 
-                        {/* Login Report */}
-                        <div className="col">
-                          <div className="cardDashboard shadow-sm h-100 p-1">
-                            <h6 className="text-center fw-semibold mb-3">Login Report</h6>
-
-                            {(centre?.loginReport?.loggedIn || centre?.loginReport?.notLoggedIn) ? (
-                              <ResponsiveContainer width="100%" height={230}>
-                                <PieChart>
-                                  <Pie
-                                    data={[
-                                      { name: "Logged In", value: centre?.loginReport?.loggedIn || 0 },
-                                      { name: "Remaining", value: centre?.loginReport?.notLoggedIn || 0 }
-                                    ]}
-                                    dataKey="value"
-                                    innerRadius={50}
-                                    outerRadius={80}
-                                    paddingAngle={3}
-                                  >
-                                    <Cell fill="#17a2b8" />
-                                    <Cell fill="#75787B" />
-                                  </Pie>
-                                  <Tooltip />
-                                  <Legend verticalAlign="bottom" height={36} />
-                                </PieChart>
-                              </ResponsiveContainer>
-                            ) : (
-                              <div className="d-flex justify-content-center align-items-center h-100 text-muted">
-                                No Data Found
-                              </div>
-                            )}
-                          </div>
-                        </div>
-
-
                         {/* Performance */}
                         <div className="col">
                           <div className="cardDashboard shadow-sm h-100 p-1">
@@ -559,6 +525,39 @@ const Dashboard = () => {
                                     <Cell fill="#93C90E" />
                                     <Cell fill="#FFA300" />
                                     <Cell fill="#dc3545" />
+                                  </Pie>
+                                  <Tooltip />
+                                  <Legend verticalAlign="bottom" height={36} />
+                                </PieChart>
+                              </ResponsiveContainer>
+                            ) : (
+                              <div className="d-flex justify-content-center align-items-center h-100 text-muted">
+                                No Data Found
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Login Report */}
+                        <div className="col">
+                          <div className="cardDashboard shadow-sm h-100 p-1">
+                            <h6 className="text-center fw-semibold mb-3">Login Report</h6>
+
+                            {(centre?.loginReport?.loggedIn || centre?.loginReport?.notLoggedIn) ? (
+                              <ResponsiveContainer width="100%" height={230}>
+                                <PieChart>
+                                  <Pie
+                                    data={[
+                                      { name: "Logged In", value: centre?.loginReport?.loggedIn || 0 },
+                                      { name: "No logged In", value: centre?.loginReport?.notLoggedIn || 0 }
+                                    ]}
+                                    dataKey="value"
+                                    innerRadius={50}
+                                    outerRadius={80}
+                                    paddingAngle={3}
+                                  >
+                                    <Cell fill="#17a2b8" />
+                                    <Cell fill="#75787B" />
                                   </Pie>
                                   <Tooltip />
                                   <Legend verticalAlign="bottom" height={36} />

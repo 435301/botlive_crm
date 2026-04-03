@@ -159,6 +159,7 @@ const AddSkillCenter = () => {
                   placeholder="Enter center code (e.g. CEN-005)"
                   error={errors.centerCode}
                   mandatory
+                  disabled
                 />
               </div>
 
