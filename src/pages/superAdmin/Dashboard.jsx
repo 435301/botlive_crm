@@ -79,7 +79,7 @@ const Dashboard = () => {
   const { data } = useGetAll();
   const dashboard = data?.data || [];
   const centreTypeWise = dashboard?.centreTypeWise || [];
-  console.log('centreTypeWise', centreTypeWise)
+
   const stats = [
     {
       title: "Skill Development",
@@ -223,6 +223,90 @@ const Dashboard = () => {
     },
   ];
 
+    const statsBottom = [
+
+    {
+      title: "Students",
+      value: dashboard.students?.total || 0,
+      subtitle: `${dashboard.students?.active || 0} Active`,
+      subtitleColor: "success",
+      subtitleInactive: `${dashboard.students?.inactive || 0} Inactive`,
+      subtitleInactiveColor: "danger",
+      icon: "bi-folder",
+      iconBg: "#fff0f0",
+      iconColor: "#dc3545",
+      onClick: () => navigate("/superAdmin/manage-students"),
+    },
+    {
+      title: "Trainers",
+      value: dashboard?.trainers?.total || 0,
+      subtitle: `${dashboard.trainers?.active || 0} Active`,
+      subtitleColor: "success",
+      subtitleInactive: `${dashboard.trainers?.inactive || 0} Inactive`,
+      subtitleInactiveColor: "danger",
+      icon: "bi-journal-text",
+      iconBg: "#e6f9ff",
+      iconColor: "#20c997",
+      onClick: () => navigate("/superAdmin/manage-trainers"),
+    },
+    {
+      title: "Courses",
+      value: dashboard.courses?.total || 0,
+      subtitle: `${dashboard.courses?.active || 0} Active`,
+      subtitleColor: "success",
+      subtitleInactive: `${dashboard.courses?.inactive || 0} Inactive`,
+      subtitleInactiveColor: "danger",
+      icon: "bi-journal-text",
+      iconBg: "#e6f9ff",
+      iconColor: "#20c997",
+      onClick: () => navigate("/superAdmin/manage-course"),
+    },
+    {
+      title: "Modules",
+      value: dashboard.modules?.total || 0,
+      subtitle: `${dashboard.modules?.active || 0} Active`,
+      subtitleColor: "success",
+      subtitleInactive: `${dashboard.modules?.inactive || 0} Inactive`,
+      subtitleInactiveColor: "danger",
+      icon: "bi-journal-text",
+      iconBg: "#e6f9ff",
+      iconColor: "#20c997",
+      onClick: () => navigate("/superAdmin/manage-module"),
+    },
+    {
+      title: "Chapters",
+      value: dashboard.chapters?.total || 0,
+      subtitle: `${dashboard.chapters?.active || 0} Active`,
+      subtitleColor: "success",
+      subtitleInactive: `${dashboard.chapters?.inactive || 0} Inactive`,
+      subtitleInactiveColor: "danger",
+      icon: "bi-journal-text",
+      iconBg: "#e6f9ff",
+      iconColor: "#20c997",
+      onClick: () => navigate("/superAdmin/manage-chapters"),
+    },
+    {
+      title: "Activties",
+      value: dashboard.activities?.total || 0,
+      subtitle: `${dashboard.activities?.active || 0} Active`,
+      subtitleColor: "success",
+      subtitleInactive: `${dashboard.activities?.inactive || 0} Inactive`,
+      subtitleInactiveColor: "danger",
+      icon: "bi-journal-text",
+      iconBg: "#e6f9ff",
+      iconColor: "#20c997",
+      onClick: () => navigate("/superAdmin/manage-activities"),
+    },
+    {
+      title: "Activity Photos",
+      value: dashboard.activities?.active || 0,
+      icon: "bi-journal-text",
+      iconBg: "#e6f9ff",
+      iconColor: "#20c997",
+      onClick: () => navigate("/superAdmin/manage-activities"),
+    },
+  ];
+
   const SOCIAL_STATUS_COLORS = [
     "#4e73df", // blue
     "#1cc88a", // green
@@ -253,50 +337,257 @@ const Dashboard = () => {
             <p className="sub-text mb-0">Welcome, Cyient Foundation</p>
           </div>
         </div>
-        {stats.map((item, i) => (
-          <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={i}>
-            <div
-              className="card rounded-3 p-3 shadow-sm h-100 cursor"
-              style={{ backgroundColor: "#fff", }}
-              onClick={item.onClick}
-            >
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h6 className="mb-3 statsTitle">{item.title}</h6>
-                  <h3 className="fw-bold" >{item.value}</h3>
-                  {/* <div className="d-flex align-items-center gap-2 "> {item.subtitle && (
-                    <small
-                      className={`text-${item.subtitleColor || "secondary"}`}
-                    >
-                      {item.subtitle}
-                    </small>
-                  )}
-                    {item.subtitleInactive && (
-                      <small
-                        className={`text-${item.subtitleInactiveColor || "secondary"}`}
+
+        <div className="container-fluid">
+
+          {centreTypeWise.map((centre, index) => {
+            const statCard = stats.find(
+              (s) => s.onClick?.toString().includes(`centreType=${centre.centreType}`)
+            );
+
+            return (
+              <div key={index} className="mb-5">
+
+                {/* ===== STAT CARD ===== */}
+                {statCard && (
+                  <div className="row mb-4 align-items-center">
+
+                    {/* LEFT: Main Stat Card */}
+                    <div className="col-md-4 mb-3 mb-md-0">
+                      <div
+                        className="card rounded-3 p-3 shadow-sm h-100 cursor"
+                        style={{ backgroundColor: "#fff" }}
+                        onClick={statCard.onClick}
                       >
-                        {item.subtitleInactive}
-                      </small>
-                    )}
-                    </div> */}
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div>
+                            <h6 className="mb-3 statsTitle">{statCard.title}</h6>
+                            <h3 className="fw-bold">{statCard.value}</h3>
+                          </div>
+
+                          <div
+                            className="d-flex align-items-center justify-content-center rounded-3"
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              backgroundColor: statCard.iconBg,
+                              color: statCard.iconColor,
+                              fontSize: "1.2rem",
+                            }}
+                          >
+                            <i className={`bi ${statCard.icon}`}></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    {/* RIGHT: 4 Small Stats */}
+                    <div className="col-md-8">
+                      <div className="row text-center">
+
+                        <div className="col-6 col-md-3 mb-3">
+                          <div className="p-3 h-100">
+                            <h6>Total Students</h6>
+                            <h5 style={{ color: "blue" }}>500</h5>
+                          </div>
+                        </div>
+
+                        <div className="col-6 col-md-3 mb-3">
+                          <div className="p-3 h-100">
+                            <h6>Enrolled</h6>
+                            <h5 style={{ color: "orange" }}>100</h5>
+                          </div>
+                        </div>
+
+                        <div className="col-6 col-md-3 mb-3">
+                          <div className="p-3 h-100">
+                            <h6>Male</h6>
+                            <h5 style={{ color: "red" }}>50</h5>
+                          </div>
+                        </div>
+
+                        <div className="col-6 col-md-3 mb-3">
+                          <div className="p-3 h-100">
+                            <h6>Female</h6>
+                            <h5 style={{ color: "green" }}>50</h5>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div className="container" >
+                      <div style={{
+                        margin: "0px",
+                        color: "#016b75",
+                        borderBottom: "3px solid #016b75"
+                      }}
+                      />
+
+                    </div>
+
+                  </div>
+                )}
+
+
+                {/* ===== CENTRE TYPE WISE STATISTICS ===== */}
+                {/* <h4 className="fw-bold mb-4">
+                  {getCentreTypeName(centre.centreType)}
+                </h4> */}
+
+                <div className="row g-4">
+                  <div className="col-lg-7 col-12">
+                    <div className="row">
+
+                      {/* Gender */}
+                      <div className="col">
+                        <div className="cardDashboard shadow-sm h-100 p-1">
+                          <h6 className="text-center fw-semibold mb-3">Gender</h6>
+
+                          {(centre?.gender?.male || centre?.gender?.female) ? (
+                            <ResponsiveContainer width="100%" height={230}>
+                              <PieChart>
+                                <Pie
+                                  data={[
+                                    { name: "Male", value: centre?.gender?.male || 0 },
+                                    { name: "Female", value: centre?.gender?.female || 0 }
+                                  ]}
+                                  dataKey="value"
+                                  innerRadius={50}
+                                  outerRadius={80}
+                                  paddingAngle={3}
+                                >
+                                  <Cell fill="#4e73df" />
+                                  <Cell fill="#e83e8c" />
+                                </Pie>
+                                <Tooltip />
+                                <Legend verticalAlign="bottom" height={36} />
+                              </PieChart>
+                            </ResponsiveContainer>
+                          ) : (
+                            <div className="d-flex justify-content-center align-items-center h-100 text-muted">
+                              No Data Found
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                       {/* Login Report */}
+                      <div className="col">
+                        <div className="cardDashboard shadow-sm h-100 p-1">
+                          <h6 className="text-center fw-semibold mb-3">Login Report</h6>
+
+                          {(centre?.loginReport?.loggedIn || centre?.loginReport?.notLoggedIn) ? (
+                            <ResponsiveContainer width="100%" height={230}>
+                              <PieChart>
+                                <Pie
+                                  data={[
+                                    { name: "Logged In", value: centre?.loginReport?.loggedIn || 0 },
+                                    { name: "Remaining", value: centre?.loginReport?.notLoggedIn || 0 }
+                                  ]}
+                                  dataKey="value"
+                                  innerRadius={50}
+                                  outerRadius={80}
+                                  paddingAngle={3}
+                                >
+                                  <Cell fill="#17a2b8" />
+                                  <Cell fill="#6c757d" />
+                                </Pie>
+                                <Tooltip />
+                                <Legend verticalAlign="bottom" height={36} />
+                              </PieChart>
+                            </ResponsiveContainer>
+                          ) : (
+                            <div className="d-flex justify-content-center align-items-center h-100 text-muted">
+                              No Data Found
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+
+                      {/* Performance */}
+                      <div className="col">
+                        <div className="cardDashboard shadow-sm h-100 p-1">
+                          <h6 className="text-center fw-semibold mb-3">Performance</h6>
+
+                          {centre?.performance?.length ? (
+                            <ResponsiveContainer width="100%" height={230}>
+                              <PieChart>
+                                <Pie
+                                  data={centre.performance.map(item => ({
+                                    name: item.performanceName,
+                                    value: Number(item.percentage)
+                                  }))}
+                                  dataKey="value"
+                                  innerRadius={50}
+                                  outerRadius={80}
+                                  paddingAngle={3}
+                                >
+                                  <Cell fill="#28a745" />
+                                  <Cell fill="#ffc107" />
+                                  <Cell fill="#dc3545" />
+                                </Pie>
+                                <Tooltip />
+                                <Legend verticalAlign="bottom" height={36} />
+                              </PieChart>
+                            </ResponsiveContainer>
+                          ) : (
+                            <div className="d-flex justify-content-center align-items-center h-100 text-muted">
+                              No Data Found
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  {/* Social Status */}
+                  <div className="col-lg-5 col-12">
+                    <div className="cardDashboard shadow-sm h-100 p-1">
+                      <h6 className="text-center fw-semibold mb-3">Social Status</h6>
+
+                      {centre?.socialStatus?.length ? (
+                        <ResponsiveContainer width="100%" height={230}>
+                          <PieChart>
+                            <Pie
+                              data={centre.socialStatus.map(item => ({
+                                name: item.categoryName,
+                                value: item.count
+                              }))}
+                              dataKey="value"
+                              innerRadius={50}
+                              outerRadius={80}
+                              paddingAngle={3}
+                            >
+                              {centre.socialStatus.map((_, i) => (
+                                <Cell
+                                  key={i}
+                                  fill={SOCIAL_STATUS_COLORS[i % SOCIAL_STATUS_COLORS.length]}
+                                />
+                              ))}
+                            </Pie>
+                            <Tooltip />
+                            <Legend verticalAlign="bottom" height={36} />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      ) : (
+                        <div className="d-flex justify-content-center align-items-center h-100 text-muted">
+                          No Data Found
+                        </div>
+                      )}
+                    </div>
+                  </div>
 
                 </div>
-                <div
-                  className="d-flex align-items-center justify-content-center rounded-3"
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    backgroundColor: item.iconBg || "#e0f2ff",
-                    color: item.iconColor || "#4a90e2",
-                    fontSize: "1.2rem",
-                  }}
-                >
-                  <i className={`bi ${item.icon}`}></i>
-                </div>
               </div>
-            </div>
-          </div>
-        ))}
+            );
+          })}
+
+        </div>
+
+
         {/* ===== LOCATION DONUT PIE CHARTS ===== */}
         <div className="container mt-4">
           <h5 className="fw-bold mt-3"> Attendance Performance </h5>
@@ -383,173 +674,42 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="container-fluid mt-5">
+        <div className="row">
+          {/* Stats Cards Section */}
           <div className="row">
-            {centreTypeWise.map((centre, index) => (
-              <div key={index} className="mb-5">
-
-                {/* Dynamic Heading */}
-                <h4 className="fw-bold mb-4">
-                  {getCentreTypeName(centre.centreType)}
-                </h4>
-
-                <div className="row g-4">
-
-                  <div className="col-lg-7  col-12">
-                    <div className="row">
-                      {/* Gender */}
-                      <div className="col">
-                        <div className="card shadow-sm h-100 p-1">
-                          <h6 className="text-center fw-semibold mb-3">Gender</h6>
-
-                          {(centre?.gender?.male || centre?.gender?.female) ? (
-                            <ResponsiveContainer width="100%" height={230}>
-                              <PieChart>
-                                <Pie
-                                  data={[
-                                    { name: "Male", value: centre?.gender?.male || 0 },
-                                    { name: "Female", value: centre?.gender?.female || 0 }
-                                  ]}
-                                  dataKey="value"
-                                  innerRadius={50}
-                                  outerRadius={80}
-                                  paddingAngle={3}
-                                >
-                                  <Cell fill="#4e73df" />
-                                  <Cell fill="#e83e8c" />
-                                </Pie>
-                                <Tooltip />
-                                <Legend verticalAlign="bottom" height={36} />
-                              </PieChart>
-                            </ResponsiveContainer>
-                          ) : (
-                            <div className="d-flex justify-content-center align-items-center h-100 text-muted">
-                              No Data Found
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Performance */}
-                      <div className="col">
-                        <div className="card shadow-sm h-100 p-1">
-                          <h6 className="text-center fw-semibold mb-3">Performance</h6>
-
-                          {centre?.performance ? (
-                            <ResponsiveContainer width="100%" height={230}>
-                              <PieChart>
-                                <Pie
-                                  data={centre.performance.map(item => ({
-                                    name: item.performanceName,
-                                    value: Number(item.percentage)
-                                  }))}
-                                  dataKey="value"
-                                  innerRadius={50}
-                                  outerRadius={80}
-                                  paddingAngle={3}
-                                >
-                                  <Cell fill="#28a745" />
-                                  <Cell fill="#ffc107" />
-                                  <Cell fill="#dc3545" />
-                                </Pie>
-                                <Tooltip />
-                                <Legend verticalAlign="bottom" height={36} />
-                              </PieChart>
-                            </ResponsiveContainer>
-                          ) : (
-                            <div className="d-flex justify-content-center align-items-center h-100 text-muted">
-                              No Data Found
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Login Report */}
-                      <div className="col">
-                        <div className="card shadow-sm h-100 p-1">
-                          <h6 className="text-center fw-semibold mb-3">Login Report</h6>
-
-                          {(centre?.loginReport?.loggedIn || centre?.loginReport?.notLoggedIn) ? (
-                            <ResponsiveContainer width="100%" height={230}>
-                              <PieChart>
-                                <Pie
-                                  data={[
-                                    { name: "Logged In", value: centre?.loginReport?.loggedIn || 0 },
-                                    { name: "Remaining", value: centre?.loginReport?.notLoggedIn || 0 }
-                                  ]}
-                                  dataKey="value"
-                                  innerRadius={50}
-                                  outerRadius={80}
-                                  paddingAngle={3}
-                                >
-                                  <Cell fill="#17a2b8" />
-                                  <Cell fill="#6c757d" />
-                                </Pie>
-                                <Tooltip />
-                                <Legend verticalAlign="bottom" height={36} />
-                              </PieChart>
-                            </ResponsiveContainer>
-                          ) : (
-                            <div className="d-flex justify-content-center align-items-center h-100 text-muted">
-                              No Data Found
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
+            {statsBottom.map((item, i) => (
+              <div className="col-md-4 p-2" key={i}>
+                <div
+                  className="card rounded-3 p-3 shadow-sm h-100 cursor"
+                  style={{ backgroundColor: "#fff" }}
+                  onClick={item.onClick}
+                >
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h6 className="mb-3 statsTitle">{item.title}</h6>
+                      <h3 className="fw-bold">{item.value}</h3>
                     </div>
-                  </div>
-                  {/* Social Status (BIG CARD) */}
-                  <div className="col-lg-5 col-12">
-                    <div className="col">
-                      <div className="card shadow-sm h-100 p-1">
-                        <h6 className="text-center fw-semibold mb-3">Social Status</h6>
-
-                        {centre?.socialStatus?.length ? (
-                          <ResponsiveContainer width="100%" height={230}>
-                            <PieChart>
-                              <Pie
-                                data={centre.socialStatus.map(item => ({
-                                  name: item.categoryName,
-                                  value: item.count
-                                }))}
-                                dataKey="value"
-                                innerRadius={50}
-                                outerRadius={80}
-                                paddingAngle={3}
-                              >
-                                {centre.socialStatus.map((_, i) => (
-                                  <Cell
-                                    key={i}
-                                    fill={SOCIAL_STATUS_COLORS[i % SOCIAL_STATUS_COLORS.length]}
-                                  />
-                                ))}
-                              </Pie>
-                              <Tooltip />
-                              <Legend verticalAlign="bottom" height={36} />
-                            </PieChart>
-                          </ResponsiveContainer>
-                        ) : (
-                          <div className="d-flex justify-content-center align-items-center h-100 text-muted">
-                            No Data Found
-                          </div>
-                        )}
-                      </div>
+                    <div
+                      className="d-flex align-items-center justify-content-center rounded-3"
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        backgroundColor: item.iconBg || "#e0f2ff",
+                        color: item.iconColor || "#4a90e2",
+                        fontSize: "1.2rem",
+                      }}
+                    >
+                      <i className={`bi ${item.icon}`}></i>
                     </div>
-
                   </div>
                 </div>
               </div>
             ))}
+
           </div>
+
         </div>
 
-
-
-        {/* <div className="col-12 col-sm-12 col-lg-12">
-          {" "}
-          <StudentTable />
-        </div> */}
       </div>
     </div>
   );

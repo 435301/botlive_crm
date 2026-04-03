@@ -177,6 +177,13 @@ body {
   min-height: 100px;
 }
 
+.cardDashboard{
+  background: var(--card);
+  border-radius: 5px;
+  padding: 20px;
+  border: none;
+  min-height: 300px;
+}
 .promoVideo{
   border-radius:12px ;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
