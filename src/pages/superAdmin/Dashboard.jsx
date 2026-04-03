@@ -10,7 +10,6 @@ import {
   Legend
 } from "recharts";
 import { useCrud } from "../../hooks/useCrud";
-import { getCentreTypeName } from "../../utils/getCentreType";
 
 const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
   const RADIAN = Math.PI / 180;
