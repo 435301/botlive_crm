@@ -259,6 +259,18 @@ const Dashboard = () => {
       iconColor: "#dc3545",
       onClick: () => navigate("/superAdmin/manage-students"),
     },
+        {
+      title: "Enrolled Students",
+      value: dashboard.students?.enrolled || 0,
+      subtitle: `${dashboard.students?.active || 0} Active`,
+      subtitleColor: "success",
+      subtitleInactive: `${dashboard.students?.inactive || 0} Inactive`,
+      subtitleInactiveColor: "danger",
+      icon: "bi-folder",
+      iconBg: "#fff0f0",
+      iconColor: "#dc3545",
+      onClick: () => navigate("/superAdmin/manage-students"),
+    },
     {
       title: "Trainers",
       value: dashboard?.trainers?.total || 0,
@@ -346,9 +358,7 @@ const Dashboard = () => {
 
   return (
     <div className="container-fluid">
-      {/* ===== TOP KPI CARDS ===== */}
-      {/* ===== TOP KPI CARDS (Image Style) ===== */}
-      {/* ===== TOP KPI CARDS (New Data) ===== */}
+
       <div className="row g-3 ">
         <div className="d-flex align-items-center heading-with-icon mb-4">
           <div className="icon-badge">
