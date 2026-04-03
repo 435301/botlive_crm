@@ -91,6 +91,10 @@ const Dashboard = () => {
       iconBg: "#e8f5ff",
       iconColor: "#0d6efd",
       onClick: () => navigate(`/superAdmin/manage-skill-centres?centreType=1`),
+      totalStudents: dashboard?.skillDevelopmentCentres?.totalStudents || 0,
+      enrolledStudents: dashboard?.skillDevelopmentCentres?.totalEnrolled || 0,
+      maleStudents: dashboard?.skillDevelopmentCentres?.totalMale || 0,
+      femaleStudents: dashboard?.skillDevelopmentCentres?.totalFemale || 0,
     },
     {
       title: "AI And Stem Learning",
@@ -103,6 +107,10 @@ const Dashboard = () => {
       iconBg: "#fff4e5",
       iconColor: "#ff9800",
       onClick: () => navigate("/superAdmin/manage-skill-centres?centreType=2"),
+      totalStudents: dashboard?.aiAndStemLearningCentres?.totalStudents || 0,
+      enrolledStudents: dashboard?.aiAndStemLearningCentres?.totalEnrolled || 0,
+      maleStudents: dashboard?.aiAndStemLearningCentres?.totalMale || 0,
+      femaleStudents: dashboard?.aiAndStemLearningCentres?.totalFemale || 0,
     },
     {
       title: "Education Development",
@@ -115,6 +123,10 @@ const Dashboard = () => {
       iconBg: "#e8ffe8",
       iconColor: "#28a745",
       onClick: () => navigate("/superAdmin/manage-skill-centres?centreType=3"),
+      totalStudents: dashboard?.educationDevelopmentCentres?.totalStudents || 0,
+      enrolledStudents: dashboard?.educationDevelopmentCentres?.totalEnrolled || 0,
+      maleStudents: dashboard?.educationDevelopmentCentres?.totalMale || 0,
+      femaleStudents: dashboard?.educationDevelopmentCentres?.totalFemale || 0,
     },
     {
       title: "Innovation And Entrepreneurship",
@@ -127,6 +139,10 @@ const Dashboard = () => {
       iconBg: "#f3e8ff",
       iconColor: "#6f42c1",
       onClick: () => navigate("/superAdmin/manage-skill-centres?centreType=4"),
+      totalStudents: dashboard?.innovationAndEntrepreneursCentres?.totalStudents || 0,
+      enrolledStudents: dashboard?.innovationAndEntrepreneursCentres?.totalEnrolled || 0,
+      maleStudents: dashboard?.innovationAndEntrepreneursCentres?.totalMale || 0,
+      femaleStudents: dashboard?.innovationAndEntrepreneursCentres?.totalFemale || 0,
     },
     {
       title: "Community Development",
@@ -139,6 +155,10 @@ const Dashboard = () => {
       iconBg: "#e8f0ff",
       iconColor: "#3f51b5",
       onClick: () => navigate("/superAdmin/manage-skill-centres?centreType=5"),
+      totalStudents: dashboard?.communityDevelopmentCentres?.totalStudents || 0,
+      enrolledStudents: dashboard?.communityDevelopmentCentres?.totalEnrolled || 0,
+      maleStudents: dashboard?.communityDevelopmentCentres?.totalMale || 0,
+      femaleStudents: dashboard?.communityDevelopmentCentres?.totalFemale || 0,
     },
     {
       title: "Students",
@@ -222,7 +242,7 @@ const Dashboard = () => {
     },
   ];
 
-    const statsBottom = [
+  const statsBottom = [
 
     {
       title: "Students",
@@ -388,28 +408,28 @@ const Dashboard = () => {
                         <div className="col-6 col-md-3 mb-3">
                           <div className="p-3 h-100">
                             <h6>Total Students</h6>
-                            <h5 style={{ color: "blue" }}>500</h5>
+                            <h5 style={{ color: "blue" }}>{statCard.totalStudents}</h5>
                           </div>
                         </div>
 
                         <div className="col-6 col-md-3 mb-3">
                           <div className="p-3 h-100">
                             <h6>Enrolled</h6>
-                            <h5 style={{ color: "orange" }}>100</h5>
+                            <h5 style={{ color: "orange" }}>{statCard.enrolledStudents}</h5>
                           </div>
                         </div>
 
                         <div className="col-6 col-md-3 mb-3">
                           <div className="p-3 h-100">
                             <h6>Male</h6>
-                            <h5 style={{ color: "red" }}>50</h5>
+                            <h5 style={{ color: "red" }}>{statCard.maleStudents}</h5>
                           </div>
                         </div>
 
                         <div className="col-6 col-md-3 mb-3">
                           <div className="p-3 h-100">
                             <h6>Female</h6>
-                            <h5 style={{ color: "green" }}>50</h5>
+                            <h5 style={{ color: "green" }}>{statCard.femaleStudents}</h5>
                           </div>
                         </div>
 
@@ -471,7 +491,7 @@ const Dashboard = () => {
                         </div>
                       </div>
 
-                       {/* Login Report */}
+                      {/* Login Report */}
                       <div className="col">
                         <div className="cardDashboard shadow-sm h-100 p-1">
                           <h6 className="text-center fw-semibold mb-3">Login Report</h6>
