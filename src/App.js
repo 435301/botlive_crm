@@ -149,6 +149,7 @@ const ManageMonthlyAttendance = lazy(() => import("./pages/TrainerModule/ManageM
 const StudentModuleLogin = lazy(
   () => import("./pages/StudentModule/StudentModuleLogin"),
 );
+const StudentAttendance = lazy(()=> import("./pages/StudentModule/StudentAttendance"));
 // Admin
 
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
@@ -720,6 +721,7 @@ function App() {
           <Route path="/student/dashboard" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(StudentDashboard)}</ProtectedRoute>} />
           <Route path="/student/manage-chapters" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(ManageStudentChapters)}</ProtectedRoute>} />
           <Route path="/student/view-chapter/:id" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(ViewStudentChapter)}</ProtectedRoute>} />
+          <Route path="/student/student-attendance" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(StudentAttendance)}</ProtectedRoute>} />
 
         </Routes>
       </LayoutWrapper>

@@ -94,6 +94,11 @@ const StudentSidebar = ({ collapsed, show, closeSidebar }) => {
             </div>
           </div>
 
+          <NavLink to="/student/student-attendance" className={getNavLinkClass}>
+            <Building2 size={18} />
+            {!collapsed && <span>Attendance</span>}
+          </NavLink>
+
           {/* Change Password */}
           <NavLink to="/student/change-password" className={getNavLinkClass}>
             <KeyRound size={18} />
