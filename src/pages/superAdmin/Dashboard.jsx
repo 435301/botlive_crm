@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { useCrud } from "../../hooks/useCrud";
 import { CountUp } from "../../utils/countUp";
-import bannerImg from "../../assets/images/banner3.png";
+import bannerImg from "../../assets/images/banner5.png";
 
 const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
   const RADIAN = Math.PI / 180;
@@ -376,7 +376,7 @@ const Dashboard = () => {
             src={bannerImg}
             className="img-fluid"
             alt="banner"
-            style={{ display: "block", }} />
+            style={{ display: "block",borderRadius:"10px" }} />
         </div>
 
 
