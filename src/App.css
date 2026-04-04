@@ -1933,6 +1933,9 @@ button .filter-btn :hover {
 .cardMainDiv{
   padding: 10px;
 }
+.font{
+  font-size: 16px;
+}
 /* Responsive */
 @media (max-width: 768px) {
   .campus-main {

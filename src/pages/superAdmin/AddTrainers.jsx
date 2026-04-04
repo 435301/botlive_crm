@@ -328,7 +328,7 @@ const AddTrainer = () => {
                     value={formData.panNumber}
                     placeholder="ABCDE1234F"
                     onChange={handleChange}
-                    mandatory
+                    // mandatory
                     error={errors.panNumber}
                   />
                 </div>
@@ -498,7 +498,7 @@ const AddTrainer = () => {
                     label="Trainer Photo"
                     name="trainerPhoto"
                     onChange={handleChange}
-                    mandatory={!isEditMode}
+                    // mandatory={!isEditMode}
                     multiple
                     accept="image/*"
                     error={!isEditMode && errors.trainerPhoto}
@@ -520,7 +520,7 @@ const AddTrainer = () => {
                     type="file"
                     placeholder="certificates"
                     onChange={handleChange}
-                    mandatory={!isEditMode}
+                    // mandatory={!isEditMode}
                     multiple
                     accept="application/pdf"
                     error={!isEditMode && errors?.certificates}

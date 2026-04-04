@@ -362,9 +362,9 @@ export const validateTrainerForm = (formData, isEditMode) => {
   if (!formData.area.trim()) {
     errors.area = "Area is required";
   }
-  if (!isEditMode && (!formData.certificates || formData.certificates.length === 0)) {
-    errors.certificates = "At least one certificate is required";
-  }
+  // if (!isEditMode && (!formData.certificates || formData.certificates.length === 0)) {
+  //   errors.certificates = "At least one certificate is required";
+  // }
   if (!formData.bloodGroup) {
     errors.bloodGroup = " Blood Group is required";
   }
@@ -398,12 +398,12 @@ export const validateTrainerForm = (formData, isEditMode) => {
   }
 
   // PAN validation (ABCDE1234F format)
-  if (
-    !formData.panNumber &&
-    !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.panNumber)
-  ) {
-    errors.panNumber = "Enter valid PAN number";
-  }
+  // if (
+  //   !formData.panNumber &&
+  //   !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.panNumber)
+  // ) {
+  //   errors.panNumber = "Enter valid PAN number";
+  // }
 
   // Pincode validation (6 digits)
   if (!formData.pincode && !/^\d{6}$/.test(formData.pincode)) {
@@ -421,9 +421,9 @@ export const validateTrainerForm = (formData, isEditMode) => {
   }
 
   // Trainer Photo validation
-  if (!isEditMode && (!formData.trainerPhoto || formData.trainerPhoto.length === 0)) {
-    errors.trainerPhoto = "At least one photo is required";
-  }
+  // if (!isEditMode && (!formData.trainerPhoto || formData.trainerPhoto.length === 0)) {
+  //   errors.trainerPhoto = "At least one photo is required";
+  // }
   if (!formData.fatherName) {
     errors.fatherName = " Father Name is required";
   }
@@ -472,9 +472,9 @@ export const validateSuperAdminTrainerForm = (formData, isEditMode) => {
   if (!formData.area.trim()) {
     errors.area = "Area is required";
   }
-  if (!isEditMode && (!formData.certificates || formData.certificates.length === 0)) {
-    errors.certificates = "At least one certificate is required";
-  }
+  // if (!isEditMode && (!formData.certificates || formData.certificates.length === 0)) {
+  //   errors.certificates = "At least one certificate is required";
+  // }
   if (!formData.bloodGroup) {
     errors.bloodGroup = " Blood Group is required";
   }
@@ -508,12 +508,12 @@ export const validateSuperAdminTrainerForm = (formData, isEditMode) => {
   }
 
   // PAN validation (ABCDE1234F format)
-  if (
-    !formData.panNumber &&
-    !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.panNumber)
-  ) {
-    errors.panNumber = "Enter valid PAN number";
-  }
+  // if (
+  //   !formData.panNumber &&
+  //   !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.panNumber)
+  // ) {
+  //   errors.panNumber = "Enter valid PAN number";
+  // }
 
   // Pincode validation (6 digits)
   if (!formData.pincode && !/^\d{6}$/.test(formData.pincode)) {
@@ -531,9 +531,9 @@ export const validateSuperAdminTrainerForm = (formData, isEditMode) => {
   }
 
   // Trainer Photo validation
-  if (!isEditMode && (!formData.trainerPhoto || formData.trainerPhoto.length === 0)) {
-    errors.trainerPhoto = "At least one photo is required";
-  }
+  // if (!isEditMode && (!formData.trainerPhoto || formData.trainerPhoto.length === 0)) {
+  //   errors.trainerPhoto = "At least one photo is required";
+  // }
   if (!formData.fatherName) {
     errors.fatherName = " Father Name is required";
   }

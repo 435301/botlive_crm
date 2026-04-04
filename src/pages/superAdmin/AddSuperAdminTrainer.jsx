@@ -371,7 +371,7 @@ const AddSuperAdminTrainer = () => {
                                         value={formData.panNumber}
                                         placeholder="ABCDE1234F"
                                         onChange={handleChange}
-                                        mandatory
+                                        
                                         error={errors.panNumber}
                                     />
                                 </div>
@@ -431,7 +431,7 @@ const AddSuperAdminTrainer = () => {
 
                                 <div className="col-md-4">
                                     <MultiSelectWithCheckbox
-                                        label="Grade"
+                                        label="Grade/Skill"
                                         name="gradeBatchIds"
                                         value={formData.gradeBatchIds}
                                         onChange={handleChange}
@@ -541,7 +541,7 @@ const AddSuperAdminTrainer = () => {
                                         label="Trainer Photo"
                                         name="trainerPhoto"
                                         onChange={handleChange}
-                                        mandatory={!isEditMode}
+                                        // mandatory={!isEditMode}
                                         multiple
                                         accept="image/*"
                                         error={!isEditMode && errors.trainerPhoto}
@@ -563,7 +563,7 @@ const AddSuperAdminTrainer = () => {
                                         type="file"
                                         placeholder="certificates"
                                         onChange={handleChange}
-                                        mandatory={!isEditMode}
+                                        // mandatory={!isEditMode}
                                         multiple
                                         accept="application/pdf"
                                         error={!isEditMode && errors?.certificates}
@@ -626,7 +626,7 @@ const AddSuperAdminTrainer = () => {
                                 </div>
 
                                 <div className="col-md-6">
-                                    <label className="form-label">Residential Address</label>
+                                    <label className="form-label">Residential Address<span className="text-danger"> *</span></label>
                                     <textarea
                                         className="form-control"
                                         rows="2"
@@ -639,7 +639,7 @@ const AddSuperAdminTrainer = () => {
                                 </div>
 
                                 <div className="col-md-6">
-                                    <label className="form-label">Permanent Address</label>
+                                    <label className="form-label">Permanent Address<span className="text-danger"> *</span></label>
                                     <textarea
                                         className="form-control"
                                         rows="2"

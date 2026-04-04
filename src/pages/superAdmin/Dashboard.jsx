@@ -403,7 +403,7 @@ const Dashboard = () => {
                         >
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
-                              <h6 className="mb-3 statsTitle">{statCard.title}</h6>
+                              <h6 className="mb-3 statsTitle font">{statCard.title}</h6>
                               <h3 className="fw-bold">{statCard.value}</h3>
                             </div>
 
@@ -430,28 +430,28 @@ const Dashboard = () => {
 
                           <div className="col-6 col-md-3 mb-3">
                             <div className="p-3 h-100">
-                              <h6 className="text-secondary">Total Students</h6>
+                              <h6 className="text-secondary font">Total Students</h6>
                               <CountUp value={statCard.totalStudents} duration={800} />
                             </div>
                           </div>
 
                           <div className="col-6 col-md-3 mb-3">
                             <div className="p-3 h-100">
-                              <h6 className="text-secondary">Enrolled</h6>
+                              <h6 className="text-secondary font">Enrolled</h6>
                               <CountUp value={statCard.enrolledStudents} duration={800} />
                             </div>
                           </div>
 
                           <div className="col-6 col-md-3 mb-3">
                             <div className="p-3 h-100">
-                              <h6 className="text-secondary">Male</h6>
+                              <h6 className="text-secondary font">Male</h6>
                               <CountUp value={statCard.maleStudents} duration={800} />
                             </div>
                           </div>
 
                           <div className="col-6 col-md-3 mb-3">
                             <div className="p-3 h-100">
-                              <h6 className="text-secondary">Female</h6>
+                              <h6 className="text-secondary font">Female</h6>
                               <CountUp value={statCard.femaleStudents} duration={800} />
                             </div>
                           </div>
