@@ -7,6 +7,7 @@ import { useCrud } from "../../hooks/useCrud";
 import DeleteConfirmationModal from "../../Modals/deleteModal";
 import useSchools from "../../hooks/useSchools";
 import TableWrapper from "../../components/TableWrapper";
+import useDistricts from "../../hooks/useDistricts";
 
 
 const ManageActivities = () => {
@@ -14,6 +15,7 @@ const ManageActivities = () => {
     const [search, setSearch] = useState("");
     const [centreType, setCentreType] = useState("");
     const [centreId, setCentreId] = useState("");
+    const [districtId, setDistrictId] = useState("");
     const [status, setStatus] = useState("");
     const [page, setPage] = useState(1);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -34,6 +36,7 @@ const ManageActivities = () => {
         page,
         centreId,
         centreType,
+        districtId,
     });
 
     const activities = data?.data || [];
@@ -42,9 +45,9 @@ const ManageActivities = () => {
     const summary = data?.summary
 
     const { schoolsData } = useSchools();
-
     const filteredCentres = centreType ? schoolsData?.filter((school) => school.centerType === centreType) : schoolsData;
 
+    const {districts} = useDistricts();
 
     const handleImportExcel = (e) => {
         const file = e.target.files[0];
@@ -65,6 +68,7 @@ const ManageActivities = () => {
         setCentreType("");
         setStatus("");
         setPage(1);
+        setDistrictId("");
     };
 
     const handleDeleteClick = (id) => {
@@ -173,6 +177,20 @@ const ManageActivities = () => {
                         />
                     </div>
 
+                    <div className="col-lg-2">
+                        <SelectFilter
+                            value={districtId}
+                            placeholder="All districts"
+                            options={districts.map((district) => ({
+                                label: district.districtName,
+                                value: district.id
+                            }))}
+                            onChange={(value) => {
+                                setDistrictId(value);
+                                setPage(1);
+                            }}
+                        />
+                    </div>
 
 
                     <div className="col-md-2">
@@ -190,7 +208,7 @@ const ManageActivities = () => {
                         />
                     </div>
 
-                    <div className="col-lg-3 col-md-12">
+                    <div className="col-lg-1 col-md-12">
                         <div className="d-flex gap-2">
                             <button
                                 className="btn reset-btn"
@@ -296,6 +314,7 @@ const ManageActivities = () => {
                                     <th>Centre Name</th>
                                     <th>Activity Title</th>
                                     <th>Description</th>
+                                    <th>District</th>
                                     <th>Images</th>
                                     <th>Videos</th>
                                     <th>Status</th>
@@ -318,6 +337,7 @@ const ManageActivities = () => {
                                             <td>{activity.centre.centerName}</td>
                                             <td>{activity.activityTitle}</td>
                                             <td title={activity.description}>{activity.description.slice(0, 50)}...</td>
+                                            <td>{activity?.centre?.district?.districtName}</td>
                                             <td>
                                                 <Link to={`/superAdmin/view-activity/${activity.id}`} className="text-primary text-decoration-underline">
                                                     {activity.photoCount}
