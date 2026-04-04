@@ -648,7 +648,7 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
               </NavLink>
 
                <NavLink to="/superAdmin/student-statistics" className={getNavLinkClass}>
-                Manage Student Statistics
+                 Student Statistics
               </NavLink>
             </div>
           </div>

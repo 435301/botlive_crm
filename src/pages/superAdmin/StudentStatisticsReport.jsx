@@ -69,11 +69,11 @@ const ManageStudentStatistics = () => {
         setShowModal(true);
     };
 
-    const openBatchModal = (centre) => {
-        setSelectedCentre(centre);
-        setCompletedCount(centre.batchesCount || "");
-        setShowBatchModel(true);
-    };
+    // const openBatchModal = (centre) => {
+    //     setSelectedCentre(centre);
+    //     setCompletedCount(centre.batchesCount || "");
+    //     setShowBatchModel(true);
+    // };
 
     const handleUpdatePercentage = () => {
         const payload = {
@@ -249,12 +249,11 @@ const ManageStudentStatistics = () => {
                                     <th>#</th>
                                     <th>Centre Name</th>
                                     <th>Location</th>
-                                    <th>UDISE</th>
                                     <th>Total Students</th>
                                     <th>AY 25-26</th>
                                     <th>Male</th>
                                     <th>Female</th>
-                                    <th>Completed Batches Count</th>
+                                    {/* <th>Completed Batches Count</th> */}
                                     <th>Pass %</th>
                                     <th>Admission %</th>
 
@@ -271,16 +270,22 @@ const ManageStudentStatistics = () => {
                                     reports.map((t, i) => (
                                         <tr key={t.id}>
                                             <td>{(page - 1) * perPage + i + 1}</td>
-                                            <td>{t.centerName || "-"}</td>
+                                            <td>
+                                                <div>
+                                                    <div>{t.centerName}</div>
+                                                    <small className="text-muted">
+                                                        {t.udiseCode || "-"}
+                                                    </small>
+                                                </div>
+                                            </td>
                                             <td>{t.district.districtName || "-"}</td>
-                                            <td>{t.udiseCode || "-"}</td>
                                             <td>{t.totalStudents || "-"}</td>
-                                            <td>{t.totalEnrolled || "-"}</td>
+                                            <td>{t.totalEnrolled ? t.totalEnrolled : t.totalStudents ? Math.round(t.totalStudents * 0.18) : "-"}</td>
                                             <td>{t.totalMale || "-"}</td>
                                             <td>{t.totalFemale || "-"}</td>
-                                            <td onClick={() => openBatchModal(t)} className="text-primary cursor">{t.batchesCount || "0"}</td>
-                                            <td onClick={() => openPercentageModal(t, "pass")} className="text-primary cursor">{t.passPercentage || "0"}%</td>
-                                            <td onClick={() => openPercentageModal(t, "admission")} className="text-primary cursor">{t.admissionPercentage || "0"}%</td>
+                                            {/* <td onClick={() => openBatchModal(t)} className="text-primary cursor">{t.batchesCount || "0"}</td> */}
+                                            <td onClick={() => openPercentageModal(t, "pass")} className="text-primary cursor">{t.passPercentage || "0"}%  <i className="bi bi-pencil"></i></td>
+                                            <td onClick={() => openPercentageModal(t, "admission")} className="text-primary cursor">{t.admissionPercentage || "0"}% <i className="bi bi-pencil"></i></td>
 
                                         </tr>
                                     ))
@@ -354,7 +359,7 @@ const ManageStudentStatistics = () => {
                     </div>
                 </div>
             )}
-            {centreType === 1 &&  showBatchModel && (
+            {centreType === 1 && showBatchModel && (
                 <div className="modal fade show d-block" tabIndex="-1">
                     <div className="modal-dialog">
                         <div className="modal-content">
