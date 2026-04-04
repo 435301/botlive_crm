@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import { useCrud } from "../../hooks/useCrud";
 import { CountUp } from "../../utils/countUp";
+import bannerImg from "../../assets/images/banner3.png";
 
 const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
   const RADIAN = Math.PI / 180;
@@ -259,7 +260,7 @@ const Dashboard = () => {
       iconColor: "#dc3545",
       onClick: () => navigate("/superAdmin/manage-students"),
     },
-        {
+    {
       title: "Enrolled Students",
       value: dashboard.students?.enrolled || 0,
       subtitle: `${dashboard.students?.active || 0} Active`,
@@ -369,6 +370,15 @@ const Dashboard = () => {
             <p className="sub-text mb-0">Welcome, Cyient Foundation</p>
           </div>
         </div>
+
+        <div className="container-fluid pb-4">
+          <img
+            src={bannerImg}
+            className="img-fluid"
+            alt="banner"
+            style={{ display: "block", }} />
+        </div>
+
 
         <div className="container-fluid">
 
