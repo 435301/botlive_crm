@@ -166,6 +166,7 @@ const ManageCourse = () => {
                   <tr>
                     <th>#</th>
                     <th>Course Title</th>
+                    <th>Location</th>
                     <th>Status</th>
                     <th className="text-center">Actions</th>
                   </tr>
@@ -182,7 +183,8 @@ const ManageCourse = () => {
                     courses.map((item, index) => (
                       <tr key={item.id}>
                         <td>{index + 1}</td>
-                        <td>{item.courseTitle}</td>
+                        <td>{item.courseTitle || "-"}</td>
+                        <td>{item?.location || "-"}</td>
                         <td>
                           <span
                             className={`badge ${item.status === 1

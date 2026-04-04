@@ -25,6 +25,7 @@ const AddSkillCenter = () => {
 
   const [formData, setFormData] = useState({
     courseTitle: "",
+    location:"",
     status: 1,
   });
 
@@ -34,7 +35,8 @@ const AddSkillCenter = () => {
     if (data) {
       setFormData({
         courseTitle: data.courseTitle,
-        status: data.status
+        status: data.status,
+        location:data.location
       });
     }
   }, [data]);
@@ -109,6 +111,18 @@ const AddSkillCenter = () => {
                   placeholder="Enter Course Title"
                   mandatory
                   error={errors.courseTitle}
+                />
+              </div>
+
+               <div className="col-md-4">
+                <FormInput
+                  label="Location"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                  placeholder="Enter location"
+                  mandatory
+                  error={errors.location}
                 />
               </div>
 
