@@ -422,7 +422,7 @@ const AddAdminStudent = () => {
           onChange={handleChange}
           error={errors.aadharNumber}
           placeholder="Enter Aadhar number"
-          mandatory
+          mandatory = {centreType === 1}
         />
       </div>
 

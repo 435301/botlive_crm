@@ -187,7 +187,7 @@ const AddSkillCenter = () => {
                   options={[
                     { label: "Skill Development", value: 1 },
                     { label: "AI & STEM Learning", value: 2 },
-                    { label: "Education Development", value: 3 },
+                    { label: "School Education ", value: 3 },
                     { label: "Innovation & Entrepreneurship", value: 4 },
                     { label: "Community Development", value: 5 },
                   ]}

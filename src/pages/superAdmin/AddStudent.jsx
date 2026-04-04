@@ -63,7 +63,7 @@ const AddStudent = () => {
   useEffect(() => {
     if (studentData) {
       setFormData({
-        centreType: String(studentData?.centre?.centerType || ""),
+        centreType: studentData?.studentType,
         schoolId: String(studentData.centreId) || "",
         enrollmentNumber: studentData.enrolmentNumber || "",
         studentName: studentData.fullName || "",
@@ -80,7 +80,7 @@ const AddStudent = () => {
         enrolled: studentData.enrolled || "-"
       });
       setSkillCentreFormData({
-        centreType: String(studentData?.centre?.centerType || ""),
+        centreType:studentData?.studentType,
         skillcentreId: studentData.centreId || "",
         enrollmentNumber: studentData.enrolmentNumber || "",
         studentName: studentData.fullName || "",
@@ -178,8 +178,8 @@ const AddStudent = () => {
   })
 
   const { schoolsData } = useSchools();
-  const filteredCentres = formData.centreType ? schoolsData.filter((school) => school.centerType === Number(formData.centreType)) 
-  : schoolsData;
+  const filteredCentres = formData.centreType ? schoolsData.filter((school) => school.centerType === Number(formData.centreType))
+    : schoolsData;
   const studentType = formData.centreType === 1 ? 1 : 2;
   const { grades } = useGrades(studentType);
   const { qualifications } = useQualification();
@@ -443,7 +443,7 @@ const AddStudent = () => {
           onChange={handleChange}
           error={errors.aadharNumber}
           placeholder="Enter Aadhar number"
-          mandatory
+          mandatory={formData?.centreType === 1}
         />
       </div>
 
@@ -1081,7 +1081,7 @@ const AddStudent = () => {
                   options={[
                     { label: "Skill Development", value: 1 },
                     { label: "AI & STEM Learning", value: 2 },
-                    { label: "Education Development", value: 3 },
+                    { label: "School Education", value: 3 },
                     { label: "Innovation & Entrepreneurship", value: 4 },
                     { label: "Community Development", value: 5 },
                   ]}

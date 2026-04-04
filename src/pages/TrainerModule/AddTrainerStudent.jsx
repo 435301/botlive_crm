@@ -84,7 +84,7 @@ const AddTrainerStudent = () => {
         fatherName: studentData.fatherName || "",
         gender: studentData.gender || "",
         dob: studentData.dob || "",
-        batchId: String(studentData.gradeBatchId )|| "",
+        batchId: String(studentData.gradeBatchId) || "",
         aadharNumber: studentData.aadharNumber || "",
         mobile: studentData.mobile || "",
         email: studentData.email || "",
@@ -416,7 +416,7 @@ const AddTrainerStudent = () => {
           onChange={handleChange}
           error={errors.aadharNumber}
           placeholder="Enter Aadhar number"
-          mandatory
+          mandatory={centreType === 1}
         />
       </div>
 
@@ -572,7 +572,7 @@ const AddTrainerStudent = () => {
           onChange={handleSkillChange}
           options={grades.map((grade) => ({
             label: grade.gradeBatch,
-            value:String(grade.id)
+            value: String(grade.id)
           }))}
           error={errors.batchId}
         />

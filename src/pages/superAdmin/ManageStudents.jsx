@@ -149,7 +149,7 @@ const ManageStudents = () => {
       female: statistics[1]?.totalFemale || 0,
     },
     {
-      title: "Educational Development",
+      title: "School Education",
       icon: "bi-journal-bookmark",
       iconColor: "text-warning",
       total: statistics[2]?.totalStudents || 0,
@@ -244,7 +244,7 @@ const ManageStudents = () => {
               options={[
                 { label: "Skill Development", value: 1 },
                 { label: "AI & STEM Learning", value: 2 },
-                { label: "Education Development", value: 3 },
+                { label: "School Education", value: 3 },
                 { label: "Innovation & Entrepreneurship", value: 4 },
                 { label: "Community Development", value: 5 },
               ]}
