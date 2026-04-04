@@ -640,13 +640,9 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
             <div className={`submenu ${openMenu === "reports" ? "open" : ""}`}>
               <NavLink to="/superAdmin/reports" className={getNavLinkClass}>
-                Reports
+                  Students Chapter Status
               </NavLink>
-
-              <NavLink to="/superAdmin/student-reports" className={getNavLinkClass}>
-                Manage Student Reports
-              </NavLink>
-
+              
                <NavLink to="/superAdmin/student-statistics" className={getNavLinkClass}>
                  Student Statistics
               </NavLink>
