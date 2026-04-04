@@ -6,10 +6,10 @@ import toast from "react-hot-toast";
 import { useCrud } from "../../hooks/useCrud";
 
 const ManageSchoolSkillUpload = () => {
-    const centreType = 2;
     const { schoolsData } = useSchools();
 
     const [centreId, setCentreId] = useState("");
+    const [centreType, setCentreType] = useState("");
     const [file, setFile] = useState(null);
     const [uploadResult, setUploadResult] = useState(null);
 
@@ -89,6 +89,24 @@ const ManageSchoolSkillUpload = () => {
                 <div className="card-body">
                     <div className="row g-3 align-items-end">
 
+                        <div className="col-lg-3 col-md-6">
+                            <label className="form-label fw-semibold">
+                                Centre Type<span className="text-danger">*</span>
+                            </label>
+                            <SelectFilter
+                                value={centreType}
+                                placeholder="All Centre Types"
+                                options={[
+                                    { label: "AI & STEM Learning", value: 2 },
+                                    { label: "School Education", value: 3 },
+                                ]}
+                                onChange={(value) => {
+                                    setCentreType(value);
+                                    setCentreId(null);
+                                }}
+                            />
+                        </div>
+
                         {/* Centre Dropdown */}
                         <div className="col-md-4">
                             <label className="form-label fw-semibold">
@@ -145,12 +163,12 @@ const ManageSchoolSkillUpload = () => {
 
                     </div>
                 </div>
-                 {uploadResult && (
-                <div className="card mt-4 border-0 shadow-sm">
-                    <div className="card-body">
-                        <h6 className="fw-bold mb-3">Upload Summary</h6>
+                {uploadResult && (
+                    <div className="card mt-4 border-0 shadow-sm">
+                        <div className="card-body">
+                            <h6 className="fw-bold mb-3">Upload Summary</h6>
 
-                        {/* <div className="row text-center">
+                            {/* <div className="row text-center">
                             <div className="col-md-4 mb-2">
                                 <div className="p-3 bg-success-subtle rounded">
                                     <h4 className="mb-0 text-success">
@@ -179,23 +197,23 @@ const ManageSchoolSkillUpload = () => {
                             </div>
                         </div> */}
 
-                        {uploadResult?.failedRows?.length > 0 && (
-                            <div className="mt-3">
-                                <h6 className="text-danger">Failed Rows</h6>
-                                <ul className="small">
-                                    {uploadResult?.failedRows?.map((row, index) => (
-                                        <li key={index}>
-                                            Enrolment: {row.enrolmentNumber} - {row.reason}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
+                            {uploadResult?.failedRows?.length > 0 && (
+                                <div className="mt-3">
+                                    <h6 className="text-danger">Failed Rows</h6>
+                                    <ul className="small">
+                                        {uploadResult?.failedRows?.map((row, index) => (
+                                            <li key={index}>
+                                                Enrolment: {row.enrolmentNumber} - {row.reason}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
             </div>
-           
+
         </div>
     );
 };
