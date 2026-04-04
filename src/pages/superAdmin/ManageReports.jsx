@@ -95,8 +95,8 @@ const ManageReports = () => {
                         <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
                     </div>
                     <div>
-                        <h5 className="fw-bold mb-0">Reports Management</h5>
-                        <p className="sub-text mb-0">View all reports</p>
+                        <h5 className="fw-bold mb-0"> Students Chapter Status</h5>
+                        <p className="sub-text mb-0">View all students chapter status</p>
                     </div>
                 </div>
                 {/* Right: Action Buttons */}
