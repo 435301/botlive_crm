@@ -11,27 +11,27 @@ import {
 } from "recharts";
 import { useCrud } from "../../hooks/useCrud";
 import { CountUp } from "../../utils/countUp";
-import bannerImg from "../../assets/images/banner5.png";
+import bannerImg from "../../assets/images/banner.png";
 
-const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
-  const RADIAN = Math.PI / 180;
-  const radius = outerRadius + 18;
-  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+// const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
+//   const RADIAN = Math.PI / 180;
+//   const radius = outerRadius + 18;
+//   const x = cx + radius * Math.cos(-midAngle * RADIAN);
+//   const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-  return (
-    <text
-      x={x}
-      y={y}
-      fill="#555"
-      fontSize={11}
-      textAnchor={x > cx ? "start" : "end"}
-      dominantBaseline="central"
-    >
-      {name}%
-    </text>
-  );
-};
+//   return (
+//     <text
+//       x={x}
+//       y={y}
+//       fill="#555"
+//       fontSize={11}
+//       textAnchor={x > cx ? "start" : "end"}
+//       dominantBaseline="central"
+//     >
+//       {name}%
+//     </text>
+//   );
+// };
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -652,7 +652,10 @@ const Dashboard = () => {
                     <h6 className="text-center mb-2 fw-semibold">{item.title}</h6>
                     <ResponsiveContainer width="100%" height={220}>
                       <PieChart>
-                        <Pie data={item.data} dataKey="value" cx="50%" cy="50%" innerRadius={55} outerRadius={80} paddingAngle={3} labelLine label={renderCustomLabel} > {item.data.map((entry, i) => (<Cell key={i} fill={entry.color} />))} </Pie> <Tooltip formatter={(value) => `${value}%`} />
+                        <Pie data={item.data} dataKey="value" cx="50%" cy="50%" innerRadius={55} outerRadius={80} paddingAngle={3} labelLine  > {item.data.map((entry, i) => (<Cell key={i} fill={entry.color} />))} 
+                        </Pie>
+                         <Tooltip formatter={(value) => `${value}%`} />
+                           <Legend verticalAlign="bottom" height={36} />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>

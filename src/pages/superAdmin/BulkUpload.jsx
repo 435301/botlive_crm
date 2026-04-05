@@ -38,11 +38,8 @@ const ManageSchoolSkillUpload = () => {
             return;
         }
 
-        if (!file) {
-            toast.warn("Please upload file");
-            return;
-        }
         const formData = new FormData();
+        formData.append("centreType", centreType);
         formData.append("centreId", Number(centreId));
         formData.append("csvFile", file);
 
