@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Building2,
-  FileText,
-  ChevronDown,
+  // FileText,
+  // ChevronDown,
   KeyRound,
   LogOut,
 } from "lucide-react";
@@ -15,11 +15,11 @@ import { useDispatch } from "react-redux";
 const StudentSidebar = ({ collapsed, show, closeSidebar }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [openMenu, setOpenMenu] = useState(null);
+  // const [openMenu, setOpenMenu] = useState(null);
 
-  const toggleMenu = (menu) => {
-    setOpenMenu(openMenu === menu ? null : menu);
-  };
+  // const toggleMenu = (menu) => {
+  //   setOpenMenu(openMenu === menu ? null : menu);
+  // };
 
   const getNavLinkClass = ({ isActive }) =>
     `nav-link ${isActive ? "active" : ""}`;
@@ -68,7 +68,7 @@ const StudentSidebar = ({ collapsed, show, closeSidebar }) => {
 
 
           {/* Reports Dropdown */}
-          <div className="nav-group">
+          {/* <div className="nav-group">
             <div className="nav-link" onClick={() => toggleMenu("reports")}>
               <FileText size={18} />
               {!collapsed && (
@@ -92,7 +92,7 @@ const StudentSidebar = ({ collapsed, show, closeSidebar }) => {
                 Skill centre
               </NavLink>
             </div>
-          </div>
+          </div> */}
 
           <NavLink to="/student/student-attendance" className={getNavLinkClass}>
             <Building2 size={18} />
