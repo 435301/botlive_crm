@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import {  useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import SelectFilter from "../../components/SelectFilter";
 import useCourses from "../../hooks/useCourses";
 import useGrades from "../../hooks/useGrades";
@@ -7,6 +7,7 @@ import useModules from "../../hooks/useModule";
 import useChapters from "../../hooks/useChapters";
 import { useCrud } from "../../hooks/useCrud";
 import TableWrapper from "../../components/TableWrapper";
+import {toast} from "react-hot-toast";
 
 
 const ManageReports = () => {
@@ -50,18 +51,18 @@ const ManageReports = () => {
         if (!ids?.length) return;
 
         createMutation.mutate({ studentIds: ids },
-             {
-            onSuccess: (response) => {
-                navigate("/superAdmin/student-reports", {
-                    state: {
-                        studentReports: response?.data || []
-                    }
-                });
-            },
-            onError: (error) => {
-                console.error("Error fetching students:", error);
-            },
-        });
+            {
+                onSuccess: (response) => {
+                    navigate("/superAdmin/student-reports", {
+                        state: {
+                            studentReports: response?.data || []
+                        }
+                    });
+                },
+                onError: (error) => {
+                    console.error("Error fetching students:", error);
+                },
+            });
 
     };
 
@@ -84,6 +85,16 @@ const ManageReports = () => {
         setGradeBatchId("");
         setModuleId("");
     };
+    useEffect(() => {
+        if (
+            !gradeBatchId ||
+            !courseId ||
+            !moduleId ||
+            !chapterId
+        ) {
+            toast.error("Select Grade, Course, Module and Chapter to see the data")
+        }
+    }, [gradeBatchId, courseId, moduleId, chapterId]);
 
     return (
         <div className="container-fluid">
