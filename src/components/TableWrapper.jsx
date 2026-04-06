@@ -1,8 +1,8 @@
 const TableWrapper = ({ children }) => {
   return (
-    <div style={{
+    <div  className="table-scroll-wrapper" style={{
       width: "100%", maxHeight: "500px",
-      overflowX: "auto", WebkitOverflowScrolling: "touch"
+      overflow: "auto", WebkitOverflowScrolling: "touch"
     }}>
       {children}
     </div>

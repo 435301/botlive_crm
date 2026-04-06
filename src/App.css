@@ -167,8 +167,8 @@ body {
 }
 
 
-.card1{
-   background: var(--card);
+.card1 {
+  background: var(--card);
   border-radius: 8px;
   padding: 5px;
   /* box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06) !important; */
@@ -177,21 +177,23 @@ body {
   min-height: 100px;
 }
 
-.cardDashboard{
+.cardDashboard {
   background: var(--card);
   border-radius: 5px;
   padding: 20px;
   border: none;
   min-height: 300px;
 }
-.promoVideo{
-  border-radius:12px ;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+.promoVideo {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   object-fit: cover;
   height: 100%;
   max-height: 290px;
   background-color: #000;
 }
+
 /* ===== MOBILE ===== */
 @media (max-width: 991px) {
 
@@ -1898,44 +1900,76 @@ button .filter-btn :hover {
   max-width: 500px;
   border-radius: 8px;
   object-fit: cover;
-} 
+}
 
 .viewFile {
   min-height: 240px;
   border-radius: 8px;
 }
-.dashboardActivityImg{
+
+.dashboardActivityImg {
   width: 80px;
   height: 80px;
   object-fit: cover;
 }
-.activityTitle{
+
+.activityTitle {
   font-size: 14px;
   font-weight: 600;
   color: #019aa8;
 }
-.statsTitle{
+
+.statsTitle {
   color: #019aa8 !important;
 }
 
-.manageCardsIcon{
+.manageCardsIcon {
   width: 28px;
   height: 28px;
   background-color: #ffffff;
 }
 
-.manageCardsTitle{
+.manageCardsTitle {
   font-size: 12px;
 }
-.manageCardsHeading{
+
+.manageCardsHeading {
   font-size: 12px;
 }
-.cardMainDiv{
+
+.cardMainDiv {
   padding: 10px;
 }
-.font{
+
+.font {
   font-size: 16px;
 }
+
+/* Thin horizontal scrollbar */
+.table-scroll-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+/* Firefox support */
+.table-scroll-wrapper {
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 #f1f1f1;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .campus-main {
