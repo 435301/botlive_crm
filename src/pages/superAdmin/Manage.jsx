@@ -7,6 +7,7 @@ import { useCrud } from "../../hooks/useCrud";
 import useStates from "../../hooks/useStates";
 import useDistricts from "../../hooks/useDistricts";
 import DeleteConfirmationModal from "../../Modals/deleteModal";
+import TableWrapper from "../../components/TableWrapper";
 
 
 const ManageSkillCenters = () => {
@@ -234,82 +235,85 @@ const ManageSkillCenters = () => {
       <div className="card shadow-sm rounded-3 p-2">
         <div className="card-body p-1">
           <div className="table-responsive">
-            <table className="table table-bordered table-striped align-middle student-modern-table">
-              <thead className="">
-                <tr>
-                  <th>#</th>
-                  <th>Center Code</th>
-                  <th>Name</th>
-                  <th>Project Type</th>
-                  <th>UDISE Code</th>
-                  <th>Address</th>
-                  <th>Contact Person</th>
-                  <th>Mobile</th>
-                  <th>Email</th>
-                  {/* <th>Password</th> */}
-                  <th>State</th>
-                  <th>District</th>
-                  <th>Area</th>
-                  <th>Founder</th>
-                  <th>Status</th>
-                  <th className="text-center">Actions</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {isLoading ? (
+            <TableWrapper>
+              <table className="table table-bordered table-striped align-middle student-modern-table">
+                <thead className="">
                   <tr>
-                    <td colSpan="8" className="text-center py-4">
-                      Loading...
-                    </td>
+                    <th>#</th>
+                    <th>Center Code</th>
+                    <th>Name</th>
+                    <th>Project Type</th>
+                    <th>UDISE Code</th>
+                    <th>Address</th>
+                    <th>Contact Person</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    {/* <th>Password</th> */}
+                    <th>State</th>
+                    <th>District</th>
+                    <th>Area</th>
+                    <th>Founder</th>
+                    <th>Status</th>
+                    <th className="text-center">Actions</th>
                   </tr>
-                ) : skills?.length > 0 ? (
-                  skills?.map((center, index) => (
-                    <tr key={center.centerCode}>
-                      <td>{(page - 1) * perPage + index + 1}</td>
-                      <td className="">{center.centerCode}</td>
-                      <td>{center.centerName}</td>
-                      <td>{center.centerType === 1 ? "Skill Centre" : "School"}</td>
-                      <td>{center.udiseCode || "-"}</td>
-                      <td>{center.address}</td>
-                      <td>{center.contactPerson}</td>
-                      <td>{center.mobile}</td>
-                      <td>{center.email}</td>
-                      {/* <td>{center.password}</td> */}
-                      <td>{center.state?.stateName}</td>
-                      <td>{center.district?.districtName}</td>
-                      <td>{center.area}</td>
-                      <td>{center.founder?.name}</td>
+                </thead>
 
-                      <td>
-                        <span
-                          className={`badge ${center.status === 1
-                            ? "bg-success"
-                            : "bg-secondary"
-                            }`}
-                        >
-                          {center.status === 1 ? "Active" : "Inactive"}
-                        </span>
-                      </td>
-                      <td className="text-center">
-                        <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-skill-centre/${center.id}`)}>
-                          <i className="bi bi-pencil"></i>
-                        </button>
-                        <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(center.id)}>
-                          <i className="bi bi-trash"></i>
-                        </button>
+                <tbody>
+                  {isLoading ? (
+                    <tr>
+                      <td colSpan="8" className="text-center py-4">
+                        Loading...
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="11" className="text-center text-muted py-4">
-                      No records found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                  ) : skills?.length > 0 ? (
+                    skills?.map((center, index) => (
+                      <tr key={center.centerCode}>
+                        <td>{(page - 1) * perPage + index + 1}</td>
+                        <td className="">{center.centerCode}</td>
+                        <td>{center.centerName}</td>
+                        <td>{center.centerType === 1 ? "Skill Centre" : "School"}</td>
+                        <td>{center.udiseCode || "-"}</td>
+                        <td>{center.address}</td>
+                        <td>{center.contactPerson}</td>
+                        <td>{center.mobile}</td>
+                        <td>{center.email}</td>
+                        {/* <td>{center.password}</td> */}
+                        <td>{center.state?.stateName}</td>
+                        <td>{center.district?.districtName}</td>
+                        <td>{center.area}</td>
+                        <td>{center.founder?.name}</td>
+
+                        <td>
+                          <span
+                            className={`badge ${center.status === 1
+                              ? "bg-success"
+                              : "bg-secondary"
+                              }`}
+                          >
+                            {center.status === 1 ? "Active" : "Inactive"}
+                          </span>
+                        </td>
+                        <td className="text-center">
+                          <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-skill-centre/${center.id}`)}>
+                            <i className="bi bi-pencil"></i>
+                          </button>
+                          <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(center.id)}>
+                            <i className="bi bi-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="11" className="text-center text-muted py-4">
+                        No records found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </TableWrapper>
+
           </div>
 
           {/* ===== PAGINATION ===== */}

@@ -184,12 +184,12 @@ const ManageSuperAdminTrainers = () => {
                     trainers.map((t, index) => (
                       <tr key={t.trainerCode}>
                         <td>{(page - 1) * perPage + index + 1}</td>
-                        <td>{t.trainerCode}</td>
-                        <td>{t.fullName}</td>
-                        <td>{t.mobile}</td>
-                        <td>{t.email}</td>
-                        <td>{t?.qualification?.qualification}</td>
-                        <td>{t.dateOfJoining}</td>
+                        <td>{t.trainerCode || "-"}</td>
+                        <td>{t.fullName || "-"}</td>
+                        <td>{t.mobile || "-"}</td>
+                        <td>{t.email || "-"}</td>
+                        <td>{t?.qualification?.qualification|| "-"}</td>
+                        <td>{t.dateOfJoining || "-"}</td>
                         <td>{t?.trainerGrades.map((grade) => grade?.gradeBatch?.gradeBatch)?.join(",")}</td>
                         <td>
                           <span
