@@ -2,18 +2,22 @@ import React, { useState } from "react";
 import { Menu, User, LogOut, ChevronDown } from "lucide-react";
 import { logoutStudent } from "../../redux/slices/studentSlice";
 import { useNavigate } from "react-router-dom";
-import {useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 
 const StudentHeader = ({ toggleSidebar, toggleCollapse, collapsed }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [openProfile, setOpenProfile] = useState(false);
 
-    const handleLogout = () => {
-      dispatch(logoutStudent());
-      navigate("/student/login");
-    };
-  
+  const name = JSON.parse(Cookies.get("student" || "{}"))?.fullName;
+  const enrollment = JSON.parse(Cookies.get("student" || "{}"))?.enrolmentNumber;
+
+  const handleLogout = () => {
+    dispatch(logoutStudent());
+    navigate("/student/login");
+  };
+
 
   return (
     <header className={`header ${collapsed ? "collapsed" : ""}`}>
@@ -33,11 +37,13 @@ const StudentHeader = ({ toggleSidebar, toggleCollapse, collapsed }) => {
           aria-label="Collapse sidebar"
         >
           <Menu size={20} />
+
         </button>
       </div>
 
       {/* Right side */}
       <div className="header-right">
+        <p className="sub-text mb-0">Welcome , {name} - {enrollment}</p>
         <div
           className={`profile ${openProfile ? "open" : ""}`}
           onClick={() => setOpenProfile(!openProfile)}
@@ -47,6 +53,7 @@ const StudentHeader = ({ toggleSidebar, toggleCollapse, collapsed }) => {
             alt="Profile"
           />
           <ChevronDown size={14} />
+
         </div>
 
         {openProfile && (
