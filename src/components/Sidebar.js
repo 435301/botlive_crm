@@ -640,16 +640,42 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
 
             <div className={`submenu ${openMenu === "reports" ? "open" : ""}`}>
               <NavLink to="/superAdmin/reports" className={getNavLinkClass}>
-                  Students Chapter Status
-              </NavLink>
-              
-               <NavLink to="/superAdmin/student-statistics" className={getNavLinkClass}>
-                 Student Statistics
+                Students Chapter Status
               </NavLink>
 
-                <NavLink to="/superAdmin/manage-student-attendance-report" className={getNavLinkClass}>
-                 Student Attendance Report  
+              <NavLink to="/superAdmin/student-statistics" className={getNavLinkClass}>
+                Student Statistics
               </NavLink>
+
+              <NavLink to="/superAdmin/manage-student-attendance-report" className={getNavLinkClass}>
+                Student Attendance Report
+              </NavLink>
+            </div>
+          </div>
+
+          <div className="nav-group">
+            <div className="nav-link" onClick={() => toggleMenu("support")}>
+              <Building2 size={18} />
+              {!collapsed && (
+                <>
+                  <span>Support</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "support" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
+            </div>
+
+            <div className={`submenu ${openMenu === "support" ? "open" : ""}`}>
+              <NavLink to="/superAdmin/update-support-status" className={getNavLinkClass}>
+                Update Status
+              </NavLink>
+
+              <NavLink to="/superAdmin/manage-support" className={getNavLinkClass}>
+                Manage Support
+              </NavLink>
+
             </div>
           </div>
 

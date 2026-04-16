@@ -8,6 +8,7 @@ export const useCrud = ({
     getUrl,
     createUrl,
     updateUrl,
+    updatePatchUrl,
     deleteUrl,
     getAllUrl,
 
@@ -83,6 +84,20 @@ export const useCrud = ({
         },
     });
 
+     const updatePatchMutation = useMutation({
+        mutationFn: async ({ id, data }) => {
+            const res = await axiosInstance.patch(updatePatchUrl(id), data);
+            return res.data;
+        },
+        onSuccess: (data) => {
+            toast.success(data.message);
+            queryClient.invalidateQueries({ queryKey: [entity, "list"] });
+        },
+        onError: (err) => {
+            toast.error(err.response?.data?.message || "Update failed");
+        },
+    });
+
     // ================= DELETE =================
     const deleteMutation = useMutation({
         mutationFn: async (id) => {
@@ -105,6 +120,7 @@ export const useCrud = ({
         useGetById,
         createMutation,
         updateMutation,
+        updatePatchMutation,
         deleteMutation,
         useGetAll,
     };

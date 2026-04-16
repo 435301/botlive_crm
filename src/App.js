@@ -91,6 +91,7 @@ const ManageReports = lazy(() => import("./pages/superAdmin/ManageReports"));
 const GetStudentReports = lazy(() => import("./pages/superAdmin/GetStudentsReport"));
 const StudentStatistics = lazy(() => import("./pages/superAdmin/StudentStatisticsReport"));
 const ManageStudentAttendanceReport = lazy(() => import("./pages/superAdmin/ManageStudentAttendanceReport"));
+const ManageSuperAdminSupport = lazy(()=> import("./pages/superAdmin/ManageSupport"));
 // Admin
 
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
@@ -668,6 +669,7 @@ function App() {
           <Route path="/superAdmin/student-reports" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(GetStudentReports)}</ProtectedRoute>} />
           <Route path="/superAdmin/student-statistics" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(StudentStatistics)}</ProtectedRoute>} />
           <Route path="/superAdmin/manage-student-attendance-report" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageStudentAttendanceReport)}</ProtectedRoute>} />
+          <Route path="/superAdmin/manage-support" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSuperAdminSupport)}</ProtectedRoute>} />
 
 
 
