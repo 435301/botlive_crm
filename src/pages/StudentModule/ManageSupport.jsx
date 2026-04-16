@@ -153,7 +153,7 @@ const ManageSupport = () => {
                                                 <tr key={item.id}>
                                                     <td>{index + 1}</td>
                                                     <td>{item.message}</td>
-                                                    <td>{item.priority}</td>
+                                                    <td>{item.priority === 1 ? "High" : item.priority === 2 ? "Medium" : "Low"}</td>
                                                     <td>
                                                         <span
                                                             className={`badge ${item.status === 1

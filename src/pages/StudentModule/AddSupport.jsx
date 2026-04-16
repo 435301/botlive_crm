@@ -5,6 +5,7 @@ import FormInput from "../../components/FormInput";
 import FormActions from "../../components/FormActions";
 import { useCrud } from "../../hooks/useCrud";
 import { validateSupport } from "../../utils/validation";
+import { FormSelect } from "react-bootstrap";
 
 const AddSupport = () => {
     const navigate = useNavigate();
@@ -110,13 +111,17 @@ const AddSupport = () => {
                             </div>
 
                             <div className="col-md-4">
-                                <FormInput
+                                <FormSelect
                                     type="number"
                                     label="Priority"
                                     name="priority"
                                     value={formData.priority}
                                     onChange={handleChange}
-                                    placeholder="Enter Priority"
+                                    options={[
+                                        { label: "High", value: 1 },
+                                        { label: "Medium", value: 2 },
+                                        { label: "Low", value: 3 },
+                                    ]}
                                     error={errors.priority}
                                     mandatory
                                 />
