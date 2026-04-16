@@ -6,6 +6,7 @@ import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
 import DeleteConfirmationModal from "../../Modals/deleteModal";
 import TableWrapper from "../../components/TableWrapper";
+import useSchools from "../../hooks/useSchools";
 
 
 
@@ -14,6 +15,8 @@ const ManageSuperAdminTrainers = () => {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [page, setPage] = useState(1);
+  const [centreType, setCentreType] = useState("");
+  const [centreId, setCentreId] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
@@ -28,15 +31,22 @@ const ManageSuperAdminTrainers = () => {
     search,
     status,
     page,
+    centreType,
+    centreId,
   });
   const trainers = data?.data || [];
   const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
   const perPage = data?.perPage || 15;
 
+  const { schoolsData } = useSchools();
+  const filteredCentres = centreType ? schoolsData?.filter((school) => school.centerType === centreType) : schoolsData;
+
   const resetFilters = () => {
     setSearch("");
     setStatus("");
     setPage(1);
+    setCentreType("");
+    setCentreId("");
   };
   const handleImportExcel = (e) => {
     const file = e.target.files[0];
@@ -114,7 +124,41 @@ const ManageSuperAdminTrainers = () => {
       {/* ===== FILTERS ===== */}
       <div className="filter-wrapper mb-3">
         <div className="row g-2 align-items-center">
-          <div className="col-lg-4 col-md-6">
+
+          <div className="col-lg-2 col-md-6">
+            <SelectFilter
+              value={centreType}
+              placeholder="All Centre Types"
+              options={[
+                { label: "Skill Development", value: 1 },
+                { label: "AI & STEM Learning", value: 2 },
+                { label: "School Education", value: 3 },
+                { label: "Innovation & Entrepreneurship", value: 4 },
+                { label: "Community Development", value: 5 },
+              ]}
+              onChange={(value) => {
+                setCentreType(value);
+                setCentreId(null);
+                setPage(1);
+              }}
+            />
+          </div>
+
+          <div className="col-lg-2 col-md-6">
+            <SelectFilter
+              value={centreId}
+              placeholder="All Centre Names"
+              options={filteredCentres?.map((school) => ({
+                label: school.centerName,
+                value: school.id
+              }))}
+              onChange={(value) => {
+                setCentreId(value);
+                setPage(1);
+              }}
+            />
+          </div>
+          <div className="col-lg-3 col-md-6">
             <SearchInput
               value={search}
               placeholder="Search by trainer name , code and mobile"
@@ -140,7 +184,7 @@ const ManageSuperAdminTrainers = () => {
             />
           </div>
 
-          <div className="col-lg-5 col-md-12">
+          <div className="col-lg-2 col-md-12">
             <div className="d-flex gap-2">
               <button
                 className="btn reset-btn"
@@ -188,7 +232,7 @@ const ManageSuperAdminTrainers = () => {
                         <td>{t.fullName || "-"}</td>
                         <td>{t.mobile || "-"}</td>
                         <td>{t.email || "-"}</td>
-                        <td>{t?.qualification?.qualification|| "-"}</td>
+                        <td>{t?.qualification?.qualification || "-"}</td>
                         <td>{t.dateOfJoining || "-"}</td>
                         <td>{t?.trainerGrades.map((grade) => grade?.gradeBatch?.gradeBatch)?.join(",")}</td>
                         <td>
