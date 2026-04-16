@@ -284,8 +284,8 @@ const ManageStudentStatistics = () => {
                                             <td>{t.totalMale || "-"}</td>
                                             <td>{t.totalFemale || "-"}</td>
                                             {/* <td onClick={() => openBatchModal(t)} className="text-primary cursor">{t.batchesCount || "0"}</td> */}
-                                            <td onClick={() => openPercentageModal(t, "pass")} className="text-primary cursor">{t.passPercentage || "0"}%  <i className="bi bi-pencil"></i></td>
-                                            <td onClick={() => openPercentageModal(t, "admission")} className="text-primary cursor">{t.admissionPercentage || "0"}% <i className="bi bi-pencil"></i></td>
+                                            <td onClick={() => openPercentageModal(t, "pass")} className=" cursor">{t.passPercentage || "0"}%  </td>
+                                            <td onClick={() => openPercentageModal(t, "admission")} className=" cursor">{t.admissionPercentage || "0"}% </td>
 
                                         </tr>
                                     ))
