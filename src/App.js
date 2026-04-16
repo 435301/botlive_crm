@@ -144,6 +144,8 @@ const ViewTrainerStudent = lazy(() => import("./pages/TrainerModule/ViewTrinerSt
 const ManageStudentAttendance = lazy(() => import("./pages/TrainerModule/ManageStudentAttendance"));
 const AddStudentAttendance = lazy(() => import("./pages/TrainerModule/AddStudentAttendance"));
 const ManageMonthlyAttendance = lazy(() => import("./pages/TrainerModule/ManageMonthlyAttendance"));
+const ManageTrainerSupport = lazy(()=> import("./pages/TrainerModule/ManageSupport"));
+const AddTrainerSupport = lazy(()=> import ("./pages/TrainerModule/AddSupport"));
 
 // Student Module
 
@@ -151,8 +153,8 @@ const StudentModuleLogin = lazy(
   () => import("./pages/StudentModule/StudentModuleLogin"),
 );
 const StudentAttendance = lazy(()=> import("./pages/StudentModule/StudentAttendance"));
-const ManageSupport = lazy(()=> import("./pages/StudentModule/ManageSupport"));
-const AddSupport = lazy(()=> import ("./pages/StudentModule/AddSupport"));
+const ManageStudentSupport = lazy(()=> import("./pages/StudentModule/ManageSupport"));
+const AddStudentSupport = lazy(()=> import ("./pages/StudentModule/AddSupport"));
 
 
 // Admin
@@ -717,6 +719,10 @@ function App() {
           <Route path="/trainer/manage-attendance" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/admin/login">{lazyLoad(ManageStudentAttendance)}</ProtectedRoute>} />
           <Route path="/trainer/add-attendance" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/admin/login">{lazyLoad(AddStudentAttendance)}</ProtectedRoute>} />
           <Route path="/trainer/manage-monthly-attendance" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/admin/login">{lazyLoad(ManageMonthlyAttendance)}</ProtectedRoute>} />
+           <Route path="/trainer/add-support" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(AddTrainerSupport)}</ProtectedRoute>} />
+          <Route path="/trainer/edit-support/:id" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(AddTrainerSupport)}</ProtectedRoute>} />
+          <Route path="/trainer/manage-support" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(ManageTrainerSupport)}</ProtectedRoute>} />
+
 
           {/* Student Module login */}
 
@@ -726,9 +732,9 @@ function App() {
           <Route path="/student/manage-chapters" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(ManageStudentChapters)}</ProtectedRoute>} />
           <Route path="/student/view-chapter/:id" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(ViewStudentChapter)}</ProtectedRoute>} />
           <Route path="/student/student-attendance" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(StudentAttendance)}</ProtectedRoute>} />
-          <Route path="/student/manage-support" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(ManageSupport)}</ProtectedRoute>} />
-          <Route path="/student/add-support" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(AddSupport)}</ProtectedRoute>} />
-          <Route path="/student/edit-support/:id" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(AddSupport)}</ProtectedRoute>} />
+          <Route path="/student/manage-support" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(ManageStudentSupport)}</ProtectedRoute>} />
+          <Route path="/student/add-support" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(AddStudentSupport)}</ProtectedRoute>} />
+          <Route path="/student/edit-support/:id" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(AddStudentSupport)}</ProtectedRoute>} />
 
         </Routes>
       </LayoutWrapper>

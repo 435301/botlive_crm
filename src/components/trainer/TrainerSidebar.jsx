@@ -148,6 +148,32 @@ const TrainerSidebar = ({ collapsed, show, closeSidebar }) => {
                         </div>
                     </div>
 
+                    <div className="nav-group">
+                        <div className="nav-link" onClick={() => toggleMenu("support")}>
+                            <Building2 size={18} />
+                            {!collapsed && (
+                                <>
+                                    <span>Support</span>
+                                    <ChevronDown
+                                        size={16}
+                                        className={`arrow ${openMenu === "support" ? "rotate" : ""}`}
+                                    />
+                                </>
+                            )}
+                        </div>
+
+                        <div className={`submenu ${openMenu === "support" ? "open" : ""}`}>
+                            <NavLink to="/trainer/add-support" className={getNavLinkClass}>
+                                Add Support
+                            </NavLink>
+
+                            <NavLink to="/trainer/manage-support" className={getNavLinkClass}>
+                                Manage Support
+                            </NavLink>
+
+                        </div>
+                    </div>
+
                     {/* Change Password */}
                     <NavLink to="/trainer/change-password" className={getNavLinkClass}>
                         <KeyRound size={18} />
