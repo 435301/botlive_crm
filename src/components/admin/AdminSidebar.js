@@ -207,6 +207,32 @@ const AdminSidebar = ({ collapsed, show, closeSidebar }) => {
             </div>
           </div>
 
+          <div className="nav-group">
+            <div className="nav-link" onClick={() => toggleMenu("support")}>
+              <Building2 size={18} />
+              {!collapsed && (
+                <>
+                  <span>Support</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "support" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
+            </div>
+
+            <div className={`submenu ${openMenu === "support" ? "open" : ""}`}>
+              <NavLink to="/admin/add-support" className={getNavLinkClass}>
+                Add Support
+              </NavLink>
+
+              <NavLink to="/admin/manage-support" className={getNavLinkClass}>
+                Manage Support
+              </NavLink>
+
+            </div>
+          </div>
+
 
           {/* Change Password */}
           <NavLink to="/admin/change-password" className={getNavLinkClass}>
