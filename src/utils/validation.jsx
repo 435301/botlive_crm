@@ -550,4 +550,19 @@ export const validateSuperAdminTrainerForm = (formData, isEditMode) => {
     errors.status = "Status is required";
   }
   return errors;
+
+
+};
+
+export const validateSupport = (formData) => {
+  const errors = {};
+
+  if (!formData.message?.trim()) {
+    errors.message = "Message is required";
+  }
+  if (!formData.priority) {
+    errors.priority = "Priority is required";
+  }
+
+  return errors;
 };
