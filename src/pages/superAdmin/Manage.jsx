@@ -48,9 +48,26 @@ const ManageSkillCenters = () => {
   const skills = data?.data || [];
   const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
   const perPage = data?.perPage || 15;
+  const centreTypeCounts = data?.centreTypeCounts || [];
 
   const { states } = useStates();
   const { districts } = useDistricts();
+
+  const centreTypeMap = {
+    1: "Skill Development",
+    2: "AI & STEM Learning",
+    3: "School Education",
+    4: "Innovation & Entrepreneurship",
+    5: "Community Development",
+  };
+
+  const centreStats = centreTypeCounts?.map((item) => ({
+    title: centreTypeMap[item.centerType] || "Unknown",
+    icon: "bi-building",
+    iconColor: "text-success",
+    count: item.count,
+  }));
+
 
   const handleImportExcel = (e) => {
     const file = e.target.files[0];
@@ -84,6 +101,7 @@ const ManageSkillCenters = () => {
     setDeleteId(null);
     deleteMutation.mutate(deleteId);
   };
+
 
   return (
     <div className="container-fluid">
@@ -228,6 +246,37 @@ const ManageSkillCenters = () => {
               </button>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="container my-3">
+        <div className="row g-3">
+
+          {/* Cards */}
+          {centreStats?.map((item, index) => (
+            <div className="col-12 col-md-4" key={index}>
+              <div className="card1 shadow-sm border-0 rounded-3">
+                <div className="card-body d-flex align-items-center ">
+
+                  {/* Icon */}
+                  <div
+                    className="rounded-circle d-flex align-items-center justify-content-center me-2 manageCardsIcon"
+                  >
+                    <i className={`bi ${item.icon} fs-6 ${item.iconColor}`}></i>
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-grow-1">
+
+                    <strong>{item.title}</strong>
+                    <div className="fw-bold">{item.count}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+
+
         </div>
       </div>
 
