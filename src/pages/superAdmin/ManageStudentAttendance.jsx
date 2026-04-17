@@ -37,6 +37,7 @@ const ManageSuperAdminStudentAttendance = () => {
     const students = data?.data || [];
     console.log('students', students)
     const perPage = data?.perPage || 100;
+    const counts = data?.counts || {};
 
     const { grades } = useGrades(centreType);
 
@@ -170,6 +171,41 @@ const ManageSuperAdminStudentAttendance = () => {
                             >
                                 <i className="bi bi-arrow-clockwise"></i>
                             </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<div className="container my-3">
+                <div className="row g-3">
+                    <div className="col-12 col-md-4">
+                        <div className="card1 shadow-sm border-0 rounded-3 p-3">
+                            <div className="card-body d-flex align-items-center text-start ">
+                                <div className="flex-grow-1">
+                                    <strong className="statsTitle">Total Students</strong>
+                                    <div className="fw-bold">{counts.totalStudent}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                        <div className="card1 shadow-sm border-0 rounded-3 p-3">
+                            <div className="card-body d-flex align-items-center text-start ">
+                                <div className="flex-grow-1">
+                                    <strong className="statsTitle">Present Students</strong>
+                                    <div className="fw-bold">{counts.presentStudent}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                        <div className="card1 shadow-sm border-0 rounded-3 p-3">
+                            <div className="card-body d-flex align-items-center text-start ">
+                                <div className="flex-grow-1">
+                                    <strong className="statsTitle">Absent Students</strong>
+                                    <div className="fw-bold">{counts.absentStudent}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

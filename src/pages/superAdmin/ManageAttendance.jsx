@@ -28,6 +28,7 @@ const ManageTrainerAttendance = () => {
 
     const trainers = data?.data || [];
     const perPage = data?.perPage || 15;
+    const counts = data?.counts || {};
 
     const resetFilters = () => {
         setPage(1);
@@ -104,6 +105,41 @@ const ManageTrainerAttendance = () => {
                             >
                                 <i className="bi bi-arrow-clockwise"></i>
                             </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="container my-3">
+                <div className="row g-3">
+                    <div className="col-12 col-md-4">
+                        <div className="card1 shadow-sm border-0 rounded-3 p-3">
+                            <div className="card-body d-flex align-items-center text-start ">
+                                <div className="flex-grow-1">
+                                    <strong className="statsTitle">Total Trainers</strong>
+                                    <div className="fw-bold">{counts.totalTrainer}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                        <div className="card1 shadow-sm border-0 rounded-3 p-3">
+                            <div className="card-body d-flex align-items-center text-start ">
+                                <div className="flex-grow-1">
+                                    <strong className="statsTitle">Present Trainers</strong>
+                                    <div className="fw-bold">{counts.presentTrainer}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                        <div className="card1 shadow-sm border-0 rounded-3 p-3">
+                            <div className="card-body d-flex align-items-center text-start ">
+                                <div className="flex-grow-1">
+                                    <strong className="statsTitle">Absent Trainers</strong>
+                                    <div className="fw-bold">{counts.absentTrainer}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
