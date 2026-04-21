@@ -5,7 +5,7 @@ import FormInput from "../../components/FormInput";
 import FormActions from "../../components/FormActions";
 import { useCrud } from "../../hooks/useCrud";
 import { validateSupport } from "../../utils/validation";
-import { FormSelect } from "react-bootstrap";
+import FormSelect from "../../components/FormSelect";
 
 const AddSupport = () => {
     const navigate = useNavigate();
