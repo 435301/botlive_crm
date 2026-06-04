@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, User, LogOut, ChevronDown } from "lucide-react";
+import { Menu, LogOut, ChevronDown } from "lucide-react";
 import { logoutAdmin } from "../redux/slices/adminSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";

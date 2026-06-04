@@ -33,6 +33,7 @@ const AddActivity = () => {
         photos: [],
         videos: [],
         status: 1,
+        date: ""
     });
     const [existingFiles, setExistingFiles] = useState({
         photos: [],
@@ -51,6 +52,7 @@ const AddActivity = () => {
                 centreId: String(data.centreId),
                 centreType: data.centreType,
                 status: data.status,
+                date: data.date,
             });
             setExistingFiles({
                 photos: data.photos || [],
@@ -94,6 +96,7 @@ const AddActivity = () => {
         payload.append("centreId", formData.centreId);
         payload.append("centreType", formData.centreType);
         payload.append("status", formData.status);
+        payload.append("date", formData.date);
 
         if (formData.photos?.length > 0) {
             for (let i = 0; i < formData.photos.length; i++) {
@@ -200,6 +203,18 @@ const AddActivity = () => {
 
                             <div className="col-md-4">
                                 <FormInput
+                                    type="date"
+                                    label="Date of Activity"
+                                    name="date"
+                                    value={formData.date}
+                                    onChange={handleChange}
+                                    error={errors.date}
+                                    mandatory
+                                />
+                            </div>
+
+                            <div className="col-md-4">
+                                <FormInput
                                     type="file"
                                     label="Photos"
                                     name="photos"
@@ -245,18 +260,18 @@ const AddActivity = () => {
                                 {isEditMode && existingFiles.videos?.length > 0 && (
                                     <div className="mt-2">
                                         {existingFiles.videos.map((video, index) => (
-                                             <a
+                                            <a
                                                 key={index}
                                                 href={`${BASE_URL_JOB}${video.videoPhoto}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                             >
-                                            <video key={index} width="120" controls>
-                                                <source
-                                                    src={`${BASE_URL_JOB}${video.videoPhoto}`}
-                                                    type="video/mp4"
-                                                />
-                                            </video>
+                                                <video key={index} width="120" controls>
+                                                    <source
+                                                        src={`${BASE_URL_JOB}${video.videoPhoto}`}
+                                                        type="video/mp4"
+                                                    />
+                                                </video>
                                             </a>
                                         ))}
                                     </div>
@@ -272,7 +287,7 @@ const AddActivity = () => {
                         <div className="mt-4 text-center">
                             <FormActions
                                 onCancel={() => navigate("/superAdmin/manage-activities")}
-                                saveText={isEditMode ? updateMutation.isPending ? "Saving..." : "Save" : createMutation.isPending ? "Saving..." : "Save" }
+                                saveText={isEditMode ? updateMutation.isPending ? "Saving..." : "Save" : createMutation.isPending ? "Saving..." : "Save"}
                                 cancelText="Cancel"
                                 disabled={isLoading}
                             />
