@@ -50,9 +50,9 @@ const AdminHeader = ({ toggleSidebar, toggleCollapse, collapsed }) => {
 
         {openProfile && (
           <div className="profile-menu">
-            <div className="profile-item">
+            {/* <div className="profile-item">
               <User size={16} /> My Profile
-            </div>
+            </div> */}
             <div className="profile-item danger" onClick={handleLogout}>
               <LogOut size={16} /> Logout
             </div>
