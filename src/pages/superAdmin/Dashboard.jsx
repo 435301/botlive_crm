@@ -376,7 +376,16 @@ const Dashboard = () => {
             src={bannerImg}
             className="img-fluid"
             alt="banner"
-            style={{ display: "block",borderRadius:"10px" }} />
+            style={{ display: "block", borderRadius: "10px" }} />
+          <div className="" >
+            <div style={{
+              margin: "0px",
+              color: "#016b75",
+              borderBottom: "3px solid #016b75"
+            }}
+            />  
+
+          </div>
         </div>
 
 
@@ -652,10 +661,10 @@ const Dashboard = () => {
                     <h6 className="text-center mb-2 fw-semibold">{item.title}</h6>
                     <ResponsiveContainer width="100%" height={220}>
                       <PieChart>
-                        <Pie data={item.data} dataKey="value" cx="50%" cy="50%" innerRadius={55} outerRadius={80} paddingAngle={3} labelLine  > {item.data.map((entry, i) => (<Cell key={i} fill={entry.color} />))} 
+                        <Pie data={item.data} dataKey="value" cx="50%" cy="50%" innerRadius={55} outerRadius={80} paddingAngle={3} labelLine  > {item.data.map((entry, i) => (<Cell key={i} fill={entry.color} />))}
                         </Pie>
-                         <Tooltip formatter={(value) => `${value}%`} />
-                           <Legend verticalAlign="bottom" height={36} />
+                        <Tooltip formatter={(value) => `${value}%`} />
+                        <Legend verticalAlign="bottom" height={36} />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
