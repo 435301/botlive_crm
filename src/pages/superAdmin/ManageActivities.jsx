@@ -8,6 +8,7 @@ import DeleteConfirmationModal from "../../Modals/deleteModal";
 import useSchools from "../../hooks/useSchools";
 import TableWrapper from "../../components/TableWrapper";
 import useDistricts from "../../hooks/useDistricts";
+import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
 
 
 const ManageActivities = () => {
@@ -20,7 +21,8 @@ const ManageActivities = () => {
     const [page, setPage] = useState(1);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
-
+    const [fromDate, setFromDate] = useState("");
+    const [toDate, setToDate] = useState("");
 
     const { useList, deleteMutation } = useCrud({
         entity: "activity",
@@ -37,6 +39,8 @@ const ManageActivities = () => {
         centreId,
         centreType,
         districtId,
+        fromDate: fromDate ? formatDateToDDMMYYYY(fromDate) : "",
+        toDate: toDate ? formatDateToDDMMYYYY(toDate) : "",
     });
 
     const activities = data?.data || [];
@@ -47,7 +51,7 @@ const ManageActivities = () => {
     const { schoolsData } = useSchools();
     const filteredCentres = centreType ? schoolsData?.filter((school) => school.centerType === centreType) : schoolsData;
 
-    const {districts} = useDistricts();
+    const { districts } = useDistricts();
 
     const handleImportExcel = (e) => {
         const file = e.target.files[0];
@@ -69,6 +73,9 @@ const ManageActivities = () => {
         setStatus("");
         setPage(1);
         setDistrictId("");
+        setFromDate("");
+        setToDate("");
+
     };
 
     const handleDeleteClick = (id) => {
@@ -192,6 +199,29 @@ const ManageActivities = () => {
                         />
                     </div>
 
+                    <div className="col-lg-2 col-md-6">
+                        <input
+                            type="date"
+                            className="form-control"
+                            value={fromDate}
+                            onChange={(e) => {
+                                setFromDate(e.target.value);
+                                setPage(1);
+                            }}
+                        />
+                    </div>
+
+                    <div className="col-lg-2 col-md-6">
+                        <input
+                            type="date"
+                            className="form-control"
+                            value={toDate}
+                            onChange={(e) => {
+                                setToDate(e.target.value);
+                                setPage(1);
+                            }}
+                        />
+                    </div>
 
                     <div className="col-md-2">
                         <SelectFilter
@@ -317,6 +347,7 @@ const ManageActivities = () => {
                                     <th>District</th>
                                     <th>Images</th>
                                     <th>Videos</th>
+                                    <th>Activity Date</th>
                                     <th>Status</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
@@ -348,6 +379,7 @@ const ManageActivities = () => {
                                                     {activity.videoCount}
                                                 </Link>
                                             </td>
+                                            <td>{activity.activityDate || "-"}</td>
                                             <td>
                                                 <span
                                                     className={`badge ${activity.status === 1 ? "bg-success" : "bg-secondary"

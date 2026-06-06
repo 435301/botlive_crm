@@ -8,6 +8,7 @@ import { validateActivity } from "../../utils/validation";
 import FormSelect from "../../components/FormSelect";
 import useSchools from "../../hooks/useSchools";
 import BASE_URL_JOB from "../../config/config";
+import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
 
 const AddActivity = () => {
     const navigate = useNavigate();
@@ -33,7 +34,7 @@ const AddActivity = () => {
         photos: [],
         videos: [],
         status: 1,
-        date: ""
+        activityDate: ""
     });
     const [existingFiles, setExistingFiles] = useState({
         photos: [],
@@ -53,6 +54,7 @@ const AddActivity = () => {
                 centreType: data.centreType,
                 status: data.status,
                 date: data.date,
+                activityDate: data.activityDate,
             });
             setExistingFiles({
                 photos: data.photos || [],
@@ -96,7 +98,7 @@ const AddActivity = () => {
         payload.append("centreId", formData.centreId);
         payload.append("centreType", formData.centreType);
         payload.append("status", formData.status);
-        payload.append("date", formData.date);
+        payload.append("activityDate", formatDateToDDMMYYYY(formData.activityDate));
 
         if (formData.photos?.length > 0) {
             for (let i = 0; i < formData.photos.length; i++) {
@@ -205,10 +207,10 @@ const AddActivity = () => {
                                 <FormInput
                                     type="date"
                                     label="Date of Activity"
-                                    name="date"
-                                    value={formData.date}
+                                    name="activityDate"
+                                    value={formData.activityDate}
                                     onChange={handleChange}
-                                    error={errors.date}
+                                    error={errors.activityDate}
                                     mandatory
                                 />
                             </div>
