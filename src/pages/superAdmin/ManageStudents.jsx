@@ -87,6 +87,10 @@ const ManageStudents = () => {
   const statistics = data?.statistics || [];
   console.log('statistics', statistics)
 
+  const statsMap = Object.fromEntries(
+    (statistics || []).map(item => [item.studentType, item])
+  );
+
   const { schoolsData } = useSchools();
   console.log('centerName', schoolsData)
 
@@ -132,49 +136,13 @@ const ManageStudents = () => {
   };
 
   const centreStats = [
-    {
-      title: "Skill Development",
-      icon: "bi-building",
-      iconColor: "text-success",
-      total: statistics[0]?.totalStudents || 0,
-      male: statistics[0]?.totalMale || 0,
-      female: statistics[0]?.totalFemale || 0,
-    },
-    {
-      title: "AI & STEM Learning",
-      icon: "bi-mortarboard",
-      iconColor: "text-primary",
-      total: statistics[1]?.totalStudents || 0,
-      male: statistics[1]?.totalMale || 0,
-      female: statistics[1]?.totalFemale || 0,
-    },
-    {
-      title: "School Education",
-      icon: "bi-journal-bookmark",
-      iconColor: "text-warning",
-      total: statistics[2]?.totalStudents || 0,
-      male: statistics[2]?.totalMale || 0,
-      female: statistics[2]?.totalFemale || 0,
-
-    },
-    {
-      title: "Innovation and Entrepreneurship",
-      icon: "bi-lightbulb",
-      iconColor: "text-info",
-      total: statistics[3]?.totalStudents || 0,
-      male: statistics[3]?.totalMale || 0,
-      female: statistics[3]?.totalFemale || 0,
-    },
-    {
-      title: "Community Development",
-      icon: "bi-people",
-      iconColor: "text-secondary",
-      total: statistics[4]?.totalStudents || 0,
-      male: statistics[4]?.totalMale || 0,
-      female: statistics[4]?.totalFemale || 0,
-
-    }
+    { type: 1, title: "Skill Development", icon: "bi-building", iconColor: "text-success" },
+    { type: 2, title: "AI & STEM Learning", icon: "bi-mortarboard", iconColor: "text-primary" },
+    { type: 3, title: "School Education", icon: "bi-journal-bookmark", iconColor: "text-warning" },
+    { type: 4, title: "Innovation and Entrepreneurship", icon: "bi-lightbulb", iconColor: "text-info" },
+    { type: 5, title: "Community Development", icon: "bi-people", iconColor: "text-secondary" },
   ];
+
   return (
     <div className="container-fluid">
       {/* ===== HEADER ===== */}
@@ -303,53 +271,50 @@ const ManageStudents = () => {
         <div className="row g-3">
 
           {/* Cards */}
-          {centreStats.map((item, index) => (
-            <div className="col-12 col-md-4" key={index}>
-              <div className="card1 shadow-sm border-0 rounded-3">
-                <div className="card-body d-flex align-items-center ">
-
-                  {/* Icon */}
-                  <div
-                    className="rounded-circle d-flex align-items-center justify-content-center me-2 manageCardsIcon"
-                  >
-                    <i className={`bi ${item.icon} fs-6 ${item.iconColor}`}></i>
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex-grow-1">
-
-                    <strong>{item.title}</strong>
-
-                    <div className="d-flex gap-3 mt-1 flex-wrap">
-                      <div>
-                        <small className="text-muted me-1">Enrolled:</small>
-                        <span className="fw-bold manageCardsTitle">
-                          {item.total}
-                        </span>
+          {centreStats
+            .filter(item => {
+              // if no filter → show all cards
+              if (!centreType) return true;
+              // show ONLY selected type
+              return item.type === Number(centreType);
+            })
+            .map(item => {
+              const stat = statsMap[item.type];
+              return (
+                <div className="col-12 col-md-4" key={item.type}>
+                  <div className="card1 shadow-sm border-0 rounded-3">
+                    <div className="card-body d-flex align-items-center">
+                      <div className="rounded-circle d-flex align-items-center justify-content-center me-2 manageCardsIcon">
+                        <i className={`bi ${item.icon} fs-6 ${item.iconColor}`}></i>
                       </div>
-
-                      <div>
-                        <small className="text-muted me-1">Male:</small>
-                        <span className="fw-bold manageCardsTitle">
-                          {item.male}
-                        </span>
-                      </div>
-
-                      <div>
-                        <small className="text-muted me-1">Female:</small>
-                        <span className="fw-bold manageCardsTitle">
-                          {item.female}
-                        </span>
+                      <div className="flex-grow-1">
+                        <strong>{item.title}</strong>
+                        <div className="d-flex gap-3 mt-1 flex-wrap">
+                          <div>
+                            <small className="text-muted me-1">Enrolled:</small>
+                            <span className="fw-bold manageCardsTitle">
+                              {stat?.totalStudents || 0}
+                            </span>
+                          </div>
+                          <div>
+                            <small className="text-muted me-1">Male:</small>
+                            <span className="fw-bold manageCardsTitle">
+                              {stat?.totalMale || 0}
+                            </span>
+                          </div>
+                          <div>
+                            <small className="text-muted me-1">Female:</small>
+                            <span className="fw-bold manageCardsTitle">
+                              {stat?.totalFemale || 0}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-
                   </div>
                 </div>
-              </div>
-            </div>
-          ))}
-
-
+              );
+            })}
         </div>
       </div>
 
