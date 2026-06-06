@@ -41,6 +41,14 @@ const ManageSuperAdminTrainers = () => {
   const { schoolsData } = useSchools();
   const filteredCentres = centreType ? schoolsData?.filter((school) => school.centerType === centreType) : schoolsData;
 
+    const statistics = data?.statistics || [];
+  console.log('statistics', statistics)
+
+  const statsMap = Object.fromEntries(
+    (statistics || []).map(item => [item.trainerType, item])
+  );
+
+
   const resetFilters = () => {
     setSearch("");
     setStatus("");
@@ -71,6 +79,16 @@ const ManageSuperAdminTrainers = () => {
     setDeleteId(null);
     deleteMutation.mutate(deleteId);
   };
+
+      const centreStats = [
+    { type: 1, title: "Skill Development", icon: "bi-building", iconColor: "text-success" },
+    { type: 2, title: "AI & STEM Learning", icon: "bi-mortarboard", iconColor: "text-primary" },
+    { type: 3, title: "School Education", icon: "bi-journal-bookmark", iconColor: "text-warning" },
+    { type: 4, title: "Innovation and Entrepreneurship", icon: "bi-lightbulb", iconColor: "text-info" },
+    { type: 5, title: "Community Development", icon: "bi-people", iconColor: "text-secondary" },
+  ];
+
+
   return (
     <div className="container-fluid">
       {/* ===== HEADER ===== */}
@@ -195,6 +213,57 @@ const ManageSuperAdminTrainers = () => {
               </button>
             </div>
           </div>
+        </div>
+      </div>
+
+       <div className="container my-3">
+        <div className="row g-3">
+
+          {/* Cards */}
+          {centreStats
+            .filter(item => {
+              // if no filter → show all cards
+              if (!centreType) return true;
+              // show ONLY selected type
+              return item.type === Number(centreType);
+            })
+            .map(item => {
+              const stat = statsMap[item.type];
+              return (
+                <div className="col-12 col-md-4" key={item.type}>
+                  <div className="card1 shadow-sm border-0 rounded-3">
+                    <div className="card-body d-flex align-items-center">
+                      <div className="rounded-circle d-flex align-items-center justify-content-center me-2 manageCardsIcon">
+                        <i className={`bi ${item.icon} fs-6 ${item.iconColor}`}></i>
+                      </div>
+                      <div className="flex-grow-1">
+                        <strong>{item.title}</strong>
+                        <div className="d-flex gap-3 mt-1 flex-wrap">
+                          <div>
+                            <small className="text-muted me-1">Total:</small>
+                            <span className="fw-bold manageCardsTitle">
+                              {stat?.total || 0}
+                            </span>
+                          </div>
+                          <div>
+                            <small className="text-muted me-1">Male:</small>
+                            <span className="fw-bold manageCardsTitle">
+                              {stat?.totalMale || 0}
+                            </span>
+                          </div>
+                          <div>
+                            <small className="text-muted me-1">Female:</small>
+                            <span className="fw-bold manageCardsTitle">
+                              {stat?.totalFemale || 0}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
         </div>
       </div>
 

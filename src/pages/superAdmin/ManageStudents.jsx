@@ -267,6 +267,7 @@ const ManageStudents = () => {
           </div>
         </div>
       </div>
+      
       <div className="container my-3">
         <div className="row g-3">
 
