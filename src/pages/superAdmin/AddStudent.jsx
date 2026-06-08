@@ -77,10 +77,12 @@ const AddStudent = () => {
         password: "",
         studentPhoto: null,
         status: studentData.status,
-        enrolled: studentData.enrolled || "-"
+        enrolled: studentData.enrolled || "-",
+        batchStartDate: studentData.batchStartDate || "-",
+        batchEndDate: studentData.batchEndDate || "-"
       });
       setSkillCentreFormData({
-        centreType:studentData?.studentType,
+        centreType: studentData?.studentType,
         skillcentreId: studentData.centreId || "",
         enrollmentNumber: studentData.enrolmentNumber || "",
         studentName: studentData.fullName || "",
@@ -114,7 +116,9 @@ const AddStudent = () => {
         pgCertificate: null,
         studentPhoto: null,
         status: studentData.status,
-        enrolled: studentData.enrolled || "-"
+        enrolled: studentData.enrolled || "-",
+        batchStartDate: studentData.batchStartDate || "-",
+        batchEndDate: studentData.batchEndDate || "-"
       });
     }
   }, [studentData]);
@@ -136,7 +140,9 @@ const AddStudent = () => {
     fatherName: "",
     studentPhoto: null,
     status: 1,
-    enrolled: 1
+    enrolled: 1,
+    batchStartDate: "",
+    batchEndDate: ""
   });
 
   const [skillCentreFormData, setSkillCentreFormData] = useState({
@@ -174,7 +180,9 @@ const AddStudent = () => {
     ugCertificate: null,
     pgCertificate: null,
     status: 1,
-    enrolled: 1
+    enrolled: 1,
+    batchStartDate: "",
+    batchEndDate: ""
   })
 
   const { schoolsData } = useSchools();
@@ -189,6 +197,8 @@ const AddStudent = () => {
   const filteredDistricts = skillCentreFormData.stateId ? districts.filter((district) => Number(district.stateId) === Number(skillCentreFormData.stateId)) : [];
   const { categories } = useCategory();
 
+  console.log("START DATE:", skillCentreFormData.batchStartDate);
+  console.log("END DATE:", skillCentreFormData.batchEndDate);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -256,16 +266,12 @@ const AddStudent = () => {
     e.preventDefault();
 
     if (Number(formData.centreType) === 2) {
-
       const validationErrors = validateSchoolStudent(formData, isEditMode);
-
       if (Object.keys(validationErrors).length > 0) {
         setErrors(validationErrors);
         return;
       }
-
       const dataToSend = new FormData();
-
       Object.keys(formData).forEach((key) => {
         if (formData[key] !== null && formData[key] !== "") {
           if (key === "dob") {
@@ -291,7 +297,6 @@ const AddStudent = () => {
     }
 
     if (Number(formData.centreType) === 1) {
-
       const validationErrors = validateSkillCentreStudent(
         skillCentreFormData,
         isEditMode
@@ -302,20 +307,14 @@ const AddStudent = () => {
         return;
       }
       const dataToSend = new FormData();
-
+      const dateFields = ["dob", "batchStartDate", "batchEndDate"];
       Object.keys(skillCentreFormData).forEach((key) => {
-        if (
-          skillCentreFormData[key] !== null &&
-          skillCentreFormData[key] !== ""
-        ) {
-          if (key === "dob") {
-            dataToSend.append(
-              "dob",
-              formatDateToDDMMYYYY(skillCentreFormData.dob)
-            );
-          } else {
-            dataToSend.append(key, skillCentreFormData[key]);
-          }
+        const value = skillCentreFormData[key];
+        if (value === null || value === undefined || value === "") return;
+        if (dateFields.includes(key)) {
+          dataToSend.append(key, formatDateToDDMMYYYY(value));
+        } else {
+          dataToSend.append(key, value);
         }
       });
 
@@ -509,6 +508,31 @@ const AddStudent = () => {
           mandatory={!isEditMode}
         />
       </div>
+
+      <div className="col-md-4">
+        <FormInput
+          type="date"
+          label="Batch Start Date"
+          name="batchStartDate"
+          value={formData.batchStartDate}
+          onChange={handleChange}
+          error={errors.batchStartDate}
+          mandatory
+        />
+      </div>
+
+      <div className="col-md-4">
+        <FormInput
+          type="date"
+          label="Batch End Date"
+          name="batchEndDate"
+          value={formData.batchEndDate}
+          onChange={handleChange}
+          error={errors.batchEndDate}
+          mandatory
+        />
+      </div>
+
 
       {/* Status */}
       <div className="col-md-4">
@@ -904,6 +928,40 @@ const AddStudent = () => {
           error={errors.noOfFamilyMembers}
           placeholder="Enter no of family numbers"
           mandatory
+        />
+      </div>
+
+      <div className="col-md-4">
+        <FormInput
+          mandatory
+          label="Batch Start Date"
+          name="batchStartDate"
+          type="date"
+          value={skillCentreFormData.batchStartDate}
+          onChange={(e) =>
+            setSkillCentreFormData({
+              ...skillCentreFormData,
+              batchStartDate: e.target.value,
+            })
+          }
+          error={errors.batchStartDate}
+        />
+      </div>
+
+      <div className="col-md-4">
+        <FormInput
+          label="Batch End Date"
+          name="batchEndDate"
+          error={errors.batchEndDate}
+          mandatory
+          type="date"
+          value={skillCentreFormData.batchEndDate}
+          onChange={(e) =>
+            setSkillCentreFormData({
+              ...skillCentreFormData,
+              batchEndDate: e.target.value,
+            })
+          }
         />
       </div>
 
