@@ -589,3 +589,15 @@ export const validateVolunteer = (formData, isEditMode = false) => {
   }
   return errors;
 };
+
+
+export const validateVolunteerActivity = (formData, isEditMode = false) => {
+  const errors = {};
+  if (!formData.volunteerId) errors.volunteerId = " Volunteer Name is required";
+  if (!formData.activityName) errors.activityName = "Activity Name is required";
+  if (!formData.projectType) errors.projectType = "Project Type is required";
+  if (!formData.assignedDate) errors.assignedDate = "Assigned Date is required";
+  if (!formData.location) errors.location = "Location is required";
+  if (!formData.coordinator) errors.coordinator = "Coordinator is required";
+  return errors;
+};

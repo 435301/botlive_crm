@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useCrud } from "../../hooks/useCrud";
 import BASE_URL_JOB from "../../config/config";
+import { formatToInputDate } from "../../utils/formatDateInput";
 // import Styles from "../../assets/css/style.module.css";
 
 const ViewVolunteer = () => {
@@ -73,7 +74,7 @@ const ViewVolunteer = () => {
                         </div>
                         <div className="col-md-4">
                             <strong>DOB:</strong>
-                            <p>{volunteer?.dob || "-"}</p>
+                            <p>{formatToInputDate(volunteer?.dob || "-")}</p>
                         </div>
 
                         <div className="col-md-4">

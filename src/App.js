@@ -134,6 +134,8 @@ const AddSubAdminSupport = lazy(() => import("./pages/admin/AddSupport"));
 const AddVolunteer = lazy(() => import("./pages/superAdmin/AddVolunteer"));
 const ManageVolunteer = lazy(() => import("./pages/superAdmin/ManageVolunteer"));
 const ViewVolunteer = lazy(()=> import("./pages/superAdmin/ViewVolunteer"));
+const AddVolunteerAssignment = lazy(() => import("./pages/superAdmin/AddVolunteerAsssignment"));
+const ManageVolunteerAssignment = lazy(() => import("./pages/superAdmin/ManageVolunteerAssignment"));
 
 // SchoolSkillCenter
 const SchoolSkillLogin = lazy(
@@ -593,6 +595,33 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
                 {lazyLoad(ViewVolunteer)}
+              </ProtectedRoute>
+            }
+          />
+
+           <Route
+            path="/superAdmin/manage-volunteer-assignment"
+            element={
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
+                {" "}
+                {lazyLoad(ManageVolunteerAssignment)}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superAdmin/add-volunteer-assignment"
+            element={
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
+                {" "}
+                {lazyLoad(AddVolunteerAssignment)}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superAdmin/edit-volunteer-assignment/:id"
+            element={
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
+                {lazyLoad(AddVolunteerAssignment)}
               </ProtectedRoute>
             }
           />

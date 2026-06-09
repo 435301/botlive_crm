@@ -9,7 +9,7 @@ import TableWrapper from "../../components/TableWrapper";
 import { formatToInputDate } from "../../utils/formatDateInput";
 
 
-const ManageVolunteer = () => {
+const ManageVolunteerAssignment = () => {
     const navigate = useNavigate();
     const [search, setSearch] = useState("");
     const [status, setStatus] = useState("");
@@ -19,11 +19,11 @@ const ManageVolunteer = () => {
 
     const { useList, deleteMutation } = useCrud({
         entity: "volunteer",
-        listUrl: "/volunteer/list",
-        getUrl: (id) => `/volunteer/${id}`,
-        createUrl: "/volunteer/add",
-        updateUrl: (id) => `/volunteer/update/${id}`,
-        deleteUrl: (id) => `/volunteer/delete/${id}`,
+        listUrl: "/volunteerActivity/list",
+        getUrl: (id) => `/volunteerActivity/${id}`,
+        createUrl: "/volunteerActivity/add",
+        updateUrl: (id) => `/volunteerActivity/update/${id}`,
+        deleteUrl: (id) => `/volunteerActivity/delete/${id}`,
     });
 
     const { data, isLoading } = useList({
@@ -32,7 +32,7 @@ const ManageVolunteer = () => {
         page,
     });
 
-    const founders = data?.data || [];
+    const volunteerActivity = data?.data || [];
     const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
     const perPage = data?.perPage || 15;
 
@@ -76,9 +76,9 @@ const ManageVolunteer = () => {
                         <i className="ti ti-certificate fs-16"></i> {/* Skill icon */}
                     </div>
                     <div>
-                        <h5 className="fw-bold mb-0">Volunteer Management</h5>
+                        <h5 className="fw-bold mb-0">Volunteer Activty Assignment</h5>
                         <p className="sub-text mb-0">
-                            View, edit and manage all volunteers
+                            View, edit and manage all volunteer activity assignment
                         </p>
                     </div>
                     {/* Right: Action Buttons */}
@@ -107,11 +107,11 @@ const ManageVolunteer = () => {
                         Export Excel
                     </button>
                     <Link
-                        to="/superAdmin/add-volunteer"
+                        to="/superAdmin/add-volunteer-assignment"
                         className="btn add-skill-btn d-flex align-items-center"
                     >
                         <i className="ti ti-graduation-cap me-2"></i>
-                        Add Volunteer
+                        Add Volunteer Activity
                     </Link>
                 </div>
             </div>
@@ -134,8 +134,9 @@ const ManageVolunteer = () => {
                             value={status}
                             placeholder="All Status"
                             options={[
-                                { label: "Active", value: 1 },
-                                { label: "Inactive", value: 0 },
+                                { label: "New", value: 1 },
+                                { label: "In Progress", value: 2 },
+                                { label: "Completed", value: 3 },
                             ]}
                             onChange={(value) => {
                                 setStatus(value);
@@ -168,10 +169,14 @@ const ManageVolunteer = () => {
                                     <tr>
                                         <th>#</th>
                                         <th>Volunteer Name</th>
-                                        <th>Email</th>
-                                        <th>Mobile</th>
-                                        <th>Gender</th>
-                                        <th>DOB</th>
+                                        <th>Activity Name</th>
+                                        <th>Project Type</th>
+                                        <th>Assigned Date</th>
+                                        <th>Location</th>
+                                        <th>Coordinator</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Remarks</th>
                                         <th>Status</th>
                                         <th className="text-center">Actions</th>
                                     </tr>
@@ -184,30 +189,31 @@ const ManageVolunteer = () => {
                                                 Loading...
                                             </td>
                                         </tr>
-                                    ) : founders?.length > 0 ? (
-                                        founders.map((item, index) => (
+                                    ) : volunteerActivity?.length > 0 ? (
+                                        volunteerActivity.map((item, index) => (
                                             <tr key={item.id}>
                                                 <td>{(page - 1) * perPage + index + 1}</td>
-                                                <td>{item.volunteerName}</td>
-                                                <td>{item.email}</td>
-                                                <td>{item.volunteerMobile}</td>
-                                                <td>{item.gender === 1 ? "Male" : 2 ? "Female" : "Others"}</td>
-                                                <td>{formatToInputDate(item.dob)}</td>
+                                                <td>{item.volunteer?.volunteerName || "-"}</td>
+                                                <td>{item.activityName || "-"}</td>
+                                                <td> {item.projectType === 1 ? "Skill Development" : item.projectType === 2 ? "AI & STEM Learning" : item.projectType === 3 ? "Education Development" : item.projectType === 4 ? "Innovation & Entrepreneurship" : item.projectType === 5 ? "Community Development" : ""}</td>
+                                                <td>{formatToInputDate(item.assignedDate || "-")}</td>
+                                                <td>{item.location || "-"}</td>
+                                                <td>{item.coordinator || "-"}</td>
+                                                <td>{formatToInputDate(item.startDate || "-")}</td>
+                                                <td>{formatToInputDate(item.endDate || "-")}</td>
+                                                <td className="text-truncate">{item.remarks || "-"}</td>
                                                 <td>
                                                     <span
                                                         className={`badge ${item.status === 1
-                                                            ? "bg-success"
-                                                            : "bg-secondary"
+                                                            ? "bg-primary" : item.status === 2 ? "bg-secondary"
+                                                                : "bg-success"
                                                             }`}
                                                     >
-                                                        {item.status === 1 ? "Active" : "Inactive"}
+                                                        {item.status === 1 ? "New" : item.status === 2 ? "In Progress" : "Completed"}
                                                     </span>
                                                 </td>
                                                 <td className="text-center">
-                                                      <button className="btn btn-outline-success btn-sm me-2" onClick={() => navigate(`/superAdmin/view-volunteer/${item?.id}`)}>
-                                                        <i className="bi bi-eye"></i>
-                                                    </button>
-                                                    <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-volunteer/${item?.id}`)}>
+                                                    <button className="btn btn-outline-primary btn-sm me-2" onClick={() => navigate(`/superAdmin/edit-volunteer-assignment/${item?.id}`)}>
                                                         <i className="bi bi-pencil"></i>
                                                     </button>
                                                     <button className="btn btn-outline-danger btn-sm" onClick={() => handleDeleteClick(item?.id)}>
@@ -250,4 +256,4 @@ const ManageVolunteer = () => {
     );
 };
 
-export default ManageVolunteer;
+export default ManageVolunteerAssignment;
