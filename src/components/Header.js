@@ -3,6 +3,7 @@ import { Menu, LogOut, ChevronDown } from "lucide-react";
 import { logoutAdmin } from "../redux/slices/adminSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import NotificationBell from "./NotificationBellComponent";
 
 const Header = ({ toggleSidebar, toggleCollapse, collapsed }) => {
   const [openProfile, setOpenProfile] = useState(false);
@@ -37,6 +38,9 @@ const Header = ({ toggleSidebar, toggleCollapse, collapsed }) => {
 
       {/* Right side */}
       <div className="header-right">
+        <div>
+          <NotificationBell/>
+        </div>
         <div
           className={`profile ${openProfile ? "open" : ""}`}
           onClick={() => setOpenProfile(!openProfile)}

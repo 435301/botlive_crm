@@ -93,7 +93,8 @@ const GetStudentReports = lazy(() => import("./pages/superAdmin/GetStudentsRepor
 const StudentStatistics = lazy(() => import("./pages/superAdmin/StudentStatisticsReport"));
 const ManageStudentAttendanceReport = lazy(() => import("./pages/superAdmin/ManageStudentAttendanceReport"));
 const ManageSuperAdminSupport = lazy(() => import("./pages/superAdmin/ManageSupport"));
-const ManageFeedback = lazy(()=> import("./pages/superAdmin/ManageFeedback"))
+const ManageFeedback = lazy(()=> import("./pages/superAdmin/ManageFeedback"));
+const ManageNotifications = lazy(()=> import ("./pages/superAdmin/ManageNotifcations"));
 
 
 // Admin
@@ -745,6 +746,7 @@ function App() {
           <Route path="/superAdmin/manage-student-attendance-report" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageStudentAttendanceReport)}</ProtectedRoute>} />
           <Route path="/superAdmin/manage-support" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSuperAdminSupport)}</ProtectedRoute>} />
           <Route path="/superAdmin/manage-feedback" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageFeedback)}</ProtectedRoute>} />
+          <Route path="/superAdmin/manage-notifications" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageNotifications)}</ProtectedRoute>} />
 
           {/* admin routes */}
           <Route path="/admin/login" element={<PublicRoute>{lazyLoad(AdminLogin)}</PublicRoute>} />
