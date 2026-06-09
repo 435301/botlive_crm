@@ -86,6 +86,7 @@ const ManageSuperAdminStudentMonthlyAttendance = lazy(() => import("./pages/supe
 const ManageSchoolSkillUpload = lazy(() => import("./pages/superAdmin/BulkUpload"));
 const ManageSkillCentresBulkUpload = lazy(() => import("./pages/superAdmin/BulkUploadSkillCentre"));
 const ManagePerformanceGradeBulkUpload = lazy(() => import("./pages/superAdmin/BulkUploadPerformanceGrade"));
+const ManageTrainerBulkUpload = lazy(()=> import("./pages/superAdmin/BulkUploadTrainer"));
 const VideoUpload = lazy(() => import("./pages/superAdmin/UploadVideo"));
 const ManageReports = lazy(() => import("./pages/superAdmin/ManageReports"));
 const GetStudentReports = lazy(() => import("./pages/superAdmin/GetStudentsReport"));
@@ -730,6 +731,7 @@ function App() {
           <Route path="/superAdmin/bulk-upload-school-students" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSchoolSkillUpload)}</ProtectedRoute>} />
           <Route path="/superAdmin/bulk-upload-skill-centre-students" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSkillCentresBulkUpload)}</ProtectedRoute>} />
           <Route path="/superAdmin/bulk-upload-performance-grade" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManagePerformanceGradeBulkUpload)}</ProtectedRoute>} />
+          <Route path="/superAdmin/bulk-upload-trainers" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageTrainerBulkUpload)}</ProtectedRoute>} />
           <Route path="/superAdmin/upload-video" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(VideoUpload)}</ProtectedRoute>} />
           <Route path="/superAdmin/reports" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageReports)}</ProtectedRoute>} />
           <Route path="/superAdmin/student-reports" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(GetStudentReports)}</ProtectedRoute>} />
