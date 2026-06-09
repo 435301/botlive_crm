@@ -147,7 +147,7 @@ const TrainerSidebar = ({ collapsed, show, closeSidebar }) => {
                             </NavLink>
                         </div>
                     </div>
-
+                    {/* support */}
                     <div className="nav-group">
                         <div className="nav-link" onClick={() => toggleMenu("support")}>
                             <Building2 size={18} />
@@ -169,6 +169,33 @@ const TrainerSidebar = ({ collapsed, show, closeSidebar }) => {
 
                             <NavLink to="/trainer/manage-support" className={getNavLinkClass}>
                                 Manage Support
+                            </NavLink>
+
+                        </div>
+                    </div>
+
+                    {/* feedback */}
+                    <div className="nav-group">
+                        <div className="nav-link" onClick={() => toggleMenu("feedback")}>
+                            <Building2 size={18} />
+                            {!collapsed && (
+                                <>
+                                    <span>Feedback</span>
+                                    <ChevronDown
+                                        size={16}
+                                        className={`arrow ${openMenu === "feedback" ? "rotate" : ""}`}
+                                    />
+                                </>
+                            )}
+                        </div>
+
+                        <div className={`submenu ${openMenu === "feedback" ? "open" : ""}`}>
+                            <NavLink to="/trainer/add-feedback" className={getNavLinkClass}>
+                                Add Feedback
+                            </NavLink>
+
+                            <NavLink to="/trainer/manage-feedback" className={getNavLinkClass}>
+                                Manage Feedback
                             </NavLink>
 
                         </div>

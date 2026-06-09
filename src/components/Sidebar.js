@@ -748,6 +748,11 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
             </div>
           </div>
 
+          <NavLink to="/superAdmin/manage-feedback" className={getNavLinkClass}>
+            <KeyRound size={18} />
+            {!collapsed && <span>Feedback</span>}
+          </NavLink>
+
           {/* upload video */}
           <NavLink to="/superAdmin/upload-video" className={getNavLinkClass}>
             <Settings size={18} />

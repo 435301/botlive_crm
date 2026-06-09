@@ -86,13 +86,16 @@ const ManageSuperAdminStudentMonthlyAttendance = lazy(() => import("./pages/supe
 const ManageSchoolSkillUpload = lazy(() => import("./pages/superAdmin/BulkUpload"));
 const ManageSkillCentresBulkUpload = lazy(() => import("./pages/superAdmin/BulkUploadSkillCentre"));
 const ManagePerformanceGradeBulkUpload = lazy(() => import("./pages/superAdmin/BulkUploadPerformanceGrade"));
-const ManageTrainerBulkUpload = lazy(()=> import("./pages/superAdmin/BulkUploadTrainer"));
+const ManageTrainerBulkUpload = lazy(() => import("./pages/superAdmin/BulkUploadTrainer"));
 const VideoUpload = lazy(() => import("./pages/superAdmin/UploadVideo"));
 const ManageReports = lazy(() => import("./pages/superAdmin/ManageReports"));
 const GetStudentReports = lazy(() => import("./pages/superAdmin/GetStudentsReport"));
 const StudentStatistics = lazy(() => import("./pages/superAdmin/StudentStatisticsReport"));
 const ManageStudentAttendanceReport = lazy(() => import("./pages/superAdmin/ManageStudentAttendanceReport"));
 const ManageSuperAdminSupport = lazy(() => import("./pages/superAdmin/ManageSupport"));
+const ManageFeedback = lazy(()=> import("./pages/superAdmin/ManageFeedback"))
+
+
 // Admin
 
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
@@ -134,7 +137,7 @@ const ManageSubAdminSupport = lazy(() => import("./pages/admin/ManageSupport"));
 const AddSubAdminSupport = lazy(() => import("./pages/admin/AddSupport"));
 const AddVolunteer = lazy(() => import("./pages/superAdmin/AddVolunteer"));
 const ManageVolunteer = lazy(() => import("./pages/superAdmin/ManageVolunteer"));
-const ViewVolunteer = lazy(()=> import("./pages/superAdmin/ViewVolunteer"));
+const ViewVolunteer = lazy(() => import("./pages/superAdmin/ViewVolunteer"));
 const AddVolunteerAssignment = lazy(() => import("./pages/superAdmin/AddVolunteerAsssignment"));
 const ManageVolunteerAssignment = lazy(() => import("./pages/superAdmin/ManageVolunteerAssignment"));
 
@@ -155,6 +158,8 @@ const AddStudentAttendance = lazy(() => import("./pages/TrainerModule/AddStudent
 const ManageMonthlyAttendance = lazy(() => import("./pages/TrainerModule/ManageMonthlyAttendance"));
 const ManageTrainerSupport = lazy(() => import("./pages/TrainerModule/ManageSupport"));
 const AddTrainerSupport = lazy(() => import("./pages/TrainerModule/AddSupport"));
+const ManageTrainerFeedback = lazy(()=> import("./pages/TrainerModule/ManageTrainerFeedback"));
+const AddTrainerFeedback = lazy(()=> import("./pages/TrainerModule/AddTrainerFeedback"));
 
 // Student Module
 
@@ -164,7 +169,8 @@ const StudentModuleLogin = lazy(
 const StudentAttendance = lazy(() => import("./pages/StudentModule/StudentAttendance"));
 const ManageStudentSupport = lazy(() => import("./pages/StudentModule/ManageSupport"));
 const AddStudentSupport = lazy(() => import("./pages/StudentModule/AddSupport"));
-
+const ManageStudentFeedback = lazy(() => import("./pages/StudentModule/ManageFeedback"));
+const AddStudentFeedback = lazy(() => import("./pages/StudentModule/AddFeedback"));
 
 // Admin
 
@@ -600,7 +606,7 @@ function App() {
             }
           />
 
-           <Route
+          <Route
             path="/superAdmin/manage-volunteer-assignment"
             element={
               <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
@@ -738,8 +744,7 @@ function App() {
           <Route path="/superAdmin/student-statistics" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(StudentStatistics)}</ProtectedRoute>} />
           <Route path="/superAdmin/manage-student-attendance-report" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageStudentAttendanceReport)}</ProtectedRoute>} />
           <Route path="/superAdmin/manage-support" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageSuperAdminSupport)}</ProtectedRoute>} />
-
-
+          <Route path="/superAdmin/manage-feedback" element={<ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">{lazyLoad(ManageFeedback)}</ProtectedRoute>} />
 
           {/* admin routes */}
           <Route path="/admin/login" element={<PublicRoute>{lazyLoad(AdminLogin)}</PublicRoute>} />
@@ -798,7 +803,9 @@ function App() {
           <Route path="/trainer/add-support" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(AddTrainerSupport)}</ProtectedRoute>} />
           <Route path="/trainer/edit-support/:id" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(AddTrainerSupport)}</ProtectedRoute>} />
           <Route path="/trainer/manage-support" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(ManageTrainerSupport)}</ProtectedRoute>} />
-
+          <Route path="/trainer/manage-feedback" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(ManageTrainerFeedback)}</ProtectedRoute>} />
+          <Route path="/trainer/add-feedback" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(AddTrainerFeedback)}</ProtectedRoute>} />
+          <Route path="/trainer/edit-feedback/:id" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(AddTrainerFeedback)}</ProtectedRoute>} />
 
           {/* Student Module login */}
 
@@ -811,7 +818,9 @@ function App() {
           <Route path="/student/manage-support" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(ManageStudentSupport)}</ProtectedRoute>} />
           <Route path="/student/add-support" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(AddStudentSupport)}</ProtectedRoute>} />
           <Route path="/student/edit-support/:id" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(AddStudentSupport)}</ProtectedRoute>} />
-
+          <Route path="/student/manage-feedback" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(ManageStudentFeedback)}</ProtectedRoute>} />
+          <Route path="/student/add-feedback" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(AddStudentFeedback)}</ProtectedRoute>} />
+          <Route path="/student/edit-feedback/:id" element={<ProtectedRoute allowedRoles={["student"]} loginPath="/student/login">{lazyLoad(AddStudentFeedback)}</ProtectedRoute>} />
         </Routes>
       </LayoutWrapper>
     </Router>

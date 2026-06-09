@@ -601,3 +601,14 @@ export const validateVolunteerActivity = (formData, isEditMode = false) => {
   if (!formData.coordinator) errors.coordinator = "Coordinator is required";
   return errors;
 };
+
+export const validateFeedback = (formData) => {
+  const errors = {};
+  if (!formData.message?.trim()) {
+    errors.message = "Message is required";
+  }
+  if (!formData.subject) {
+    errors.subject = "Subject is required";
+  }
+  return errors;
+};

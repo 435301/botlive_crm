@@ -100,31 +100,59 @@ const StudentSidebar = ({ collapsed, show, closeSidebar }) => {
             {!collapsed && <span>Attendance</span>}
           </NavLink>
 
-             <div className="nav-group">
-              <div className="nav-link" onClick={() => toggleMenu("support")}>
-                <Building2 size={18} />
-                {!collapsed && (
-                  <>
-                    <span>Support</span>
-                    <ChevronDown
-                      size={16}
-                      className={`arrow ${openMenu === "support" ? "rotate" : ""}`}
-                    />
-                  </>
-                )}
-              </div>
-
-              <div className={`submenu ${openMenu === "support" ? "open" : ""}`}>
-                <NavLink to="/student/add-support" className={getNavLinkClass}>
-                  Add Support
-                </NavLink>
-
-                <NavLink to="/student/manage-support" className={getNavLinkClass}>
-                  Manage Support
-                </NavLink>
-             
-              </div>
+          {/*  support */}
+          <div className="nav-group">
+            <div className="nav-link" onClick={() => toggleMenu("support")}>
+              <Building2 size={18} />
+              {!collapsed && (
+                <>
+                  <span>Support</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "support" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
             </div>
+
+            <div className={`submenu ${openMenu === "support" ? "open" : ""}`}>
+              <NavLink to="/student/add-support" className={getNavLinkClass}>
+                Add Support
+              </NavLink>
+
+              <NavLink to="/student/manage-support" className={getNavLinkClass}>
+                Manage Support
+              </NavLink>
+
+            </div>
+          </div>
+
+          {/* feedback */}
+          <div className="nav-group">
+            <div className="nav-link" onClick={() => toggleMenu("feedback")}>
+              <Building2 size={18} />
+              {!collapsed && (
+                <>
+                  <span>Feedback</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "feedback" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
+            </div>
+
+            <div className={`submenu ${openMenu === "feedback" ? "open" : ""}`}>
+              <NavLink to="/student/add-feedback" className={getNavLinkClass}>
+                Add Feedback
+              </NavLink>
+
+              <NavLink to="/student/manage-feedback" className={getNavLinkClass}>
+                Manage Feedback
+              </NavLink>
+
+            </div>
+          </div>
 
           {/* Change Password */}
           <NavLink to="/student/change-password" className={getNavLinkClass}>
