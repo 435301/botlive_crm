@@ -117,6 +117,7 @@ const AddDistrict = () => {
                     value: String(state.id),
                   }))}
                   error={errors.stateId}
+                  mandatory
                 />
               </div>
 

@@ -103,6 +103,7 @@ const AddSkillCenter = () => {
                     value: String(course.id),
                   }))}
                   error={errors.courseId}
+                  mandatory
                 />
               </div>
 

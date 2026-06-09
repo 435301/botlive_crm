@@ -93,7 +93,7 @@ const AddAdminStudent = () => {
         mobile: studentData.mobile || "",
         email: studentData.email || "",
         password: "",
-        alternateMobile: studentData.alternateMobile ,
+        alternateMobile: studentData.alternateMobile,
         qualificationId: String(studentData.qualificationId),
         occupationId: String(studentData.occupationId),
         categoryId: String(studentData.categoryId),
@@ -402,7 +402,7 @@ const AddAdminStudent = () => {
 
       <div className="col-md-4">
         <FormSelect
-           label={centreType === 1 ? "Skill" : "Grade"}
+          label={centreType === 1 ? "Skill" : "Grade"}
           name="gradeId"
           value={formData.gradeId}
           onChange={handleChange}
@@ -411,6 +411,7 @@ const AddAdminStudent = () => {
             value: grade.id
           }))}
           error={errors.gradeId}
+          mandatory
         />
       </div>
 
@@ -422,7 +423,7 @@ const AddAdminStudent = () => {
           onChange={handleChange}
           error={errors.aadharNumber}
           placeholder="Enter Aadhar number"
-          mandatory = {centreType === 1}
+          mandatory={centreType === 1}
         />
       </div>
 
@@ -600,6 +601,7 @@ const AddAdminStudent = () => {
             value: String(grade.id)
           }))}
           error={errors.batchId}
+          mandatory
         />
       </div>
 
@@ -647,7 +649,7 @@ const AddAdminStudent = () => {
           onChange={handleSkillChange}
           error={errors.mobile}
           placeholder="Enter mobile number"
-          
+
         />
       </div>
 
@@ -661,7 +663,7 @@ const AddAdminStudent = () => {
           onChange={handleSkillChange}
           error={errors.email}
           placeholder="Enter email address"
-          
+
         />
       </div>
       <div className="col-md-4">
@@ -691,6 +693,7 @@ const AddAdminStudent = () => {
             value: String(qualification.id)
           }))}
           error={errors.qualificationId}
+          mandatory
         />
       </div>
 
@@ -705,6 +708,7 @@ const AddAdminStudent = () => {
             value: String(occupation.id)
           }))}
           error={errors.occupationId}
+          mandatory
         />
       </div>
 
@@ -719,6 +723,7 @@ const AddAdminStudent = () => {
             value: String(category.id)
           }))}
           error={errors.categoryId}
+          mandatory
         />
       </div>
 
@@ -734,6 +739,7 @@ const AddAdminStudent = () => {
             value: String(state.id)
           }))}
           error={errors.stateId}
+          mandatory
         />
       </div>
 
@@ -748,6 +754,7 @@ const AddAdminStudent = () => {
             value: String(district.id)
           }))}
           error={errors.districtId}
+          mandatory
         />
       </div>
 
@@ -788,6 +795,7 @@ const AddAdminStudent = () => {
 
           ]}
           error={errors.maritalStatus}
+          mandatory
         />
       </div>
 
@@ -842,7 +850,7 @@ const AddAdminStudent = () => {
             value: String(occupation.id)
           }))}
           error={errors.motherOccupationId}
-
+          mandatory
         />
       </div>
 

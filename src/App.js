@@ -91,7 +91,7 @@ const ManageReports = lazy(() => import("./pages/superAdmin/ManageReports"));
 const GetStudentReports = lazy(() => import("./pages/superAdmin/GetStudentsReport"));
 const StudentStatistics = lazy(() => import("./pages/superAdmin/StudentStatisticsReport"));
 const ManageStudentAttendanceReport = lazy(() => import("./pages/superAdmin/ManageStudentAttendanceReport"));
-const ManageSuperAdminSupport = lazy(()=> import("./pages/superAdmin/ManageSupport"));
+const ManageSuperAdminSupport = lazy(() => import("./pages/superAdmin/ManageSupport"));
 // Admin
 
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
@@ -131,6 +131,9 @@ const ManageSubAdminStudentAttendance = lazy(() => import("./pages/admin/ManageS
 const ManageSubAdminStudentMonthlyAttendance = lazy(() => import("./pages/admin/ManageStudentMonthlyAttendance"));
 const ManageSubAdminSupport = lazy(() => import("./pages/admin/ManageSupport"));
 const AddSubAdminSupport = lazy(() => import("./pages/admin/AddSupport"));
+const AddVolunteer = lazy(() => import("./pages/superAdmin/AddVolunteer"));
+const ManageVolunteer = lazy(() => import("./pages/superAdmin/ManageVolunteer"));
+const ViewVolunteer = lazy(()=> import("./pages/superAdmin/ViewVolunteer"));
 
 // SchoolSkillCenter
 const SchoolSkillLogin = lazy(
@@ -559,6 +562,40 @@ function App() {
             }
           />
 
+          <Route
+            path="/superAdmin/manage-volunteer"
+            element={
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
+                {" "}
+                {lazyLoad(ManageVolunteer)}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superAdmin/add-volunteer"
+            element={
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
+                {" "}
+                {lazyLoad(AddVolunteer)}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superAdmin/edit-volunteer/:id"
+            element={
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
+                {lazyLoad(AddVolunteer)}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/superAdmin/view-volunteer/:id"
+            element={
+              <ProtectedRoute allowedRoles={["super-admin"]} loginPath="/login">
+                {lazyLoad(ViewVolunteer)}
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/superAdmin/manage-social-status"
             element={

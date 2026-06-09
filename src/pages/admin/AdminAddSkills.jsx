@@ -109,6 +109,7 @@ const AddSkillCenter = () => {
                     { label: "Skill Center", value: "Skill Center" },
                     { label: "School", value: "School" },
                   ]}
+                  mandatory
                 />
               </div>
 
@@ -174,6 +175,7 @@ const AddSkillCenter = () => {
                     { label: "State 1", value: "State 1" },
                     { label: "State 2", value: "State 2" },
                   ]}
+                  mandatory
                 />
               </div>
 
@@ -188,6 +190,7 @@ const AddSkillCenter = () => {
                     { label: "District 1", value: "District 1" },
                     { label: "District 2", value: "District 2" },
                   ]}
+                  mandatory
                 />
               </div>
               <div className="col-md-4">

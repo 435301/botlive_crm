@@ -144,6 +144,7 @@ const AddAssignedChapter = () => {
                                             value: grade.id
                                         }))}
                                         error={errors.gradeBatchId}
+                                        
                                     />
 
                                 ) : (
@@ -174,6 +175,7 @@ const AddAssignedChapter = () => {
                                         value: course.id
                                     }))}
                                     error={errors.courseId}
+                                    
                                 />
                             </div>
 
@@ -189,6 +191,7 @@ const AddAssignedChapter = () => {
                                         value: module.id
                                     }))}
                                     error={errors.moduleId}
+                                    
                                 />
                             </div>
 

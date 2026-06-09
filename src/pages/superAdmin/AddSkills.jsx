@@ -191,7 +191,9 @@ const AddSkillCenter = () => {
                     { label: "Innovation & Entrepreneurship", value: 4 },
                     { label: "Community Development", value: 5 },
                   ]}
+                  mandatory
                 />
+                
               </div>
 
               {formData.centerType === 2 && (
@@ -279,6 +281,7 @@ const AddSkillCenter = () => {
                     label: founder.name,
                     value: founder.id
                   }))}
+                  mandatory
                 />
               </div>
 
@@ -295,8 +298,8 @@ const AddSkillCenter = () => {
                     }))
                   }
                   error={errors.stateId}
+                  mandatory
                 />
-
               </div>
 
               <div className="col-md-4">
@@ -310,6 +313,7 @@ const AddSkillCenter = () => {
                     value: String(district.id)
                   }))}
                   error={errors.districtId}
+                  mandatory
                 />
               </div>
               <div className="col-md-4">

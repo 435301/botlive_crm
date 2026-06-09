@@ -405,6 +405,7 @@ const AddTrainerStudent = () => {
             value: grade.id
           }))}
           error={errors.gradeId}
+          mandatory
         />
       </div>
 
@@ -575,6 +576,7 @@ const AddTrainerStudent = () => {
             value: String(grade.id)
           }))}
           error={errors.batchId}
+          mandatory
         />
       </div>
 
@@ -677,6 +679,7 @@ const AddTrainerStudent = () => {
             value: String(qualification.id)
           }))}
           error={errors.qualificationId}
+          mandatory
         />
       </div>
 
@@ -691,6 +694,7 @@ const AddTrainerStudent = () => {
             value: String(occupation.id)
           }))}
           error={errors.occupationId}
+          mandatory
         />
       </div>
 
@@ -705,6 +709,7 @@ const AddTrainerStudent = () => {
             value: String(category.id)
           }))}
           error={errors.categoryId}
+          mandatory
         />
       </div>
 
@@ -720,6 +725,7 @@ const AddTrainerStudent = () => {
             value: String(state.id)
           }))}
           error={errors.stateId}
+          mandatory
         />
       </div>
 
@@ -734,6 +740,7 @@ const AddTrainerStudent = () => {
             value: String(district.id)
           }))}
           error={errors.districtId}
+          mandatory
         />
       </div>
 
@@ -774,6 +781,7 @@ const AddTrainerStudent = () => {
 
           ]}
           error={errors.maritalStatus}
+          mandatory
         />
       </div>
 
@@ -828,7 +836,7 @@ const AddTrainerStudent = () => {
             value: String(occupation.id)
           }))}
           error={errors.motherOccupationId}
-
+          mandatory
         />
       </div>
 

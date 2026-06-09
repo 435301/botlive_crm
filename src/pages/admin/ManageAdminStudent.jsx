@@ -343,6 +343,7 @@ const ManageAdminStudents = () => {
                           label: performance.title,
                           value: String(performance.id)
                         }))}
+                        mandatory
                       />
                     </div>
 

@@ -118,6 +118,7 @@ const AddGrades = () => {
                     { label: "Community Development", value: 5 },
                   ]}
                   error={errors.centreType}
+                  
                 />
               </div>
 

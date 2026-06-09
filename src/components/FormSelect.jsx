@@ -53,6 +53,7 @@ const FormSelect = ({
   onChange,
   options = [],
   className = "",
+  mandatory,
   error,
   isClearable = true,
 }) => {
@@ -80,7 +81,7 @@ const FormSelect = ({
       {label && (
         <label className="form-label">
           {label}
-          <span className="text-danger"> *</span>
+          {mandatory && <span className="text-danger"> *</span>}
         </label>
       )}
 
@@ -97,6 +98,7 @@ const FormSelect = ({
         isClearable={isClearable}
         classNamePrefix="react-select"
         styles={customStyles}
+        mandatory={mandatory}
       />
 
       {error && (

@@ -175,6 +175,7 @@ const AddActivity = () => {
                                         value: String(centre.id),
                                     }))}
                                     error={errors.centreId}
+                                    mandatory
                                 />
                             </div>
 

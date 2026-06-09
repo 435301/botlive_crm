@@ -431,6 +431,7 @@ const AddStudent = () => {
             value: grade.id
           }))}
           error={errors.gradeId}
+          mandatory
         />
       </div>
 
@@ -662,6 +663,7 @@ const AddStudent = () => {
             value: String(grade.id)
           }))}
           error={errors.batchId}
+          mandatory
         />
       </div>
 
@@ -750,6 +752,7 @@ const AddStudent = () => {
             value: String(qualification.id)
           }))}
           error={errors.qualificationId}
+          mandatory
         />
       </div>
 
@@ -764,6 +767,7 @@ const AddStudent = () => {
             value: String(occupation.id)
           }))}
           error={errors.occupationId}
+          mandatory
         />
       </div>
 
@@ -778,6 +782,7 @@ const AddStudent = () => {
             value: String(category.id)
           }))}
           error={errors.categoryId}
+          mandatory
         />
       </div>
 
@@ -793,6 +798,7 @@ const AddStudent = () => {
             value: String(state.id)
           }))}
           error={errors.stateId}
+          mandatory
         />
       </div>
 
@@ -807,6 +813,7 @@ const AddStudent = () => {
             value: String(district.id)
           }))}
           error={errors.districtId}
+          mandatory
         />
       </div>
 
@@ -847,6 +854,7 @@ const AddStudent = () => {
 
           ]}
           error={errors.maritalStatus}
+          mandatory
         />
       </div>
 
@@ -901,7 +909,7 @@ const AddStudent = () => {
             value: String(occupation.id)
           }))}
           error={errors.motherOccupationId}
-
+          mandatory
         />
       </div>
 
@@ -1144,6 +1152,7 @@ const AddStudent = () => {
                     { label: "Community Development", value: 5 },
                   ]}
                   error={errors.centreType}
+                  
                 />
               </div>
               {Number(formData.centreType) === 2 && renderSchoolStudentForm()}

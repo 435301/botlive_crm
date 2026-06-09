@@ -459,6 +459,41 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
             </div>
           </div>
 
+          {/* Volunteer management */}
+          <div
+            className={`nav-group ${isParentActive([
+              "/superAdmin/add-volunteer",
+              "/superAdmin/manage-volunteer",
+            ])
+              ? "active"
+              : ""
+              }`}
+          >
+            <div className="nav-link" onClick={() => toggleMenu("volunteer")}>
+              <BookOpen size={18} />
+              {!collapsed && (
+                <>
+                  <span>Volunteer Management</span>
+                  <ChevronDown
+                    size={16}
+                    className={`arrow ${openMenu === "volunteer" ? "rotate" : ""}`}
+                  />
+                </>
+              )}
+            </div>
+            <div className={`submenu ${openMenu === "volunteer" ? "open" : ""}`}>
+              <NavLink to="/superAdmin/add-volunteer" className={getNavLinkClass}>
+                Add Volunteer
+              </NavLink>
+              <NavLink
+                to="/superAdmin/manage-volunteer"
+                className={getNavLinkClass}
+              >
+                Manage Volunteer
+              </NavLink>
+            </div>
+          </div>
+
 
           {/* Student Management */}
           <div

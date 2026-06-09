@@ -383,6 +383,7 @@ const AddTrainer = () => {
                       }))
                     }
                     error={errors.qualificationId}
+                    mandatory
                   />
                 </div>
 
@@ -434,6 +435,7 @@ const AddTrainer = () => {
 
                     ]}
                     error={errors.bloodGroup}
+                    
                   />
                 </div>
 
@@ -449,7 +451,8 @@ const AddTrainer = () => {
                         value: String(state.id),
                       }))
                     }
-                    error={errors.stateId}
+                    error={errors.stateId}mandatory
+
                   />
                 </div>
 
@@ -464,6 +467,7 @@ const AddTrainer = () => {
                       value: String(district.id)
                     }))}
                     error={errors.districtId}
+                    mandatory
                   />
                 </div>
 

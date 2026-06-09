@@ -279,6 +279,7 @@ const AddSuperAdminTrainer = () => {
                                             { label: "Community Development", value: 5 },
                                         ]}
                                         error={errors.trainerType}
+                                        
                                     />
                                 </div>
 
@@ -426,6 +427,7 @@ const AddSuperAdminTrainer = () => {
                                             }))
                                         }
                                         error={errors.qualificationId}
+                                        mandatory
                                     />
                                 </div>
 
@@ -477,6 +479,7 @@ const AddSuperAdminTrainer = () => {
 
                                         ]}
                                         error={errors.bloodGroup}
+                                        
                                     />
                                 </div>
 
@@ -493,6 +496,7 @@ const AddSuperAdminTrainer = () => {
                                             }))
                                         }
                                         error={errors.stateId}
+                                        mandatory
                                     />
                                 </div>
 
@@ -507,6 +511,7 @@ const AddSuperAdminTrainer = () => {
                                             value: String(district.id)
                                         }))}
                                         error={errors.districtId}
+                                        mandatory
                                     />
                                 </div>
 

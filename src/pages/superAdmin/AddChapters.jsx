@@ -223,6 +223,7 @@ const AddChapters = () => {
                     label: course.courseTitle,
                     value: String(course.id)
                   }))}
+                  
                 />
               </div>
 
@@ -237,6 +238,7 @@ const AddChapters = () => {
                     label: module.moduleTitle,
                     value: String(module.id)
                   }))}
+                  
                 />
               </div>
 

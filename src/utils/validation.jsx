@@ -566,3 +566,26 @@ export const validateSupport = (formData) => {
 
   return errors;
 };
+
+export const validateVolunteer = (formData, isEditMode = false) => {
+  const errors = {};
+  if (!formData.volunteerName) errors.volunteerName = " Volunteer Name is required";
+  if (!formData.gender) errors.gender = "Gender is required";
+  if (!formData.dob) errors.dob = "Date of birth is required";
+  if (!formData.stateId) errors.stateId = "State is required";
+  if (!formData.districtId) errors.districtId = "District is required";
+  if (!formData.area) errors.area = "Village/Town is required";
+  if (!formData.mobile) errors.mobile = "Mobile is required";
+  if (!formData.email) {
+    errors.email = "Email is required";
+  } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    errors.email = "Enter valid email";
+  }
+  if (!formData.volunteerSkillIds || formData.volunteerSkillIds.length === 0) {
+    errors.volunteerSkillIds = "At least one volunteer skill is required";
+  }
+  if (!formData.areaOfInterestIds || formData.areaOfInterestIds.length === 0) {
+    errors.areaOfInterestIds = "At least one area of interest is required";
+  }
+  return errors;
+};
