@@ -722,31 +722,10 @@ const Sidebar = ({ collapsed, show, closeSidebar }) => {
             </div>
           </div>
 
-          <div className="nav-group">
-            <div className="nav-link" onClick={() => toggleMenu("support")}>
-              <Building2 size={18} />
-              {!collapsed && (
-                <>
-                  <span>Support</span>
-                  <ChevronDown
-                    size={16}
-                    className={`arrow ${openMenu === "support" ? "rotate" : ""}`}
-                  />
-                </>
-              )}
-            </div>
-
-            <div className={`submenu ${openMenu === "support" ? "open" : ""}`}>
-              <NavLink to="/superAdmin/update-support-status" className={getNavLinkClass}>
-                Update Status
-              </NavLink>
-
-              <NavLink to="/superAdmin/manage-support" className={getNavLinkClass}>
-                Manage Support
-              </NavLink>
-
-            </div>
-          </div>
+          <NavLink to="/superAdmin/manage-support" className={getNavLinkClass}>
+            <KeyRound size={18} />
+            {!collapsed && <span>Support</span>}
+          </NavLink>
 
           <NavLink to="/superAdmin/manage-feedback" className={getNavLinkClass}>
             <KeyRound size={18} />

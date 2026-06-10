@@ -145,6 +145,8 @@ const ManageSupport = () => {
                                 <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>User Type</th>
+                                        <th>User Name</th>
                                         <th>Message</th>
                                         <th>Priority</th>
                                         <th>Status</th>
@@ -164,7 +166,9 @@ const ManageSupport = () => {
                                             supports.map((item, index) => (
                                                 <tr key={item.id}>
                                                     <td>{index + 1}</td>
-                                                    <td>{item.message}</td>
+                                                    <td>{item.userType === 2 ? "Sub Admin" : 3 ? "Trainer" : "Student"}</td>
+                                                    <td>{item.name}</td>
+                                                    <td className="message" title={item.message}>{item.message}</td>
                                                     <td>{item.priority === 1 ? "High" : item.priority === 2 ? "Medium" : "Low"}</td>
                                                     <td>
                                                         <span

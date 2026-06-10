@@ -93,12 +93,7 @@ const ManageNotifications = () => {
                                 <tr key={item.id}>
                                     <td>{item.id}</td>
                                     <td>{item.name || "-"}</td>
-                                    <td style={{
-                                        maxWidth: "250px",
-                                        whiteSpace: "nowrap",
-                                        overflow: "hidden",
-                                        textOverflow: "ellipsis"
-                                    }}>
+                                    <td className="message" title={item.message}>
                                         {item.message || "-"}
                                     </td>
                                     {activeTab === "support" && (
