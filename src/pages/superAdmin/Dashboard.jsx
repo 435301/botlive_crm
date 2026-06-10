@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { useCrud } from "../../hooks/useCrud";
 import { CountUp } from "../../utils/countUp";
-import bannerImg from "../../assets/images/banner.png";
+import bannerImg from "../../assets/images/new_banner.png";
 
 // const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name }) => {
 //   const RADIAN = Math.PI / 180;
