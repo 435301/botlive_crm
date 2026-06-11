@@ -21,6 +21,7 @@ const ManageTrainerMonthlyAttendance = () => {
         month: month,
         year: year,
         search,
+        page
     });
 
 

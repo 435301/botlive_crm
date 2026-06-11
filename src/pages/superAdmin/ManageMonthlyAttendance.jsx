@@ -33,7 +33,7 @@ const ManageSuperAdminMonthlyAttendance = () => {
         search,
         gradeBatchId: gradeBatchId,
         centreId: schoolSkillCentreId,
-        page: 1
+        page,
     });
 
     const { grades } = useGrades(centreType);

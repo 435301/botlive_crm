@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import useGradesByTrainerId from "../../hooks/UseGradesByTrainerId";
 import SelectFilter from "../../components/SelectFilter";
 import TableWrapper from "../../components/TableWrapper";
+import Pagination from "../../components/Pagination";
 
 
 const ManageMonthlyAttendance = () => {
@@ -29,13 +30,15 @@ const ManageMonthlyAttendance = () => {
         year: year,
         search,
         gradeBatchId: gradeBatchId,
-        centreId: schoolSkillCentreId
+        centreId: schoolSkillCentreId,
+        page,
     });
 
     const { gradesByTrainerId } = useGradesByTrainerId(id);
 
     const students = data?.data || [];
     const dates = data?.dates || [];
+     const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
     const perPage = data?.perPage || 100;
 
     const resetFilters = () => {
@@ -213,7 +216,14 @@ const ManageMonthlyAttendance = () => {
                     </TableWrapper>
 
                 </div>
-
+                {/* ===== PAGINATION ===== */}
+                {totalPages > 1 && (
+                    <Pagination
+                        currentPage={page}
+                        totalPages={totalPages}
+                        onPageChange={setPage}
+                    />
+                )}
             </div>
         </div>
     );

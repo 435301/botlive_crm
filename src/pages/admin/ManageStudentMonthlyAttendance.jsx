@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import SelectFilter from "../../components/SelectFilter";
 import useGrades from "../../hooks/useGrades";
 import TableWrapper from "../../components/TableWrapper";
+import Pagination from "../../components/Pagination";
 
 
 const ManageSubAdminMonthlyAttendance = () => {
@@ -29,13 +30,15 @@ const ManageSubAdminMonthlyAttendance = () => {
         year: year,
         search,
         gradeBatchId: gradeBatchId,
-        centreId: schoolSkillCentreId
+        centreId: schoolSkillCentreId,
+        page,
     });
 
     const { grades } = useGrades(centreType);
 
     const students = data?.data || [];
     const dates = data?.dates || [];
+    const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
     const perPage = data?.perPage || 100;
 
     const resetFilters = () => {
@@ -210,7 +213,14 @@ const ManageSubAdminMonthlyAttendance = () => {
                     </TableWrapper>
 
                 </div>
-
+                {/* ===== PAGINATION ===== */}
+                {totalPages > 1 && (
+                    <Pagination
+                        currentPage={page}
+                        totalPages={totalPages}
+                        onPageChange={setPage}
+                    />
+                )}
             </div>
         </div>
     );
