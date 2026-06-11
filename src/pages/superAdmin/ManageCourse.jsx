@@ -119,7 +119,7 @@ const ManageCourse = () => {
           <div className="col-lg-4 col-md-6">
             <SearchInput
               value={search}
-              placeholder="Search by course title"
+              placeholder="Search by course title or location"
               onChange={(value) => {
                 setSearch(value);
                 setPage(1);

@@ -151,7 +151,7 @@ const ManageActivities = () => {
                         />
                     </div>
 
-                    <div className="col-lg-2 col-md-6">
+                    <div className="col-lg-2 col-md-2">
                         <SelectFilter
                             value={centreType}
                             placeholder="All Center Types"
@@ -199,30 +199,6 @@ const ManageActivities = () => {
                         />
                     </div>
 
-                    <div className="col-lg-2 col-md-6">
-                        <input
-                            type="date"
-                            className="form-control"
-                            value={fromDate}
-                            onChange={(e) => {
-                                setFromDate(e.target.value);
-                                setPage(1);
-                            }}
-                        />
-                    </div>
-
-                    <div className="col-lg-2 col-md-6">
-                        <input
-                            type="date"
-                            className="form-control"
-                            value={toDate}
-                            onChange={(e) => {
-                                setToDate(e.target.value);
-                                setPage(1);
-                            }}
-                        />
-                    </div>
-
                     <div className="col-md-2">
                         <SelectFilter
                             value={status}
@@ -238,7 +214,7 @@ const ManageActivities = () => {
                         />
                     </div>
 
-                    <div className="col-lg-1 col-md-12">
+                        <div className="col-lg-1 col-md-12">
                         <div className="d-flex gap-2">
                             <button
                                 className="btn reset-btn"
@@ -250,6 +226,32 @@ const ManageActivities = () => {
                         </div>
                     </div>
 
+
+                    <div className="col-lg-2 col-md-6">
+                        <label>From Date</label>
+                        <input
+                            type="date"
+                            className="form-control"
+                            value={fromDate}
+                            onChange={(e) => {
+                                setFromDate(e.target.value);
+                                setPage(1);
+                            }}
+                        />
+                    </div>
+
+                    <div className="col-lg-2 col-md-6">
+                        <label>To Date</label>
+                        <input
+                            type="date"
+                            className="form-control"
+                            value={toDate}
+                            onChange={(e) => {
+                                setToDate(e.target.value);
+                                setPage(1);
+                            }}
+                        />
+                    </div>
 
                 </div>
             </div>
