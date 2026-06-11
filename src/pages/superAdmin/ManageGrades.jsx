@@ -209,7 +209,7 @@ const ManageGrades = () => {
                                                     <td>{(page - 1) * perPage + index + 1}</td>
                                                     <td>{item.centreType === 1 ? "Skill Centre" : "School"}</td>
                                                     <td>{item.id}</td>
-                                                    <td>{item.gradeBatch}</td>
+                                                    <td className="message" title={item.gradeBatch}>{item.gradeBatch}</td>
                                                     <td>
                                                         <span
                                                             className={`badge ${item.status === 1

@@ -201,7 +201,7 @@ const ManageVolunteerAssignment = () => {
                                                 <td>{item.coordinator || "-"}</td>
                                                 <td>{formatToInputDate(item.startDate || "-")}</td>
                                                 <td>{formatToInputDate(item.endDate || "-")}</td>
-                                                <td className="text-truncate">{item.remarks || "-"}</td>
+                                                <td className="message" title={item.remarks}>{item.remarks || "-"}</td>
                                                 <td>
                                                     <span
                                                         className={`badge ${item.status === 1

@@ -322,14 +322,14 @@ const ManageSkillCenters = () => {
                         <td>{center.centerName}</td>
                         <td>{center.centerType === 1 ? "Skill Centre" : "School"}</td>
                         <td>{center.udiseCode || "-"}</td>
-                        <td>{center.address}</td>
+                        <td className="message" title={center.address} >{center.address}</td>
                         <td>{center.contactPerson}</td>
                         <td>{center.mobile}</td>
                         <td>{center.email}</td>
                         {/* <td>{center.password}</td> */}
                         <td>{center.state?.stateName}</td>
                         <td>{center.district?.districtName}</td>
-                        <td>{center.area}</td>
+                        <td className="message" title={center.area} >{center.area}</td>
                         <td>{center.founder?.name}</td>
 
                         <td>

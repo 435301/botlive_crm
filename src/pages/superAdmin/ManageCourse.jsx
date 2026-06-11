@@ -183,7 +183,7 @@ const ManageCourse = () => {
                     courses.map((item, index) => (
                       <tr key={item.id}>
                         <td>{index + 1}</td>
-                        <td>{item.courseTitle || "-"}</td>
+                        <td className="message" title={item.courseTitle}>{item.courseTitle || "-"}</td>
                         <td>{item?.location || "-"}</td>
                         <td>
                           <span
