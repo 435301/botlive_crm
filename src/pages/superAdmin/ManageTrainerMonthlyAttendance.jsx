@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useCrud } from "../../hooks/useCrud";
 import SearchInput from "../../components/SearchInput";
 import TableWrapper from "../../components/TableWrapper";
+import Pagination from "../../components/Pagination";
 
 const ManageTrainerMonthlyAttendance = () => {
     const [page, setPage] = useState(1);
@@ -25,6 +26,7 @@ const ManageTrainerMonthlyAttendance = () => {
 
     const trainers = data?.data || [];
     const dates = data?.dates || [];
+    const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
     const perPage = data?.perPage || 100;
 
     const resetFilters = () => {
@@ -180,9 +182,15 @@ const ManageTrainerMonthlyAttendance = () => {
                         </table>
                     </TableWrapper>
 
-
                 </div>
-
+                {/* ===== PAGINATION ===== */}
+                {totalPages > 1 && (
+                    <Pagination
+                        currentPage={page}
+                        totalPages={totalPages}
+                        onPageChange={setPage}
+                    />
+                )}
             </div>
         </div>
     );

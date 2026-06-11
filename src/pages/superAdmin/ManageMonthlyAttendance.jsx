@@ -6,6 +6,7 @@ import SelectFilter from "../../components/SelectFilter";
 import useGrades from "../../hooks/useGrades";
 import useSchools from "../../hooks/useSchools";
 import TableWrapper from "../../components/TableWrapper";
+import Pagination from "../../components/Pagination";
 
 
 const ManageSuperAdminMonthlyAttendance = () => {
@@ -31,7 +32,8 @@ const ManageSuperAdminMonthlyAttendance = () => {
         year: year,
         search,
         gradeBatchId: gradeBatchId,
-        centreId: schoolSkillCentreId
+        centreId: schoolSkillCentreId,
+        page: 1
     });
 
     const { grades } = useGrades(centreType);
@@ -45,8 +47,8 @@ const ManageSuperAdminMonthlyAttendance = () => {
     const students = data?.data || [];
     console.log('students', students)
     const dates = data?.dates || [];
-    const perPage = data?.perPage || 100;
-
+    const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
+    const perPage = data?.perPage || 25;
 
     const resetFilters = () => {
         setPage(1);
@@ -254,7 +256,14 @@ const ManageSuperAdminMonthlyAttendance = () => {
                     </TableWrapper>
 
                 </div>
-
+                {/* ===== PAGINATION ===== */}
+                {totalPages > 1 && (
+                    <Pagination
+                        currentPage={page}
+                        totalPages={totalPages}
+                        onPageChange={setPage}
+                    />
+                )}
             </div>
         </div>
     );
