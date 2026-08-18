@@ -147,6 +147,34 @@ const TrainerSidebar = ({ collapsed, show, closeSidebar }) => {
                             </NavLink>
                         </div>
                     </div>
+                    {/* Activity Management */}
+                    <div className="nav-group">
+                        <div className="nav-link" onClick={() => toggleMenu("activities")}>
+                            <Building2 size={18} />
+                            {!collapsed && (
+                                <>
+                                    <span>Activities</span>
+                                    <ChevronDown
+                                        size={16}
+                                        className={`arrow ${openMenu === "activities" ? "rotate" : ""}`}
+                                    />
+                                </>
+                            )}
+                        </div>
+
+                        <div className={`submenu ${openMenu === "activities" ? "open" : ""}`}>
+                            <NavLink to="/trainer/add-activity" className={getNavLinkClass}>
+                                Add Activity
+                            </NavLink>
+
+                            <NavLink to="/trainer/manage-activities" className={getNavLinkClass}>
+                                Manage Activity
+                            </NavLink>
+                        </div>
+                    </div>
+
+
+
                     {/* support */}
                     <div className="nav-group">
                         <div className="nav-link" onClick={() => toggleMenu("support")}>

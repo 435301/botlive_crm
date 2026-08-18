@@ -42,6 +42,7 @@ import TrainerHeader from "./components/trainer/TrainerHeader";
 import TrainerSidebar from "./components/trainer/TrainerSidebar";
 
 
+
 const Dashboard = lazy(() => import("./pages/superAdmin/Dashboard"));
 const Login = lazy(() => import("./pages/superAdmin/Login"));
 const Manage = lazy(() => import("./pages/superAdmin/Manage"));
@@ -93,8 +94,8 @@ const GetStudentReports = lazy(() => import("./pages/superAdmin/GetStudentsRepor
 const StudentStatistics = lazy(() => import("./pages/superAdmin/StudentStatisticsReport"));
 const ManageStudentAttendanceReport = lazy(() => import("./pages/superAdmin/ManageStudentAttendanceReport"));
 const ManageSuperAdminSupport = lazy(() => import("./pages/superAdmin/ManageSupport"));
-const ManageFeedback = lazy(()=> import("./pages/superAdmin/ManageFeedback"));
-const ManageNotifications = lazy(()=> import ("./pages/superAdmin/ManageNotifcations"));
+const ManageFeedback = lazy(() => import("./pages/superAdmin/ManageFeedback"));
+const ManageNotifications = lazy(() => import("./pages/superAdmin/ManageNotifcations"));
 
 
 // Admin
@@ -159,8 +160,11 @@ const AddStudentAttendance = lazy(() => import("./pages/TrainerModule/AddStudent
 const ManageMonthlyAttendance = lazy(() => import("./pages/TrainerModule/ManageMonthlyAttendance"));
 const ManageTrainerSupport = lazy(() => import("./pages/TrainerModule/ManageSupport"));
 const AddTrainerSupport = lazy(() => import("./pages/TrainerModule/AddSupport"));
-const ManageTrainerFeedback = lazy(()=> import("./pages/TrainerModule/ManageTrainerFeedback"));
-const AddTrainerFeedback = lazy(()=> import("./pages/TrainerModule/AddTrainerFeedback"));
+const ManageTrainerFeedback = lazy(() => import("./pages/TrainerModule/ManageTrainerFeedback"));
+const AddTrainerFeedback = lazy(() => import("./pages/TrainerModule/AddTrainerFeedback"));
+const TrainerManageActivities = lazy(()=> import("./pages/TrainerModule/ManageActivities"));
+const TrainerAddActivity = lazy(()=> import("./pages/TrainerModule/AddActivity"));
+const TrainerViewActivity = lazy(()=> import("./pages/TrainerModule/ViewActivity"))
 
 // Student Module
 
@@ -808,6 +812,10 @@ function App() {
           <Route path="/trainer/manage-feedback" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(ManageTrainerFeedback)}</ProtectedRoute>} />
           <Route path="/trainer/add-feedback" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(AddTrainerFeedback)}</ProtectedRoute>} />
           <Route path="/trainer/edit-feedback/:id" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(AddTrainerFeedback)}</ProtectedRoute>} />
+          <Route path="/trainer/manage-activities" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login"> {lazyLoad(TrainerManageActivities)}</ProtectedRoute>} />
+          <Route path="/trainer/add-activity" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(TrainerAddActivity)}</ProtectedRoute>} />
+          <Route path="/trainer/edit-activity/:id" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(TrainerAddActivity)}</ProtectedRoute>} />
+          <Route path="/trainer/view-activity/:id" element={<ProtectedRoute allowedRoles={["trainer"]} loginPath="/trainer/login">{lazyLoad(TrainerViewActivity)}</ProtectedRoute>} />
 
           {/* Student Module login */}
 
