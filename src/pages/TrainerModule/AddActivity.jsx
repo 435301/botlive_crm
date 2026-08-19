@@ -5,8 +5,6 @@ import StatusSelect from "../../components/StatusSelect";
 import FormInput from "../../components/FormInput";
 import { useCrud } from "../../hooks/useCrud";
 import { validateActivity } from "../../utils/validation";
-import FormSelect from "../../components/FormSelect";
-import useSchools from "../../hooks/useSchools";
 import BASE_URL_JOB from "../../config/config";
 import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
 import Cookies from "js-cookie";
@@ -44,8 +42,6 @@ const TrainerAddActivity = () => {
         videos: []
     });
 
-    const { schoolsData } = useSchools();
-    const filteredCentres = formData.centreType ? schoolsData.filter((school) => school.centerType === Number(formData.centreType)) : schoolsData;
     const [errors, setErrors] = useState({});
 
     useEffect(() => {

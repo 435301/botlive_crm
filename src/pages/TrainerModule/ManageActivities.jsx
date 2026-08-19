@@ -5,7 +5,6 @@ import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
 import DeleteConfirmationModal from "../../Modals/deleteModal";
-import useSchools from "../../hooks/useSchools";
 import TableWrapper from "../../components/TableWrapper";
 import useDistricts from "../../hooks/useDistricts";
 import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
@@ -14,7 +13,6 @@ import Cookies from "js-cookie";
 
 const TrainerManageActivities = () => {
     const centreId = JSON.parse(Cookies.get("trainer") || "{}")?.centreId;
-    const id = JSON.parse(Cookies.get("trainer") || "{}")?.id;
     const navigate = useNavigate();
     const [search, setSearch] = useState("");
     const centreType = JSON.parse(Cookies.get("trainer") || "{}")?.trainerType;
@@ -52,10 +50,6 @@ const TrainerManageActivities = () => {
     const totalPages = Math.ceil((data?.totalRecords || 0) / (data?.perPage || 1));
     const perPage = data?.perPage || 15;
     const summary = data?.summary
-
-    const { schoolsData } = useSchools();
-    const filteredCentres = centreType ? schoolsData?.filter((school) => school.centerType === centreType) : schoolsData;
-
     const { districts } = useDistricts();
 
     const handleImportExcel = (e) => {
