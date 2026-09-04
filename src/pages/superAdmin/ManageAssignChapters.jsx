@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Pagination from "../../components/Pagination";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import SelectFilter from "../../components/SelectFilter";
 import useCourses from "../../hooks/useCourses";
 import useGrades from "../../hooks/useGrades";
@@ -51,19 +51,6 @@ const ManageAssignedChapters = () => {
     const filteredModules = modules?.filter((module) => module.courseId === Number(courseId))
     const filteredChapters = chapters?.filter((chapter) => chapter.moduleId === Number(moduleId));
 
-    const handleImportExcel = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            console.log("Imported file:", file);
-            // later you can parse using XLSX library
-        }
-    };
-
-    const handleExportExcel = () => {
-        console.log("Export Excel clicked");
-        // later you can generate excel using XLSX
-    };
-
     const resetFilters = () => {
         setSearch("");
         setChapterIds([]);
@@ -99,38 +86,7 @@ const ManageAssignedChapters = () => {
                         <p className="sub-text mb-0">View, edit and manage all assigned chapters</p>
                     </div>
                 </div>
-                {/* Right: Action Buttons */}
-                <div className="d-flex gap-2">
-                    {/* Import Excel */}
-                    <label className="btn btn-outline-success d-flex align-items-center mb-0">
-                        <i className="ti ti-upload me-2"></i>
-                        Import Excel
-                        <input
-                            type="file"
-                            accept=".xlsx,.xls"
-                            hidden
-                            onChange={handleImportExcel}
-                        />
-                    </label>
 
-                    {/* Export Excel */}
-                    <button
-                        className="btn btn-outline-primary d-flex align-items-center"
-                        onClick={handleExportExcel}
-                    >
-                        <i className="ti ti-download me-2"></i>
-                        Export Excel
-                    </button>
-                    {/* Add Skill Center button */}
-                    <Link
-                        to="/superAdmin/add-assigned-chapter"
-                        className="btn add-skill-btn d-flex align-items-center"
-                    >
-                        <i className="ti ti-graduation-cap me-2"></i>
-                        Add Assign Chapters
-                    </Link>
-                    {/* Add Skill Center */}
-                </div>
             </div>
 
             {/* ===== FILTERS ===== */}

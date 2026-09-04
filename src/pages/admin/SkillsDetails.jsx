@@ -48,19 +48,6 @@ const ManageSkillCenters = () => {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
-  /* ===== IMPORT EXCEL ===== */
-  const handleImportExcel = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      console.log("Imported file:", file.name);
-    }
-  };
-
-  /* ===== EXPORT EXCEL ===== */
-  const handleExportExcel = () => {
-    console.log("Export Excel clicked");
-  };
-
   /* ===== RESET FILTERS ===== */
   const resetFilters = () => {
     setSearch("");
@@ -98,26 +85,7 @@ const ManageSkillCenters = () => {
               </div>
             </div>
 
-            <div className="d-flex gap-2">
-              <label className="btn btn-outline-success d-flex align-items-center mb-0">
-                <i className="ti ti-upload me-2"></i>
-                Import Excel
-                <input
-                  type="file"
-                  accept=".xlsx,.xls"
-                  hidden
-                  onChange={handleImportExcel}
-                />
-              </label>
-
-              <button
-                className="btn btn-outline-primary d-flex align-items-center"
-                onClick={handleExportExcel}
-              >
-                <i className="ti ti-download me-2"></i>
-                Export Excel
-              </button>
-            </div>
+      
           </div>
 
           {/* FILTERS */}

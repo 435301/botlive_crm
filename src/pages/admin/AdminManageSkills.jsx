@@ -41,18 +41,6 @@ const ManageSkillCenters = () => {
   const { states } = useStates();
   const { districts } = useDistricts();
 
-  const handleImportExcel = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      console.log("Imported file:", file);
-      // later you can parse using XLSX library
-    }
-  };
-
-  const handleExportExcel = () => {
-    console.log("Export Excel clicked");
-    // later you can generate excel using XLSX
-  };
 
   const resetFilters = () => {
     setSearch("");
@@ -99,31 +87,6 @@ const ManageSkillCenters = () => {
               </div>
             </div>
 
-            {/* Right: Action Buttons */}
-            <div className="d-flex gap-2">
-              {/* Import Excel */}
-              <label className="btn btn-outline-success d-flex align-items-center mb-0">
-                <i className="ti ti-upload me-2"></i>
-                Import Excel
-                <input
-                  type="file"
-                  accept=".xlsx,.xls"
-                  hidden
-                  onChange={handleImportExcel}
-                />
-              </label>
-
-              {/* Export Excel */}
-              <button
-                className="btn btn-outline-primary d-flex align-items-center"
-                onClick={handleExportExcel}
-              >
-                <i className="ti ti-download me-2"></i>
-                Export Excel
-              </button>
-
-              {/* Add Skill Center */}
-            </div>
           </div>
 
           {/* ===== FILTERS ===== */}
