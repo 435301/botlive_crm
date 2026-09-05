@@ -152,10 +152,7 @@ const ManageStudents = () => {
       );
 
       // Create downloadable Excel file
-      const blob = new Blob([response.data], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      });
-
+     const blob = new Blob([response.data], { type: "text/csv;charset=utf-8;", });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
