@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Pagination from "../../components/Pagination";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
@@ -10,6 +10,8 @@ import DeleteConfirmationModal from "../../Modals/deleteModal";
 import { formatDateToDDMMYYYY } from "../../utils/formatDateDDMMYYYY";
 import FormSelect from "../../components/FormSelect";
 import TableWrapper from "../../components/TableWrapper";
+import axiosInstance from "../../utils/axiosInstance";
+import BASE_URL_JOB from "../../config/config";
 
 
 const ManageStudents = () => {
@@ -132,6 +134,41 @@ const ManageStudents = () => {
     { type: 5, title: "Community Development", icon: "bi-people", iconColor: "text-secondary" },
   ];
 
+  const handleExportExcel = async () => {
+    try {
+      const payload = {
+        search: search || "",
+        centreType: centreType || "",
+        centreId: centreId || "",
+        status: status || "",
+      };
+
+      const response = await axiosInstance.post(
+        `${BASE_URL_JOB}/student/exportStudents`,
+        payload,
+        {
+          responseType: "blob",
+        }
+      );
+
+      // Create downloadable Excel file
+      const blob = new Blob([response.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "students.xlsx";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Export students failed:", error);
+    }
+  };
+
   return (
     <div className="container-fluid">
       {/* ===== HEADER ===== */}
@@ -146,7 +183,17 @@ const ManageStudents = () => {
             <p className="sub-text mb-0">View, edit and manage all students</p>
           </div>
         </div>
+        <div className="d-flex gap-2">
+          {/* Export Excel */}
+          <button
+            className="btn btn-outline-primary d-flex align-items-center"
+            onClick={handleExportExcel}
+          >
+            <i className="ti ti-download me-2"></i>
+            Export Excel
+          </button>
 
+        </div>
       </div>
 
       {/* ===== FILTERS ===== */}
@@ -225,7 +272,7 @@ const ManageStudents = () => {
           </div>
         </div>
       </div>
-      
+
       <div className="container my-3">
         <div className="row g-3">
 

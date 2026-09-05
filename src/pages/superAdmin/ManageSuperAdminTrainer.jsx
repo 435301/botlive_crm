@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import Pagination from "../../components/Pagination";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SearchInput from "../../components/SearchInput";
 import SelectFilter from "../../components/SelectFilter";
 import { useCrud } from "../../hooks/useCrud";
 import DeleteConfirmationModal from "../../Modals/deleteModal";
 import TableWrapper from "../../components/TableWrapper";
 import useSchools from "../../hooks/useSchools";
+import BASE_URL_JOB from "../../config/config";
+import axiosInstance from "../../utils/axiosInstance";
 
 
 
@@ -41,7 +43,7 @@ const ManageSuperAdminTrainers = () => {
   const { schoolsData } = useSchools();
   const filteredCentres = centreType ? schoolsData?.filter((school) => school.centerType === centreType) : schoolsData;
 
-    const statistics = data?.statistics || [];
+  const statistics = data?.statistics || [];
   console.log('statistics', statistics)
 
   const statsMap = Object.fromEntries(
@@ -69,13 +71,48 @@ const ManageSuperAdminTrainers = () => {
     deleteMutation.mutate(deleteId);
   };
 
-      const centreStats = [
+  const centreStats = [
     { type: 1, title: "Skill Development", icon: "bi-building", iconColor: "text-success" },
     { type: 2, title: "AI & STEM Learning", icon: "bi-mortarboard", iconColor: "text-primary" },
     { type: 3, title: "School Education", icon: "bi-journal-bookmark", iconColor: "text-warning" },
     { type: 4, title: "Innovation and Entrepreneurship", icon: "bi-lightbulb", iconColor: "text-info" },
     { type: 5, title: "Community Development", icon: "bi-people", iconColor: "text-secondary" },
   ];
+
+  const handleExportExcel = async () => {
+    try {
+      const payload = {
+        search: search || "",
+        centreType: centreType || "",
+        centreId: centreId || "",
+        status: status || "",
+      };
+
+      const response = await axiosInstance.post(
+        `${BASE_URL_JOB}/trainerInCampass/exportTrainers`,
+        payload,
+        {
+          responseType: "blob",
+        }
+      );
+
+      // Create downloadable Excel file
+      const blob = new Blob([response.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "trainers.xlsx";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Export trainers failed:", error);
+    }
+  };
 
 
   return (
@@ -94,7 +131,17 @@ const ManageSuperAdminTrainers = () => {
             </p>
           </div>
         </div>
+        <div className="d-flex gap-2">
+          {/* Export Excel */}
+          <button
+            className="btn btn-outline-primary d-flex align-items-center"
+            onClick={handleExportExcel}
+          >
+            <i className="ti ti-download me-2"></i>
+            Export Excel
+          </button>
 
+        </div>
       </div>
 
       {/* ===== FILTERS ===== */}
@@ -174,7 +221,7 @@ const ManageSuperAdminTrainers = () => {
         </div>
       </div>
 
-       <div className="container my-3">
+      <div className="container my-3">
         <div className="row g-3">
 
           {/* Cards */}
